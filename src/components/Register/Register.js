@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 //import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import 'tachyons';
 
@@ -49,7 +50,7 @@ class Register extends React.Component {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                fullName: this.state.fullName,
+                fullname: this.state.fullName,
                 username: this.state.username,
                 email: this.state.email,
                 phone: this.state.phone,
@@ -60,7 +61,6 @@ class Register extends React.Component {
         .then(user => {
             if(user.id){
                 this.props.loadUser(user);
-                this.props.onRouteChange('home')
             }
         })
         

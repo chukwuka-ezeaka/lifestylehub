@@ -47,10 +47,11 @@ class App extends React.Component{
                 key={index}
                 path={route.path}
                 exact={route.exact}
+                
                 component={withTracker(props => {
                   return (
                     <route.layout {...props}>
-                      <route.component {...props} />
+                      <route.component loadUser={this.loadUser} {...props} />
                     </route.layout>
                   );
                 })}

@@ -7,6 +7,7 @@ import { HomeLayout } from "./layouts";
 // Route Views
 import Home from "./views/Home";
 import Register from "./views/Register";
+import Signin from "./views/Signin";
 
 export default [
   {
@@ -16,13 +17,18 @@ export default [
     component: () => <Redirect to="/home" />
   },
   {
+    path: "/home",
+    layout: HomeLayout,
+    component: Home
+  },
+  {
     path: "/register",
     layout: HomeLayout,
     component: Register
   },
   {
-    path: "/home",
+    path: "/signin",
     layout: HomeLayout,
-    component: Home
+    component: Signin
   }
 ];
