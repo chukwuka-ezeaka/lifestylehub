@@ -6,22 +6,22 @@ class Register extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            firstName: '',
-            lastName: '',
+            fullName: '',
+            username: '',
             email: '',
             phone: '',
             password: '',
         }
     }
 
-    onFirstNameChange = (event) => {
-        this.setState({firstName: event.target.value});
-        console.log(this.state.firstName)
+    onNameChange = (event) => {
+        this.setState({fullName: event.target.value});
+        console.log(this.state.fullName)
     }
 
-    onLastNameChange = (event) => {
-        this.setState({lastName: event.target.value});
-        console.log(this.state.lastName)
+    onUsernameChange = (event) => {
+        this.setState({username: event.target.value});
+        console.log(this.state.username)
     }
 
     onEmailChange = (event) => {
@@ -49,8 +49,10 @@ class Register extends React.Component {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                name: this.state.name,
+                fullName: this.state.fullName,
+                username: this.state.username,
                 email: this.state.email,
+                phone: this.state.phone,
                 password: this.state.password
             })
         })
@@ -73,23 +75,23 @@ class Register extends React.Component {
                              <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                              <legend className="f4 fw6 ph0 mh0">Register</legend>
                              <div className="mt3">
-                                 <label className="db fw6 lh-copy f6" htmlFor="name">First Name</label>
+                                 <label className="db fw6 lh-copy f6" htmlFor="name">Full Name</label>
                                  <input 
                                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                                  type="text" 
-                                 name="fname"  
-                                 id="fname"
-                                 onChange={this.onFirstNameChange}
+                                 name="name"  
+                                 id="name"
+                                 onChange={this.onNameChange}
                                  />
                              </div>
                              <div className="mt3">
-                                 <label className="db fw6 lh-copy f6" htmlFor="name">Last Name</label>
+                                 <label className="db fw6 lh-copy f6" htmlFor="name">Username</label>
                                  <input 
                                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                                  type="text" 
-                                 name="lname"  
-                                 id="lname"
-                                 onChange={this.onLastNameChange}
+                                 name="username"  
+                                 id="username"
+                                 onChange={this.onUsernameChange}
                                  />
                              </div>
                              <div className="mt3">
