@@ -1,11 +1,13 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 class  Signin extends React.Component{
     constructor(props){
         super(props);
         this.state={
             signinEmail:'',
-            signinPassword:''
+            signinPassword:'',
+            errMessage: ''
         }
     }
 
@@ -29,26 +31,29 @@ class  Signin extends React.Component{
         .then(response => response.json())
         .then(user => {
             if(user.id){
-              this.props.loadUser(user);
-              this.props.onRouteChange('home');
+              this.props.loadUser(user); 
+              this.props.history.push('/dashboard');
+            }else{
+                this.setState({errMessage: user});
             }
           })
+         
     }
 
     render(){
-        const {onRouteChange} = this.props;
+        const {errMessage} = this.state;
         return(
             <article className ="br3 ba b--black-10 mv4 w-100 w-50-m w-25-1 mw6 shadow-5 center"  style={{backgroundColor: 'rgba(150, 150, 150, 1)'}}>
                 <main className = "pa4 black-80">
-                    <form className="measure">
                         <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                             <legend className="f4 fw76 ph0 mh0">Sign In</legend>
+                            <p className="db fw6 lh-copy f6" >{errMessage}</p>
                             <div className="mt3">
                                 <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
                                 <input 
                                     className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                                     type="email" 
-                                    name="email-address"  
+                                    name="email"  
                                     id="email-address" 
                                     onChange = {this.onEmailChange}
                                 />
@@ -65,20 +70,12 @@ class  Signin extends React.Component{
                             </div>
                         </fieldset>
                         <div className="">
-                            <input 
-                            onClick={ this.onSubmitSignIn}
-                            className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
-                            type="submit" 
-                            value="Sign in" />
+                            <input  onClick={this.onSubmitSignIn} className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Sign In"/>
                         </div>
-                        <div className="lh-copy mt3">
-                            <p onClick={ () => onRouteChange('register')} className="f6 link dim black db pointer">Register</p>
-                        </div>
-                    </form>
                 </main>
             </article>    
         );
     }   
 }
 
-export default Signin;
+export default withRouter(Signin);

@@ -28,6 +28,7 @@ export default class UserActions extends React.Component {
   }
 
   render() {
+    console.log(this.props.user);
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
         <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
@@ -36,7 +37,7 @@ export default class UserActions extends React.Component {
             src={require("./../../../../images/avatars/0.jpg")}
             alt="User Avatar"
           />{" "}
-          <span className="d-none d-md-inline-block">Sierra Brooks</span>
+          <span className="d-none d-md-inline-block"></span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
           <DropdownItem tag={Link} to="user-profile">

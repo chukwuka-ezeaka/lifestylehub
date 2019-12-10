@@ -174,6 +174,10 @@ class Home extends React.Component {
     };
   }
 
+  componentDidMount() {
+    document.body.style.backgroundColor = 'black';
+  }
+
   render() {
     const {
       PostsListOne,
@@ -214,13 +218,13 @@ class Home extends React.Component {
                     </a>
                   </div>
                 </div>
-                <CardBody style={{backgroundColor: "rgb(41, 35, 35)"}}>
+                <CardBody className="bg-dark">
                   <h5 className="card-title">
                     <a href="#" className="text-fiord-blue">
                       {post.title}
                     </a>
                   </h5>
-                  <p className="card-text d-inline-block mb-3">{post.body}</p>
+                  <p className="card-text text-muted d-inline-block mb-3">{post.body}</p>
                   <span className="text-muted">{post.date}</span>
                 </CardBody>
               </Card>
@@ -253,13 +257,13 @@ class Home extends React.Component {
                     </a>
                   </div>
                 </div>
-                <CardBody style={{backgroundColor: "rgb(41, 35, 35)"}}>
+                <CardBody className="bg-dark">
                   <h5 className="card-title">
                     <a className="text-fiord-blue" href="#">
                       {post.title}
                     </a>
                   </h5>
-                  <p className="card-text d-inline-block mb-3">{post.body}</p>
+                  <p className="card-text text-muted d-inline-block mb-3">{post.body}</p>
                   <span className="text-muted">{post.date}</span>
                 </CardBody>
               </Card>
@@ -272,7 +276,7 @@ class Home extends React.Component {
           {PostsListThree.map((post, idx) => (
             <Col lg="4" key={idx}>
               <Card small className="card-post mb-4">
-                <CardBody style={{backgroundColor: "rgb(41, 35, 35)"}}>
+                <CardBody className="bg-dark">
                   <h5 className="card-title">{post.title}</h5>
                   <p className="card-text text-muted">{post.body}</p>
                 </CardBody>
@@ -312,13 +316,13 @@ class Home extends React.Component {
                   className="card-post__image"
                   style={{ backgroundImage: `url('${post.backgroundImage}')` }}
                 />
-                <CardBody style={{backgroundColor: "rgb(41, 35, 35)"}}>
+                <CardBody className="bg-dark">>
                   <h5 className="card-title">
                     <a className="text-fiord-blue" href="#">
                       {post.title}
                     </a>
                   </h5>
-                  <p className="card-text">{post.body}</p>
+                  <p className="card-text text-muted">{post.body}</p>
                 </CardBody>
                 <CardFooter className="text-muted border-top py-3">
                   <span className="d-inline-block">

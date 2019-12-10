@@ -2,12 +2,13 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 
 // Layout Types
-import { HomeLayout } from "./layouts";
+import { DefaultLayout, HomeLayout } from "./layouts";
 
 // Route Views
 import Home from "./views/Home";
 import Register from "./views/Register";
 import Signin from "./views/Signin";
+import Dashboard from "./views/Dashboard";
 
 export default [
   {
@@ -30,5 +31,10 @@ export default [
     path: "/signin",
     layout: HomeLayout,
     component: Signin
+  },
+  {
+    path: "/dashboard",
+    layout: DefaultLayout,
+    component: Dashboard
   }
 ];

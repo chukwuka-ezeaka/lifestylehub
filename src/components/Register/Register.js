@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 //import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import 'tachyons';
 
@@ -61,6 +61,7 @@ class Register extends React.Component {
         .then(user => {
             if(user.id){
                 this.props.loadUser(user);
+                this.props.history.push('/home');
             }
         })
         
@@ -148,4 +149,4 @@ class Register extends React.Component {
     
 }
 
-export default Register;
+export default withRouter(Register);

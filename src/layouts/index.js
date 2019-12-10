@@ -1,3 +1,5 @@
 
 import HomeLayout from "./Home";
-export { HomeLayout };
+import DefaultLayout from "./Default";
+
+export { HomeLayout, DefaultLayout };

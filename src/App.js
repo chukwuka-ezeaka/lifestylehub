@@ -11,7 +11,7 @@ import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
 const initialState = {
   user: {
     id: '',
-    fullName: '',
+    fullname: '',
     username: '',
     email: '',
     phone: ''
@@ -22,6 +22,7 @@ class App extends React.Component{
   constructor(){
     super()
     this.state = initialState
+    
   }
 
   loadUser = (user) => {
@@ -29,15 +30,18 @@ class App extends React.Component{
     this.setState({
       user: {
         id: user.id,
-        fullName: user.fullName,
+        fullname: user.fullname,
         username: user.username,
         email: user.email,
-        phone: user.phone
+        phone: user.phonenumber,
+        role: user.accounttype,
       }
-    })
+    });
   }
 
+
   render(){
+    console.log(this.state.user);
     return(
       <Router basename={process.env.REACT_APP_BASENAME || ""}>
         <div>
@@ -50,8 +54,9 @@ class App extends React.Component{
                 
                 component={withTracker(props => {
                   return (
-                    <route.layout {...props}>
-                      <route.component loadUser={this.loadUser} {...props} />
+                    <route.layout user={this.state.user} {...props}>
+                      
+                      <route.component user={this.state.user} loadUser={this.loadUser} {...props} />
                     </route.layout>
                   );
                 })}
