@@ -31,8 +31,16 @@ class  Signin extends React.Component{
         .then(response => response.json())
         .then(user => {
             if(user.id){
-              this.props.loadUser(user); 
-              this.props.history.push('/dashboard');
+                switch(user.accounttype){
+                    case 'subscriber':
+                            this.setState({errMessage: 'invalid login credentials'});
+                    break;
+                    default:
+                        this.props.loadUser(user);
+                        this.props.history.push('/dashboard');
+                    break;
+                }
+             
             }else{
                 this.setState({errMessage: user});
             }

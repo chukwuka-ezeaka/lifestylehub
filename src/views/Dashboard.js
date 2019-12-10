@@ -15,12 +15,8 @@ class Dashboard extends React.Component {
       <Container fluid className="main-content-container px-4 pb-4">
 
         <Row>
-          <Col lg="9" md="12">
+          <Col lg="12" md="12">
             <Users />
-          </Col>
-
-          <Col lg="3" md="12">
-
           </Col>
         </Row>
       </Container>

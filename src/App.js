@@ -1,11 +1,18 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 
-import routes from "./routes";
-import withTracker from "./withTracker";
+//import routes from "./routes";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
+
+import { DefaultLayout, HomeLayout } from "./layouts";
+// Route Views
+import Home from "./views/Home";
+import Register from "./views/Register";
+import Signin from "./views/Signin";
+import Dashboard from "./views/Dashboard";
+import UserProfile from "./views/UserProfile";
 
 
 const initialState = {
@@ -39,31 +46,57 @@ class App extends React.Component{
     });
   }
 
+currentUser = ()=> {
+  return this.state.user
+}
 
   render(){
     console.log(this.state.user);
     return(
-      <Router basename={process.env.REACT_APP_BASENAME || ""}>
-        <div>
-          {routes.map((route, index) => {
-            return (
-              <Route
-                key={index}
-                path={route.path}
-                exact={route.exact}
-                
-                component={withTracker(props => {
-                  return (
-                    <route.layout user={this.state.user} {...props}>
-                      
-                      <route.component user={this.state.user} loadUser={this.loadUser} {...props} />
-                    </route.layout>
-                  );
-                })}
-              />
-            );
-          })}
-        </div>
+      <Router>
+        <Switch>
+          <Route
+            exact
+            path='/'
+            render={(props) =>
+              <Redirect to='/home'/>}
+          />
+          <Route
+            path='/home'
+            render={(props) =>
+              <HomeLayout>
+              <Home />
+            </HomeLayout>}
+          />
+          <Route
+            path='/register'
+            render={(props) =>
+              <HomeLayout>
+              <Register loadUser = {this.loadUser}/>
+            </HomeLayout>}
+          />
+          <Route
+            path='/signin'
+            render={(props) =>
+              <HomeLayout>
+              <Signin loadUser = {this.loadUser}/>
+            </HomeLayout>}
+          />
+          <Route
+            path='/dashboard'
+            render={(props) =>
+              <DefaultLayout user={this.state.user}>
+              <Dashboard user={this.state.user}/>
+            </DefaultLayout>}
+          />
+          <Route
+            path='/profile'
+            render={(props) =>
+              <DefaultLayout user={this.state.user}>
+              <UserProfile user={this.state.user}/>
+            </DefaultLayout>}
+          />
+        </Switch>
       </Router>
     );
     }

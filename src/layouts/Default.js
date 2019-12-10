@@ -6,7 +6,11 @@ import MainNavbar from "../components/layout/MainNavbar/MainNavbar";
 import MainSidebar from "../components/layout/MainSidebar/MainSidebar";
 import MainFooter from "../components/layout/MainFooter";
 
-const DefaultLayout = ({ children, noNavbar, noFooter, user }) => (
+
+const DefaultLayout = ({ children, noNavbar, noFooter, user}) =>{
+ // console.log(user);
+return (
+  
   <Container fluid>
     <Row>
       <MainSidebar />
@@ -24,6 +28,7 @@ const DefaultLayout = ({ children, noNavbar, noFooter, user }) => (
     </Row>
   </Container>
 );
+}
 
 DefaultLayout.propTypes = {
   /**
