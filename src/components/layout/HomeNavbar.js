@@ -48,7 +48,7 @@ export default class NavExample extends React.Component {
   
     render() {
       return (
-        <Navbar type="dark" theme="default" expand="md">
+        <Navbar type="dark" style={{backgroundColor: 'transparent'}} theme="default" expand="md">
           <NavbarBrand href="/">Lifestyle Academy</NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} />
   

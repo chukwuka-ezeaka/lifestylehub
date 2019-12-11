@@ -6,11 +6,12 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-d
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
 
+
 import { DefaultLayout, HomeLayout } from "./layouts";
 // Route Views
 import Home from "./views/Home";
 import Register from "./views/Register";
-import Signin from "./views/Signin";
+import SignIn from "./views/SignIn";
 import Dashboard from "./views/Dashboard";
 import UserProfile from "./views/UserProfile";
 
@@ -79,7 +80,7 @@ currentUser = ()=> {
             path='/signin'
             render={(props) =>
               <HomeLayout>
-              <Signin loadUser = {this.loadUser}/>
+              <SignIn loadUser = {this.loadUser}/>
             </HomeLayout>}
           />
           <Route

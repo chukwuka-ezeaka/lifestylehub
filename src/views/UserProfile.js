@@ -5,8 +5,14 @@ import PageTitle from "../components/common/PageTitle";
 import UserDetails from "../components/user-profile/UserDetails";
 import UserAccountDetails from "../components/user-profile/UserAccountDetails";
 
-const UserProfile = () => (
-  <Container fluid className="main-content-container mt-5 px-4">
+const update = () =>{
+  document.body.style.backgroundColor = 'white';
+}
+
+const UserProfile = () => {
+  update();
+  return (
+  <Container fluid className="main-content-container mt-2 px-4">
     <Row noGutters className="page-header py-4">
       <PageTitle title="User Profile" subtitle="Overview" md="12" className="ml-sm-auto mr-sm-auto" />
     </Row>
@@ -20,5 +26,6 @@ const UserProfile = () => (
     </Row>
   </Container>
 );
+  }
 
 export default UserProfile;

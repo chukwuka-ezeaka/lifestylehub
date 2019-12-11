@@ -1,0 +1,7 @@
+.body {
+    min-height: 85vh;
+    background-image: linear-gradient(to right bottom, #000000dc, #0b081fe1), url(../assets/bg.jpg);
+    background-size: cover;
+    background-position: center;
+    overflow-y: hidden;
+}

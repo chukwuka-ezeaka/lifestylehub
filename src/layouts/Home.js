@@ -5,9 +5,10 @@ import { Container, Row, Col, } from "shards-react";
 import MainNavbar from "../components/layout/HomeNavbar";
 //import MainSidebar from "../components/layout/MainSidebar/MainSidebar";
 import MainFooter from "../components/layout/MainFooter";
+import './Home.css'
 
 const HomeLayout = ({ children, noNavbar, noFooter }) => (
-  <Container fluid>
+  <Container fluid className="body">
     <Row>
       <Col
         className="main-content p-0"

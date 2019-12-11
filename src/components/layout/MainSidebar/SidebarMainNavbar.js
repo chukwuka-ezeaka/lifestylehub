@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Navbar, NavbarBrand } from "shards-react";
+import 'tachyons';
 
 import { Dispatcher, Constants } from "../../../flux";
 
@@ -27,7 +28,7 @@ class SidebarMainNavbar extends React.Component {
         >
           <NavbarBrand
             className="w-100 mr-0"
-            href="#"
+            href="/"
             style={{ lineHeight: "25px", backgroundColor: 'black' }}
           >
             <div className="d-table m-auto">
@@ -39,7 +40,7 @@ class SidebarMainNavbar extends React.Component {
                 alt="Dashboard"
               />
               {!hideLogoText && (
-                <span className="d-none text-white d-md-inline ml-1">
+                <span  className="d-none text-white d-md-inline ml-1">
                   Lifestyle Academy
                 </span>
               )}

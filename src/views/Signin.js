@@ -1,3 +1,15 @@
+import React from 'react';
 import Signin from '../components/Signin/Signin';
 
-export default Signin;
+import './Signin.css'
+
+
+const SignIn = () => {
+    return (
+        <div className="view">
+             <Signin />
+        </div>
+    )
+}
+
+export default SignIn;
