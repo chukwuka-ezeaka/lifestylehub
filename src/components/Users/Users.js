@@ -10,7 +10,7 @@ class Users extends React.Component{
     }
 
     componentDidMount = () => {
-        fetch('http://localhost:3000/users', {
+        fetch('https://pacific-hollows-12017.herokuapp.com/users', {
             method: 'get',
             headers: {'Content-Type': 'application/json'},
         })

@@ -7,7 +7,7 @@ import { DefaultLayout, HomeLayout } from "./layouts";
 // Route Views
 import Home from "./views/Home";
 import Register from "./views/Register";
-import Signin from "./views/Signin";
+import Signin from "./views/SignIn";
 import Dashboard from "./views/Dashboard";
 
 export default [
