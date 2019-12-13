@@ -1,16 +1,37 @@
 import React from 'react';
-import { Container, Row, Col, Card, CardHeader, CardBody } from "shards-react"
+import UsersModal from './UsersModal';
+import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react"
 
 class Users extends React.Component{
     constructor(){
         super();
         this.state={
-            users: []
+            users: [],
+            open: false,
+            user: {}
         }
     }
 
+    currentUser = (index) => {
+        return this.users[index]
+    }
+
+   toggleModal = (event) => {
+      
+       if(event){
+        let userId = event.target.id;
+        this.setState({
+           open: !this.state.open,
+           user: this.state.users[userId]
+        });
+    }
+       return this.state.open
+       
+    }
+
     componentDidMount = () => {
-        fetch('https://pacific-hollows-12017.herokuapp.com/users', {
+        //fetch('https://pacific-hollows-12017.herokuapp.com/users', {
+        fetch('http://localhost:3000/users',{
             method: 'get',
             headers: {'Content-Type': 'application/json'},
         })
@@ -33,11 +54,11 @@ render(){
             <Row>
             <Col>
                 <Card small className="mb-4 overflow-hidden">
-                <CardHeader className="bg-dark">
-                    <h6 className="m-0 text-white">All Users</h6>
+                <CardHeader className="bg-light">
+                    <h6 className="m-0 text-black">All Users</h6>
                 </CardHeader>
-                <CardBody className="bg-dark p-0 pb-3">
-                    <table className="table table-dark mb-0">
+                <CardBody className="bg-light p-0 pb-3">
+                    <table className="table table-light mb-0">
                     <thead className="thead-dark">
                         <tr>
                         <th scope="col" className="border-0">
@@ -58,10 +79,15 @@ render(){
                         <th scope="col" className="border-0">
                             Role
                         </th>
+                        <th scope="col" className="border-0">
+
+                        </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user)  => {
+                        {users.map((user, index)  => {
+                            //let userId = `#${user.id}`;
+                            //console.log(index);
                             return(
                                 <tr key={user.id}>
                                     <td>{i++}</td>
@@ -70,7 +96,14 @@ render(){
                                     <td>{user.email}</td>
                                     <td>{user.phonenumber}</td>
                                     <td>{user.accounttype}</td>
+                                    <td>
+                                        <Button size="sm" theme="primary" className="mb-2 mr-1" onClick={this.toggleModal} id={index}>
+                                            View
+                                        </Button>
+                                    </td>
+                                   
                                 </tr> 
+                                
                             )
                         })}
                     </tbody>
@@ -79,6 +112,7 @@ render(){
                 </Card>
             </Col>
             </Row>
+            <UsersModal user={this.state.user} toggle={this.toggleModal} open={this.state.open}/>
         </Container>
     );
 }

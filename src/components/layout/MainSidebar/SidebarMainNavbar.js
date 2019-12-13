@@ -41,7 +41,7 @@ class SidebarMainNavbar extends React.Component {
               />
               {!hideLogoText && (
                 <span  className="d-none text-white d-md-inline ml-1">
-                  Lifestyle Academy
+                  Lifestyle Hub
                 </span>
               )}
             </div>

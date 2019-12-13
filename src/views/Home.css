@@ -1,4 +1,12 @@
 .view{
-    display: flex;
     min-height: 83vh;
+}
+
+.image-row{
+    height: 200px;
+    align-content: center !important;
+}
+
+.logo{
+    height: 100% !important;
 }

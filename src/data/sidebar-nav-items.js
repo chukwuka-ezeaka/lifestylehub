@@ -7,6 +7,11 @@ export default function() {
       htmlAfter: ""
     },
     {
+      title: "New Reflection",
+      htmlBefore: '<i class="material-icons">add</i>',
+      to: "/reflection",
+    },
+    {
       title: "User Profile",
       htmlBefore: '<i class="material-icons">person</i>',
       to: "/profile",

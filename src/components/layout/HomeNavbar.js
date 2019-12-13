@@ -49,7 +49,7 @@ export default class NavExample extends React.Component {
     render() {
       return (
         <Navbar type="dark" style={{backgroundColor: 'transparent'}} theme="default" expand="md">
-          <NavbarBrand href="/">Lifestyle Academy</NavbarBrand>
+          <NavbarBrand href="/"></NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} />
   
           <Collapse open={this.state.collapseOpen} navbar>
@@ -57,11 +57,6 @@ export default class NavExample extends React.Component {
   
             <Nav navbar className="ml-auto">
             <Nav navbar>
-              <NavItem>
-                <NavLink href="/register">
-                  Register
-                </NavLink>
-              </NavItem>
               <NavItem>
                 <NavLink href="/signin" >
                   Sign In

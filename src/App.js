@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-d
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
+import "tachyons";
 
 
 import { DefaultLayout, HomeLayout } from "./layouts";
@@ -14,6 +15,9 @@ import Register from "./views/Register";
 import SignIn from "./views/SignIn";
 import Dashboard from "./views/Dashboard";
 import UserProfile from "./views/UserProfile";
+
+
+import 'tachyons';
 
 
 const initialState = {
