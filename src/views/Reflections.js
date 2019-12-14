@@ -16,6 +16,7 @@ class Reflections extends React.Component {
     }
 
     render(){
+        const { user } = this.props;
         return(
             <Container fluid className="main-content-container px-4 pb-4">
             {/* Page Header */}
@@ -26,7 +27,7 @@ class Reflections extends React.Component {
             <Row>
               {/* Editor */}
               <Col lg="9" md="12">
-                <NewReflection />
+                <NewReflection user={ user }/>
               </Col>
         
               {/* Sidebar Widgets */}
