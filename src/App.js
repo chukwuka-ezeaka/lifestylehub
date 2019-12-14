@@ -15,6 +15,7 @@ import Register from "./views/Register";
 import SignIn from "./views/SignIn";
 import Dashboard from "./views/Dashboard";
 import UserProfile from "./views/UserProfile";
+import Reflections from "./views/Reflections";
 
 
 import 'tachyons';
@@ -99,6 +100,13 @@ currentUser = ()=> {
             render={(props) =>
               <DefaultLayout user={this.state.user}>
               <UserProfile user={this.state.user}/>
+            </DefaultLayout>}
+          />
+           <Route
+            path='/reflections'
+            render={(props) =>
+              <DefaultLayout user={this.state.user}>
+              <Reflections user={this.state.user}/>
             </DefaultLayout>}
           />
         </Switch>

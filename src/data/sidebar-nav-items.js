@@ -9,7 +9,7 @@ export default function() {
     {
       title: "New Reflection",
       htmlBefore: '<i class="material-icons">add</i>',
-      to: "/reflection",
+      to: "/reflections",
     },
     {
       title: "User Profile",

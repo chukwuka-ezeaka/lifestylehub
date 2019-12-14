@@ -47,7 +47,7 @@ class Register extends React.Component {
 
     onSubmitRegister = () => {
         //fetch('https://pacific-hollows-12017.herokuapp.com/register', {
-         fetch('http://localhost:3000/register',{
+         fetch('http://localhost:3000/api/v1/auth/register',{
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
