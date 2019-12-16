@@ -29,7 +29,8 @@ const initialState = {
     email: '',
     phone: ''
   },
-  Auth: ''
+  Auth: '',
+  logout: false
 }
 
 class App extends React.Component{
@@ -46,6 +47,8 @@ class App extends React.Component{
         user: userData,
         Auth: localStorage.getItem('Auth')
       })
+    }else{
+      this.state = initialState;
     }
   }
 
@@ -119,6 +122,12 @@ currentUser = ()=> {
               <DefaultLayout user={user}>
               <Reflections user={user} Auth={Auth}/>
             </DefaultLayout>}
+          />
+          <Route
+            path='/logout'
+            render={(props) =>
+              <Redirect to='/home'/>
+            }
           />
         </Switch>
       </Router>

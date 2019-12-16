@@ -27,22 +27,22 @@ const UserAccountDetails = ({ title }) => (
               <Row form>
                 {/* First Name */}
                 <Col md="6" className="form-group">
-                  <label htmlFor="feFirstName">Full Name</label>
+                  <label htmlFor="firstname">Full Name</label>
                   <FormInput
-                    id="feFirstName"
+                    id="firstname"
                     placeholder="First Name"
-                    value="Sierra"
                     onChange={() => {}}
+                    disabled
                   />
                 </Col>
                 {/* Last Name */}
                 <Col md="6" className="form-group">
-                  <label htmlFor="feLastName">Username</label>
+                  <label htmlFor="lastname">Username</label>
                   <FormInput
-                    id="feLastName"
+                    id="lastname"
                     placeholder="Last Name"
-                    value="Brooks"
                     onChange={() => {}}
+                    disabled
                   />
                 </Col>
               </Row>
@@ -156,7 +156,7 @@ const UserAccountDetails = ({ title }) => (
               <Button
                theme="accent"
                onClick={() => {}}
-               >Update Profile</Button>
+               >Edit</Button>
             </Form>
           </Col>
         </Row>

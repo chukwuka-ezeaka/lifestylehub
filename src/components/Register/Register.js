@@ -40,7 +40,8 @@ class Register extends React.Component {
         console.log(event.target.value) 
     }
 
-    onSubmitRegister = () => {
+    onSubmitRegister = (event) => {
+        event.preventDefault();
         //fetch('https://pacific-hollows-12017.herokuapp.com/register', {
          fetch('https://lshub.herokuapp.com/api/v1/auth/register',{
             method: 'post',
@@ -68,6 +69,7 @@ class Register extends React.Component {
     render(){
         return (
             <div>
+            <form>
                 <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center" style={{backgroundColor: 'rgba(150, 150, 150, 1)'}}>
                  <main className="pa4 black-80">
                          <div className="measure">
@@ -81,6 +83,8 @@ class Register extends React.Component {
                                  name="firstname"  
                                  id="firstname"
                                  onChange={this.onFirstnameChange}
+                                 required
+                                 minlength='5'
                                  />
                              </div>
                              <div className="mt3">
@@ -91,6 +95,7 @@ class Register extends React.Component {
                                  name="lastname"  
                                  id="lastname"
                                  onChange={this.onLastnameChange}
+                                 required
                                  />
                              </div>
                              <div className="mt3">
@@ -101,6 +106,7 @@ class Register extends React.Component {
                                  name="email-address"  
                                  id="email-address"
                                  onChange={this.onEmailChange}
+                                 required
                                  />
                              </div>
                              <div className="mv3">
@@ -111,6 +117,7 @@ class Register extends React.Component {
                                  name="password1"  
                                  id="password1"
                                  onChange={this.onPasswordChange}
+                                 required
                                  />
                              </div>
                              <div className="mv3">
@@ -121,6 +128,7 @@ class Register extends React.Component {
                                  name="password2"  
                                  id="password2"
                                  onChange={this.onConfirmPasswordChange}
+                                 required
                                  />
                              </div>
                              </fieldset>
@@ -130,7 +138,7 @@ class Register extends React.Component {
                          </div>
                      </main>
                   </article>
-     
+                </form>
             </div>
          );
     }

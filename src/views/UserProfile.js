@@ -9,7 +9,7 @@ const update = () =>{
   document.body.style.backgroundColor = 'white';
 }
 
-const UserProfile = () => {
+const UserProfile = ({user}) => {
   update();
   return (
   <Container fluid className="main-content-container mt-2 px-4">
@@ -18,10 +18,10 @@ const UserProfile = () => {
     </Row>
     <Row>
       <Col lg="4">
-        <UserDetails />
+        <UserDetails user={user}/>
       </Col>
       <Col lg="8">
-        <UserAccountDetails />
+        <UserAccountDetails user={user}/>
       </Col>
     </Row>
   </Container>

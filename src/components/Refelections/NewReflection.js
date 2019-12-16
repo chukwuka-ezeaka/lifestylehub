@@ -26,7 +26,7 @@ class NewReflection extends React.Component{
     }
 
     handleAudio = (event) => {
-        this.setState({audioLink: event.target.files[0]});
+        this.setState({audioLink: event.target.value});
     }
 
     handleAuthor = (event) => {
@@ -38,7 +38,7 @@ class NewReflection extends React.Component{
     }
 
     handleImage = (event) => {
-        this.setState({imageLink: event.target.files[0]});
+        this.setState({imageLink: event.target.value});
         console.log(this.state.imageLink)
     }
 
@@ -46,7 +46,7 @@ class NewReflection extends React.Component{
         this.setState({title: event.target.value});
     }
 
-    checkMimeType=(event)=>{
+   /* checkMimeType=(event)=>{
         //getting file object
         let file = event.target.file[0] 
         //define message container
@@ -65,7 +65,7 @@ class NewReflection extends React.Component{
         }
        return true;
       
-      }
+      }*/
 
     handlePublish = (event) => {
         event.preventDefault();
@@ -112,14 +112,14 @@ class NewReflection extends React.Component{
                     <Col md="6">
                     <FormGroup>
                         <label htmlFor="coverImage">Cover Image</label>
-                        <FormInput id="coverImage" type="file" onChange={this.handleImage}/>
+                        <FormInput id="coverImage" type="text" onChange={this.handleImage}/>
                         </FormGroup>
                     </Col>
                     {/* Last Name */}
                     <Col md="6">
                     <FormGroup>
                         <label htmlFor="audio">Audio File</label>
-                        <FormInput id="audio" type="file" onChange={this.handleAudio}/>
+                        <FormInput id="audio" type="text" onChange={this.handleAudio}/>
                     </FormGroup>
                     </Col>
                     </Row>
