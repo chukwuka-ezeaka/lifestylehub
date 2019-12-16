@@ -39,14 +39,14 @@ class Users extends React.Component{
         .then(data => {
             if(data.length > 0){
                 console.log(data);
-               this.setState({users: data})
+               this.setState({users: data});
             }
         });
     }
         
 
 render(){
-    const {users} = this.state;
+    const {users, user, open} = this.state;
     let i = 1;
     return(
 
@@ -112,7 +112,7 @@ render(){
                 </Card>
             </Col>
             </Row>
-            <UsersModal user={this.state.user} toggle={this.toggleModal} open={this.state.open}/>
+            <UsersModal user={user} toggle={this.toggleModal} open={open}/>
         </Container>
     );
 }

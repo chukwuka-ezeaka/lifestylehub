@@ -21,16 +21,16 @@ class NewReflection extends React.Component{
             description: '',
             imageLink: '',
             audioLink: '',
-            authur: ''
+            author: ''
         }
     }
 
     handleAudio = (event) => {
-        this.setState({audioLink: event.target.value});
+        this.setState({audioLink: event.target.files[0]});
     }
 
-    handleAurthur = (event) => {
-        this.setState({authur: event.target.value});
+    handleAuthor = (event) => {
+        this.setState({author: event.target.value});
     }
 
     handleDescription = (event) => {
@@ -38,24 +38,49 @@ class NewReflection extends React.Component{
     }
 
     handleImage = (event) => {
-        this.setState({imageLink: event.target.value});
+        this.setState({imageLink: event.target.files[0]});
+        console.log(this.state.imageLink)
     }
 
     handleTitle = (event) => {
         this.setState({title: event.target.value});
     }
 
+    checkMimeType=(event)=>{
+        //getting file object
+        let file = event.target.file[0] 
+        //define message container
+        let err = ''
+        // list allow mime type
+       const types = ['image/png', 'image/jpeg', 'image/gif']
+         // compare file type find doesn't matach
+             if (types.every(type => file.type !== type)) {
+             // create error message and assign to container   
+             err += file.type+' is not a supported format\n';
+           }
+       if (err !== '') { // if message not same old that mean has error 
+            event.target.value = null // discard selected file
+            console.log(err)
+             return false; 
+        }
+       return true;
+      
+      }
+
     handlePublish = (event) => {
         event.preventDefault();
-        fetch('http://localhost:3000/api/v1/auth/register',{
+        fetch('https://lshub.herokuapp.com/api/v1/reflection/create',{
             method: 'post',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'bearer ' + localStorage.getItem('Auth')
+            },
             body: JSON.stringify({
                 title: this.state.title,
                 content: this.state.description,
-                image_llink: this.state.imageLink,
+                image_link: this.state.imageLink,
                 audio_link: this.state.audioLink,
-                authur: this.state.authur
+                author: this.state.author
             })
         })
         .then(response => response.json())
@@ -100,7 +125,7 @@ class NewReflection extends React.Component{
                     </Row>
 
                     <FormGroup>
-                    <FormInput placeholder="Aurthur" onChange={this.handleAurthur}/>
+                    <FormInput placeholder="Author" onChange={this.handleAuthor}/>
                     </FormGroup>
 
                     <FormGroup className="mb-0">

@@ -185,15 +185,7 @@ class BlogPosts extends React.Component {
 
     return (
       <Container fluid className="main-content-container px-4">
-       <Row className="mb-5">
-          <Col lg="12" md="12" className="image-row">
-              <img
-                className="mr-2 logo"
-                src={require("../assets/logo.jpeg")}
-                alt="User Avatar"
-              />
-          </Col>
-          </Row>
+      
         <Row>
           {PostsListOne.map((post, idx) => (
             <Col lg="3" md="6" sm="12" className="mb-4" key={idx}>

@@ -14,7 +14,7 @@ import {
   Button
 } from "shards-react";
 
-const UserAccountDetails = ({ title }) => (
+const UpdateProfile = ({ title }) => (
   <Card small className="mb-4">
     <CardHeader className="border-bottom">
       <h6 className="m-0">{title}</h6>
@@ -55,8 +55,7 @@ const UserAccountDetails = ({ title }) => (
                     id="email"
                     placeholder="Email Address"
             
-                    value={() => {}}
-                    disabled
+                    onChange={() => {}}
                   />
                 </Col>
                 {/* Password */}
@@ -67,8 +66,7 @@ const UserAccountDetails = ({ title }) => (
                     id="phone"
                     placeholder="Phone Number"
             
-                    value={() => {}}
-                    disabled
+                    onChange={() => {}}
                   />
                 </Col>
               </Row>
@@ -80,8 +78,7 @@ const UserAccountDetails = ({ title }) => (
                 <FormInput
                   id="location"
                   placeholder="Location"
-                  value={() => {}}
-                  disabled
+                  onChange={() => {}}
                 />
               </FormGroup>
               <FormGroup>
@@ -89,8 +86,7 @@ const UserAccountDetails = ({ title }) => (
                 <FormInput
                   id="address"
                   placeholder="Address"
-                  value={() => {}}
-                  disabled
+                  onChange={() => {}}
                 />
               </FormGroup>
               <Row form>
@@ -101,8 +97,7 @@ const UserAccountDetails = ({ title }) => (
                     type="text"
                     id="industry"
                     placeholder="Industry"
-                    value={() => {}}
-                    disabled
+                    onChange={() => {}}
                   />
                 </Col>
                 {/* Password */}
@@ -112,8 +107,7 @@ const UserAccountDetails = ({ title }) => (
                     type="date"
                     id="birthday"
                     placeholder="Phone Number"
-                    value={() => {}}
-                    disabled
+                    onChange={() => {}}
                   />
                 </Col>
               </Row>
@@ -125,8 +119,7 @@ const UserAccountDetails = ({ title }) => (
                     type="number"
                     id="experience"
                     placeholder="number"
-                    value={() => {}}
-                    disabled
+                    onChange={() => {}}
                   />
                 </Col>
                 {/* Password */}
@@ -136,8 +129,7 @@ const UserAccountDetails = ({ title }) => (
                     type="text"
                     id="specialty"
                     placeholder="Specialty"
-                    value={() => {}}
-                    disabled
+                    onChange={() => {}}
                   />
                 </Col>
               </Row>
@@ -148,8 +140,7 @@ const UserAccountDetails = ({ title }) => (
                   <label htmlFor="workHistory">Work History</label>
                   <FormTextarea 
                   id="workHistory" rows="3" 
-                  value={() => {}}
-                  disabled
+                  onChange={() => {}}
                   />
                 </Col>
               </Row>
@@ -165,15 +156,15 @@ const UserAccountDetails = ({ title }) => (
   </Card>
 );
 
-UserAccountDetails.propTypes = {
+UpdateProfile.propTypes = {
   /**
    * The component's title.
    */
   title: PropTypes.string
 };
 
-UserAccountDetails.defaultProps = {
+UpdateProfile.defaultProps = {
   title: "Profile Details"
 };
 
-export default UserAccountDetails;
+export default UpdateProfile;

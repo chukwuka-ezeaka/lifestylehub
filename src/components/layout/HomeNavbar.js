@@ -49,7 +49,15 @@ export default class NavExample extends React.Component {
     render() {
       return (
         <Navbar type="dark" style={{backgroundColor: 'transparent'}} theme="default" expand="md">
-          <NavbarBrand href="/"></NavbarBrand>
+          <NavbarBrand href="/">
+          <img
+                id="main-logo"
+                className="d-inline-block align-top mr-1"
+                style={{ maxWidth: "55px" }}
+                src={require("../../assets/logo.jpeg")}
+                alt="Dashboard"
+              />
+          </NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} />
   
           <Collapse open={this.state.collapseOpen} navbar>

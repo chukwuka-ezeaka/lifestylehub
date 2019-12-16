@@ -28,17 +28,28 @@ const initialState = {
     username: '',
     email: '',
     phone: ''
-  }
+  },
+  Auth: ''
 }
 
 class App extends React.Component{
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = initialState
     
   }
 
-  loadUser = (user) => {
+  componentDidMount(){
+    if(localStorage.getItem('user')){
+      const userData = JSON.parse(localStorage.getItem('user'));
+      this.setState({
+        user: userData,
+        Auth: localStorage.getItem('Auth')
+      })
+    }
+  }
+
+  /*loadUser = (user) => {
     console.log(user);
     this.setState({
       user: {
@@ -50,14 +61,14 @@ class App extends React.Component{
         role: user.accounttype,
       }
     });
-  }
+  }*/
 
 currentUser = ()=> {
   return this.state.user
 }
 
   render(){
-    console.log(this.state.user);
+    const { user, Auth } = this.state
     return(
       <Router>
         <Switch>
@@ -78,35 +89,35 @@ currentUser = ()=> {
             path='/register'
             render={(props) =>
               <HomeLayout>
-              <Register loadUser = {this.loadUser}/>
+              <Register />
             </HomeLayout>}
           />
           <Route
             path='/signin'
             render={(props) =>
               <HomeLayout>
-              <SignIn loadUser = {this.loadUser}/>
+              <SignIn />
             </HomeLayout>}
           />
           <Route
             path='/dashboard'
             render={(props) =>
-              <DefaultLayout user={this.state.user}>
-              <Dashboard user={this.state.user}/>
+              <DefaultLayout user={user}>
+              <Dashboard user={user} Auth={Auth}/>
             </DefaultLayout>}
           />
           <Route
             path='/profile'
             render={(props) =>
-              <DefaultLayout user={this.state.user}>
-              <UserProfile user={this.state.user}/>
+              <DefaultLayout user={user}>
+              <UserProfile user={user} Auth={Auth}/>
             </DefaultLayout>}
           />
            <Route
             path='/reflections'
             render={(props) =>
-              <DefaultLayout user={this.state.user}>
-              <Reflections user={this.state.user}/>
+              <DefaultLayout user={user}>
+              <Reflections user={user} Auth={Auth}/>
             </DefaultLayout>}
           />
         </Switch>

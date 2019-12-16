@@ -38,11 +38,11 @@ export default class UserActions extends React.Component {
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
         <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
           <img
-            className="user-avatar rounded-circle mr-2"
+            className="user-avatar rounded-circle mr-2 pointer"
             src={require("./../../../../images/avatars/0.jpg")}
             alt="User Avatar"
           />{" "}
-          <span className="d-none d-md-inline-block">{user.fullname}</span>
+          <span className="d-none d-md-inline-block pointer">{user.fullname}</span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
           <DropdownItem tag={Link} to="/profile">

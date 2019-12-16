@@ -7,32 +7,27 @@ class Register extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            fullName: '',
-            username: '',
+            firstname: '',
+            lastname: '',
             email: '',
-            phone: '',
+            role: "75",
             password: '',
         }
     }
 
-    onNameChange = (event) => {
-        this.setState({fullName: event.target.value});
-        console.log(this.state.fullName)
+    onFirstnameChange = (event) => {
+        this.setState({firstname: event.target.value});
+        console.log(this.state.firstname)
     }
 
-    onUsernameChange = (event) => {
-        this.setState({username: event.target.value});
-        console.log(this.state.username)
+    onLastnameChange = (event) => {
+        this.setState({lastname: event.target.value});
+        console.log(this.state.lastname)
     }
 
     onEmailChange = (event) => {
         this.setState({email: event.target.value});
         console.log(this.state.email)
-    }
-
-    onPhoneChange = (event) => {
-        this.setState({phone: event.target.value});
-        console.log(this.state.phone)
     }
 
     onPasswordChange = (event) => {
@@ -42,29 +37,31 @@ class Register extends React.Component {
 
     onConfirmPasswordChange = (event) => {
         //this.setState({email: event.target.value});
-        console.log(event.target.value)
+        console.log(event.target.value) 
     }
 
     onSubmitRegister = () => {
         //fetch('https://pacific-hollows-12017.herokuapp.com/register', {
-         fetch('http://localhost:3000/api/v1/auth/register',{
+         fetch('https://lshub.herokuapp.com/api/v1/auth/register',{
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                fullname: this.state.fullName,
-                username: this.state.username,
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
                 email: this.state.email,
-                phone: this.state.phone,
+                role: this.state.role,
                 password: this.state.password
-            })
+            }),
+            redirect: 'follow'
         })
         .then(response => response.json())
-        .then(user => {
+        .then(user => console.log(user) )
+            /* {
             if(user.id){
                 this.props.loadUser(user);
                 this.props.history.push('/home');
             }
-        })
+        }*/
         
     }
 
@@ -77,23 +74,23 @@ class Register extends React.Component {
                              <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                              <legend className="f4 fw6 ph0 mh0">Register</legend>
                              <div className="mt3">
-                                 <label className="db fw6 lh-copy f6" htmlFor="name">Full Name</label>
+                                 <label className="db fw6 lh-copy f6" htmlFor="firstname">First Name</label>
                                  <input 
                                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                                  type="text" 
-                                 name="name"  
-                                 id="name"
-                                 onChange={this.onNameChange}
+                                 name="firstname"  
+                                 id="firstname"
+                                 onChange={this.onFirstnameChange}
                                  />
                              </div>
                              <div className="mt3">
-                                 <label className="db fw6 lh-copy f6" htmlFor="name">Username</label>
+                                 <label className="db fw6 lh-copy f6" htmlFor="lastname">Last name</label>
                                  <input 
                                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                                  type="text" 
-                                 name="username"  
-                                 id="username"
-                                 onChange={this.onUsernameChange}
+                                 name="lastname"  
+                                 id="lastname"
+                                 onChange={this.onLastnameChange}
                                  />
                              </div>
                              <div className="mt3">
@@ -104,16 +101,6 @@ class Register extends React.Component {
                                  name="email-address"  
                                  id="email-address"
                                  onChange={this.onEmailChange}
-                                 />
-                             </div>
-                             <div className="mt3">
-                                 <label className="db fw6 lh-copy f6" htmlFor="name">Phone Number</label>
-                                 <input 
-                                 className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                                 type="text" 
-                                 name="phone"  
-                                 id="phone"
-                                 onChange={this.onPhoneChange}
                                  />
                              </div>
                              <div className="mv3">

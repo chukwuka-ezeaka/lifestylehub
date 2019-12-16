@@ -21,7 +21,7 @@ class  Signin extends React.Component{
 
     onSubmitSignIn = () => {
        // fetch('https://pacific-hollows-12017.herokuapp.com/signin',{
-        fetch('http://localhost:3000/signin',{
+        fetch('https://lshub.herokuapp.com/api/v1/auth/login',{
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -30,20 +30,25 @@ class  Signin extends React.Component{
             })
         })
         .then(response => response.json())
+        //.then(user => console.log(user))
         .then(user => {
-            if(user.id){
-                switch(user.accounttype){
+            console.log(user);
+            if(user.data.id){
+                switch(user.data.role.name){
                     case 'subscriber':
-                            this.setState({errMessage: 'invalid login credentials'});
+                            this.setState({errMessage: 'Please login on the mobile app'});
                     break;
                     default:
-                        this.props.loadUser(user);
+                        const userData = JSON.stringify(user.data);
+                        localStorage.setItem('user', userData);
+                        localStorage.setItem('Auth', user.token);
+                        //this.props.loadUser(user.data);
                         this.props.history.push('/dashboard');
                     break;
                 }
              
             }else{
-                this.setState({errMessage: user});
+                this.setState({errMessage: 'user not found'});
             }
           })
          
@@ -57,7 +62,7 @@ class  Signin extends React.Component{
                 <main className = "pa4 black-80">
                         <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                             <legend className="f4 fw76 ph0 mh0">Sign In</legend>
-                            <p className="db fw6 lh-copy f6" >{errMessage}</p>
+                            <p className="db fw6 lh-copy f6 text-green" >{errMessage}</p>
                             <div className="mt3">
                                 <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
                                 <input 
