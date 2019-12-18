@@ -32,23 +32,28 @@ class Signin extends React.Component {
                             password: password
                         })
                     })
-                        .then(response => response.json())
-                        .then(user => {
-                            if (user.id) {
-                                switch (user.accounttype) {
-                                    case 'subscriber':
-                                        this.setState({ errMessage: 'invalid login credentials' });
-                                        break;
-                                    default:
-                                        this.props.loadUser(user);
-                                        this.props.history.push('/dashboard');
-                                        break;
-                                }
-
-                            } else {
-                                this.setState({ errMessage: user });
+                    .then(response => response.json())
+                    //.then(user => console.log(user))
+                    .then(user => {
+                        console.log(user);
+                        if(user.data.id){
+                            switch(user.data.role.name){
+                                case 'subscriber':
+                                        this.setState({errMessage: 'Please login on the mobile app'});
+                                break;
+                                default:
+                                    const userData = JSON.stringify(user.data);
+                                    localStorage.setItem('user', userData);
+                                    localStorage.setItem('Auth', user.token);
+                                    //this.props.loadUser(user.data);
+                                    this.props.history.push('/dashboard');
+                                break;
                             }
-                        })
+                         
+                        }else{
+                            this.setState({errMessage: 'user not found'});
+                        }
+                      })
 
                 }}
 
