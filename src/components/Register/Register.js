@@ -31,6 +31,7 @@ class Register extends React.Component {
                         .oneOf([Yup.ref('password'), null], 'Passwords must match')
                         .required('Confirm Password is required')
                 })}
+
                 onSubmit={({ firstName, lastName, email, role, password }) => {
                     console.log(firstName, lastName, email, role, password);
 
@@ -50,6 +51,12 @@ class Register extends React.Component {
                     })
                     .then(response => response.json())
                     .then(user => console.log(user) )
+                                        /* {
+                                if(user.id){
+                                    this.props.loadUser(user);
+                                    this.props.history.push('/home');
+                                }
+                            }*/
                 }}
 
                 render={({ errors, touched }) => (
