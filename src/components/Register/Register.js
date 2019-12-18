@@ -35,7 +35,7 @@ class Register extends React.Component {
                     console.log(firstName, lastName, email, role, password);
 
                     // fetch('https://pacific-hollows-12017.herokuapp.com/signin',{
-                    fetch('https://pacific-hollows-12017.herokuapp.com/signin', {
+                    fetch('https://pacific-hollows-12017.herokuapp.com/register', {
                         method: 'post',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
