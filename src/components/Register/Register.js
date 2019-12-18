@@ -44,26 +44,12 @@ class Register extends React.Component {
                             email: email,
                             role: role,
                             password: password
-                        })
+
+                        }),
+                        redirect: 'follow'
                     })
-                        .then(response => response.json())
-                        .then(user => {
-                            if (user.id) {
-                                switch (user.accounttype) {
-                                    case 'subscriber':
-                                        this.setState({ errMessage: 'invalid login credentials' });
-                                        break;
-                                    default:
-                                        this.props.loadUser(user);
-                                        this.props.history.push('/dashboard');
-                                        break;
-                                }
-
-                            } else {
-                                this.setState({ errMessage: user });
-                            }
-                        })
-
+                    .then(response => response.json())
+                    .then(user => console.log(user) )
                 }}
 
                 render={({ errors, touched }) => (
