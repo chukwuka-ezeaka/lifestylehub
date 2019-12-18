@@ -42,6 +42,7 @@ class  Signin extends React.Component{
                         const userData = JSON.stringify(user.data);
                         localStorage.setItem('user', userData);
                         localStorage.setItem('Auth', user.token);
+                        localStorage.setItem('Authenticated', true);
                         //this.props.loadUser(user.data);
                         this.props.history.push('/dashboard');
                     break;

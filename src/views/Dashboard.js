@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "shards-react";
 
 //import PageTitle from "../components/common/PageTitle";
-import Users from '../components/Users/Users';
+import Users from '../components/Admin/Users/Users';
 
 class Dashboard extends React.Component {
   

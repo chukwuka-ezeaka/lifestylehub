@@ -24,8 +24,7 @@ class UsersModal extends React.Component{
   
 
   componentDidMount = () => {
-    //fetch('https://pacific-hollows-12017.herokuapp.com/users', {
-    fetch('https://lshub.herokuapp.com/api/v1/account/role/list',{
+    fetch('https://lshub.herokuapp.com/api/v1/account/permission/list',{
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
@@ -33,11 +32,12 @@ class UsersModal extends React.Component{
       },
     })
     .then(response => response.json())
-    .then(data => console.log(data));
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
 }
 
 render(){
-  const {toggle, open, user} = this.props;
+  const {toggle, open, user, role} = this.props;
       return (
         <div>
           <Modal size="lg" open={open}>
@@ -49,10 +49,10 @@ render(){
                         <InputGroupText className="bg-green text-white">Role</InputGroupText>
                       </InputGroupAddon>
                       <FormSelect>
-                        <option>{user ? user.accounttype : ''}</option>
-                        <option>Vendor</option>
-                        <option>Counsellor</option>
-                        <option>Subscriberr</option>
+                        <option value={role ? role.name : ''} className="bg-dark">{role ? role.name : ''}</option>
+                        <option>ADMIN</option>
+                        <option>VENDOR</option>
+                        <option>SUBSCRIBER</option>
                       </FormSelect>
                     </InputGroup>
                   </div>
@@ -70,8 +70,9 @@ render(){
                             <FormInput
                               id="feFirstName"
                               placeholder="First Name"
-                              value="Sierra"
+                              value={user? user.fullname : ''}
                               onChange={() => {}}
+                              disabled
                             />
                           </Col>
                           {/* Last Name */}
@@ -80,8 +81,8 @@ render(){
                             <FormInput
                               id="feLastName"
                               placeholder="Last Name"
-                              value="Brooks"
                               onChange={() => {}}
+                              disabled
                             />
                           </Col>
                         </Row>
@@ -93,8 +94,9 @@ render(){
                               type="email"
                               id="feEmail"
                               placeholder="Email Address"
-                              value="sierra@example.com"
+                              value={user ? user.email : ''}
                               onChange={() => {}}
+                              disabled
                               autoComplete="email"
                             />
                           </Col>
@@ -105,8 +107,8 @@ render(){
                               type="text"
                               id="fePassword"
                               placeholder="Phone Number"
-                              value="EX@MPL#P@$$w0RD"
                               onChange={() => {}}
+                              disabled
                               autoComplete="current-password"
                             />
                           </Col>
@@ -121,6 +123,7 @@ render(){
                             placeholder="Location"
                             value="1234 Main St."
                             onChange={() => {}}
+                            disabled
                           />
                         </FormGroup>
                         <FormGroup>
@@ -130,6 +133,7 @@ render(){
                             placeholder="Address"
                             value="1234 Main St."
                             onChange={() => {}}
+                            disabled
                           />
                         </FormGroup>
                         <Row form>
@@ -139,10 +143,10 @@ render(){
                             <FormInput
                               type="text"
                               id="feEmail"
-                              placeholder="Email Address"
-                              value="sierra@example.com"
+                              placeholder="Industery"
+                              value=""
                               onChange={() => {}}
-                              autoComplete="email"
+                              disabled
                             />
                           </Col>
                           {/* Password */}
@@ -151,10 +155,8 @@ render(){
                             <FormInput
                               type="date"
                               id="fePassword"
-                              placeholder="Phone Number"
-                              value="EX@MPL#P@$$w0RD"
                               onChange={() => {}}
-                              autoComplete="current-password"
+                              disabled
                             />
                           </Col>
                         </Row>
@@ -163,12 +165,12 @@ render(){
                           <Col md="6" className="form-group">
                             <label htmlFor="feEmail">Years of Experience</label>
                             <FormInput
-                              type="email"
+                              type="number"
                               id="feEmail"
                               placeholder="number"
                               value="1"
                               onChange={() => {}}
-                              autoComplete="email"
+                              disabled
                             />
                           </Col>
                           {/* Password */}
@@ -180,7 +182,7 @@ render(){
                               placeholder="Specialty"
                               value=""
                               onChange={() => {}}
-                              autoComplete="current-password"
+                              disabled
                             />
                           </Col>
                         </Row>
@@ -189,10 +191,12 @@ render(){
                           {/* Description */}
                           <Col md="12" className="form-group">
                             <label htmlFor="feDescription">Work History</label>
-                            <FormTextarea id="feDescription" rows="3" />
+                            <FormTextarea id="feDescription" rows="3"
+                            disabled
+                             />
                           </Col>
                         </Row>
-                        <Button theme="accent">Update Profile</Button>
+                        <Button theme="accent">Update</Button>
                       </Form>
                     </Col>
                   </Row>

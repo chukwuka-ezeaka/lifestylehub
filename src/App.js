@@ -16,6 +16,7 @@ import SignIn from "./views/SignIn";
 import Dashboard from "./views/Dashboard";
 import UserProfile from "./views/UserProfile";
 import Reflections from "./views/Reflections";
+import Roles from "./views/Roles";
 
 
 import 'tachyons';
@@ -30,6 +31,7 @@ const initialState = {
     phone: ''
   },
   Auth: '',
+  Authenticated: false,
   logout: false
 }
 
@@ -45,33 +47,28 @@ class App extends React.Component{
       const userData = JSON.parse(localStorage.getItem('user'));
       this.setState({
         user: userData,
-        Auth: localStorage.getItem('Auth')
+        Auth: localStorage.getItem('Auth'),
+        Authenticated: localStorage.getItem('Authenticated')
       })
     }else{
-      this.state = initialState;
+      this.setState(initialState);
     }
+
+    console.log(this.state.user)
   }
 
-  /*loadUser = (user) => {
-    console.log(user);
-    this.setState({
-      user: {
-        id: user.id,
-        fullname: user.fullname,
-        username: user.username,
-        email: user.email,
-        phone: user.phonenumber,
-        role: user.accounttype,
-      }
-    });
-  }*/
+  componentWillUpdate(){
+    if(!localStorage.getItem('user')){
+      console.log(this.state.user)
+  }
+}
 
 currentUser = ()=> {
   return this.state.user
 }
 
   render(){
-    const { user, Auth } = this.state
+    const { user, Auth, Authenticated } = this.state;
     return(
       <Router>
         <Switch>
@@ -124,10 +121,11 @@ currentUser = ()=> {
             </DefaultLayout>}
           />
           <Route
-            path='/logout'
+            path='/roles'
             render={(props) =>
-              <Redirect to='/home'/>
-            }
+              <DefaultLayout user={user}>
+              <Roles user={user} Auth={Auth}/>
+            </DefaultLayout>}
           />
         </Switch>
       </Router>

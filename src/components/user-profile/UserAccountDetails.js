@@ -55,7 +55,7 @@ const UserAccountDetails = ({ title }) => (
                     id="email"
                     placeholder="Email Address"
             
-                    value={() => {}}
+                    value= ""
                     disabled
                   />
                 </Col>
@@ -67,20 +67,18 @@ const UserAccountDetails = ({ title }) => (
                     id="phone"
                     placeholder="Phone Number"
             
-                    value={() => {}}
+                    value= ""
                     disabled
                   />
                 </Col>
               </Row>
-              <Row>
-                  <p className="ml-4" style={{color: 'red'}}>please update the following feilds</p>
-                </Row>
+              
                 <FormGroup>
                 <label htmlFor="location">Location</label>
                 <FormInput
                   id="location"
                   placeholder="Location"
-                  value={() => {}}
+                  value= ""
                   disabled
                 />
               </FormGroup>
@@ -89,7 +87,7 @@ const UserAccountDetails = ({ title }) => (
                 <FormInput
                   id="address"
                   placeholder="Address"
-                  value={() => {}}
+                  value= ""
                   disabled
                 />
               </FormGroup>
@@ -101,7 +99,7 @@ const UserAccountDetails = ({ title }) => (
                     type="text"
                     id="industry"
                     placeholder="Industry"
-                    value={() => {}}
+                    value= ""
                     disabled
                   />
                 </Col>
@@ -112,7 +110,7 @@ const UserAccountDetails = ({ title }) => (
                     type="date"
                     id="birthday"
                     placeholder="Phone Number"
-                    value={() => {}}
+                    value= ""
                     disabled
                   />
                 </Col>
@@ -125,7 +123,7 @@ const UserAccountDetails = ({ title }) => (
                     type="number"
                     id="experience"
                     placeholder="number"
-                    value={() => {}}
+                    value= ""
                     disabled
                   />
                 </Col>
@@ -136,7 +134,7 @@ const UserAccountDetails = ({ title }) => (
                     type="text"
                     id="specialty"
                     placeholder="Specialty"
-                    value={() => {}}
+                    value= ""
                     disabled
                   />
                 </Col>
@@ -148,14 +146,14 @@ const UserAccountDetails = ({ title }) => (
                   <label htmlFor="workHistory">Work History</label>
                   <FormTextarea 
                   id="workHistory" rows="3" 
-                  value={() => {}}
+                  value= ""
                   disabled
                   />
                 </Col>
               </Row>
               <Button
                theme="accent"
-               onClick={() => {}}
+               onClick= ""
                >Edit</Button>
             </Form>
           </Col>

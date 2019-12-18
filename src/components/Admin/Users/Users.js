@@ -7,8 +7,10 @@ class Users extends React.Component{
         super();
         this.state={
             users: [],
+            roles: [],
             open: false,
-            user: {}
+            user: {},
+            role: {}
         }
     }
 
@@ -22,7 +24,8 @@ class Users extends React.Component{
         let userId = event.target.id;
         this.setState({
            open: !this.state.open,
-           user: this.state.users[userId]
+           user: this.state.users[userId],
+           role: this.state.roles[userId]
         });
     }
        return this.state.open
@@ -30,23 +33,26 @@ class Users extends React.Component{
     }
 
     componentDidMount = () => {
-        //fetch('https://pacific-hollows-12017.herokuapp.com/users', {
-        fetch('http://localhost:3000/users',{
+        fetch('https://lshub.herokuapp.com/api/v1/account/user/list/with_roles',{
             method: 'get',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'bearer ' + localStorage.getItem('Auth')
+            },
         })
         .then(response => response.json())
-        .then(data => {
-            if(data.length > 0){
-                console.log(data);
-               this.setState({users: data});
-            }
-        });
+        .then(object => {
+            this.setState({
+                users: object.data,
+                roles: object.roles
+             })
+        })
+        .catch(err => console.log(err));
     }
         
 
 render(){
-    const {users, user, open} = this.state;
+    const {users, user, roles, role, open} = this.state;
     let i = 1;
     return(
 
@@ -59,7 +65,7 @@ render(){
                 </CardHeader>
                 <CardBody className="bg-light p-0 pb-3">
                     <table className="table table-light mb-0">
-                    <thead className="thead-dark">
+                    <thead className="thead-light">
                         <tr>
                         <th scope="col" className="border-0">
                             #
@@ -85,17 +91,17 @@ render(){
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user, index)  => {
+                    {users.map((user, index)  => {
                             //let userId = `#${user.id}`;
                             //console.log(index);
                             return(
                                 <tr key={user.id}>
                                     <td>{i++}</td>
-                                    <td>{user.fullname}</td>
-                                    <td>{user.username}</td>
-                                    <td>{user.email}</td>
-                                    <td>{user.phonenumber}</td>
-                                    <td>{user.accounttype}</td>
+                                    <td>{user.fullname ? user.fullname : ''}</td>
+                                    <td>{user.phonenumber ? user.phonenumber : ''}</td>
+                                    <td>{user.email ? user.email : ''}</td>
+                                    <td>{user.phonenumber ? user.phonenumber : ''}</td>
+                                    <td>{roles[index] ? roles[index].name : ''}</td>
                                     <td>
                                         <Button size="sm" theme="primary" className="mb-2 mr-1" onClick={this.toggleModal} id={index}>
                                             View
@@ -112,7 +118,7 @@ render(){
                 </Card>
             </Col>
             </Row>
-            <UsersModal user={user} toggle={this.toggleModal} open={open}/>
+            <UsersModal user={user} role={role} toggle={this.toggleModal} open={open}/>
         </Container>
     );
 }
