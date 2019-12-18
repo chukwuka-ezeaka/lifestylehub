@@ -16,7 +16,7 @@ class Reflections extends React.Component {
     }
 
     render(){
-        const { user } = this.props;
+        const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {}
         return(
             <Container fluid className="main-content-container px-4 pb-4">
             {/* Page Header */}

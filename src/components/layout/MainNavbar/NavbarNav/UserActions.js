@@ -17,7 +17,7 @@ export default class UserActions extends React.Component {
 
     this.state = {
       visible: false,
-      user:{}
+      user:localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : {}
     };
 
     this.toggleUserActions = this.toggleUserActions.bind(this);
@@ -34,7 +34,7 @@ export default class UserActions extends React.Component {
   }
 
   render() {
-   const {user} = this.props;
+    const { user, visible } = this.state;
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
         <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
@@ -43,9 +43,9 @@ export default class UserActions extends React.Component {
             src={require("./../../../../images/avatars/0.jpg")}
             alt="User Avatar"
           />{" "}
-          <span className="d-none d-md-inline-block pointer">{user.fullname}</span>
+          <span className="d-none d-md-inline-block pointer">{user ? user.fullname : ''}</span>
         </DropdownToggle>
-        <Collapse tag={DropdownMenu} right small open={this.state.visible}>
+        <Collapse tag={DropdownMenu} right small open={visible}>
           <DropdownItem tag={Link} to="/profile">
             <i className="material-icons">&#xE7FD;</i> Profile
           </DropdownItem>
@@ -53,7 +53,7 @@ export default class UserActions extends React.Component {
             <i className="material-icons">&#xE2C7;</i> Files
           </DropdownItem>
           <DropdownItem divider />
-          <DropdownItem tag={Link} to="/" className="text-danger">
+          <DropdownItem>
             <Logout />
           </DropdownItem>
         </Collapse>

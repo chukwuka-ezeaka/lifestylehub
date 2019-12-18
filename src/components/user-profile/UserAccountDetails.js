@@ -14,7 +14,7 @@ import {
   Button
 } from "shards-react";
 
-const UserAccountDetails = ({ title }) => (
+const UserAccountDetails = ({ title, user }) => (
   <Card small className="mb-4">
     <CardHeader className="border-bottom">
       <h6 className="m-0">{title}</h6>
@@ -31,7 +31,7 @@ const UserAccountDetails = ({ title }) => (
                   <FormInput
                     id="firstname"
                     placeholder="First Name"
-                    onChange={() => {}}
+                    value={user ? user.fullname : ''}
                     disabled
                   />
                 </Col>
@@ -55,7 +55,7 @@ const UserAccountDetails = ({ title }) => (
                     id="email"
                     placeholder="Email Address"
             
-                    value= ""
+                    value={user ? user.email : ''}
                     disabled
                   />
                 </Col>

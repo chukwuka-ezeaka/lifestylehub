@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class Logout extends Component {
     state = { 
@@ -8,21 +8,17 @@ class Logout extends Component {
 
      logout = () => {
          localStorage.clear();
-         this.setState({logout: true})
+         this.setState({logout: true});
+        this.props.history.push('/')
      }
 
     render() { 
-        const { logout } = this.state;
-
-        if(logout){
-            return <Redirect to="/" push={true} />
-        }
         return (
-            <span>
-                <i className="material-icons text-danger" onClick={this.logout}>&#xE879;</i> Logout
+            <span  onClick={this.logout} className="text-danger pointer">
+                <i className="material-icons text-danger">&#xE879;</i> Logout
             </span>
         );
     }
 }
  
-export default Logout;
+export default withRouter(Logout);
