@@ -10,7 +10,8 @@ class Register extends React.Component {
   constructor(props){
       super(props);
       this.state = {
-        disabled: false
+        disabled: false,
+        user: {}
     }
   }
     render() {
@@ -44,7 +45,7 @@ class Register extends React.Component {
                     this.setState({
                         disabled: true
                     });
-                    fetch('https://pacific-hollows-12017.herokuapp.com/register', {
+                    fetch('https://lshub.herokuapp.com/api/v1/auth/register', {
                         method: 'post',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -62,9 +63,9 @@ class Register extends React.Component {
                         this.setState({
                             disabled: false
                         });
-                        if(user.id){
-                            this.props.loadUser(user);
-                            this.props.history.push('/home');
+                        if(user.data.id){
+                            this.setState({user: user.data})
+                            this.props.history.push('/confirmation');
                         }
                     })
                 }}
@@ -131,8 +132,8 @@ class Register extends React.Component {
                                     </div>
                                 </fieldset>
                                 <div className="">
-                                    <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib mr-2" type="submit" value="Register" />
-                                    <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="reset" value="Reset" />
+                                    <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib mr-2" type="submit" value="Register" disabled={this.state.disabled}/>
+                                    <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="reset" value="Reset" disabled={this.state.disabled}/>
                                 </div>
 
                             </div>
