@@ -1,5 +1,5 @@
 .body {
-    min-height: 85vh;
+    min-height: 100vh;
     background-image: linear-gradient(to right bottom, #000000dc, #0b081fe1), url(../assets/images/bg.jpg);
     background-size: cover;
     background-position: center;

@@ -2,12 +2,13 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
-import NewReflection from "../components/Admin/Refelections/NewReflection";
+import AddContent from "../components/Vendor/Content/AddContent";
+import SidebarCategories from "../components/Vendor/Content/SidebarCategories";
 
 //import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import 'tachyons';
 
-class Reflections extends React.Component {
+class Content extends React.Component {
     constructor(){
         super();
         this.state = {
@@ -27,17 +28,18 @@ class Reflections extends React.Component {
             <Container fluid className="main-content-container px-4 pb-4">
             {/* Page Header */}
             <Row noGutters className="page-header py-4">
-              <PageTitle sm="4" title="Add New Reflection" subtitle="Reflections" className="text-sm-left" />
+              <PageTitle sm="4" title="Add New Content" subtitle="Content" className="text-sm-left" />
             </Row>
         
             <Row>
               {/* Editor */}
               <Col lg="9" md="12">
-                <NewReflection user={ user }/>
+                <AddContent user={ user }/>
               </Col>
         
               {/* Sidebar Widgets */}
               <Col lg="3" md="12">
+              <SidebarCategories user={ user }/>
               </Col>
             </Row>
           </Container>
@@ -45,4 +47,4 @@ class Reflections extends React.Component {
     }
 }
 
-export default withRouter(Reflections);
+export default withRouter(Content);

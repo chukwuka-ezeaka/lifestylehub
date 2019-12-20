@@ -19,9 +19,11 @@ import Reflections from "./views/Reflections";
 import Roles from "./views/Roles";
 import Logout from "./views/Logout";
 import Permissions from "./views/Permissions";
+import Confirmation from "./views/Confirmation";
 
 
 import 'tachyons';
+import Content from "./views/Content";
 
 
 const initialState = {
@@ -110,6 +112,13 @@ currentUser = () => {
             </DefaultLayout>}
           />
           <Route
+            path='/addContent'
+            render={(props) =>
+              <DefaultLayout user={user}>
+              <Content user={user} Auth={Auth}/>
+            </DefaultLayout>}
+          />
+          <Route
             path='/roles'
             render={(props) =>
               <DefaultLayout user={user}>
@@ -129,6 +138,13 @@ currentUser = () => {
               <DefaultLayout user={user}>
               <Permissions user={user} Auth={Auth}/>
             </DefaultLayout>}
+          />
+          <Route
+            path='/confirmation'
+            render={(props) =>
+              <HomeLayout user={user}>
+              <Confirmation user={user} Auth={Auth}/>
+            </HomeLayout>}
           />
         </Switch>
       </Router>

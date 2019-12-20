@@ -19,9 +19,10 @@ const HomeLayout = ({ children, noNavbar, noFooter }) => (
       >
         {!noNavbar && <MainNavbar />}
         {children}
-        {!noFooter && <MainFooter />}
+        
       </Col>
     </Row>
+    {!noFooter && <MainFooter />}
   </Container>
 );
 

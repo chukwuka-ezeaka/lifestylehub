@@ -12,6 +12,11 @@ export default function() {
       to: "/reflections",
     },
     {
+      title: "Add New Content",
+      htmlBefore: '<i class="material-icons">note_add</i>',
+      to: "/addContent",
+    },
+    {
       title: "Roles",
       to: "/roles",
       htmlBefore: '<i class="material-icons">group</i>',

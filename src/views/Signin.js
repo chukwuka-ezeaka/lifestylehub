@@ -6,7 +6,7 @@ import './Signin.css'
 
 const SignIn = ({loadUser}) => {
     return (
-        <div className="view">
+        <div>
              <Signin loadUser={loadUser}/>
         </div>
     )

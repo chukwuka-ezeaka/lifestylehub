@@ -11,7 +11,7 @@ class Register extends React.Component {
       super(props);
       this.state = {
         disabled: false,
-        user: {}
+        errMessage: '',
     }
   }
     render() {
@@ -41,7 +41,7 @@ class Register extends React.Component {
                         .required('Confirm Password is required')
                 })}
 
-                onSubmit={({ firstName, lastName, email, role, password }) => {
+                onSubmit={({ firstName, lastName, email, password }) => {
                     this.setState({
                         disabled: true
                     });
@@ -49,10 +49,10 @@ class Register extends React.Component {
                         method: 'post',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            firstName: firstName,
-                            lastName: lastName,
+                            firstname: firstName,
+                            lastname: lastName,
                             email: email,
-                            role: role,
+                            role: '75',
                             password: password
 
                         }),
@@ -63,9 +63,15 @@ class Register extends React.Component {
                         this.setState({
                             disabled: false
                         });
-                        if(user.data.id){
-                            this.setState({user: user.data})
-                            this.props.history.push('/confirmation');
+                        switch(user.status){
+                            case "success":
+                                 this.props.history.push('/confirmation');
+                            break;
+                            case "fail":
+                                this.setState({errMessage: 'Error' + user.message});
+                                break;
+                            default:
+                                this.setState({errMessage: user.message});
                         }
                     })
                 }}
@@ -80,6 +86,7 @@ class Register extends React.Component {
                                         <LoaderSmall/>
                                     :
                                     ""}
+                                    <p className="p-0" style={{color: 'brown'}}>{this.state.errMessage}</p>
                                     <div className="mt3">
                                         <label className="db fw6 lh-copy f6" htmlFor="firstName">First Name</label>
                                         <Field
