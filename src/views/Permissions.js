@@ -1,14 +1,14 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col } from "shards-react";
+import { Container, Row, Col} from "shards-react";
 import PageTitle from "../components/common/PageTitle";
-import SidebarCategories from "../components/Admin/Refelections/SidebarCategories";
-import NewReflection from "../components/Admin/Refelections/NewReflection";
+import CreatePermission from "../components/Admin/Permissions/CreatePermission";
+import ViewPermissions from "../components/Admin/Permissions/ViewPermissions";
 
 //import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import 'tachyons';
 
-class Reflections extends React.Component {
+class Permissions extends React.Component {
     constructor(){
         super();
         this.state = {
@@ -23,23 +23,22 @@ class Reflections extends React.Component {
       }
 
     render(){
-        const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {}
         return(
             <Container fluid className="main-content-container px-4 pb-4">
             {/* Page Header */}
             <Row noGutters className="page-header py-4">
-              <PageTitle sm="4" title="Add New Reflection" subtitle="Reflections" className="text-sm-left" />
+              <PageTitle sm="4" title="Permissions" subtitle="View / Create Permissions" className="text-sm-left" />
             </Row>
         
             <Row>
               {/* Editor */}
-              <Col lg="9" md="12">
-                <NewReflection user={ user }/>
+              <Col lg="6" md="12">
+                <ViewPermissions />
               </Col>
         
               {/* Sidebar Widgets */}
-              <Col lg="3" md="12">
-                <SidebarCategories />
+              <Col lg="6" md="12">
+                <CreatePermission />
               </Col>
             </Row>
           </Container>
@@ -47,4 +46,4 @@ class Reflections extends React.Component {
     }
 }
 
-export default withRouter(Reflections);
+export default withRouter(Permissions);

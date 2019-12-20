@@ -9046,6 +9046,11 @@ react-toastify@^5.4.1:
     prop-types "^15.7.2"
     react-transition-group "^4"
 
+react-top-loading-bar@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-top-loading-bar/-/react-top-loading-bar-1.2.0.tgz#fcbca3c2e462bee7b1c0d1850e8b584cd7bd5a26"
+  integrity sha512-5oNdy+DfD5JK06bcc/gsnnXHmml+d8eaBe3C8KQ3eLiH/BD8+FcwsgbAwqgOaRjuSeVQXdYN2JC2G1uVFtCLfA==
+
 react-transition-group@^2.5.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.9.0.tgz#df9cdb025796211151a436c69a8f3b97b5b07c8d"

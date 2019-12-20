@@ -21,23 +21,29 @@ import {
 import './UsersModal.css';
 
 class UsersModal extends React.Component{
-  
+  constructor(){
+    super();
+    this.state = {
+      roles: []
+    }
+  }
 
   componentDidMount = () => {
-    fetch('https://lshub.herokuapp.com/api/v1/account/permission/list',{
+    fetch('https://lshub.herokuapp.com/api/v1/account/role/list',{
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: 'bearer ' + localStorage.getItem('Auth')
+          Authorization: 'bearer ' + localStorage.getItem('Auth'),
       },
     })
     .then(response => response.json())
-    .then(data => console.log(data))
+    .then(object => this.setState({roles: object.data}))
     .catch(err => console.log(err))
 }
 
 render(){
   const {toggle, open, user, role} = this.props;
+  const { roles } = this.state;
       return (
         <div>
           <Modal size="lg" open={open}>
@@ -49,10 +55,13 @@ render(){
                         <InputGroupText className="bg-green text-white">Role</InputGroupText>
                       </InputGroupAddon>
                       <FormSelect>
-                        <option value={role ? role.name : ''} className="bg-dark">{role ? role.name : ''}</option>
-                        <option>ADMIN</option>
-                        <option>VENDOR</option>
-                        <option>SUBSCRIBER</option>
+                        <option value={role ? role.name : ''} className="bg-grey">{role ? role.name : ''}</option>
+                        {roles ? roles.map((role)  => {
+                          return(
+                            <option key={role.id} value={role.name}>{role.name}</option>
+                          )
+                        })
+                      : ''}
                       </FormSelect>
                     </InputGroup>
                   </div>

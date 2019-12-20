@@ -1,5 +1,6 @@
 import React from 'react';
 import UsersModal from './UsersModal';
+import Loader from '../../Loaders/Loader';
 import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react"
 
 class Users extends React.Component{
@@ -10,7 +11,8 @@ class Users extends React.Component{
             roles: [],
             open: false,
             user: {},
-            role: {}
+            role: {},
+            loading: true
         }
     }
 
@@ -37,18 +39,27 @@ class Users extends React.Component{
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'bearer ' + localStorage.getItem('Auth')
+                Authorization: 'bearer ' + localStorage.getItem('Auth'),
             },
+            signal: this.abortController.signal
         })
         .then(response => response.json())
         .then(object => {
             this.setState({
                 users: object.data,
-                roles: object.roles
+                roles: object.roles,
+                loading: false
              })
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            if (err.name === 'AbortError') return; // expected, this is the abort, so just return
+            throw err;
+        });
     }
+
+    componentWillUnmount = () => this.abortController.abort();
+
+    abortController = new window.AbortController(); 
         
 
 render(){
@@ -64,6 +75,9 @@ render(){
                     <h6 className="m-0 text-black">All Users</h6>
                 </CardHeader>
                 <CardBody className="bg-light p-0 pb-3">
+                {this.state.loading ?
+                <Loader />
+                :
                     <table className="table table-light mb-0">
                     <thead className="thead-light">
                         <tr>
@@ -114,6 +128,7 @@ render(){
                         })}
                     </tbody>
                     </table>
+                }
                 </CardBody>
                 </Card>
             </Col>

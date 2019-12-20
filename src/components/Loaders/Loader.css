@@ -1,0 +1,12 @@
+.loader-container{
+    text-align: center;
+}
+
+
+img#loader{
+    height: 100px !important;
+}
+
+img#loader-small{
+    height: 30px !important;
+}

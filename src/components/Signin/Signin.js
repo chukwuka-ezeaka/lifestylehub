@@ -2,8 +2,17 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import LoaderSmall from '../Loaders/LoaderSmall';
 
 class Signin extends React.Component {
+    constructor(){
+        super();
+        this.state={
+            errMessage: '',
+            disabled: false,
+            isLoading: false
+        }
+    }
     render() {
         return (
             <Formik
@@ -20,7 +29,11 @@ class Signin extends React.Component {
                         .min(6, 'Password must be at least 6 characters')
                         .required('Password is required')
                 })}
+
                 onSubmit={({ email, password }) => {
+                    this.setState({
+                        disabled: true
+                    });
                     fetch('https://lshub.herokuapp.com/api/v1/auth/login', {
                         method: 'post',
                         headers: { 'Content-Type': 'application/json' },
@@ -31,24 +44,36 @@ class Signin extends React.Component {
                     })
                     .then(response => response.json())
                     .then(user => {
-                        console.log(user);
-                        if(user.data.id){
-                            switch(user.data.role.name){
-                                case 'subscriber':
-                                        this.setState({errMessage: 'Please login on the mobile app'});
+                        this.setState({
+                            disabled: false
+                        });
+                        switch(user.status){
+                            case "success":
+                                if(user.data.id){
+                                    switch(user.data.role.name){
+                                        case 'subscriber':
+                                                this.setState({errMessage: 'Please login on the mobile app'});
+                                        break;
+                                        default:
+                                            const userData = JSON.stringify(user.data);
+                                            localStorage.setItem('user', userData);
+                                            localStorage.setItem('Auth', user.token);
+                                            this.props.history.push('/dashboard');
+                                        break;
+                                    }
+                                
+                                }
                                 break;
-                                default:
-                                    const userData = JSON.stringify(user.data);
-                                    localStorage.setItem('user', userData);
-                                    localStorage.setItem('Auth', user.token);
-                                    //this.props.loadUser(user.data);
-                                    this.props.history.push('/dashboard');
+                            case "fail":
+                                this.setState({errMessage: user.message});
                                 break;
+                            default:
+                                 this.setState({errMessage: "something went wrong"});
+                            break;
                             }
-                         
-                        }else{
-                            this.setState({errMessage: 'user not found'});
-                        }
+                      })
+                      .catch(err => {
+                          this.setState({errMessage: 'Error' + err});
                       })
 
 
@@ -59,6 +84,11 @@ class Signin extends React.Component {
                         <Form className="pa4 black-80">
                             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                                 <legend className="f4 fw76 ph0 mh0">Sign In</legend>
+                                {this.state.disabled === true ?
+                                <LoaderSmall/>
+                            :
+                            ""}
+                                <p className="p-0" style={{color: 'brown'}}>{this.state.errMessage}</p>
                                 <div className="mt3">
                                     <label className="db fw6 lh-copy f6" htmlFor="email">Email</label>
                                     <Field
@@ -81,8 +111,8 @@ class Signin extends React.Component {
                                 </div>
                             </fieldset>
                             <div className="">
-                                <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib mr-2" type="submit" value="Sign In" />
-                                <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="reset" value="Reset" />
+                                <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib mr-2" type="submit" value="Sign In" disabled={this.state.disabled}/>
+                                <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="reset" value="Reset" disabled={this.state.disabled}/>
                             </div>
                         </Form>
                     </article>

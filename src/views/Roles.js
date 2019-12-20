@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 import CreateRole from "../components/Admin/Roles/CreateRole";
@@ -14,6 +15,12 @@ class Roles extends React.Component {
 
         }
     }
+
+    componentDidMount() {
+        if(!localStorage.getItem('Auth')){
+          this.props.history.push('/signin');
+        }
+      }
 
     render(){
         return(
@@ -39,4 +46,4 @@ class Roles extends React.Component {
     }
 }
 
-export default Roles;
+export default withRouter(Roles);

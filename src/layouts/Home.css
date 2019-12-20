@@ -1,6 +1,6 @@
 .body {
     min-height: 85vh;
-    background-image: linear-gradient(to right bottom, #000000dc, #0b081fe1), url(../assets/bg.jpg);
+    background-image: linear-gradient(to right bottom, #000000dc, #0b081fe1), url(../assets/images/bg.jpg);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;

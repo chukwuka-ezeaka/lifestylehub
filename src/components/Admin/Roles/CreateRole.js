@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import Loader from '../../Loaders/Loader';
 import {
     Card,
     CardHeader,
@@ -21,7 +21,8 @@ class CreateRole extends Component {
             collapse: false,
             permissions: [],
             role: '',
-            permissionsArray: []
+            permissionsArray: [],
+            isLoading: true
          };
       }
     
@@ -40,9 +41,12 @@ class CreateRole extends Component {
         })
         .then(response => response.json())
         .then(object => {
-            this.setState({permissions: object.data});
+            this.setState({
+                permissions: object.data,
+                isLoading: false
+            });
         })
-        .catch(err => console.log(err));
+        .catch(err => (err));
       }
 
       handleCheckBox = (event) => {
@@ -110,6 +114,9 @@ class CreateRole extends Component {
                         <div className="p-3 mt-3 border rounded">
                             <strong className="text-muted d-block mb-2">Permissions</strong>
                             <fieldset>
+                                {this.state.isLoading ?
+                                <Loader />
+                            :
                                 <table className="table table-light mb-0">
                                     <thead className="thead-light">
                                         <tr>
@@ -135,6 +142,7 @@ class CreateRole extends Component {
                                 })}
                                     </tbody>
                                 </table>
+                            }
                             </fieldset>
                         </div>
                         <Button theme="info" onClick={this.onSubmit}>Submit</Button>

@@ -18,6 +18,7 @@ import UserProfile from "./views/UserProfile";
 import Reflections from "./views/Reflections";
 import Roles from "./views/Roles";
 import Logout from "./views/Logout";
+import Permissions from "./views/Permissions";
 
 
 import 'tachyons';
@@ -48,8 +49,7 @@ currentUser = () => {
   const userData = JSON.parse(localStorage.getItem('user'));
   this.setState({
     user: userData,
-    Auth: localStorage.getItem('Auth'),
-    Authenticated: localStorage.getItem('Authenticated')
+    Auth: localStorage.getItem('Auth')
   })
 }
 
@@ -57,7 +57,7 @@ currentUser = () => {
 
 
   render(){
-    const { user, Auth, Authenticated } = this.state;
+    const { user, Auth } = this.state;
     return(
       <Router>
         <Switch>
@@ -121,6 +121,13 @@ currentUser = () => {
             render={(props) =>
               <DefaultLayout user={user}>
               <Logout user={user} Auth={Auth}/>
+            </DefaultLayout>}
+          />
+          <Route
+            path='/permissions'
+            render={(props) =>
+              <DefaultLayout user={user}>
+              <Permissions user={user} Auth={Auth}/>
             </DefaultLayout>}
           />
         </Switch>

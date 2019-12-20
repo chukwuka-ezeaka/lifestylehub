@@ -54,7 +54,7 @@ export default class NavExample extends React.Component {
                 id="main-logo"
                 className="d-inline-block align-top mr-1"
                 style={{ maxWidth: "55px" }}
-                src={require("../../assets/logo.jpeg")}
+                src={require("../../assets/images/logo.jpeg")}
                 alt="Dashboard"
               />
           </NavbarBrand>

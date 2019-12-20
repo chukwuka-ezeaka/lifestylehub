@@ -4,7 +4,15 @@ import 'tachyons';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
+import LoaderSmall from '../Loaders/LoaderSmall';
+
 class Register extends React.Component {
+  constructor(props){
+      super(props);
+      this.state = {
+        disabled: false
+    }
+  }
     render() {
         return (
             <Formik
@@ -33,9 +41,9 @@ class Register extends React.Component {
                 })}
 
                 onSubmit={({ firstName, lastName, email, role, password }) => {
-                    console.log(firstName, lastName, email, role, password);
-
-                    // fetch('https://pacific-hollows-12017.herokuapp.com/signin',{
+                    this.setState({
+                        disabled: true
+                    });
                     fetch('https://pacific-hollows-12017.herokuapp.com/register', {
                         method: 'post',
                         headers: { 'Content-Type': 'application/json' },
@@ -50,13 +58,15 @@ class Register extends React.Component {
                         redirect: 'follow'
                     })
                     .then(response => response.json())
-                    .then(user => console.log(user) )
-                                        /* {
-                                if(user.id){
-                                    this.props.loadUser(user);
-                                    this.props.history.push('/home');
-                                }
-                            }*/
+                    .then(user => {
+                        this.setState({
+                            disabled: false
+                        });
+                        if(user.id){
+                            this.props.loadUser(user);
+                            this.props.history.push('/home');
+                        }
+                    })
                 }}
 
                 render={({ errors, touched }) => (
@@ -65,6 +75,10 @@ class Register extends React.Component {
                             <div className="measure">
                                 <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                                     <legend className="f4 fw6 ph0 mh0 ">Register</legend>
+                                    {this.state.disabled === true ?
+                                        <LoaderSmall/>
+                                    :
+                                    ""}
                                     <div className="mt3">
                                         <label className="db fw6 lh-copy f6" htmlFor="firstName">First Name</label>
                                         <Field

@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from "shards-react";
 
 //import PageTitle from "../components/common/PageTitle";
@@ -6,8 +7,10 @@ import Users from '../components/Admin/Users/Users';
 
 class Dashboard extends React.Component {
   
-  componentDidMount() {
-    document.body.style.backgroundColor = 'white';
+  componentWillMount() {
+    if(!localStorage.getItem('Auth')){
+      this.props.history.push('/signin');
+    }
   }
 
   render(){
@@ -24,4 +27,4 @@ class Dashboard extends React.Component {
     }
   }
 
-export default Dashboard;
+export default withRouter(Dashboard);

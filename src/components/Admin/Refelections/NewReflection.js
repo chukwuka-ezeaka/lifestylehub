@@ -90,7 +90,7 @@ class NewReflection extends React.Component{
     
 
     render(){
-        const { title, user } = this.props;
+        const { title } = this.props;
         return (
             <Card small className="h-100">
                 {/* Card Header */}
