@@ -69,6 +69,9 @@ export default class NavExample extends React.Component {
                 <NavLink href="/signin" >
                   Sign In
                 </NavLink>
+                <NavLink href="/register" >
+                  Register
+                </NavLink>
               </NavItem>
             </Nav>
             </Nav>
