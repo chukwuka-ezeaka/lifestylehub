@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import LoaderSmall from '../../Loaders/LoaderSmall';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardHeader,
@@ -21,9 +23,25 @@ class NewReflection extends React.Component{
             description: '',
             imageLink: '',
             audioLink: '',
-            author: ''
+            author: '',
+            requestPending: false,
+            errMessage: '',
+            type: ''
         }
     }
+
+    notify = (message) => {
+        switch(this.state.type){
+          case "success":
+                  toast.success(message);
+              break;
+          case "warn":
+              toast.warn("Error: " + message);
+              break;
+          default:
+              break;
+        }
+      }
 
     handleAudio = (event) => {
         this.setState({audioLink: event.target.value});
@@ -69,6 +87,7 @@ class NewReflection extends React.Component{
 
     handlePublish = (event) => {
         event.preventDefault();
+        this.setState({requestPending: true});
         fetch('https://lshub.herokuapp.com/api/v1/reflection/create',{
             method: 'post',
             headers: {
@@ -84,7 +103,26 @@ class NewReflection extends React.Component{
             })
         })
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => {
+            this.setState({requestPending: false});
+            switch(data.status){
+                case "success":
+                    this.setState({type: "success"});
+                    this.notify(data.message); 
+                break;
+                case "fail":
+                    this.setState({type: "warn"});
+                    this.notify(data.message); 
+                break;
+                default:
+                        this.setState({type: "warn"});
+                    this.notify(data.message);
+                break;
+            }
+        ;})
+            .catch(err => {
+                this.setState({errMessage: 'Error' + err});
+            })
     }
 
     
@@ -99,6 +137,10 @@ class NewReflection extends React.Component{
                 </CardHeader>
 
                 <CardBody className="d-flex flex-column">
+                {this.state.requestPending === true ?
+                    <LoaderSmall/>
+                 :
+                     ""}
                 <Form className="quick-post-form">
                     <FormGroup>
                     <FormInput placeholder="Title" onChange={this.handleTitle}/>

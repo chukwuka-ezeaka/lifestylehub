@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-d
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
-import "tachyons";
+import { ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 import { DefaultLayout, HomeLayout } from "./layouts";
@@ -61,93 +62,96 @@ currentUser = () => {
   render(){
     const { user, Auth } = this.state;
     return(
-      <Router>
-        <Switch>
-          <Route
-            exact
-            path='/'
-            render={(props) =>
-              <Redirect to='/home'/>}
-          />
-          <Route
-            path='/home'
-            render={(props) =>
-              <HomeLayout>
-              <Home />
-            </HomeLayout>}
-          />
-          <Route
-            path='/register'
-            render={(props) =>
-              <HomeLayout>
-              <Register />
-            </HomeLayout>}
-          />
-          <Route
-            path='/signin'
-            render={(props) =>
-              <HomeLayout>
-              <SignIn />
-            </HomeLayout>}
-          />
-          <Route
-            path='/dashboard'
-            render={(props) =>
-              <DefaultLayout user={user}>
-              <Dashboard user={user} Auth={Auth}/>
-            </DefaultLayout>}
-          />
-          <Route
-            path='/profile'
-            render={(props) =>
-              <DefaultLayout user={user}>
-              <UserProfile user={user} Auth={Auth}/>
-            </DefaultLayout>}
-          />
-           <Route
-            path='/reflections'
-            render={(props) =>
-              <DefaultLayout user={user}>
-              <Reflections user={user} Auth={Auth}/>
-            </DefaultLayout>}
-          />
-          <Route
-            path='/addContent'
-            render={(props) =>
-              <DefaultLayout user={user}>
-              <Content user={user} Auth={Auth}/>
-            </DefaultLayout>}
-          />
-          <Route
-            path='/roles'
-            render={(props) =>
-              <DefaultLayout user={user}>
-              <Roles user={user} Auth={Auth}/>
-            </DefaultLayout>}
-          />
-          <Route
-            path='/logout'
-            render={(props) =>
-              <DefaultLayout user={user}>
-              <Logout user={user} Auth={Auth}/>
-            </DefaultLayout>}
-          />
-          <Route
-            path='/permissions'
-            render={(props) =>
-              <DefaultLayout user={user}>
-              <Permissions user={user} Auth={Auth}/>
-            </DefaultLayout>}
-          />
-          <Route
-            path='/confirmation'
-            render={(props) =>
-              <HomeLayout user={user}>
-              <Confirmation user={user} Auth={Auth}/>
-            </HomeLayout>}
-          />
-        </Switch>
-      </Router>
+      <div>
+        <ToastContainer />
+          <Router>
+            <Switch>
+              <Route
+                exact
+                path='/'
+                render={(props) =>
+                  <Redirect to='/home'/>}
+              />
+              <Route
+                path='/home'
+                render={(props) =>
+                  <HomeLayout>
+                  <Home />
+                </HomeLayout>}
+              />
+              <Route
+                path='/register'
+                render={(props) =>
+                  <HomeLayout>
+                  <Register />
+                </HomeLayout>}
+              />
+              <Route
+                path='/signin'
+                render={(props) =>
+                  <HomeLayout>
+                  <SignIn />
+                </HomeLayout>}
+              />
+              <Route
+                path='/dashboard'
+                render={(props) =>
+                  <DefaultLayout user={user}>
+                  <Dashboard user={user} Auth={Auth}/>
+                </DefaultLayout>}
+              />
+              <Route
+                path='/profile'
+                render={(props) =>
+                  <DefaultLayout user={user}>
+                  <UserProfile user={user} Auth={Auth}/>
+                </DefaultLayout>}
+              />
+              <Route
+                path='/reflections'
+                render={(props) =>
+                  <DefaultLayout user={user}>
+                  <Reflections user={user} Auth={Auth}/>
+                </DefaultLayout>}
+              />
+              <Route
+                path='/addContent'
+                render={(props) =>
+                  <DefaultLayout user={user}>
+                  <Content user={user} Auth={Auth}/>
+                </DefaultLayout>}
+              />
+              <Route
+                path='/roles'
+                render={(props) =>
+                  <DefaultLayout user={user}>
+                  <Roles user={user} Auth={Auth}/>
+                </DefaultLayout>}
+              />
+              <Route
+                path='/logout'
+                render={(props) =>
+                  <DefaultLayout user={user}>
+                  <Logout user={user} Auth={Auth}/>
+                </DefaultLayout>}
+              />
+              <Route
+                path='/permissions'
+                render={(props) =>
+                  <DefaultLayout user={user}>
+                  <Permissions user={user} Auth={Auth}/>
+                </DefaultLayout>}
+              />
+              <Route
+                path='/confirmation'
+                render={(props) =>
+                  <HomeLayout user={user}>
+                  <Confirmation user={user} Auth={Auth}/>
+                </HomeLayout>}
+              />
+            </Switch>
+          </Router>         
+      </div>
     );
     }
   }

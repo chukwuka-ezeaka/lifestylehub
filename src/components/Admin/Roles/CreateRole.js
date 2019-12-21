@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Loader from '../../Loaders/Loader';
+import LoaderSmall from '../../Loaders/LoaderSmall';
 import {
     Card,
     CardHeader,
@@ -9,21 +10,40 @@ import {
     Button,
     FormCheckbox
   } from "shards-react";
+import { toast } from 'react-toastify';
 
   
   const addPermissions = [];
+
+  const initialState = {
+    collapse: false,
+    permissions: [],
+    role: '',
+    permissionsArray: [],
+    isLoading: true,
+    requestPending: false,
+    errMessage: '',
+    type: ''
+  }
 
 class CreateRole extends Component {
     constructor(props) {
         super(props);
         this.toggle = this.toggle.bind(this);
-        this.state = { 
-            collapse: false,
-            permissions: [],
-            role: '',
-            permissionsArray: [],
-            isLoading: true
-         };
+        this.state = initialState;
+      }
+
+      notify = (message) => {
+          switch(this.state.type){
+            case "success":
+                    toast.success(message);
+                break;
+            case "warn":
+                toast.warn("Error: " + message);
+                break;
+            default:
+                break;
+          }
       }
     
       toggle() {
@@ -55,7 +75,7 @@ class CreateRole extends Component {
         if(event.target.checked === true){
             addPermissions.push(intValue);
             this.setState({permissionsArray: addPermissions})
-        }else{
+        }else{ 
             addPermissions.splice( addPermissions.indexOf(intValue), 1 );
             this.setState({permissionsArray: addPermissions})
         }
@@ -69,13 +89,14 @@ class CreateRole extends Component {
       onSubmit= () => {
         const { role, permissionsArray } = this.state;
         const roleData = (role.trim()).replace(' ', '_');
-        console.log(roleData);
-        console.log(permissionsArray);
+        //console.log(roleData);
+        //console.log(permissionsArray);
 
        this.onSubmitRequest(roleData, permissionsArray);
       }
 
       onSubmitRequest = (role, permissions) => {
+          this.setState({requestPending: true});
         fetch('https://lshub.herokuapp.com/api/v1/account/role/create',{
             method: 'post',
             headers: {
@@ -88,7 +109,30 @@ class CreateRole extends Component {
             })
         })
         .then(response => response.json())
-        .then(user => console.log(user) )
+        .then(data => {
+            this.setState({requestPending: false});
+            switch(data.status){
+                case "success":
+                    this.setState({type: "success"});
+                    this.notify(data.message); 
+                break;
+                case "fail":
+                    this.setState({type: "warn"});
+                    this.notify(data.message); 
+                break;
+                default:
+                        this.setState({type: "warn"});
+                    this.notify(data.message);
+                break;
+            }
+        ;})
+        .catch(err => {
+            this.setState({errMessage: 'Error' + err});
+        })
+      }
+
+      componentWillUnmount(){
+        this.setState(initialState);
       }
 
     render() { 
@@ -99,6 +143,10 @@ class CreateRole extends Component {
                 <h6 className="m-0">Create Role</h6>
                 </CardHeader>
                 <ListGroup flush className="p-4">
+                {this.state.requestPending === true ?
+                    <LoaderSmall/>
+                 :
+                     ""}
                     <label htmlFor="role">Role Name</label>
                     <FormInput
                         type="text"
