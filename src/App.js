@@ -13,7 +13,7 @@ import { DefaultLayout, HomeLayout } from "./layouts";
 // Route Views
 import Home from "./views/Home";
 import Register from "./views/Register";
-import SignIn from "./views/SignIn";
+import SignInView from "./views/SignInView";
 import Dashboard from "./views/Dashboard";
 import UserProfile from "./views/UserProfile";
 import Reflections from "./views/Reflections";
@@ -90,7 +90,7 @@ currentUser = () => {
                 path='/signin'
                 render={(props) =>
                   <HomeLayout>
-                  <SignIn />
+                  <SignInView />
                 </HomeLayout>}
               />
               <Route
