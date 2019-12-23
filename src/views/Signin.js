@@ -6,7 +6,7 @@ import './Signin.css'
 
 const SignIn = ({loadUser}) => {
     return (
-        <div style={{minHeight: '69vh'}}>
+        <div style={{minHeight: '70vh'}}>
              <Signin loadUser={loadUser}/>
         </div>
     )
