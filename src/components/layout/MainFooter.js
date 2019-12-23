@@ -4,7 +4,7 @@ import { Container, Row, Nav, NavItem, NavLink } from "shards-react";
 import { Link } from "react-router-dom";
 
 const MainFooter = ({ contained, menuItems, copyright }) => (
-  <footer className="main-footer d-flex p-2 px-3 bg-black" style={{position: 'fixed', bottom: '0%', right: '0%', left: '0%'}}>
+  <footer className="main-footer d-flex p-2 px-3 bg-black">
     <Container fluid={contained} >
       <Row>
         <Nav>
