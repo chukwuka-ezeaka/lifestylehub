@@ -1,10 +1,10 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import React from './node_modules/react';
+import { withRouter } from './node_modules/react-router-dom';
+import { Formik, Field, Form, ErrorMessage } from './node_modules/formik';
+import * as Yup from './node_modules/yup';
 import LoaderSmall from '../Loaders/LoaderSmall';
 
-class Signin extends React.Component {
+class SignIn extends React.Component {
     constructor(){
         super();
         this.state={
@@ -123,4 +123,4 @@ class Signin extends React.Component {
     }
 }
 
-export default withRouter(Signin);
+export default withRouter(SignIn);
