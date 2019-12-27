@@ -2,14 +2,12 @@ import React from 'react';
 import Signin from '../components/SignIn/SignIn';
 
 import './Signin.css'
-
-
-const SignIn = ({loadUser}) => {
+const SignInView = ({loadUser}) => {
     return (
-        <div>
+        <div className="view">
              <Signin loadUser={loadUser}/>
         </div>
     )
 }
 
-export default SignIn;
+export default SignInView;

@@ -2,8 +2,8 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
-import AddContent from "../components/Vendor/Content/AddContent";
-import SidebarCategories from "../components/Vendor/Content/SidebarCategories";
+import AddContent from "../components/Content/AddContent";
+import SidebarCategories from "../components/Content/SidebarCategories";
 
 //import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import 'tachyons';

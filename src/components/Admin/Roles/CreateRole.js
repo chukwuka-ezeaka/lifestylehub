@@ -66,7 +66,13 @@ class CreateRole extends Component {
                 isLoading: false
             });
         })
-        .catch(err => (err));
+        .catch(err => {
+            this.setState({
+                loading: false,
+                errMessage: err
+             });
+
+        });
       }
 
       handleCheckBox = (event) => {
@@ -127,6 +133,9 @@ class CreateRole extends Component {
             }
         ;})
         .catch(err => {
+            this.setState({
+                loading: false
+             });
             this.setState({errMessage: 'Error' + err});
         })
       }
@@ -158,7 +167,7 @@ class CreateRole extends Component {
                 <ListGroup className="pb-4 pr-4 pl-4 pt-0">
                      <div>
                         <Button theme="secondary" onClick={this.toggle}>Select permissions</Button>
-                        <Collapse open={this.state.collapse}>
+                        <Collapse id="collapse" open={this.state.collapse}>
                         <div className="p-3 mt-3 border rounded">
                             <strong className="text-muted d-block mb-2">Permissions</strong>
                             <fieldset>

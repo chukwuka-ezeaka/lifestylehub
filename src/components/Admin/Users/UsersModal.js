@@ -35,27 +35,35 @@ class UsersModal extends React.Component{
           'Content-Type': 'application/json',
           Authorization: 'bearer ' + localStorage.getItem('Auth'),
       },
+      signal: this.abortController.signal
     })
     .then(response => response.json())
     .then(object => this.setState({roles: object.data}))
     .catch(err => console.log(err))
 }
 
+componentWillUnmount = () => {
+  this.abortController.abort();
+};
+
+abortController = new window.AbortController(); 
+
 render(){
-  const {toggle, open, user, role} = this.props;
+  const {toggle, open, user} = this.props;
   const { roles } = this.state;
+  
       return (
         <div>
           <Modal size="lg" open={open}>
             <ModalHeader toggle={toggle}>
-              {user ? user.fullname : ''}
+              {open ? user.fullname : ''}
                   <div>
                     <InputGroup className="mb-3">
                       <InputGroupAddon type="prepend">
                         <InputGroupText className="bg-green text-white">Role</InputGroupText>
                       </InputGroupAddon>
                       <FormSelect>
-                        <option value={role ? role.name : ''} className="bg-grey">{role ? role.name : ''}</option>
+                      <option value={open ? user.UserRole.Role.name : ''}>{open ? user.UserRole.Role.name : ''}</option>
                         {roles ? roles.map((role)  => {
                           return(
                             <option key={role.id} value={role.name}>{role.name}</option>

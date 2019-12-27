@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logout from '../../../Logout/Logout'
 import {
   Dropdown,
   DropdownToggle,
@@ -17,7 +16,7 @@ export default class UserActions extends React.Component {
 
     this.state = {
       visible: false,
-      user:localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : {}
+      user: localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : {}
     };
 
     this.toggleUserActions = this.toggleUserActions.bind(this);
@@ -53,8 +52,8 @@ export default class UserActions extends React.Component {
             <i className="material-icons">&#xE2C7;</i> Files
           </DropdownItem>
           <DropdownItem divider />
-          <DropdownItem>
-            <Logout />
+          <DropdownItem tag={Link} to="/logout" className="text-danger">
+            <i className="material-icons text-danger">&#xE879;</i> Logout
           </DropdownItem>
         </Collapse>
       </NavItem>

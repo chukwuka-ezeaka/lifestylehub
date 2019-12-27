@@ -27,7 +27,7 @@ class Roles extends React.Component {
             <Container fluid className="main-content-container px-4 pb-4">
             {/* Page Header */}
             <Row noGutters className="page-header py-4">
-              <PageTitle sm="4" title="Roles" subtitle="View / Create Roles" className="text-sm-left" />
+              <PageTitle sm="4" title="View / Create Roles" subtitle="Roles" className="text-sm-left" />
             </Row>
         
             <Row>

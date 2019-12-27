@@ -16,7 +16,7 @@ const MainNavbar = ({ layout, stickyTop, user}) => {
 
   return (
     <div className={classes}>
-      <Container style={{backgroundColor: 'black'}}  className="p-0">
+      <Container className="p-0">
         <Navbar className="align-items-stretch flex-md-nowrap p-0">
           <NavbarSearch />
           <NavbarNav user={user}/>

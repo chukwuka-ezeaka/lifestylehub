@@ -13,14 +13,15 @@ import { DefaultLayout, HomeLayout } from "./layouts";
 // Route Views
 import Home from "./views/Home";
 import Register from "./views/Register";
-import SignIn from "./views/SignIn";
-import Dashboard from "./views/Dashboard";
+import SignInView from "./views/SignInView";
+import UsersOverview from "./views/UsersOverview";
 import UserProfile from "./views/UserProfile";
 import Reflections from "./views/Reflections";
 import Roles from "./views/Roles";
 import Logout from "./views/Logout";
 import Permissions from "./views/Permissions";
 import Confirmation from "./views/Confirmation";
+import Dashboard from "./views/Dashboard";
 
 
 import 'tachyons';
@@ -90,14 +91,28 @@ currentUser = () => {
                 path='/signin'
                 render={(props) =>
                   <HomeLayout>
-                  <SignIn />
+                  <SignInView />
                 </HomeLayout>}
               />
               <Route
-                path='/dashboard'
+               path='/dashboard'
+               render={(props) =>
+                 <DefaultLayout user={user}>
+                 <Dashboard user={user} Auth={Auth}/>
+               </DefaultLayout>}
+             />
+              <Route
+                path='/users'
                 render={(props) =>
                   <DefaultLayout user={user}>
-                  <Dashboard user={user} Auth={Auth}/>
+                  <UsersOverview user={user} Auth={Auth}/>
+                </DefaultLayout>}
+              />
+               <Route
+                path='/users/:id'
+                render={(props) =>
+                  <DefaultLayout user={user}>
+                  <UsersOverview Auth={Auth}/>
                 </DefaultLayout>}
               />
               <Route
@@ -109,6 +124,13 @@ currentUser = () => {
               />
               <Route
                 path='/reflections'
+                render={(props) =>
+                  <DefaultLayout user={user}>
+                  <Reflections user={user} Auth={Auth}/>
+                </DefaultLayout>}
+              />
+              <Route
+                path='/reflections/:id'
                 render={(props) =>
                   <DefaultLayout user={user}>
                   <Reflections user={user} Auth={Auth}/>
@@ -149,6 +171,7 @@ currentUser = () => {
                   <Confirmation user={user} Auth={Auth}/>
                 </HomeLayout>}
               />
+              
             </Switch>
           </Router>         
       </div>

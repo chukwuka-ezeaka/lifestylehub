@@ -68,10 +68,22 @@ class Register extends React.Component {
                                  this.props.history.push('/confirmation');
                             break;
                             case "fail":
-                                this.setState({errMessage: 'Error' + user.message});
+                                this.setState({
+                                    disabled: false,
+                                    errMessage: 'Error' + user.message
+                                });
                                 break;
                             default:
-                                this.setState({errMessage: user.message});
+                                this.setState({
+                                    disabled: false,
+                                    errMessage: user.message
+                                })
+                                .catch(err => {
+                                    this.setState({
+                                      disabled: false,
+                                        errMessage: 'Error' + err
+                                      });
+                                });
                         }
                     })
                 }}
