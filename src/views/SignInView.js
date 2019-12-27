@@ -2,14 +2,12 @@ import React from 'react';
 import Signin from '../components/Signin/Signin';
 
 import './Signin.css'
-
-
-const SignIn = ({loadUser}) => {
+const SignInView = ({loadUser}) => {
     return (
-        <div style={{minHeight: '70vh'}}>
+        <div className="view">
              <Signin loadUser={loadUser}/>
         </div>
     )
 }
 
-export default SignIn;
+export default SignInView;

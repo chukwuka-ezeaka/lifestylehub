@@ -58,6 +58,7 @@ class Signin extends React.Component {
                                             const userData = JSON.stringify(user.data);
                                             localStorage.setItem('user', userData);
                                             localStorage.setItem('Auth', user.token);
+                                            console.log(localStorage.getItem('Auth'));
                                             this.props.history.push('/dashboard');
                                         break;
                                     }
@@ -65,15 +66,24 @@ class Signin extends React.Component {
                                 }
                                 break;
                             case "fail":
-                                this.setState({errMessage: user.message});
+                                this.setState({
+                                    errMessage: user.message,
+                                    disabled: false
+                                });
                                 break;
                             default:
-                                 this.setState({errMessage: "something went wrong"});
+                                 this.setState({
+                                    disabled: false,
+                                     errMessage: "something went wrong"
+                                    });
                             break;
                             }
                       })
                       .catch(err => {
-                          this.setState({errMessage: 'Error' + err});
+                          this.setState({
+                            disabled: false,
+                              errMessage: 'Error' + err
+                            });
                       })
 
 

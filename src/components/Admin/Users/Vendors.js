@@ -3,7 +3,7 @@ import UsersModal from './UsersModal';
 import Loader from '../../Loaders/Loader';
 import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react"
 
-class Users extends React.Component{
+class Vendors extends React.Component{
     constructor(){
         super();
         this.state={
@@ -30,9 +30,6 @@ class Users extends React.Component{
        
     }
 
-    
-        
-
 render(){
     const {user, open} = this.state;
     const { users, loading } = this.props;
@@ -44,12 +41,13 @@ render(){
             <Col>
                 <Card small className="mb-4 overflow-hidden">
                 <CardHeader className="bg-light">
-                    <h6 className="m-0 text-black">All Users</h6>
+                    <h6 className="m-0 text-black">All Vendors</h6>
                 </CardHeader>
                 <CardBody className="bg-light p-0 pb-3">
                 {loading ?
                 <Loader />
                 :
+                    users[0] ?
                     <table className="table table-light mb-0 table-responsive">
                     <thead className="thead-light">
                         <tr>
@@ -104,6 +102,8 @@ render(){
                         })}
                     </tbody>
                     </table>
+                    :
+                    <p className="f4 fw6 text-center">No users with this role available</p>
                 }
                 </CardBody>
                 </Card>
@@ -115,4 +115,4 @@ render(){
 }
 }
 
-export default Users;
+export default Vendors;

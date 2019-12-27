@@ -20,13 +20,14 @@ class NewReflection extends React.Component{
         super();
         this.state ={
             title: '',
-            description: '',
+            content: '',
             imageLink: '',
             audioLink: '',
             author: '',
             requestPending: false,
             errMessage: '',
-            type: ''
+            type: '',
+            date: ''
         }
     }
 
@@ -51,17 +52,21 @@ class NewReflection extends React.Component{
         this.setState({author: event.target.value});
     }
 
-    handleDescription = (event) => {
-        this.setState({description: event.target.value});
+    handleContent = (event) => {
+        this.setState({content: event.target.value});
     }
 
     handleImage = (event) => {
         this.setState({imageLink: event.target.value});
-        console.log(this.state.imageLink)
+        //console.log(this.state.imageLink)
     }
 
     handleTitle = (event) => {
         this.setState({title: event.target.value});
+    }
+
+    handleDate = (event) => {
+        this.setState({date: event.target.value});
     }
 
    /* checkMimeType=(event)=>{
@@ -96,10 +101,11 @@ class NewReflection extends React.Component{
             },
             body: JSON.stringify({
                 title: this.state.title,
-                content: this.state.description,
+                content: this.state.content,
                 image_link: this.state.imageLink,
                 audio_link: this.state.audioLink,
-                author: this.state.author
+                author: this.state.author,
+                date: this.state.date
             })
         })
         .then(response => response.json())
@@ -143,33 +149,43 @@ class NewReflection extends React.Component{
                      ""}
                 <Form className="quick-post-form">
                     <FormGroup>
+                    <label htmlFor="Title">Title</label>
                     <FormInput placeholder="Title" onChange={this.handleTitle}/>
                     </FormGroup>
 
                     <FormGroup>
-                    <FormTextarea placeholder="Description" onChange={this.handleDescription}/>
+                    <FormTextarea placeholder="Content" onChange={this.handleContent}/>
                     </FormGroup>
 
                     <Row>
                     <Col md="6">
                     <FormGroup>
                         <label htmlFor="coverImage">Cover Image</label>
-                        <FormInput id="coverImage" type="text" onChange={this.handleImage}/>
+                        <FormInput id="coverImage" placeholder="Image link" type="text" onChange={this.handleImage}/>
                         </FormGroup>
                     </Col>
                     {/* Last Name */}
                     <Col md="6">
                     <FormGroup>
                         <label htmlFor="audio">Audio File</label>
-                        <FormInput id="audio" type="text" onChange={this.handleAudio}/>
+                        <FormInput id="audio"placeholder="Audio link" type="text" onChange={this.handleAudio}/>
                     </FormGroup>
                     </Col>
                     </Row>
-
-                    <FormGroup>
-                    <FormInput placeholder="Author" onChange={this.handleAuthor}/>
-                    </FormGroup>
-
+                    <Row>
+                    <Col md="6">
+                        <FormGroup>
+                        <label htmlFor="Author">Author</label>
+                        <FormInput placeholder="Author" onChange={this.handleAuthor}/>
+                        </FormGroup>
+                    </Col>
+                    <Col md="6">
+                        <FormGroup>
+                            <label htmlFor="date">Date</label>
+                            <FormInput id="date" type="date" onChange={this.handleDate}/>
+                        </FormGroup>
+                    </Col>
+                    </Row>
                     <FormGroup className="mb-0">
                     <Button theme="accent" type="submit" onClick={this.handlePublish}>
                         Publish Reflection

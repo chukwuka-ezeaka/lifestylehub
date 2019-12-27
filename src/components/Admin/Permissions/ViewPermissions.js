@@ -29,6 +29,9 @@ class ViewPermissions extends React.Component{
             });
         })
         .catch(err => {
+            this.setState({
+                loading: false
+             });
             if (err.name === 'AbortError') return; // expected, this is the abort, so just return
             throw err;
         });

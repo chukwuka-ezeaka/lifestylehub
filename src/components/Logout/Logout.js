@@ -6,6 +6,10 @@ class Logout extends Component {
         logout: false
      }
 
+     componentDidMount(){
+         this.logout();
+     }
+
      logout = () => {
          localStorage.clear();
          this.setState({logout: true});
