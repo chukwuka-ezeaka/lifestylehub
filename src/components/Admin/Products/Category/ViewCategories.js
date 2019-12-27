@@ -1,30 +1,30 @@
 import React from 'react';
-import Loader from '../../Loaders/Loader';
+import Loader from '../../../Loaders/Loader';
 import {Card, CardHeader, CardBody, Button } from "shards-react"
 
-class ViewPermissions extends React.Component{
+class ViewCategories extends React.Component{
     constructor(){
         super();
         this.state={
-            permissions: [],
+            categories: [],
             isLoading: true
         }
     }
 
 
     componentDidMount = () => {
-        fetch('https://lshub.herokuapp.com/api/v1/account/permission/list',{
+        fetch('https://lshub.herokuapp.com/api/v1/content/category/list',{
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'bearer ' + localStorage.getItem('Auth')
-            },
-            signal: this.abortController.signal
+                Authorization: 'bearer ' + localStorage.getItem('Auth'),
+                signal: this.abortController.signal
+            }
         })
         .then(response => response.json())
         .then(object => {
             this.setState({
-                permissions: object.data,
+                categories: object.data,
                 isLoading: false
             });
         })
@@ -36,24 +36,25 @@ class ViewPermissions extends React.Component{
             throw err;
         });
     }
-        
+
     componentWillUnmount = () => this.abortController.abort();
 
     abortController = new window.AbortController(); 
+        
 
 render(){
-    const { permissions } = this.state;
+    const { categories } = this.state;
     let i = 1;
     return(
 
         
             <Card small className="mb-4 overflow-hidden">
                 <CardHeader className="bg-light">
-                    <h6 className="m-0 text-black">All permissions</h6>
+                    <h6 className="m-0 text-black">All Categories</h6>
                 </CardHeader>
                 <CardBody className="bg-light p-0 pb-3">
-                    {this.state.isLoading ?
-                    <Loader />
+                    {this.state.isLoading ? 
+                    <Loader/>
                 :
                     <table className="table table-light mb-0">
                     <thead className="thead-light">
@@ -62,7 +63,7 @@ render(){
                             #
                         </th>
                         <th scope="col" className="border-0">
-                            permission
+                            Role
                         </th>
                         <th scope="col" className="border-0">
                            Id
@@ -70,19 +71,23 @@ render(){
                         <th scope="col" className="border-0">
 
                         </th>
+                        <th scope="col" className="border-0">
+
+                        </th>
                         </tr>
                     </thead>
                     <tbody>
-                    {permissions.map((permission, index)  => {
+                    {categories.map((category, index)  => {
                             //let userId = `#${user.id}`;
                             //console.log(index);
                             return(
-                                <tr key={permission.id}>
+                                <tr key={category.id}>
                                     <td>{i++}</td>
-                                    <td>{permission.name}</td>
-                                    <td>{permission.id}</td>
+                                    <td>{category.name}</td>
+                                    <td>{category.id}</td>
+                                  
                                     <td>
-                                        <Button size="sm" theme="warning" className="mb-2 mr-1" id={permission.id}>
+                                        <Button size="sm" theme="warning" className="mb-2 mr-1" id={index}>
                                             Delete
                                         </Button>
                                     </td>
@@ -93,7 +98,7 @@ render(){
                         })}
                     </tbody>
                     </table>
-                }
+                    }
                 </CardBody>
             </Card>
             
@@ -101,4 +106,4 @@ render(){
 }
 }
 
-export default ViewPermissions;
+export default ViewCategories;

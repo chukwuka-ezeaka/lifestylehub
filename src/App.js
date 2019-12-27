@@ -22,6 +22,7 @@ import Logout from "./views/Logout";
 import Permissions from "./views/Permissions";
 import Confirmation from "./views/Confirmation";
 import Dashboard from "./views/Dashboard";
+import Products from "./views/Products";
 
 
 import 'tachyons';
@@ -134,6 +135,13 @@ currentUser = () => {
                 render={(props) =>
                   <DefaultLayout user={user}>
                   <Reflections user={user} Auth={Auth}/>
+                </DefaultLayout>}
+              />
+               <Route
+                path='/products/:id'
+                render={(props) =>
+                  <DefaultLayout user={user}>
+                  <Products user={user} Auth={Auth}/>
                 </DefaultLayout>}
               />
               <Route
