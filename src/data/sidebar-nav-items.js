@@ -70,7 +70,7 @@ export default function() {
         {
           title: "View reflections",
           htmlBefore: '<i class="material-icons">subscriptions</i>',
-          to: "/reflections",
+          to: "/reflections/view",
         },
         {
           title: "Add reflections",
@@ -90,42 +90,42 @@ export default function() {
         {
           title: "All products",
           htmlBefore: '<i class="material-icons">shopping_cart</i>',
-          to: "/allProducts",
+          to: "/products/allProducts",
         },
         {
           title: "Videos",
           htmlBefore: '<i class="material-icons">video_library</i>',
-          to: "/videos",
+          to: "/products/videos",
         },
         {
           title: "Audios",
           htmlBefore: '<i class="material-icons">audiotrack</i>',
-          to: "/audios",
+          to: "/products/audios",
         },
         {
           title: "Ebooks",
           htmlBefore: '<i class="material-icons">book</i>',
-          to: "ebooks",
+          to: "/products/ebooks",
         },
         {
           title: "Authors",
           htmlBefore: '<i class="material-icons">person</i>',
-          to: "/authors",
+          to: "/products/authors",
         },
         {
           title: "Add product",
           htmlBefore: '<i class="material-icons">add_box</i>',
-          to: "/addProduct",
+          to: "/products/addProduct",
         },
         {
-          title: "Add category",
+          title: "Category",
           htmlBefore: '<i class="material-icons">add_box</i>',
-          to: "/addCtegory",
+          to: "/products/Category",
         },
         {
           title: "Subscription settings",
           htmlBefore: '<i class="material-icons">video_library</i>',
-          to: "subscriptionSettings",
+          to: "/products/subscriptionSettings",
         }
       ]
     },

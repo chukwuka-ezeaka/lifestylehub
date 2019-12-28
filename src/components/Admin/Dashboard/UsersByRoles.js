@@ -81,7 +81,7 @@ UsersByRoles.propTypes = {
 };
 
 UsersByRoles.defaultProps = {
-  title: "Users by roles",
+  title: "Total Earnings",
   chartData: {
     datasets: [
       {
@@ -94,7 +94,7 @@ UsersByRoles.defaultProps = {
         ]
       }
     ],
-    labels: ["Admins", "Vendors", "Subscribers"]
+    labels: ["December", "January", "February"]
   }
 };
 

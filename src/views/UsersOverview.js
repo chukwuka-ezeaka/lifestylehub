@@ -7,6 +7,7 @@ import Users from '../components/Admin/Users/Users';
 import Vendors from '../components/Admin/Users/Vendors';
 import Admins from '../components/Admin/Users/Admins';
 import Subscribers from '../components/Admin/Users/Subscribers';
+import Coaches from '../components/Admin/Users/Coaches';
 
 const views = {
   showVendors: false,
@@ -45,6 +46,9 @@ showContent = (handle) => {
     case '/users/subscribers':
       this.setState({showViews: {showSubscribers: true}})
       break;
+    case '/users/coaches':
+        this.setState({showViews: {showCoaches: true}})
+        break;
     default:
       this.setState({showViews: {showUsers: true}})
       break;
@@ -111,6 +115,14 @@ abortController = new window.AbortController();
       return user.UserRole.roleId === 99;
     });
 
+    let coaches = users.filter(user => {
+      return user.UserRole.roleId === 100;
+    });
+    
+    let subscribers = users.filter(user => {
+      return user.UserRole.roleId === 87;
+    });
+
     
     return(
       <Container fluid className="main-content-container px-4 pb-4">
@@ -127,9 +139,12 @@ abortController = new window.AbortController();
                 <Vendors users={vendors} loading={loading}/>
                 :
                   showSubscribers ?
-                  <Subscribers users={vendors} loading={loading}/>
+                  <Subscribers users={subscribers} loading={loading}/>
                   :
-                  <Users users={users} loading={loading}/>
+                  showCoaches ?
+                  <Coaches users={coaches} loading={loading}/>
+                  :
+                    <Users users={users} loading={loading}/>
             }
             
           </Col>

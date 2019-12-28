@@ -4,11 +4,18 @@ import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from "shards-react";
 
 import PageTitle from "../components/common/PageTitle";
-import SmallStats from "../components/Admin/Dashboard/SmallStats";
+import Stats from "../components/Admin/Dashboard/Stats";
 import UsersByDevice from "../components/Admin/Dashboard/UsersByRoles";
 import Notifications from "../components/Admin/Dashboard/Notifications";
 
 class Dashboard extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={
+        users: [],
+        loading: true,
+    }
+}
 
   componentWillMount() {
     if(!localStorage.getItem('Auth')){
@@ -17,8 +24,42 @@ class Dashboard extends React.Component{
     
   }
 
+  componentDidMount(){
+    
+    fetch('https://lshub.herokuapp.com/api/v1/account/user/list/with_roles',{
+      method: 'get',
+      headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'bearer ' + localStorage.getItem('Auth'),
+      },
+      signal: this.abortController.signal
+    })
+    .then(response => response.json())
+    .then(object => {
+        this.setState({
+            users: object.data,
+            loading: false
+        })
+    })
+    .catch(err => {
+        this.setState({
+            loading: false
+        });
+        if (err.name === 'AbortError') return; // expected, this is the abort, so just return
+        throw err;
+    });
+   
+  }
+  
+  
+  componentWillUnmount = () => {
+    this.abortController.abort();
+  };
+  
+  abortController = new window.AbortController(); 
+
 render(){
-  const { smallStats } = this.props
+  const { users, loading } = this.state;
     return(
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
@@ -27,24 +68,8 @@ render(){
         </Row>
 
         {/* Small Stats Blocks */}
-        <Row>
-          {smallStats.map((stats, idx) => (
-            <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
-              <SmallStats
-                id={`small-stats-${idx}`}
-                variation="1"
-                chartData={stats.datasets}
-                chartLabels={stats.chartLabels}
-                label={stats.label}
-                value={stats.value}
-                percentage={stats.percentage}
-                increase={stats.increase}
-                decrease={stats.decrease}
-              />
-            </Col>
-          ))}
-        </Row>
-
+        <Stats users={users} loading={loading}/>
+      
         <Row>
           {/* Users Overview */}
           <Col lg="8" md="12" sm="12" className="mb-4">
