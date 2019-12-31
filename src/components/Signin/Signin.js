@@ -4,7 +4,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import LoaderSmall from '../Loaders/LoaderSmall';
 
-class Signin extends React.Component {
+class SignIn extends React.Component {
     constructor(){
         super();
         this.state={
@@ -133,4 +133,4 @@ class Signin extends React.Component {
     }
 }
 
-export default withRouter(Signin);
+export default withRouter(SignIn);
