@@ -33,13 +33,14 @@ export default class UserActions extends React.Component {
   }
 
   render() {
+    console.log(this.state.users);
     const { user, visible } = this.state;
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
         <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
           <img
             className="user-avatar rounded-circle mr-2 pointer"
-            src={require("./../../../../images/avatars/0.jpg")}
+            src={require("./../../../../images/avatars/0.png")}
             alt="User Avatar"
           />{" "}
           <span className="d-none d-md-inline-block pointer">{user ? user.fullname : ''}</span>

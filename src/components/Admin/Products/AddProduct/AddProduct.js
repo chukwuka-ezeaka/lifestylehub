@@ -1,33 +1,33 @@
 import React, { Component } from 'react';
-
-import { Container, Row, Col} from "shards-react";
-import LoaderSmall from '../../../Loaders/LoaderSmall';
-import ViewCategories from './ViewCategories';
+import Content from './Content';
+import LoaderSmall from '../../../Loaders/Loader';
 import { toast } from 'react-toastify';
 import {
     Card,
     CardHeader,
-    ListGroup,
+    CardBody,
+    FormRadio,
     FormInput,
-    Button,
-    InputGroup,
-    InputGroupAddon
+  InputGroup,
+  InputGroupAddon,
+  Button,
+  Row,
+  Col
   } from "shards-react";
 
+class AddProduct extends Component {
+    constructor(){
+        super();
+        this.state={
+            categories: [],
+            isLoading: true,
+            category: '',
+            newCategory: '',
+            requestPending: false
+        }
+    }
 
-class Category extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { 
-           category: '',
-           errMessage: '',
-           requestPending: false,
-           categories: [],
-           isLoading: true
-         };
-      }
-
-      notify = (message) => {
+    notify = (message) => {
         switch(this.state.type){
           case "success":
                   toast.success(message);
@@ -40,66 +40,69 @@ class Category extends Component {
         }
       }
 
+
+    handleCategory = (event) => {
+        let selectedCategory = event.target.value;
+        this.setState({ category: selectedCategory });
+    }
+
    
 
-      handleCategory = (event) => {
-        const val = event.target.value;
-        const data = (val.trim()).replace(' ', '_');
-        this.setState({category: data})
-      }
-
-    componentDidMount(){
-        this.getCategories();
-    }   
+    componentDidMount = () => {
+       this.getCategories()
+    }
 
     componentWillUnmount = () => this.abortController.abort();
 
     abortController = new window.AbortController(); 
 
-
-
     render() { 
-        return ( 
-            <Container fluid className="main-content-container px-4 pb-4">
-         
-        
+        const { categories, isLoading, category } = this.state;
+        return (
             <Row>
-              {/* Editor */}
-              <Col lg="6" md="12">
-                <ViewCategories categories={this.state.categories} isLoading={this.state.isLoading}/>
-              </Col>
-        
-              {/* Sidebar Widgets */}
-              <Col lg="6" md="12">
-                <Card small className="mb-4">
+            <Col lg="8">
+              <Content category={category}/>
+            </Col>
+            <Col lg="4">
+                <Card small className="mb-3">
                     <CardHeader className="border-bottom">
-                    <h6 className="m-0">Create Category</h6>
+                    <h6 className="m-0">Category</h6>
                     </CardHeader>
-                    {this.state.requestPending === true ?
-                        <LoaderSmall/>
+                    <CardBody className="p-3">
+                    <fieldset>
+                    {!isLoading ?
+                    categories ? categories.map((category, index)  => {
+                            return(
+                                <FormRadio name="category" onClick={this.handleCategory} key={category.id} value={category.id}>
+                                    {category.name}
+                                </FormRadio>
+                            )
+                        })
+                        : ""
                     :
-                        ""}
-                    <ListGroup flush className="p-4">
-                        <label htmlFor="role">Category Name</label>
-                        <InputGroup seamless className="mb-3">
-                            <FormInput  onChange={this.handleCategory} placeholder="category name" />
-                            <InputGroupAddon type="append">
-                                <Button onClick={this.onSubmitRequest} theme="success">Add</Button>
-                            </InputGroupAddon>
-                        </InputGroup>
-                    </ListGroup>
-            </Card>
-              </Col>
-            </Row>
-          </Container>
-           
-         );
+                    <LoaderSmall />
+                    }
+                    
+                    </fieldset>
+                    {this.state.requestPending ? <LoaderSmall /> : ""}
+                    <InputGroup className="ml-auto">
+                    <FormInput id="newCategory" placeholder="New category" />
+                    <InputGroupAddon type="append">
+                        <Button theme="white" className="px-2 bg-success" onClick={this.onSubmitRequest}>
+                        <i className="material-icons white">add</i>
+                        </Button>
+                    </InputGroupAddon>
+                    </InputGroup>
+                        
+                    </CardBody>
+                </Card>
+         
+            </Col>
+          </Row> 
+            );
     }
 
     getCategories = () => {
-        this.setState({
-            isLoading: true
-        });
         fetch('https://lshub.herokuapp.com/api/v1/content/category/list',{
             method: 'get',
             headers: {
@@ -120,12 +123,13 @@ class Category extends Component {
                 loading: false
              });
             if (err.name === 'AbortError') return; // expected, this is the abort, so just return
-            console.log(err);
+            throw err;
         });
-      }
+    }
 
-      onSubmitRequest = () => {
+    onSubmitRequest = () => {
         this.setState({requestPending: true});
+        let newCategory = document.getElementById('newCategory').value;
       fetch('https://lshub.herokuapp.com/api/v1/content/category/create',{
           method: 'post',
           headers: {
@@ -133,7 +137,7 @@ class Category extends Component {
               Authorization: 'bearer ' + localStorage.getItem('Auth')
           },
           body: JSON.stringify({
-              name: this.state.category
+              name: newCategory
           })
       })
       .then(response => response.json())
@@ -156,9 +160,10 @@ class Category extends Component {
           }
       ;})
       .catch(err => {
+        this.setState({requestPending: false});
           this.setState({errMessage: 'Error' + err});
       })
     }
 }
  
-export default Category;
+export default AddProduct;

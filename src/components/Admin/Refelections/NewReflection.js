@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import LoaderSmall from '../../Loaders/LoaderSmall';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 import {
   Card,
   CardHeader,
@@ -27,7 +28,8 @@ class NewReflection extends React.Component{
             requestPending: false,
             errMessage: '',
             type: '',
-            date: ''
+            date: '',
+            tags: ''
         }
     }
 
@@ -43,11 +45,7 @@ class NewReflection extends React.Component{
               break;
         }
       }
-
-    handleAudio = (event) => {
-        this.setState({audioLink: event.target.value});
-    }
-
+      
     handleAuthor = (event) => {
         this.setState({author: event.target.value});
     }
@@ -56,9 +54,8 @@ class NewReflection extends React.Component{
         this.setState({content: event.target.value});
     }
 
-    handleImage = (event) => {
-        this.setState({imageLink: event.target.value});
-        //console.log(this.state.imageLink)
+    handleTags = (event) => {
+        this.setState({tags: event.target.value});
     }
 
     handleTitle = (event) => {
@@ -90,47 +87,88 @@ class NewReflection extends React.Component{
       
       }*/
 
-    handlePublish = (event) => {
+      handlePublish = (event) => {
         event.preventDefault();
         this.setState({requestPending: true});
-        fetch('https://lshub.herokuapp.com/api/v1/reflection/create',{
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'bearer ' + localStorage.getItem('Auth')
-            },
-            body: JSON.stringify({
-                title: this.state.title,
-                content: this.state.content,
-                image_link: this.state.imageLink,
-                audio_link: this.state.audioLink,
-                author: this.state.author,
-                date: this.state.date
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            this.setState({requestPending: false});
-            switch(data.status){
-                case "success":
-                    this.setState({type: "success"});
-                    this.notify(data.message); 
-                break;
-                case "fail":
-                    this.setState({type: "warn"});
-                    this.notify(data.message); 
-                break;
-                default:
-                        this.setState({type: "warn"});
-                    this.notify(data.message);
-                break;
-            }
-        ;})
-            .catch(err => {
-                this.setState({errMessage: 'Error' + err});
-            })
-    }
 
+        const headers = { headers: {
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization : `Bearer ${localStorage.getItem('Auth')}
+            `} 
+        }
+
+        const audio = document.getElementById('audio');
+        const image = document.getElementById('coverImage');
+        
+         const audioData = new FormData();
+       audioData.append('title', this.state.title)
+       audioData.append('description', this.state.content)
+       audioData.append('tags', this.state.tags)
+       audioData.append('admin', 1)
+       audioData.append('audio', audio.files[0])
+
+        const imageData =  new FormData();
+        imageData.append('title', this.state.title)
+        imageData.append('description', this.state.content)
+        imageData.append('tags', this.state.tags)
+        imageData.append('admin', 1)
+        imageData.append('image', image.files[0])
+
+        
+        
+        axios.all([
+            axios.post('https://lshub.herokuapp.com/api/v1/media/manager/audio/single/create', audioData, headers),
+            axios.post('https://lshub.herokuapp.com/api/v1/media/manager/image/single/create', imageData, headers)
+          ])
+          .then(axios.spread((response1, response2)=> {
+              let  audioRes = response1.data.data;
+              let  imageRes = response2.data.data;
+              console.log(audioRes)
+              console.log(imageRes)
+              if(audioRes.status === 1 && imageRes.status === 1){
+                  const payload = {
+                      "title": this.state.title,
+                      "content": this.state.content,
+                      "author": this.state.author,
+                      "date": this.state.date,
+                      "image_link": imageRes.url,
+                      "audio_link":  audioRes.url,
+
+                  }
+
+                axios.post('https://lshub.herokuapp.com/api/v1/reflection/create', payload, headers)
+                .then(object => {
+                        this.setState({ requestPending: false });
+                        switch(object.data.status){
+                        case "success":
+                            this.setState({type: "success"});
+                            this.notify(object.data.message); 
+                        break;
+                        case "fail":
+                            this.setState({type: "warn"});
+                            this.notify(object.data.message); 
+                        break;
+                        default:
+                                this.setState({type: "warn"});
+                            this.notify(object.data.message);
+                        break;
+                    }
+                        console.log(object);
+                    }, (error) => {
+                        this.setState({ requestPending: false });
+                        this.setState({type: "warn"});
+                        this.notify("Something went wrong please try again..."); 
+                        console.log(error);
+                    });
+              }
+          }),
+          (error) => {
+            this.setState({ requestPending: false });
+            this.setState({type: "warn"});
+            this.notify("Something went wrong please try again..."); 
+            console.log(error);
+        });
+    }
     
 
     render(){
@@ -143,32 +181,33 @@ class NewReflection extends React.Component{
                 </CardHeader>
 
                 <CardBody className="d-flex flex-column">
-                {this.state.requestPending === true ?
-                    <LoaderSmall/>
-                 :
-                     ""}
-                <Form className="quick-post-form">
+                
+                <Form className="quick-post-form" onSubmit={this.handlePublish}>
                     <FormGroup>
-                    <label htmlFor="Title">Title</label>
-                    <FormInput placeholder="Title" onChange={this.handleTitle}/>
+                        <label htmlFor="Title">Title</label>
+                        <FormInput placeholder="Title" onChange={this.handleTitle} required/>
                     </FormGroup>
 
                     <FormGroup>
-                    <FormTextarea placeholder="Content" onChange={this.handleContent}/>
+                        <FormTextarea placeholder="Content" onChange={this.handleContent} required/>
+                    </FormGroup>
+
+                    <FormGroup>
+                        <label htmlFor="Tags">Tags</label>
+                        <FormInput placeholder="Tags" onChange={this.handleTags} />
                     </FormGroup>
 
                     <Row>
                     <Col md="6">
                     <FormGroup>
                         <label htmlFor="coverImage">Cover Image</label>
-                        <FormInput id="coverImage" placeholder="Image link" type="text" onChange={this.handleImage}/>
+                        <FormInput id="coverImage" placeholder="Image link" type="file" required/>
                         </FormGroup>
                     </Col>
-                    {/* Last Name */}
                     <Col md="6">
                     <FormGroup>
                         <label htmlFor="audio">Audio File</label>
-                        <FormInput id="audio"placeholder="Audio link" type="text" onChange={this.handleAudio}/>
+                        <FormInput id="audio"placeholder="Audio link" type="file" required/>
                     </FormGroup>
                     </Col>
                     </Row>
@@ -176,19 +215,19 @@ class NewReflection extends React.Component{
                     <Col md="6">
                         <FormGroup>
                         <label htmlFor="Author">Author</label>
-                        <FormInput placeholder="Author" onChange={this.handleAuthor}/>
+                        <FormInput placeholder="Author" onChange={this.handleAuthor} required/>
                         </FormGroup>
                     </Col>
                     <Col md="6">
                         <FormGroup>
                             <label htmlFor="date">Date</label>
-                            <FormInput id="date" type="date" onChange={this.handleDate}/>
+                            <FormInput id="date" type="date" onChange={this.handleDate} required/>
                         </FormGroup>
                     </Col>
                     </Row>
                     <FormGroup className="mb-0">
-                    <Button theme="accent" type="submit" onClick={this.handlePublish}>
-                        Publish Reflection
+                    <Button theme="accent" type="submit" disabled={this.state.requestPending}>
+                    {this.state.requestPending  ? <LoaderSmall/>: 'Publish Reflection'}
                     </Button>
                     </FormGroup>
                 </Form>

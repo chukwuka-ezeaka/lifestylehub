@@ -27,9 +27,9 @@ class Register extends React.Component {
                     firstName: '',
                     lastName: '',
                     email: '',
-                    role: "75",
+                    role: "99",
                     phone: '',
-                    file: null,
+                    photo: null,
                     password: '',
                     confirmPassword: ''
                 }}
@@ -42,10 +42,9 @@ class Register extends React.Component {
                         .email('Email is invalid')
                         .required('Email is required'),
                     phone: Yup.string()
-                        .required('Mobile number is required')
                         .length(11, 'Please enter a valid Mobile number')
                         .matches(phoneRegExp, 'Invalid format. Please enter a valid Mobile number'),
-                    file: Yup.mixed().required(),
+                    photo: Yup.mixed(),
                     password: Yup.string()
                         .min(6, 'Password must be at least 6 characters')
                         .required('Password is required'),
@@ -54,10 +53,10 @@ class Register extends React.Component {
                         .required('Confirm Password is required')
                 })}
 
-                onSubmit={({ firstName, lastName, email, phone, file, password }) => {
-                    console.log(file.name);
-                    console.log(file.type);
-                    console.log(`${file.size} bytes`);
+                onSubmit={({ firstName, lastName, email, phone, photo, password }) => {
+                    // console.log(photo.name);
+                    // console.log(photo.type);
+                    // console.log(`${photo.size} bytes`);
                     this.setState({
                         disabled: true
                     });
@@ -68,9 +67,7 @@ class Register extends React.Component {
                             firstname: firstName,
                             lastname: lastName,
                             email: email,
-                            role: '75',
-                            phone: phone,
-                            file: file,
+                            role: '99',
                             password: password
 
                         }),
@@ -118,7 +115,7 @@ class Register extends React.Component {
                                         ""}
                                     <p className="p-0" style={{ color: 'brown' }}>{this.state.errMessage}</p>
                                     <div className="mt3">
-                                        <label className="db fw6 lh-copy f6" htmlFor="firstName">First Name</label>
+                                        <label className="db fw6 lh-copy f6" htmlFor="firstName">First Name *</label>
                                         <Field
                                             type="text"
                                             name="firstName"
@@ -128,7 +125,7 @@ class Register extends React.Component {
                                         <ErrorMessage name="firstName" component="div" className="invalid-feedback" />
                                     </div>
                                     <div className="mt3">
-                                        <label className="db fw6 lh-copy f6" htmlFor="lastName">last Name</label>
+                                        <label className="db fw6 lh-copy f6" htmlFor="lastName">last Name *</label>
                                         <Field
                                             type="text"
                                             name="lastName"
@@ -138,7 +135,7 @@ class Register extends React.Component {
                                         <ErrorMessage name="lastName" component="div" className="invalid-feedback" />
                                     </div>
                                     <div className="mt3">
-                                        <label className="db fw6 lh-copy f6" htmlFor="email">Email</label>
+                                        <label className="db fw6 lh-copy f6" htmlFor="email">Email *</label>
                                         <Field
                                             type="email"
                                             name="email"
@@ -158,18 +155,18 @@ class Register extends React.Component {
                                         <ErrorMessage name="phone" component="div" className="invalid-feedback" />
                                     </div>
                                     <div className="mt3">
-                                        <label className="db fw6 lh-copy f6" htmlFor="file">Upload Image</label>
+                                        <label className="db fw6 lh-copy f6" htmlFor="photo">Upload Image</label>
                                         <input
                                             type="file"
-                                            name="file"
-                                            id="file"
-                                            onChange={(event) => { setFieldValue("file", event.currentTarget.files[0]); }}
-                                            className={"form-control b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" + (errors.file && touched.file ? ' is-invalid' : '')}
+                                            name="photo"
+                                            id="photo"
+                                            onChange={(event) => { setFieldValue("photo", event.currentTarget.files[0]); }}
+                                            className={"form-control b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" + (errors.photo && touched.photo ? ' is-invalid' : '')}
                                         />
                                         <ErrorMessage name="file" component="div" className="invalid-feedback" />
                                     </div>
                                     <div className="mv3">
-                                        <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+                                        <label className="db fw6 lh-copy f6" htmlFor="password">Password *</label>
                                         <Field
                                             type="password"
                                             name="password"
@@ -179,7 +176,7 @@ class Register extends React.Component {
                                         <ErrorMessage name="password" component="div" className="invalid-feedback" />
                                     </div>
                                     <div className="mv3">
-                                        <label className="db fw6 lh-copy f6" htmlFor="confirmPassword">Confirm Password</label>
+                                        <label className="db fw6 lh-copy f6" htmlFor="confirmPassword">Confirm Password *</label>
                                         <Field
                                             type="password"
                                             name="confirmPassword"

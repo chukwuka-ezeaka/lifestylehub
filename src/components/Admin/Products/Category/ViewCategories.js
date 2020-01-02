@@ -3,47 +3,9 @@ import Loader from '../../../Loaders/Loader';
 import {Card, CardHeader, CardBody, Button } from "shards-react"
 
 class ViewCategories extends React.Component{
-    constructor(){
-        super();
-        this.state={
-            categories: [],
-            isLoading: true
-        }
-    }
-
-
-    componentDidMount = () => {
-        fetch('https://lshub.herokuapp.com/api/v1/content/category/list',{
-            method: 'get',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'bearer ' + localStorage.getItem('Auth'),
-                signal: this.abortController.signal
-            }
-        })
-        .then(response => response.json())
-        .then(object => {
-            this.setState({
-                categories: object.data,
-                isLoading: false
-            });
-        })
-        .catch(err => {
-            this.setState({
-                loading: false
-             });
-            if (err.name === 'AbortError') return; // expected, this is the abort, so just return
-            throw err;
-        });
-    }
-
-    componentWillUnmount = () => this.abortController.abort();
-
-    abortController = new window.AbortController(); 
-        
 
 render(){
-    const { categories } = this.state;
+    const { categories, isLoading } = this.props;
     let i = 1;
     return(
 
@@ -53,7 +15,7 @@ render(){
                     <h6 className="m-0 text-black">All Categories</h6>
                 </CardHeader>
                 <CardBody className="bg-light p-0 pb-3">
-                    {this.state.isLoading ? 
+                    {isLoading ? 
                     <Loader/>
                 :
                     <table className="table table-light mb-0">
@@ -77,7 +39,7 @@ render(){
                         </tr>
                     </thead>
                     <tbody>
-                    {categories.map((category, index)  => {
+                    {categories? categories.map((category, index)  => {
                             //let userId = `#${user.id}`;
                             //console.log(index);
                             return(
@@ -95,7 +57,10 @@ render(){
                                 </tr> 
                                 
                             )
-                        })}
+                        })
+                    :
+                    ""
+                    }
                     </tbody>
                     </table>
                     }

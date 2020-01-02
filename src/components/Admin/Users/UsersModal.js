@@ -1,4 +1,7 @@
 import React from "react";
+
+import LoaderSmall from '../../Loaders/LoaderSmall';
+import { toast } from 'react-toastify';
 import {
   Modal,
   ModalBody, 
@@ -24,9 +27,68 @@ class UsersModal extends React.Component{
   constructor(){
     super();
     this.state = {
-      roles: []
+      roles: [],
+      loading: false
     }
   }
+
+  notify = (message) => {
+    switch(this.state.type){
+      case "success":
+              toast.success(message);
+          break;
+      case "warn":
+          toast.warn("Error: " + message);
+          break;
+      default:
+          break;
+    }
+}
+
+  handleRole = (event) => {
+    this.setState({
+      loading: true
+   });
+    const userId = event.target.id;
+    const roleId = event.target.value;
+    //console.log(userId, value)
+    fetch('https://lshub.herokuapp.com/api/v1/account/user/role/assign',{
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'bearer ' + localStorage.getItem('Auth'),
+    },
+      body: JSON.stringify({
+        user_id: userId,
+        role_id: roleId
+    })
+  })
+  .then(response => response.json())
+        .then(data => {
+            this.setState({loading: false});
+            switch(data.status){
+                case "success":
+                    this.setState({type: "success"});
+                    this.notify(data.message); 
+                break;
+                case "fail":
+                    this.setState({type: "warn"});
+                    this.notify(data.message); 
+                break;
+                default:
+                        this.setState({type: "warn"});
+                    this.notify(data.message);
+                break;
+            }
+        ;})
+        .catch(err => {
+            this.setState({
+                loading: false
+             });
+            this.setState({errMessage: 'Error' + err});
+        })
+  }
+
 
   componentDidMount = () => {
     fetch('https://lshub.herokuapp.com/api/v1/account/role/list',{
@@ -39,7 +101,7 @@ class UsersModal extends React.Component{
     })
     .then(response => response.json())
     .then(object => this.setState({roles: object.data}))
-    .catch(err => console.log(err))
+    .catch(err => (err))
 }
 
 componentWillUnmount = () => {
@@ -50,7 +112,7 @@ abortController = new window.AbortController();
 
 render(){
   const {toggle, open, user} = this.props;
-  const { roles } = this.state;
+  const { roles, loading } = this.state;
   
       return (
         <div>
@@ -58,15 +120,16 @@ render(){
             <ModalHeader toggle={toggle}>
               {open ? user.fullname : ''}
                   <div>
+                    {loading ? <LoaderSmall /> : ''}
                     <InputGroup className="mb-3">
                       <InputGroupAddon type="prepend">
                         <InputGroupText className="bg-green text-white">Role</InputGroupText>
                       </InputGroupAddon>
-                      <FormSelect>
-                      <option value={open ? user.UserRole.Role.name : ''}>{open ? user.UserRole.Role.name : ''}</option>
+                      <FormSelect id={open? user.id : ""} onChange={this.handleRole}>
+                      <option value={open ? user.UserRole.Role.id : ''}>{open ? user.UserRole.Role.name : ''}</option>
                         {roles ? roles.map((role)  => {
                           return(
-                            <option key={role.id} value={role.name}>{role.name}</option>
+                            <option key={role.id} value={role.id}>{role.name}</option>
                           )
                         })
                       : ''}

@@ -4,7 +4,6 @@ import {
     Row,
     Col,
     Card,
-    CardHeader,
     CardBody
 } from 'shards-react';
 
@@ -49,8 +48,8 @@ class Stats extends Component {
           });
 
         return ( 
-            <Row className="mb-4">
-                <Col lg="3" md="3" sm="12">
+            <Row >
+                <Col lg="3" md="6" sm="6" className="mb-4">
                     <Card>
                         <CardBody className="text-center text white link dim pointer f4 fw6 bg-success" id="users" onClick={this.changeRoute}>
                             <h5 className="text white">Users</h5>
@@ -58,7 +57,7 @@ class Stats extends Component {
                         </CardBody>
                     </Card>
                 </Col>
-                <Col lg="3" md="3" sm="12">
+                <Col lg="3" md="6" sm="6" className="mb-4">
                     <Card>
                         <CardBody className="text-center text white f4 fw6 bg-warning link dim pointer" id="coaches" onClick={this.changeRoute}>
                             <h5 className="text white">Coaches</h5>
@@ -66,7 +65,7 @@ class Stats extends Component {
                         </CardBody>
                     </Card>
                 </Col>
-                <Col lg="3" md="3" sm="12">
+                <Col lg="3" md="6" sm="6" className="mb-4">
                     <Card>
                         <CardBody className="text-center text white f4 fw6 bg-dark link bg-animate dim pointer" id="vendors" onClick={this.changeRoute}>
                             <h5 className="text white">Vendors</h5>
@@ -74,7 +73,7 @@ class Stats extends Component {
                         </CardBody>
                     </Card>
                 </Col>
-                <Col lg="3" md="3" sm="12">
+                <Col lg="3" md="6" sm="6" className="mb-4">
                     <Card>
                         <CardBody className="text-center text white f4 fw6 bg-info link dim pointer" id="subscribers" onClick={this.changeRoute}>
                             <h5 className="text white">Subscribers</h5>

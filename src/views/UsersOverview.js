@@ -1,6 +1,8 @@
 import React from "react";
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from "shards-react";
+import HttpService from '../utils/API';
+import axios from 'axios';
 
 import PageTitle from "../components/common/PageTitle";
 import Users from '../components/Admin/Users/Users';
@@ -9,11 +11,15 @@ import Admins from '../components/Admin/Users/Admins';
 import Subscribers from '../components/Admin/Users/Subscribers';
 import Coaches from '../components/Admin/Users/Coaches';
 
+// const _httpService = new HttpService();
+
+// const url = "account/user/list/with_roles"
+
 const views = {
   showVendors: false,
   showAdmin: false,
   showCoaches: false,
-  showUsers: false,
+  //showUsers: false,
   showSubscribers: false,
 }
 
@@ -26,6 +32,7 @@ class UsersOverview extends React.Component {
             showViews: views,
             path: ''
         }
+      
     }
   
   componentWillMount() {
@@ -62,30 +69,24 @@ componentDidMount(){
 
   const handle = this.props.location.pathname;
   this.showContent(handle);
-  
-  fetch('https://lshub.herokuapp.com/api/v1/account/user/list/with_roles',{
-    method: 'get',
-    headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'bearer ' + localStorage.getItem('Auth'),
-    },
-    signal: this.abortController.signal
+
+//this.setState({users: _httpService.sendGet(url)});
+ 
+  axios.get('https://lshub.herokuapp.com/api/v1/account/user/list/with_roles',
+  { headers: {
+    'Content-Type': 'application/json',
+    Authorization : `Bearer ${localStorage.getItem('Auth')}`} 
   })
-  .then(response => response.json())
   .then(object => {
-      this.setState({
-          users: object.data,
-          roles: object.roles,
-          loading: false
-      })
-  })
-  .catch(err => {
-      this.setState({
-          loading: false
-      });
-      if (err.name === 'AbortError') return; // expected, this is the abort, so just return
-      throw err;
-  });
+    this.setState({
+        users: object.data.data,
+        roles: object.data.roles,
+        loading: false
+    })
+  }, (error) => {
+    this.setState({ loading: false });
+    this.props.history.push('/signin');
+});
  
 }
 
@@ -105,7 +106,7 @@ abortController = new window.AbortController();
 
   render(){
     const {users, loading } = this.state;
-    const {showAdmin, showVendors, showUsers, showCoaches, showSubscribers} = this.state.showViews;
+    const {showAdmin, showVendors, showCoaches, showSubscribers} = this.state.showViews;
 
     let admins = users.filter(user => {
       return user.UserRole.roleId === 75;

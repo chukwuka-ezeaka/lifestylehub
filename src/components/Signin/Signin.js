@@ -4,7 +4,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import LoaderSmall from '../Loaders/LoaderSmall';
 
-class SignIn extends React.Component {
+class Signin extends React.Component {
     constructor(){
         super();
         this.state={
@@ -50,16 +50,20 @@ class SignIn extends React.Component {
                         switch(user.status){
                             case "success":
                                 if(user.data.id){
-                                    switch(user.data.role.name){
-                                        case 'subscriber':
-                                                this.setState({errMessage: 'Please login on the mobile app'});
-                                        break;
-                                        default:
-                                            const userData = JSON.stringify(user.data);
+                                    let userData = JSON.stringify(user.data);
+                                    switch(user.data.role.id){
+                                        case 75:
                                             localStorage.setItem('user', userData);
                                             localStorage.setItem('Auth', user.token);
-                                            console.log(localStorage.getItem('Auth'));
                                             this.props.history.push('/dashboard');
+                                        break;
+                                        case 99:
+                                            localStorage.setItem('user', userData);
+                                            localStorage.setItem('Auth', user.token);
+                                            this.props.history.push('/products/allProducts');
+                                        break;
+                                        default:
+                                            this.setState({errMessage: 'Please login on the mobile app'});
                                         break;
                                     }
                                 
@@ -82,8 +86,8 @@ class SignIn extends React.Component {
                       .catch(err => {
                           this.setState({
                             disabled: false,
-                              errMessage: 'Error' + err
-                            });
+                              errMessage: 'Please check your network connection and try again'
+                            })
                       })
 
 
@@ -133,4 +137,4 @@ class SignIn extends React.Component {
     }
 }
 
-export default withRouter(SignIn);
+export default withRouter(Signin);
