@@ -6,6 +6,9 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react"
+import HttpService from '../../../utils/API';
+
+const _http = new HttpService();
 
 class AllReflections extends React.Component{
     constructor(props){
@@ -17,7 +20,8 @@ class AllReflections extends React.Component{
             requestPending: false,
             length: 0,
             reflections: [],
-            loading: true
+            loading: true,
+            errorMessage: ''
         }
 }   
 
@@ -140,23 +144,18 @@ render(){
 }
 
 getImage = (image)=>{
-    
-    const headers = { headers: {
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization : `Bearer ${localStorage.getItem('Auth')}
-        `} 
-    }
-    axios.get(`https://lshub.herokuapp.com/api/v1/media/manager/image/single/find/${image}`, headers)
-    .then((res)=>{
+    const url = `media/manager/image/single/find/${image}`;
+    _http.sendGet(url)
+    .then(res => {
         if('image' in res.data.data && 'type' in res.data.data){
         const {image, type} = res.data.data;
         this.setState({
             image:image,
             image_type:type
         })
-    }else{
-        console.log('Invalid media received')
-    }
+        }else{
+            console.log('Invalid media received')
+        }
     })
   }
 
@@ -211,28 +210,14 @@ getImage = (image)=>{
   }
 
   getReflections = () => {
-    fetch('https://lshub.herokuapp.com/api/v1/reflection/list',{
-      method: 'get',
-      headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'bearer ' + localStorage.getItem('Auth'),
-      },
-     // signal: this.abortController.signal
+    const url = "reflection/list";
+    _http.sendGet(url)
+    .then(response => {
+        response.data ?
+        this.setState({ errorMessage: '', reflections: response.data, loading: false })
+        :
+        this.setState({ errorMessage: response.message, loading: false })
     })
-    .then(response => response.json())
-    .then(object => {
-        this.setState({
-            reflections: object.data,
-            loading: false
-        })
-    })
-    .catch(err => {
-        this.setState({
-            loading: false
-        });
-        if (err.name === 'AbortError') return; // expected, this is the abort, so just return
-        throw err;
-    });
   } 
 
   viewReflections = (event) => {

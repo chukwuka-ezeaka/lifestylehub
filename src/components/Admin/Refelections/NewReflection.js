@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import LoaderSmall from '../../Loaders/LoaderSmall';
-import { toast } from 'react-toastify';
 import axios from 'axios';
 import {
   Card,
@@ -15,6 +14,9 @@ import {
   Col,
   Row
 } from "shards-react";
+import HttpService from "../../../utils/API";
+
+const _http = new HttpService();
 
 class NewReflection extends React.Component{
     constructor(){
@@ -32,19 +34,6 @@ class NewReflection extends React.Component{
             tags: ''
         }
     }
-
-    notify = (message) => {
-        switch(this.state.type){
-          case "success":
-                  toast.success(message);
-              break;
-          case "warn":
-              toast.warn("Error: " + message);
-              break;
-          default:
-              break;
-        }
-      }
       
     handleAuthor = (event) => {
         this.setState({author: event.target.value});
@@ -86,90 +75,6 @@ class NewReflection extends React.Component{
        return true;
       
       }*/
-
-      handlePublish = (event) => {
-        event.preventDefault();
-        this.setState({requestPending: true});
-
-        const headers = { headers: {
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-            Authorization : `Bearer ${localStorage.getItem('Auth')}
-            `} 
-        }
-
-        const audio = document.getElementById('audio');
-        const image = document.getElementById('coverImage');
-        
-         const audioData = new FormData();
-       audioData.append('title', this.state.title)
-       audioData.append('description', this.state.content)
-       audioData.append('tags', this.state.tags)
-       audioData.append('admin', 1)
-       audioData.append('audio', audio.files[0])
-
-        const imageData =  new FormData();
-        imageData.append('title', this.state.title)
-        imageData.append('description', this.state.content)
-        imageData.append('tags', this.state.tags)
-        imageData.append('admin', 1)
-        imageData.append('image', image.files[0])
-
-        
-        
-        axios.all([
-            axios.post('https://lshub.herokuapp.com/api/v1/media/manager/audio/single/create', audioData, headers),
-            axios.post('https://lshub.herokuapp.com/api/v1/media/manager/image/single/create', imageData, headers)
-          ])
-          .then(axios.spread((response1, response2)=> {
-              let  audioRes = response1.data.data;
-              let  imageRes = response2.data.data;
-              console.log(audioRes)
-              console.log(imageRes)
-              if(audioRes.status === 1 && imageRes.status === 1){
-                  const payload = {
-                      "title": this.state.title,
-                      "content": this.state.content,
-                      "author": this.state.author,
-                      "date": this.state.date,
-                      "image_link": imageRes.url,
-                      "audio_link":  audioRes.url,
-
-                  }
-
-                axios.post('https://lshub.herokuapp.com/api/v1/reflection/create', payload, headers)
-                .then(object => {
-                        this.setState({ requestPending: false });
-                        switch(object.data.status){
-                        case "success":
-                            this.setState({type: "success"});
-                            this.notify(object.data.message); 
-                        break;
-                        case "fail":
-                            this.setState({type: "warn"});
-                            this.notify(object.data.message); 
-                        break;
-                        default:
-                                this.setState({type: "warn"});
-                            this.notify(object.data.message);
-                        break;
-                    }
-                        console.log(object);
-                    }, (error) => {
-                        this.setState({ requestPending: false });
-                        this.setState({type: "warn"});
-                        this.notify("Something went wrong please try again..."); 
-                        console.log(error);
-                    });
-              }
-          }),
-          (error) => {
-            this.setState({ requestPending: false });
-            this.setState({type: "warn"});
-            this.notify("Something went wrong please try again..."); 
-            console.log(error);
-        });
-    }
-    
 
     render(){
         const { title } = this.props;
@@ -233,6 +138,74 @@ class NewReflection extends React.Component{
                 </Form>
                 </CardBody>
             </Card>
+            );
+        }
+
+    handlePublish = (event) => {
+        event.preventDefault();
+        this.setState({requestPending: true});
+
+        const audioUrl = 'media/manager/audio/single/create';
+        const imageUrl = 'media/manager/image/single/create';
+
+        const audio = document.getElementById('audio');
+        const image = document.getElementById('coverImage');
+        
+        const audioData = new FormData();
+        audioData.append('title', this.state.title)
+        audioData.append('description', this.state.content)
+        audioData.append('tags', this.state.tags)
+        audioData.append('admin', 1)
+        audioData.append('audio', audio.files[0])
+
+        const imageData =  new FormData();
+        imageData.append('title', this.state.title)
+        imageData.append('description', this.state.content)
+        imageData.append('tags', this.state.tags)
+        imageData.append('admin', 1)
+        imageData.append('image', image.files[0])
+
+        axios.all([
+            _http.sendPost(audioUrl, audioData),
+            _http.sendPost(imageUrl, imageData)
+            ])
+            .then(axios.spread((response1, response2)=> {
+                let  audioRes = response1.data;
+                let  imageRes = response2.data;
+                console.log(audioRes)
+                console.log(imageRes)
+                if(audioRes.status === 1 && imageRes.status === 1){
+                    const payload = {
+                        "title": this.state.title,
+                        "content": this.state.content,
+                        "author": this.state.author,
+                        "date": this.state.date,
+                        "image_link": imageRes.url,
+                        "audio_link":  audioRes.url,
+
+                    }
+                const reflectionUrl = 'reflection/create';
+                _http.sendPost(reflectionUrl, payload)
+                .then(response => {
+                    this.setState({ requestPending: false });
+                    if(response.data ){
+                        this.setState({requestPending: true});
+                        let type = "";
+                        if(response.status === "success"){
+                            type = "success";
+                            _http.notify(response.message, type)
+                        }else{
+                            type = "warn";
+                            _http.notify(response.message, type)
+                        }
+                    
+                    }else{
+                        _http.notify(response.message)
+                        this.setState({requestPending: false })
+                    }
+                });
+                }
+            })
             );
         }
     }

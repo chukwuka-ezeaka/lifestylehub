@@ -32,7 +32,7 @@ class Coaches extends React.Component{
 
 render(){
     const {user, open} = this.state;
-    const { users, loading } = this.props;
+    const { users, loading, error } = this.props;
     let i = 1;
     return(
 
@@ -103,7 +103,9 @@ render(){
                     </tbody>
                     </table>
                     :
-                    <p className="f4 fw6 text-center">No users with this role available</p>
+                    error ?
+                    <p className="text-center brown" style={{color: 'brown'}}>{error}</p>
+                    : <p className="f4 fw6 text-center">No users with this role available</p>
                 }
                 </CardBody>
                 </Card>

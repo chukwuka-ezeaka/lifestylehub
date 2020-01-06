@@ -6,14 +6,6 @@ import { toast } from 'react-toastify';
 
 let BASE_URL = "https://lshub.herokuapp.com/api/v1/";
 
-class ValidationError extends Error {
-    constructor(message) {
-        super(message); 
-        this.status = "VALIDATION ERROR";
-    }
-}
-
-
 const httpService = axios.create({
     baseURL: BASE_URL,
     timeout: 1000*60,
@@ -22,10 +14,20 @@ const httpService = axios.create({
         Authorization: localStorage.getItem('Auth') ? `Bearer ${localStorage.getItem('Auth')}` : '' }
 });
 
+httpService.interceptors.response.use(
+    res => res,
+    err => {
+      throw new Error(err.response.data.message);
+    }
+  )
 
+const networkError = {
+    message: "Please check your network connection, and reload the page"
+}
 
 class HttpService {
     constructor(){
+        this.notify = this.notify.bind(this);
         this.sendPost = this.sendPost.bind(this);
         this.sendDelete = this.sendDelete.bind(this);
         this.sendPostNoAuth = this.sendPostNoAuth.bind(this);
@@ -33,87 +35,80 @@ class HttpService {
         this.sendPut = this.sendPut.bind(this);
     }
 
+    notify = (message, type) => {
+        switch(type){
+            case "success":
+                toast.success(message);
+                break;
+            case "warn":
+                toast.warn("Error: " + message);
+                break;
+            default:
+                toast.warn("Error: " + message);
+                break;
+          }
+    }
+
 
   sendPost = (url, postData) => {
     return httpService.post(`${BASE_URL}${url}`, postData)
-        .then( res => {
-            if (res.data.status === "success") {
-                
-               return res.data;
-            } else {
-                
-                throw new Error(res.data.message);
-            }
-        })
-        .catch(error=>{
-            throw new Error(error.response.data.message);
-        })
+    .then( res => {
+        if (res.status === 200) {
+           return res.data;
+        } else {
+            return res.data;
+        }
+    })
+    .catch(err=> err)
     }
 
   sendPostNoAuth = (url, postData) => {
     return httpService.post(`${BASE_URL}${url}`, postData)
     .then( res => {
-        if (res.data.status === "success") {
+        if (res.status === 200) {
            return res.data;
         } else {
-            
-            throw new Error(res.data.message);
+            return res.data;
         }
     })
-    .catch(error=>{
-        throw new Error(error.response.data.message);
-    })
+    .catch(err=> networkError)
 }
 
 
   sendGet = (url) => {
-
     return httpService.get(`${BASE_URL}${url}`)
     .then( res => {
-        
         if (res.status === 200) {
-            console.log(res);
            return res.data;
         } else {
-            
-            throw new Error(res.data.message);
+            return res.data;
         }
     })
-    .catch(error=>{
-        throw new Error(error.response.data.message);
-    })
+    .catch(err=> networkError)
 }
 
   sendPut = (url, postData) => {
     return httpService.put(`${BASE_URL}${url}`, postData)
     .then( res => {
-        if (res.data.status === "success") {
-            
+        if (res.status === 200) {
            return res.data;
         } else {
-            
-            throw new Error(res.data.message);
+            return res.data;
         }
     })
-    .catch(error=>{
-        throw new Error(error.response.data.message);
-    })
+    .catch(err=> networkError)
 }
 
   sendDelete = (url, postData) => {
     return httpService.delete(`${BASE_URL}${url}`, postData)
     .then( res => {
-        if (res.data.status === "success") {
-            
+        if (res.status === 200) {
            return res.data;
         } else {
-            
-            throw new Error(res.data.message);
+            return res.data;
         }
     })
-    .catch(error=>{
-        throw new Error(error.response.data.message);
-    })
+    .catch(err=> networkError)
 };
 
 }

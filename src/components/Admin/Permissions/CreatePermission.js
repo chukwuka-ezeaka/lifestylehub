@@ -10,7 +10,9 @@ import {
     InputGroup,
     InputGroupAddon
   } from "shards-react";
+import HttpService from '../../../utils/API';
 
+const _http = new HttpService();
 
 class CreatePermission extends Component {
     constructor(props) {
@@ -22,18 +24,6 @@ class CreatePermission extends Component {
          };
       }
 
-      notify = (message) => {
-        switch(this.state.type){
-          case "success":
-                  toast.success(message);
-              break;
-          case "warn":
-              toast.warn("Error: " + message);
-              break;
-          default:
-              break;
-        }
-      }
 
       handlePermission = (event) => {
         const val = event.target.value;
@@ -43,37 +33,28 @@ class CreatePermission extends Component {
 
 
       onSubmitRequest = () => {
-          this.setState({requestPending: true});
-        fetch('https://lshub.herokuapp.com/api/v1/account/role/create',{
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'bearer ' + localStorage.getItem('Auth')
-            },
-            body: JSON.stringify({
-                name: this.state.permission
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            this.setState({requestPending: false});
-            switch(data.status){
-                case "success":
-                    this.setState({type: "success"});
-                    this.notify(data.message); 
-                break;
-                case "fail":
-                    this.setState({type: "warn"});
-                    this.notify(data.message); 
-                break;
-                default:
-                        this.setState({type: "warn"});
-                    this.notify(data.message);
-                break;
+        this.setState({requestPending: true});
+        const url = "account/permission/create";
+        const postData = {
+            name: this.state.permission
+        }
+        _http.sendPost(url, postData)
+        .then(response => {
+            if(response.data ){
+                this.setState({requestPending: false});
+                let type = "";
+                if(response.status === "success"){
+                    type = "success";
+                    _http.notify(response.message, type)
+                }else{
+                    type = "warn";
+                    _http.notify(response.message, type)
+                }
+            
+            }else{
+                _http.notify(response.message)
+                this.setState({requestPending: false })
             }
-        ;})
-        .catch(err => {
-            this.setState({errMessage: 'Error' + err});
         })
       }
 

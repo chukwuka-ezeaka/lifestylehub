@@ -1,4 +1,4 @@
-import { hot } from 'react-hot-loader/root';
+//import { hot } from 'react-hot-loader/root';
 import React from "react";
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 
@@ -190,5 +190,5 @@ currentUser = () => {
     );
     }
   }
-  
-  export default hot(App);
+  export default App;
+ // export default hot(App);

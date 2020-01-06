@@ -71,18 +71,10 @@ class ViewReflection extends Component {
         }
         axios.get(`https://lshub.herokuapp.com/api/v1/media/manager/audio/single/find/${file}`, headers)
         .then((res)=>{
-        //     if('audio' in res.data.data && 'type' in res.data.data){
-        //     const {audio, type} = res.data.data;
-        //     this.setState({
-        //         audio:audio,
-        //         audio_type:type
-        //     })
-        // }else{
-        //     console.log('Invalid media received')
         this.setState({
-                     audio:res.data,
-                    audio_type:res.headers['content-type']
-                })
+             audio:res.data,
+            audio_type:res.headers['content-type']
+        })
         console.log(res);
         // }
         })
@@ -96,8 +88,8 @@ class ViewReflection extends Component {
         })
         .then(res => {
             console.log(res)
-           this.getAudio(res.data.data.audio_link);
-           this.getImage(res.data.data.image_link);
+            this.getAudio(res.data.data.audio_link);
+            this.getImage(res.data.data.image_link);
             this.setState({
                 reflection: res.data.data
             })
