@@ -18,29 +18,29 @@ import {
   FormSelect
 } from "shards-react";
 
-import './UsersModal.css';
+import "./UsersModal.css";
 
 class UsersModal extends React.Component {
   constructor() {
     super();
     this.state = {
       roles: []
-    }
+    };
   }
 
   componentDidMount = () => {
-    fetch('https://lshub.herokuapp.com/api/v1/account/role/list', {
-      method: 'get',
+    fetch("https://lshub.herokuapp.com/api/v1/account/role/list", {
+      method: "get",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'bearer ' + localStorage.getItem('Auth'),
+        "Content-Type": "application/jzson",
+        Authorization: "bearer " + localStorage.getItem("Auth")
       },
       signal: this.abortController.signal
     })
       .then(response => response.json())
       .then(object => this.setState({ roles: object.data }))
-      .catch(err => console.log(err))
-  }
+      .catch(err => console.log(err));
+  };
 
   componentWillUnmount = () => {
     this.abortController.abort();
@@ -56,20 +56,27 @@ class UsersModal extends React.Component {
       <div>
         <Modal size="lg" open={open}>
           <ModalHeader toggle={toggle}>
-            {open ? user.fullname : ''}
+            {open ? user.fullname : ""}
             <div>
               <InputGroup className="mb-3">
                 <InputGroupAddon type="prepend">
-                  <InputGroupText className="bg-green text-white">Role</InputGroupText>
+                  <InputGroupText className="bg-green text-white">
+                    Role
+                  </InputGroupText>
                 </InputGroupAddon>
                 <FormSelect>
-                  <option value={open ? user.UserRole.Role.name : ''}>{open ? user.UserRole.Role.name : ''}</option>
-                  {roles ? roles.map((role) => {
-                    return (
-                      <option key={role.id} value={role.name}>{role.name}</option>
-                    )
-                  })
-                    : ''}
+                  <option value={open ? user.UserRole.Role.name : ""}>
+                    {open ? user.UserRole.Role.name : ""}
+                  </option>
+                  {roles
+                    ? roles.map(role => {
+                        return (
+                          <option key={role.id} value={role.name}>
+                            {role.name}
+                          </option>
+                        );
+                      })
+                    : ""}
                 </FormSelect>
               </InputGroup>
             </div>
@@ -87,8 +94,8 @@ class UsersModal extends React.Component {
                           <FormInput
                             id="feFirstName"
                             placeholder="First Name"
-                            value={user ? user.fullname : ''}
-                            onChange={() => { }}
+                            value={user ? user.fullname : ""}
+                            onChange={() => {}}
                             disabled
                           />
                         </Col>
@@ -98,7 +105,7 @@ class UsersModal extends React.Component {
                           <FormInput
                             id="feLastName"
                             placeholder="Last Name"
-                            onChange={() => { }}
+                            onChange={() => {}}
                             disabled
                           />
                         </Col>
@@ -111,8 +118,8 @@ class UsersModal extends React.Component {
                             type="email"
                             id="feEmail"
                             placeholder="Email Address"
-                            value={user ? user.email : ''}
-                            onChange={() => { }}
+                            value={user ? user.email : ""}
+                            onChange={() => {}}
                             disabled
                             autoComplete="email"
                           />
@@ -124,22 +131,20 @@ class UsersModal extends React.Component {
                             type="text"
                             id="fePassword"
                             placeholder="Phone Number"
-                            onChange={() => { }}
+                            onChange={() => {}}
                             disabled
                             autoComplete="current-password"
                           />
                         </Col>
                       </Row>
-                      <Row>
-
-                      </Row>
+                      <Row></Row>
                       <FormGroup>
                         <label htmlFor="feAddress">Location</label>
                         <FormInput
                           id="feAddress"
                           placeholder="Location"
                           value="1234 Main St."
-                          onChange={() => { }}
+                          onChange={() => {}}
                           disabled
                         />
                       </FormGroup>
@@ -149,7 +154,7 @@ class UsersModal extends React.Component {
                           id="feAddress"
                           placeholder="Address"
                           value="1234 Main St."
-                          onChange={() => { }}
+                          onChange={() => {}}
                           disabled
                         />
                       </FormGroup>
@@ -162,7 +167,7 @@ class UsersModal extends React.Component {
                             id="feEmail"
                             placeholder="Industery"
                             value=""
-                            onChange={() => { }}
+                            onChange={() => {}}
                             disabled
                           />
                         </Col>
@@ -172,7 +177,7 @@ class UsersModal extends React.Component {
                           <FormInput
                             type="date"
                             id="fePassword"
-                            onChange={() => { }}
+                            onChange={() => {}}
                             disabled
                           />
                         </Col>
@@ -186,7 +191,7 @@ class UsersModal extends React.Component {
                             id="feEmail"
                             placeholder="number"
                             value="1"
-                            onChange={() => { }}
+                            onChange={() => {}}
                             disabled
                           />
                         </Col>
@@ -198,7 +203,7 @@ class UsersModal extends React.Component {
                             id="fePassword"
                             placeholder="Specialty"
                             value=""
-                            onChange={() => { }}
+                            onChange={() => {}}
                             disabled
                           />
                         </Col>
@@ -208,9 +213,7 @@ class UsersModal extends React.Component {
                         {/* Description */}
                         <Col md="12" className="form-group">
                           <label htmlFor="feDescription">Work History</label>
-                          <FormTextarea id="feDescription" rows="3"
-                            disabled
-                          />
+                          <FormTextarea id="feDescription" rows="3" disabled />
                         </Col>
                       </Row>
                       <Button theme="accent">Update</Button>

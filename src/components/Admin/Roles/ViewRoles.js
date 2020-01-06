@@ -77,7 +77,7 @@ render(){
                         </tr>
                     </thead>
                     <tbody>
-                    {roles.map((role, index)  => {
+                    {roles ? roles.map((role, index)  => {
                             //let userId = `#${user.id}`;
                             //console.log(index);
                             return(
@@ -100,7 +100,8 @@ render(){
                                 </tr> 
                                 
                             )
-                        })}
+                        })
+                    : ''}
                     </tbody>
                     </table>
                     }

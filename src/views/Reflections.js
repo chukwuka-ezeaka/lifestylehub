@@ -18,24 +18,16 @@ class Reflections extends React.Component {
         super(props);
         this.state = {
           showViews: views,
-          path: ''
+          path: '',
+          reflections: [],
+          loading: true
+         
         }
     }
 
     componentWillMount() {
         if(!localStorage.getItem('Auth')){
           this.props.history.push('/signin');
-        }
-      }
-
-      showContent = (handle) => {
-        switch(handle){
-          case '/reflections/add':
-            this.setState({showViews: {showAddReflections: true}})
-            break;
-          default:
-            this.setState({showViews: {showReflections: true}})
-            break;
         }
       }
       
@@ -46,21 +38,28 @@ class Reflections extends React.Component {
 
         const handle = this.props.location.pathname;
         this.showContent(handle);
+
+      // this.getReflections();
       }
 
       componentDidUpdate(prevProps, prevState){
         if(prevState.path !== this.state.path){
           this.setState({showViews: views});
           this.showContent(this.state.path);
+         
         }
       }
       
       componentWillUnmount = () => {
         this.unlisten();
+        this.abortController.abort();
       };
+      
+      abortController = new window.AbortController(); 
 
     render(){
-      const { showReflections, showAddReflections } = this.state.showViews;
+      const { reflections, loading } = this.state;
+      const { showAddReflections } = this.state.showViews;
         return(
             <Container fluid className="main-content-container px-4 pb-4">
             {/* Page Header */}
@@ -79,11 +78,26 @@ class Reflections extends React.Component {
               </Col>
             </Row>
             :
-            <AllReflections />
+            <AllReflections reflections={reflections} getReflections={this.getReflections} loading={loading}/>
     }
           </Container>
         )
     }
+
+    showContent = (handle) => {
+      switch(handle){
+        case '/reflections/add':
+          this.setState({showViews: {showAddReflections: true}})
+          break;
+        default:
+          this.setState({showViews: {showReflections: true}})
+          
+          break;
+      }
+    }
+
+ 
+
 }
 
 export default withRouter(Reflections);

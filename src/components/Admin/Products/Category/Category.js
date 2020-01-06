@@ -21,7 +21,9 @@ class Category extends Component {
         this.state = { 
            category: '',
            errMessage: '',
-           requestPending: false
+           requestPending: false,
+           categories: [],
+           isLoading: true
          };
       }
 
@@ -38,47 +40,23 @@ class Category extends Component {
         }
       }
 
+   
+
       handleCategory = (event) => {
         const val = event.target.value;
         const data = (val.trim()).replace(' ', '_');
         this.setState({category: data})
       }
 
+    componentDidMount(){
+        this.getCategories();
+    }   
 
-      onSubmitRequest = () => {
-          this.setState({requestPending: true});
-        fetch('https://lshub.herokuapp.com/api/v1/content/category/create',{
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'bearer ' + localStorage.getItem('Auth')
-            },
-            body: JSON.stringify({
-                name: this.state.category
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            this.setState({requestPending: false});
-            switch(data.status){
-                case "success":
-                    this.setState({type: "success"});
-                    this.notify(data.message); 
-                break;
-                case "fail":
-                    this.setState({type: "warn"});
-                    this.notify(data.message); 
-                break;
-                default:
-                        this.setState({type: "warn"});
-                    this.notify(data.message);
-                break;
-            }
-        ;})
-        .catch(err => {
-            this.setState({errMessage: 'Error' + err});
-        })
-      }
+    componentWillUnmount = () => this.abortController.abort();
+
+    abortController = new window.AbortController(); 
+
+
 
     render() { 
         return ( 
@@ -88,7 +66,7 @@ class Category extends Component {
             <Row>
               {/* Editor */}
               <Col lg="6" md="12">
-                <ViewCategories />
+                <ViewCategories categories={this.state.categories} isLoading={this.state.isLoading}/>
               </Col>
         
               {/* Sidebar Widgets */}
@@ -116,6 +94,70 @@ class Category extends Component {
           </Container>
            
          );
+    }
+
+    getCategories = () => {
+        this.setState({
+            isLoading: true
+        });
+        fetch('https://lshub.herokuapp.com/api/v1/content/category/list',{
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'bearer ' + localStorage.getItem('Auth'),
+                signal: this.abortController.signal
+            }
+        })
+        .then(response => response.json())
+        .then(object => {
+            this.setState({
+                categories: object.data,
+                isLoading: false
+            });
+        })
+        .catch(err => {
+            this.setState({
+                loading: false
+             });
+            if (err.name === 'AbortError') return; // expected, this is the abort, so just return
+            console.log(err);
+        });
+      }
+
+      onSubmitRequest = () => {
+        this.setState({requestPending: true});
+      fetch('https://lshub.herokuapp.com/api/v1/content/category/create',{
+          method: 'post',
+          headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'bearer ' + localStorage.getItem('Auth')
+          },
+          body: JSON.stringify({
+              name: this.state.category
+          })
+      })
+      .then(response => response.json())
+      .then(data => {
+          this.setState({requestPending: false});
+          switch(data.status){
+              case "success":
+                  this.setState({type: "success"});
+                  this.notify(data.message); 
+                  this.getCategories();
+              break;
+              case "fail":
+                  this.setState({type: "warn"});
+                  this.notify(data.message); 
+              break;
+              default:
+                      this.setState({type: "warn"});
+                  this.notify(data.message);
+              break;
+          }
+      ;})
+      .catch(err => {
+          this.setState({errMessage: 'Error' + err});
+      })
     }
 }
  

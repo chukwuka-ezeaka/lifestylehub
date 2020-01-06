@@ -4,9 +4,11 @@ import { Container, Row, Col } from "shards-react";
 
 import PageTitle from "../components/common/PageTitle";
 import Category from '../components/Admin/Products/Category/Category';
+import AddProduct from '../components/Admin/Products/AddProduct/AddProduct';
 
 const views = {
   showCategories: false,
+  showAddProduct: false
 }
 
 class UsersOverview extends React.Component {
@@ -28,9 +30,12 @@ class UsersOverview extends React.Component {
 
 showContent = (handle) => {
   switch(handle){
-    case '/users/vendors':
+    case '/products/Category':
       this.setState({showViews: {showCategories: true}})
       break;
+      case '/products/addProduct':
+          this.setState({showViews: {showAddProduct: true}})
+          break;
     default:
       this.setState({showViews: {showUsers: true}})
       break;
@@ -59,7 +64,7 @@ componentWillUnmount = () => {
 }
 
   render(){
-    const {showCategories} = this.state.showViews;
+    const { showAddProduct, showCategories } = this.state.showViews;
 
     return(
       <Container fluid className="main-content-container px-4 pb-4">
@@ -68,10 +73,13 @@ componentWillUnmount = () => {
             </Row>
         <Row>
           <Col lg="12" md="12">
-            
+            {showCategories ?
             <Category />
-            
-            
+            :
+              showAddProduct ?
+              <AddProduct />
+              : ''
+            }
           </Col>
         </Row>
       </Container>

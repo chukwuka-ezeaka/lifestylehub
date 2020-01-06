@@ -1,3 +1,4 @@
+//import { hot } from 'react-hot-loader/root';
 import React from "react";
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 
@@ -7,12 +8,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
 import { ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 
 import { DefaultLayout, HomeLayout } from "./layouts";
 // Route Views
 import Home from "./views/Home";
-import Register from "./views/Register";
+import RegisterView from "./views/Register";
 import SignInView from "./views/SignInView";
 import UsersOverview from "./views/UsersOverview";
 import UserProfile from "./views/UserProfile";
@@ -23,10 +25,10 @@ import Permissions from "./views/Permissions";
 import Confirmation from "./views/Confirmation";
 import Dashboard from "./views/Dashboard";
 import Products from "./views/Products";
+import ViewReflection from "./views/ViewReflection";
 
 
 import 'tachyons';
-import Content from "./views/Content";
 
 
 const initialState = {
@@ -85,7 +87,7 @@ currentUser = () => {
                 path='/register'
                 render={(props) =>
                   <HomeLayout>
-                  <Register />
+                  <RegisterView />
                 </HomeLayout>}
               />
               <Route
@@ -102,13 +104,7 @@ currentUser = () => {
                  <Dashboard user={user} Auth={Auth}/>
                </DefaultLayout>}
              />
-              <Route
-                path='/users'
-                render={(props) =>
-                  <DefaultLayout user={user}>
-                  <UsersOverview user={user} Auth={Auth}/>
-                </DefaultLayout>}
-              />
+              
                <Route
                 path='/users/:id'
                 render={(props) =>
@@ -137,18 +133,26 @@ currentUser = () => {
                   <Reflections user={user} Auth={Auth}/>
                 </DefaultLayout>}
               />
+              <Route
+                path='/viewReflection'
+                render={(props) =>
+                  <DefaultLayout user={user}>
+                  <ViewReflection user={user} Auth={Auth}/>
+                </DefaultLayout>}
+              />
+              <Route
+              exact
+                path='/viewReflection/:id'
+                render={(props) =>
+                  <DefaultLayout user={user}>
+                  <ViewReflection user={user} Auth={Auth}/>
+                </DefaultLayout>}
+              />
                <Route
                 path='/products/:id'
                 render={(props) =>
                   <DefaultLayout user={user}>
                   <Products user={user} Auth={Auth}/>
-                </DefaultLayout>}
-              />
-              <Route
-                path='/addContent'
-                render={(props) =>
-                  <DefaultLayout user={user}>
-                  <Content user={user} Auth={Auth}/>
                 </DefaultLayout>}
               />
               <Route
@@ -186,5 +190,5 @@ currentUser = () => {
     );
     }
   }
-  
   export default App;
+ // export default hot(App);

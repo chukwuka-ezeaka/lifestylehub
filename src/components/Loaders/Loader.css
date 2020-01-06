@@ -4,9 +4,9 @@
 
 
 img#loader{
-    height: 100px !important;
+    height: 80px !important;
 }
 
 img#loader-small{
-    height: 30px !important;
+    height: 20px !important;
 }

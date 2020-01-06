@@ -35,7 +35,7 @@ class Users extends React.Component{
 
 render(){
     const {user, open} = this.state;
-    const { users, loading } = this.props;
+    const { users, loading, error } = this.props;
     let i = 1;
     return(
 
@@ -50,6 +50,7 @@ render(){
                 {loading ?
                 <Loader />
                 :
+                users.length > 0 ?
                     <table className="table table-light mb-0 table-responsive">
                     <thead className="thead-light">
                         <tr>
@@ -101,9 +102,12 @@ render(){
                                 </tr> 
                                 
                             )
-                        })}
+                        })
+                    }
                     </tbody>
                     </table>
+                :
+                <p className="text-center brown" style={{color: 'brown'}}>{error}</p>
                 }
                 </CardBody>
                 </Card>
