@@ -45,7 +45,7 @@ class Register extends React.Component {
                         .required('Mobile number is required')
                         .length(11, 'Please enter a valid Mobile number')
                         .matches(phoneRegExp, 'Invalid format. Please enter a valid Mobile number'),
-                    file: Yup.mixed().required(),
+                    file: Yup.mixed().required('Upload a picture'),
                     password: Yup.string()
                         .min(6, 'Password must be at least 6 characters')
                         .required('Password is required'),
