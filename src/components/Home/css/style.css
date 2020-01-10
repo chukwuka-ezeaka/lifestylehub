@@ -1,0 +1,405 @@
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .main-section {
+            background-color: #fff;
+        }
+        /**/
+        /**/
+        /**/
+        /**/
+        
+        @keyframes moveInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-10rem);
+            }
+            80% {
+                transform: translateX(1rem);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(0);
+            }
+        }
+        
+        @keyframes moveInRight {
+            0% {
+                opacity: 0;
+                transform: translateX(10rem);
+            }
+            80% {
+                transform: translateX(-1rem);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(0);
+            }
+        }
+        
+        @keyframes moveInButtom {
+            0% {
+                opacity: 0;
+                transform: translateY(3rem);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(0);
+            }
+        }
+        /* 
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Lato", sans-serif;
+    font-weight: 400; */
+        /* font-size: 16px; */
+        /* line-height: 1.7;
+color: rgb(80, 78, 78);
+padding: 3rem;
+
+}
+*/
+        /*TYPOGRAPHY**/
+        /***/
+        
+        .heading-primary {
+            padding-top: 40%;
+            color: #fff;
+            text-transform: uppercase;
+            /*To determin if the backpath of the animated element is hidden*/
+            /*To fix the shaking in the animation*/
+            backface-visibility: hidden;
+            margin-bottom: 5rem;
+        }
+        
+        .heading-primary--main {
+            display: block;
+            font-size: 3rem;
+            font-weight: 300;
+            letter-spacing: .5rem;
+            animation-name: moveInLeft;
+            animation-duration: 1s;
+            animation-timing-function: ease-out;
+        }
+        
+        .heading-primary--sub {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: .3rem;
+            animation: moveInRight 1s ease-out;
+        }
+        
+        .heading-secoundary {
+            font-size: 2rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            display: inline-block;
+            letter-spacing: .2rem;
+            transition: all .2s;
+        }
+        
+        .heading-tertiary {
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .u-center-text {
+            text-align: center;
+        }
+        
+        .u-margin-buttom-big {
+            margin-bottom: 5rem;
+        }
+        
+        .u-margin-bottom-medium {
+            margin-bottom: 3.5rem;
+        }
+        
+        .u-margin-bottom-small {
+            margin-bottom: 1.5rem;
+        }
+        
+        .u-margin-top-big {
+            margin-top: 8rem;
+        }
+        
+        .feature-margin {
+            margin: auto 0;
+        }
+        
+        .center-block {
+            margin: auto 0;
+        }
+        /***/
+        
+        .header {
+            height: 95vh;
+            /* background-image: url(../img/lifestyle5.jpg); */
+            background-size: cover;
+            background-position: top;
+            position: relative;
+        }
+        
+        .header__text-box {
+            position: absolute;
+            text-align: center;
+            margin: auto 0;
+            padding: inherit;
+        }
+        /**/
+        
+        .section-features {
+            padding: 6rem 2rem;
+            background-color: #f4f5f9;
+        }
+        
+        .section-contact {
+            padding-top: 5rem;
+            padding-bottom: 2rem;
+            padding-right: 0;
+            padding-left: 0;
+            background-color: #fff;
+        }
+        
+        .sub-heading {
+            font-size: 1rem;
+        }
+        
+        .btn--1 {
+            background-color: #ff7e20;
+            color: #ffffff;
+            border: 1px solid #ff7e20;
+            transition: all 0.5s ease-in-out 0s;
+        }
+        
+        .btn--1:hover {
+            background-color: transparent;
+            color: #ffffff;
+            border: 1px solid #ff7e20;
+            transition: all 0.5s ease-in-out 0s;
+        }
+        
+        .btn--2 {
+            background-color: transparent;
+            color: #ffffff;
+            ;
+            border: 1px solid #ff7e20;
+            transition: all 0.5s ease-in-out 0s;
+        }
+        
+        .btn--2:hover {
+            background-color: #ff7e20;
+            color: #ffffff;
+            border: 1px solid #ff7e20;
+            transition: all 0.5s ease-in-out 0s;
+        }
+        /*Animation effect on the btn.*/
+        
+        .btn:link,
+        .btn:visited {
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 1.1rem 2.5rem;
+            display: inline-block;
+            border-radius: 10rem;
+            transition: all 0.2s;
+            /**Reference of the hidden underlying btn */
+            position: relative;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:hover::after {
+            transform: scaleX(1.4) scaleY(1.6);
+            opacity: 0;
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn::after {
+            content: "";
+            display: inline-block;
+            height: 100%;
+            width: 100%;
+            border-radius: 10rem;
+            /*We want this to be hidden after the button. so we create a reference in the main btn element*/
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            transition: all 0.4s;
+        }
+        
+        .btn--animated {
+            animation: moveInButtom 0.5s ease-out 0.75s;
+            animation-fill-mode: backwards;
+        }
+        
+        .btn-text:link,
+        .btn-text:visited {
+            font-size: 1.6rem;
+            color: #ff7e20;
+            display: inline-block;
+            text-decoration: none;
+            border-bottom: 0.1rem solid #ff7e20;
+            padding: .3rem;
+            transition: all .2s;
+        }
+        
+        .btn-text:hover {
+            background-color: #ff7e20;
+            color: #fff;
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .btn-text:active {
+            box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15);
+            transform: translateY(0);
+        }
+        
+        .feature-box {
+            background-color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            padding: 1.2rem;
+            text-align: center;
+            border-radius: .3rem;
+            box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+            transition: transform .3s;
+        }
+        
+        .feature-box__icon {
+            font-size: 3rem;
+            margin-bottom: .5rem;
+            display: inline-block;
+            background-image: linear-gradient(to right, #ff7e20, #ad4e0a);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-1.5rem) scale(1.03);
+        }
+        
+        .btn-primary {
+            border-radius: 2px;
+            box-shadow: none;
+            padding: 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            width: 100%;
+        }
+        /*SECTIONS */
+        
+        .main-section {
+            padding: 60px 0;
+        }
+        
+        .main-section hr {
+            border-width: 3px;
+            max-width: 50px;
+        }
+        
+        .section-heading {
+            margin-bottom: 50px;
+        }
+        
+        .section-heading h1 {
+            font-size: 28px;
+            letter-spacing: 0.05em;
+        }
+        
+        .section-contact {
+            background-color: #fff;
+        }
+        /*----------------------
+ CONTACT
+-----------------------*/
+        
+        .form-control {
+            border-radius: 3px;
+            height: 50px;
+            padding-left: 15px;
+            border: 1px solid#ddd;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .submit {
+            margin-top: 15px;
+        }
+        
+         ::-webkit-input-placeholder {
+            /* Chrome/Opera/Safari */
+            font-size: 13px;
+        }
+        
+         ::-moz-placeholder {
+            /* Firefox 19+ */
+            font-size: 13px;
+        }
+        
+         :-ms-input-placeholder {
+            /* IE 10+ */
+            font-size: 13px;
+        }
+        
+         :-moz-placeholder {
+            /* Firefox 18- */
+            font-size: 13px;
+        }
+        /* button.submit {
+            background: none repeat scroll 0 0 #272727;
+            border: 1px solid transparent;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin: 20px -17px;
+            padding: 16px;
+            position: relative;
+            float: left;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.2s ease-in-out 0s;
+            width: auto;
+        } */
+        
+        .btn-primary {
+            width: inherit;
+        }

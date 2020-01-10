@@ -1,0 +1,32 @@
+.footer-bottom {
+    background-color: #101010;
+    padding: 20px 0 5px;
+}
+
+.first-footer {
+    padding-bottom: 60px;
+    padding-top: 60px;
+}
+
+.footer-block {
+    padding-bottom: 30px;
+    padding-top: 30px;
+}
+
+.first-footer p {
+    color: #E0E0E0;
+}
+
+.first-footer h3 {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.first-footer li {
+    color: #ffffff;
+}
+
+ul {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}

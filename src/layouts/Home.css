@@ -5,4 +5,6 @@
     background-position: center;
     background-attachment: fixed;
     overflow-y: hidden;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
 }
