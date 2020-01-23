@@ -2,11 +2,16 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 class Logout extends Component {
-    state = { 
-        logout: false
-     }
+    constructor(){
+        super();
+        this.state = { 
+            logout: false
+         }
+         this.logout = this.logout.bind(this);
+    }
+   
 
-     componentDidMount(){
+     componentWillMount(){
          this.logout();
      }
 

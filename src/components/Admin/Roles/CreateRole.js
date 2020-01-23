@@ -10,9 +10,9 @@ import {
     Button,
     FormCheckbox
   } from "shards-react";
-import { toast } from 'react-toastify';
+import HttpService from '../../../utils/API';
 
-  
+  const _http = new HttpService();
   const addPermissions = [];
 
   const initialState = {
@@ -33,46 +33,20 @@ class CreateRole extends Component {
         this.state = initialState;
       }
 
-      notify = (message) => {
-          switch(this.state.type){
-            case "success":
-                    toast.success(message);
-                break;
-            case "warn":
-                toast.warn("Error: " + message);
-                break;
-            default:
-                break;
-          }
-      }
-    
       toggle() {
         this.setState({ collapse: !this.state.collapse });
         this.getPermissions();
       }
 
       getPermissions = () => {
-        fetch('https://lshub.herokuapp.com/api/v1/account/permission/list',{
-            method: 'get',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'bearer ' + localStorage.getItem('Auth')
-            }
+        const url = "account/permission/list";
+        _http.sendGet(url)
+        .then(response => {
+            response.data ?
+            this.setState({ errMessage: '', permissions: response.data, isLoading: false })
+            :
+            this.setState({ errMessage: response.message, isLoading: false })
         })
-        .then(response => response.json())
-        .then(object => {
-            this.setState({
-                permissions: object.data,
-                isLoading: false
-            });
-        })
-        .catch(err => {
-            this.setState({
-                loading: false,
-                errMessage: err
-             });
-
-        });
       }
 
       handleCheckBox = (event) => {
@@ -103,41 +77,29 @@ class CreateRole extends Component {
 
       onSubmitRequest = (role, permissions) => {
           this.setState({requestPending: true});
-        fetch('https://lshub.herokuapp.com/api/v1/account/role/create',{
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'bearer ' + localStorage.getItem('Auth')
-            },
-            body: JSON.stringify({
-                name: role,
-                permissions: permissions
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            this.setState({requestPending: false});
-            switch(data.status){
-                case "success":
-                    this.setState({type: "success"});
-                    this.notify(data.message); 
-                break;
-                case "fail":
-                    this.setState({type: "warn"});
-                    this.notify(data.message); 
-                break;
-                default:
-                        this.setState({type: "warn"});
-                    this.notify(data.message);
-                break;
-            }
-        ;})
-        .catch(err => {
-            this.setState({
-                loading: false
-             });
-            this.setState({errMessage: 'Error' + err});
-        })
+          const url = "account/role/create";
+          const postData = {
+            name: role,
+            permissions: permissions
+          }
+          _http.sendPost(url, postData)
+          .then(response => {
+              if(response.data ){
+                  this.setState({requestPending: false});
+                  let type = "";
+                  if(response.status === "success"){
+                      type = "success";
+                      _http.notify(response.message, type)
+                  }else{
+                      type = "warn";
+                      _http.notify(response.message, type)
+                  }
+              
+              }else{
+                  _http.notify(response.message)
+                  this.setState({requestPending: false })
+              }
+          })
       }
 
       componentWillUnmount(){

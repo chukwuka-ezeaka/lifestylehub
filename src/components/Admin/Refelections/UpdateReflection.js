@@ -18,7 +18,7 @@ import HttpService from "../../../utils/API";
 
 const _http = new HttpService();
 
-class NewReflection extends React.Component{
+class UpdateReflection extends React.Component{
     constructor(){
         super();
         this.state ={
@@ -77,29 +77,30 @@ class NewReflection extends React.Component{
       }*/
 
     render(){
-        const { title } = this.props;
+        const { reflection, title } = this.props;
         return (
-            <Card small className="h-100">
-                {/* Card Header */}
-                <CardHeader className="border-bottom">
-                <h6 className="m-0">{title}</h6>
-                </CardHeader>
+            // <Card small className="h-100">
+            //     {/* Card Header */}
+            //     <CardHeader className="border-bottom">
+            //     <h6 className="m-0">{title}</h6>
+            //     </CardHeader>
 
-                <CardBody className="d-flex flex-column">
+            //     <CardBody className="d-flex flex-column">
                 
-                <Form className="quick-post-form" onSubmit={this.handlePublish}>
+                <Form onSubmit={this.handlePublish}>
                     <FormGroup>
                         <label htmlFor="Title">Title</label>
-                        <FormInput placeholder="Title" onChange={this.handleTitle} required/>
+                        <FormInput placeholder="Title" value={reflection.title} onChange={this.handleTitle} required/>
                     </FormGroup>
 
                     <FormGroup>
-                        <FormTextarea placeholder="Content" onChange={this.handleContent} required/>
+                        <label>Content</label>
+                        <FormTextarea placeholder="Content" rows="10" value={reflection.content} onChange={this.handleContent} required/>
                     </FormGroup>
 
                     <FormGroup>
                         <label htmlFor="Tags">Tags</label>
-                        <FormInput placeholder="Tags" onChange={this.handleTags} />
+                        <FormInput placeholder="Tags" value={reflection.tags} onChange={this.handleTags} />
                     </FormGroup>
 
                     <Row>
@@ -120,24 +121,24 @@ class NewReflection extends React.Component{
                     <Col md="6">
                         <FormGroup>
                         <label htmlFor="Author">Author</label>
-                        <FormInput placeholder="Author" onChange={this.handleAuthor} required/>
+                        <FormInput placeholder="Author" value={reflection.author} onChange={this.handleAuthor} required/>
                         </FormGroup>
                     </Col>
                     <Col md="6">
                         <FormGroup>
-                            <label htmlFor="date">Date</label>
-                            <FormInput id="date" type="date" onChange={this.handleDate} required/>
+                            <label htmlFor="date">Publish Date</label>
+                            <FormInput id="date" type="date" value={reflection.date} onChange={this.handleDate} required/>
                         </FormGroup>
                     </Col>
                     </Row>
                     <FormGroup className="mb-0">
                     <Button theme="accent" type="submit" disabled={this.state.requestPending}>
-                    {this.state.requestPending  ? <LoaderSmall/>: 'Publish Reflection'}
+                    {this.state.requestPending  ? <LoaderSmall/>: 'Update Reflection'}
                     </Button>
                     </FormGroup>
                 </Form>
-                </CardBody>
-            </Card>
+            //     </CardBody>
+            // </Card>
             );
         }
 
@@ -184,8 +185,8 @@ class NewReflection extends React.Component{
                         "audio_link":  audioRes.url,
 
                     }
-                const reflectionUrl = 'reflection/create';
-                _http.sendPost(reflectionUrl, payload)
+                const reflectionUrl = `reflection/${this.props.reflection.id}`;
+                _http.sendPut(reflectionUrl, payload)
                 .then(response => {
                     this.setState({ requestPending: false });
                     if(response.data ){
@@ -209,15 +210,15 @@ class NewReflection extends React.Component{
         }
     }
 
-NewReflection.propTypes = {
+UpdateReflection.propTypes = {
   /**
    * The component's title.
    */
   title: PropTypes.string
 };
 
-NewReflection.defaultProps = {
-  title: "New Reflection"
+UpdateReflection.defaultProps = {
+  title: "Update Reflection"
 };
 
-export default NewReflection;
+export default UpdateReflection;

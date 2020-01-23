@@ -25,11 +25,6 @@ class Reflections extends React.Component {
         }
     }
 
-    componentWillMount() {
-        if(!localStorage.getItem('Auth')){
-          this.props.history.push('/signin');
-        }
-      }
       
       componentDidMount(){
         this.unlisten = this.props.history.listen((location, action) => {

@@ -3,6 +3,10 @@ import { withRouter } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import LoaderSmall from "../Loaders/LoaderSmall";
+import HttpService from "../../utils/API";
+
+
+const _http = new HttpService();
 
 class Signin extends React.Component {
   constructor() {
@@ -29,66 +33,65 @@ class Signin extends React.Component {
             .min(6, "Password must be at least 6 characters")
             .required("Password is required")
         })}
+
         onSubmit={({ email, password }) => {
           this.setState({
             disabled: true
           });
-          fetch("https://lshub.herokuapp.com/api/v1/auth/login", {
-            method: "post",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: email,
-              password: password
-            })
-          })
-            .then(response => response.json())
-            .then(user => {
-              this.setState({
-                disabled: false
-              });
-              switch (user.status) {
-                case "success":
-                  if (user.data.id) {
-                    let userData = JSON.stringify(user.data);
-                    switch (user.data.role.id) {
-                      case 75:
-                        localStorage.setItem("user", userData);
-                        localStorage.setItem("Auth", user.token);
-                        this.props.history.push("/dashboard");
-                        break;
-                      case 99:
-                        localStorage.setItem("user", userData);
-                        localStorage.setItem("Auth", user.token);
-                        this.props.history.push("/products/allProducts");
-                        break;
-                      default:
-                        this.setState({
-                          errMessage: "Please login on the mobile app"
-                        });
-                        break;
+          const url = 'auth/login';
+          const postData= {
+            email: email,
+            password: password
+          }
+          _http.sendPostNoAuth (url, postData)
+          .then(response => {
+              if(response.data){
+                switch (response.status) {
+                  case "success":
+                    if (response.data.id) {
+                      let userData = JSON.stringify(response.data);
+                      switch (response.data.role.id) {
+                        case 75:
+                          localStorage.setItem("user", userData);
+                          localStorage.setItem("Auth", response.token);
+                          this.props.history.push("/dashboard");
+                          break;
+                        case 99:
+                          localStorage.setItem("user", userData);
+                          localStorage.setItem("Auth", response.token);
+                          this.props.history.push("/products/allProducts");
+                          break;
+                        default:
+                          this.setState({
+                            errMessage: "Please login on the mobile app"
+                          });
+                          break;
+                      }
                     }
-                  }
-                  break;
-                case "fail":
-                  this.setState({
-                    errMessage: user.message,
-                    disabled: false
-                  });
-                  break;
-                default:
-                  this.setState({
-                    disabled: false,
-                    errMessage: "something went wrong"
-                  });
-                  break;
+                    break;
+                  case "fail":
+                    this.setState({
+                      errMessage: response.message,
+                      disabled: false
+                    });
+                    break;
+                  default:
+                    this.setState({
+                      disabled: false,
+                      errMessage: "something went wrong"
+                    });
+                    break;
+                }
+              
+              }else{
+                this.setState({
+                  disabled: false
+                });
+                  _http.notify(response.message)
+                  this.setState({requestPending: false })
               }
-            })
-            .catch(err => {
-              this.setState({
-                disabled: false,
-                errMessage: "Please check your network connection and try again"
-              });
-            });
+          })
+        
         }}
         render={({ errors, touched }) => (
           <article

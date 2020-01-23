@@ -1,41 +1,26 @@
 import React from 'react';
 import Loader from '../../Loaders/Loader';
 import {Card, CardHeader, CardBody, Button } from "shards-react"
-import HttpService from '../../../utils/API';
+import GetImage from '../../common/getImage';
 
-const _http = new HttpService();
-
-class ViewPermissions extends React.Component{
-    constructor(){
-        super();
-        this.state={
-            permissions: [],
-            loading: true,
-            errorMessage: ''
-        }
-    }
-
-
-    componentDidMount = () => {
-        this.getPermissions();
-    }
-        
-    componentWillUnmount = () => this.abortController.abort();
-
-    abortController = new window.AbortController(); 
+class ViewCategories extends React.Component{
 
 render(){
-    const { permissions } = this.state;
+    const { categories, isLoading } = this.props;
+    console.log(categories)
+    const width = "70"
     let i = 1;
     return(
+
+        
             <Card small className="mb-4 overflow-hidden">
                 <CardHeader className="bg-light">
-                    <h6 className="m-0 text-black">All permissions</h6>
+                    <h6 className="m-0 text-black">All Categories</h6>
                 </CardHeader>
                 <CardBody className="bg-light p-0 pb-3">
-                    {this.state.loading ?
-                    <Loader />
-                : 
+                    {isLoading ? 
+                    <Loader/>
+                :
                     <table className="table table-light mb-0">
                     <thead className="thead-light">
                         <tr>
@@ -43,10 +28,16 @@ render(){
                             #
                         </th>
                         <th scope="col" className="border-0">
-                            permission
+                            Name
                         </th>
                         <th scope="col" className="border-0">
-                           Id
+                            Description
+                        </th>
+                        <th scope="col" className="border-0">
+                            Cover
+                        </th>
+                        <th scope="col" className="border-0">
+
                         </th>
                         <th scope="col" className="border-0">
 
@@ -54,16 +45,22 @@ render(){
                         </tr>
                     </thead>
                     <tbody>
-                    {permissions.map((permission, index)  => {
+                    {categories? categories.map((category, index)  => {
                             //let userId = `#${user.id}`;
                             //console.log(index);
                             return(
-                                <tr key={permission.id}>
+                                <tr key={category.id}>
                                     <td>{i++}</td>
-                                    <td>{permission.name}</td>
-                                    <td>{permission.id}</td>
+                                    <td>{category.name}</td>
+                                    <td>{category.description}</td>
                                     <td>
-                                        <Button size="sm" theme="warning" className="mb-2 mr-1" id={permission.id}>
+                                    {category.image_url !== null ?
+                                    <GetImage image={category.image_url} title={category.name} width={width}/>
+                                    :
+                                    ""}
+                                    </td>
+                                    <td>
+                                        <Button size="sm" theme="warning" className="mb-2 mr-1" id={index}>
                                             Delete
                                         </Button>
                                     </td>
@@ -71,26 +68,18 @@ render(){
                                 </tr> 
                                 
                             )
-                        })}
+                        })
+                    :
+                    ""
+                    }
                     </tbody>
                     </table>
-                }
+                    }
                 </CardBody>
             </Card>
             
     );
 }
-
-getPermissions = () => {
-    const url = "account/permission/list";
-    _http.sendGet(url)
-    .then(response => {
-        response.data ?
-        this.setState({ errorMessage: '', permissions: response.data, loading: false })
-        :
-        this.setState({ errorMessage: response.message, loading: false })
-    })
-}
 }
 
-export default ViewPermissions;
+export default ViewCategories;

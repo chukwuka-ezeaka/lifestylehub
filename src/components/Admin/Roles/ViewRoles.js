@@ -1,40 +1,37 @@
 import React from 'react';
 import Loader from '../../Loaders/Loader';
-import {Card, CardHeader, CardBody, Button } from "shards-react"
+import { confirmAlert } from 'react-confirm-alert';
+import LoaderSmall from '../../Loaders/LoaderSmall';
+import {Card, CardHeader, CardBody, Button, Collapse, ListGroupItem, ListGroup, ListGroupItemHeading } from "shards-react"
+import HttpService from '../../../utils/API';
+
+const _http = new HttpService();
 
 class ViewRoles extends React.Component{
     constructor(){
         super();
         this.state={
             roles: [],
-            isLoading: true
+            isLoading: true,
+            errorMessage: '',
+            collapse: false,
+            requestPending: false
         }
     }
 
+    toggle = () => {
+        this.setState({ collapse: !this.state.collapse });
+      }
 
     componentDidMount = () => {
-        fetch('https://lshub.herokuapp.com/api/v1/account/role/list',{
-            method: 'get',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'bearer ' + localStorage.getItem('Auth'),
-                signal: this.abortController.signal
-            }
+        const url = "account/role/list";
+        _http.sendGet(url)
+        .then(response => {
+            response.data ?
+            this.setState({ errorMessage: '', roles: response.data, isLoading: false })
+            :
+            this.setState({ errorMessage: response.message, isLoading: false })
         })
-        .then(response => response.json())
-        .then(object => {
-            this.setState({
-                roles: object.data,
-                isLoading: false
-            });
-        })
-        .catch(err => {
-            this.setState({
-                loading: false
-             });
-            if (err.name === 'AbortError') return; // expected, this is the abort, so just return
-            throw err;
-        });
     }
 
     componentWillUnmount = () => this.abortController.abort();
@@ -66,9 +63,6 @@ render(){
                             Role
                         </th>
                         <th scope="col" className="border-0">
-                           Id
-                        </th>
-                        <th scope="col" className="border-0">
 
                         </th>
                         <th scope="col" className="border-0">
@@ -81,24 +75,41 @@ render(){
                             //let userId = `#${user.id}`;
                             //console.log(index);
                             return(
-                                <tr key={role.id}>
+                            <React.Fragment key={role.id}>
+                                <tr className="pb-0">
                                     <td>{i++}</td>
                                     <td>{role.name}</td>
-                                    <td>{role.id}</td>
-                                  
                                     <td>
-                                        <Button size="sm" theme="info" className="mb-2 mr-1" id={index}>
+                                        <Button size="sm" theme="info" className="mb-2 mr-1" id={index} onClick={this.toggle}>
                                             Expand
                                         </Button>
                                     </td>
                                     <td>
-                                        <Button size="sm" theme="warning" className="mb-2 mr-1" id={index}>
-                                            Delete
+                                        <Button size="sm" theme="warning" className="mb-2 mr-1" onClick={this.handleDelete} id={role.id}>
+                                            {this.state.requestPending ? <LoaderSmall /> : 'Delete'}
                                         </Button>
                                     </td>
                                    
                                 </tr> 
-                                
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                    <Collapse id="collapse" open={this.state.collapse}>
+                                        <ListGroup>
+                                            <ListGroupItemHeading className="f6 fw4">Permissions</ListGroupItemHeading>
+                                        {role.permissions ? role.permissions.map((permission, index)  => {
+                                          return( 
+                                           <ListGroupItem key={index} className="f6">
+                                                {permission.name}
+                                            </ListGroupItem>
+                                            )
+                                        })
+                                        : ''}
+                                        </ListGroup>
+                                    </Collapse>
+                                    </td>
+                                </tr>
+                            </React.Fragment>
                             )
                         })
                     : ''}
@@ -110,6 +121,41 @@ render(){
             
     );
 }
+
+handleDelete = (event) => {
+    const roleId = event.target.id;
+   confirmAlert({
+       title: 'Confirm Delete',
+       message: 'Are you sure you want to delete this role?',
+       buttons: [
+         {
+           label: 'Yes',
+           onClick: () => this.deleteRole(roleId)
+         },
+         {
+           label: 'No',
+           
+         }
+       ]
+     });
+ }
+
+ deleteRole = (id) => {
+     const url = `account/role/${id}`;
+     this.setState({requestPending: true});
+   _http.sendDelete(url)
+   .then(response => {
+        this.setState({requestPending: false});
+        let type = "";
+        if(response.status === "success"){
+            type = "success";
+            _http.notify(response.message, type)
+        }else{
+            type = "warn";
+            _http.notify(response.message, type)
+        }
+   })
+ }
 }
 
 export default ViewRoles;

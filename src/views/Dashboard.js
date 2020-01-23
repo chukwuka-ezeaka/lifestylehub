@@ -7,6 +7,9 @@ import PageTitle from "../components/common/PageTitle";
 import Stats from "../components/Admin/Dashboard/Stats";
 import UsersByDevice from "../components/Admin/Dashboard/UsersByRoles";
 import Notifications from "../components/Admin/Dashboard/Notifications";
+import HttpService from "../utils/API";
+
+const _http = new HttpService();
 
 class Dashboard extends React.Component{
   constructor(props){
@@ -14,41 +17,22 @@ class Dashboard extends React.Component{
     this.state={
         users: [],
         loading: true,
+        errorMessage: ''
     }
 }
 
   componentWillMount() {
-    if(!localStorage.getItem('Auth')){
-      this.props.history.push('/signin');
-    }
-    
   }
 
   componentDidMount(){
-    
-    fetch('https://lshub.herokuapp.com/api/v1/account/user/list/with_roles',{
-      method: 'get',
-      headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'bearer ' + localStorage.getItem('Auth'),
-      },
-      signal: this.abortController.signal
+    const url = "account/user/list/with_roles";
+    _http.sendGet(url)
+    .then(response => {
+        response.data ?
+        this.setState({ errorMessage: '',  users: response.data, loading: false })
+        :
+        this.setState({ errorMessage: response.message, loading: false })
     })
-    .then(response => response.json())
-    .then(object => {
-        this.setState({
-            users: object.data,
-            loading: false
-        })
-    })
-    .catch(err => {
-        this.setState({
-            loading: false
-        });
-        if (err.name === 'AbortError') return; // expected, this is the abort, so just return
-        throw err;
-    });
-   
   }
   
   

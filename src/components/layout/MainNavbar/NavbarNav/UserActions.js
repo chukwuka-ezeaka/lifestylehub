@@ -33,7 +33,6 @@ export default class UserActions extends React.Component {
   }
 
   render() {
-    console.log(this.state.users);
     const { user, visible } = this.state;
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
