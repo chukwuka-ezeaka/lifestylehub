@@ -7,7 +7,7 @@ import {
     Card,
     CardBody
 } from 'shards-react';
-import HttpService from '../../../utils/API';
+import HttpService from '../../utils/API';
 
 const _http = new HttpService();
 class Stats extends Component {
@@ -48,13 +48,13 @@ class Stats extends Component {
 
     render() { 
         const { media, contents } = this.props;
-        //console.log(media[0])
-        let products = 0;
+        let products, contentLength = 0;
         let video, audio, ebook = [];
+       (contents) && (contents.length > 0) ? contentLength = contents.length : contentLength = 0;
         if((media) && (media.length > 0)){
-            products = media.length + contents.length;
+            products = media.length + contentLength;
 
-            video = media.filter(product => {
+            video = media.filter(media => {
                 if(media.media_type){
                     return media.media_type.id === 1;
                 }

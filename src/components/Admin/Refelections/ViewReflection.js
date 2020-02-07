@@ -31,7 +31,7 @@ class ViewReflection extends Component {
     }
     render() { 
         const {reflection, image, image_type, audio, audio_type, requestPending, edit} = this.state;
-        console.log(reflection)
+        
         return ( 
             <Container className="mt-4">
             <Row>
@@ -73,15 +73,15 @@ class ViewReflection extends Component {
                              <>
                                 <FormGroup className="mb-3">
                                     <label>Content</label>
-                                    <FormTextarea rows="15" placeholder="Content" value={reflection.content} disabled={true}/>
+                                    <FormTextarea rows="15" placeholder="Content" defaultValue={reflection.content} disabled={true}/>
                                 </FormGroup>
                                 <FormGroup className="mb-3">
                                     <label>Author</label>
-                                <FormInput placeholder="Content" value={reflection? reflection.author : ''} disabled={true}/>
+                                <FormInput placeholder="Content" defaultValue={reflection? reflection.author : ''} disabled={true}/>
                                 </FormGroup>
                                 <FormGroup className="mb-3">
                                     <label>To be published on</label>
-                                    <FormInput placeholder="Content" value={reflection.date} disabled={true}/>
+                                    <FormInput placeholder="Content" defaultValue={reflection.date} disabled={true}/>
                                 </FormGroup>
                                 <FormGroup className="mb-3">
                             

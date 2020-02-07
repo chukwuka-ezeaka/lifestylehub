@@ -19,8 +19,8 @@ import HttpService from "../../../utils/API";
 const _http = new HttpService();
 
 class UpdateReflection extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state ={
             title: '',
             content: '',
@@ -79,66 +79,57 @@ class UpdateReflection extends React.Component{
     render(){
         const { reflection, title } = this.props;
         return (
-            // <Card small className="h-100">
-            //     {/* Card Header */}
-            //     <CardHeader className="border-bottom">
-            //     <h6 className="m-0">{title}</h6>
-            //     </CardHeader>
-
-            //     <CardBody className="d-flex flex-column">
                 
-                <Form onSubmit={this.handlePublish}>
-                    <FormGroup>
-                        <label htmlFor="Title">Title</label>
-                        <FormInput placeholder="Title" value={reflection.title} onChange={this.handleTitle} required/>
-                    </FormGroup>
+            <Form onSubmit={this.handlePublish}>
+                <FormGroup>
+                    <label htmlFor="Title">Title</label>
+                    <FormInput id="title" placeholder="Title" defaultValue={reflection.title} required/>
+                </FormGroup>
 
-                    <FormGroup>
-                        <label>Content</label>
-                        <FormTextarea placeholder="Content" rows="10" value={reflection.content} onChange={this.handleContent} required/>
-                    </FormGroup>
+                <FormGroup>
+                    <label>Content</label>
+                    <FormTextarea id="content" placeholder="Content" rows="10" defaultValue={reflection.content} required/>
+                </FormGroup>
 
-                    <FormGroup>
-                        <label htmlFor="Tags">Tags</label>
-                        <FormInput placeholder="Tags" value={reflection.tags} onChange={this.handleTags} />
-                    </FormGroup>
+                <FormGroup>
+                    <label htmlFor="Tags">Tags</label>
+                    <FormInput id="tags" placeholder="Tags" defaultValue={reflection.tags} />
+                </FormGroup>
 
-                    <Row>
-                    <Col md="6">
-                    <FormGroup>
-                        <label htmlFor="coverImage">Cover Image</label>
-                        <FormInput id="coverImage" placeholder="Image link" type="file" required/>
-                        </FormGroup>
-                    </Col>
-                    <Col md="6">
-                    <FormGroup>
-                        <label htmlFor="audio">Audio File</label>
-                        <FormInput id="audio"placeholder="Audio link" type="file" required/>
+                <Row>
+                <Col md="6">
+                <FormGroup>
+                    <label htmlFor="coverImage">Cover Image</label>
+                    <FormInput id="coverImage" placeholder="Image link" type="file"/>
                     </FormGroup>
-                    </Col>
-                    </Row>
-                    <Row>
-                    <Col md="6">
-                        <FormGroup>
-                        <label htmlFor="Author">Author</label>
-                        <FormInput placeholder="Author" value={reflection.author} onChange={this.handleAuthor} required/>
-                        </FormGroup>
-                    </Col>
-                    <Col md="6">
-                        <FormGroup>
-                            <label htmlFor="date">Publish Date</label>
-                            <FormInput id="date" type="date" value={reflection.date} onChange={this.handleDate} required/>
-                        </FormGroup>
-                    </Col>
-                    </Row>
-                    <FormGroup className="mb-0">
-                    <Button theme="accent" type="submit" disabled={this.state.requestPending}>
-                    {this.state.requestPending  ? <LoaderSmall/>: 'Update Reflection'}
-                    </Button>
+                </Col>
+                <Col md="6">
+                <FormGroup>
+                    <label htmlFor="audio">Audio File</label>
+                    <FormInput id="audio"placeholder="Audio link" type="file"/>
+                </FormGroup>
+                </Col>
+                </Row>
+                <Row>
+                <Col md="6">
+                    <FormGroup>
+                    <label htmlFor="Author">Author</label>
+                    <FormInput id="author" placeholder="Author" defaultValue={reflection.author}  required/>
                     </FormGroup>
-                </Form>
-            //     </CardBody>
-            // </Card>
+                </Col>
+                <Col md="6">
+                    <FormGroup>
+                        <label htmlFor="date">Publish Date</label>
+                        <FormInput id="date" type="date" defaultValue={reflection.date} required/>
+                    </FormGroup>
+                </Col>
+                </Row>
+                <FormGroup className="mb-0">
+                <Button theme="accent" type="submit" disabled={this.state.requestPending}>
+                {this.state.requestPending  ? <LoaderSmall/>: 'Update Reflection'}
+                </Button>
+                </FormGroup>
+            </Form>
             );
         }
 
@@ -151,62 +142,118 @@ class UpdateReflection extends React.Component{
 
         const audio = document.getElementById('audio');
         const image = document.getElementById('coverImage');
-        
+        const title = document.getElementById('title').value;
+        const content = document.getElementById('content').value;
+        const tags = document.getElementById('tags').value;
+        const author = document.getElementById('author').value;
+        const date = document.getElementById('date').value;
         const audioData = new FormData();
-        audioData.append('title', this.state.title)
-        audioData.append('description', this.state.content)
-        audioData.append('tags', this.state.tags)
-        audioData.append('admin', 1)
-        audioData.append('audio', audio.files[0])
-
         const imageData =  new FormData();
-        imageData.append('title', this.state.title)
-        imageData.append('description', this.state.content)
-        imageData.append('tags', this.state.tags)
-        imageData.append('admin', 1)
-        imageData.append('image', image.files[0])
 
-        axios.all([
-            _http.sendPost(audioUrl, audioData),
-            _http.sendPost(imageUrl, imageData)
+        if(audio.files[0]){ 
+            audioData.append('title', title)
+            audioData.append('description', content)
+            audioData.append('tags', tags)
+            audioData.append('admin', 1)
+            audioData.append('audio', audio.files[0])
+        }
+        if(image.files[0]){
+            imageData.append('title', title)
+            imageData.append('description', content)
+            imageData.append('tags', tags)
+            imageData.append('admin', 1)
+            imageData.append('image', image.files[0])
+        }
+
+
+        if(image.files[0] && audio.files[0]){
+            axios.all([
+                _http.sendPost(audioUrl, audioData),
+                _http.sendPost(imageUrl, imageData)
             ])
             .then(axios.spread((response1, response2)=> {
                 let  audioRes = response1.data;
                 let  imageRes = response2.data;
-                console.log(audioRes)
-                console.log(imageRes)
                 if(audioRes.status === 1 && imageRes.status === 1){
                     const payload = {
-                        "title": this.state.title,
-                        "content": this.state.content,
-                        "author": this.state.author,
-                        "date": this.state.date,
+                        "title": title,
+                        "content": content,
+                        "author": author,
+                        "date": date,
                         "image_link": imageRes.url,
-                        "audio_link":  audioRes.url,
+                        "audio_link": audioRes.url,
 
                     }
-                const reflectionUrl = `reflection/${this.props.reflection.id}`;
-                _http.sendPut(reflectionUrl, payload)
-                .then(response => {
-                    this.setState({ requestPending: false });
-                    if(response.data ){
-                        let type = "";
-                        if(response.status === "success"){
-                            type = "success";
-                            _http.notify(response.message, type)
-                        }else{
-                            type = "warn";
-                            _http.notify(response.message, type)
-                        }
-                    
-                    }else{
-                        _http.notify(response.message)
-                        this.setState({requestPending: false })
-                    }
-                });
+                    this.update(payload);
                 }
-            })
-            );
+            }));
+        }else if(image.files[0]){
+            _http.sendPost(imageUrl, imageData)
+            .then(response => {
+                let  imageRes = response.data;
+                if(imageRes.status === 1){
+                    const payload = {
+                        "title": title,
+                        "content": content,
+                        "author": author,
+                        "date": date,
+                        "image_link": imageRes.url,
+                        "audio_link": this.props.reflection.audio_link,
+                    }
+                    this.update(payload);
+                }
+            });
+        }else if(audio.files[0]){
+            _http.sendPost(audioUrl, audioData)
+            .then(response => {
+                let  audioRes = response.data;
+                if(audioRes.status === 1){
+                    const payload = {
+                        "title": title,
+                        "content": content,
+                        "author": author,
+                        "date": date,
+                        "image_link": this.props.reflection.image_link,
+                        "audio_link": audioRes.url,
+
+                    }
+                    this.update(payload);
+                }
+            });
+        }else{
+            const payload = {
+                "title": title,
+                "content": content,
+                "author": author,
+                "date": date,
+                "image_link": this.props.reflection.image_link,
+                "audio_link": this.props.reflection.audio_link,
+
+            }
+            this.update(payload);
+        }
+    }
+
+        update = (payload) => {
+            const reflectionUrl = `reflection/${this.props.reflection.id}`;
+            _http.sendPut(reflectionUrl, payload)
+            .then(response => {
+                this.setState({ requestPending: false });
+                if(response.data ){
+                    let type = "";
+                    if(response.status === "success"){
+                        type = "success";
+                        _http.notify(response.message, type)
+                    }else{
+                        type = "warn";
+                        _http.notify(response.message, type)
+                    }
+                
+                }else{
+                    _http.notify(response.message)
+                    this.setState({requestPending: false })
+                }
+            });
         }
     }
 

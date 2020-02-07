@@ -27,6 +27,7 @@ import Dashboard from "./views/Dashboard";
 import Products from "./views/Products";
 import ViewReflection from "./views/ViewReflection";
 import Posts from "./views/Posts";
+import Accounts from "./views/Accounts";
 
 
 import 'tachyons';
@@ -190,9 +191,16 @@ currentUser = () => {
                 render={(props) =>
                   <HomeLayout user={user}>
                   <Confirmation user={user} Auth={Auth}/>
-                </HomeLayout>}
+                </HomeLayout>
+                }
               />
-              
+              <Route
+                path='/accounts/:id'
+                render={(props) =>
+                  <DefaultLayout user={user}>
+                  <Accounts user={user} Auth={Auth}/>
+                </DefaultLayout>}
+              />
             </Switch>
           </Router>         
       </div>

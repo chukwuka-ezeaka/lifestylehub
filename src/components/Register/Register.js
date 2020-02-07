@@ -144,7 +144,7 @@ class Register extends React.Component {
                                         />
                                         <ErrorMessage name="email" component="div" className="invalid-feedback" />
                                     </div>
-                                    <div className="mt3">
+                                    {/* <div className="mt3">
                                         <label className="db fw6 lh-copy f6" htmlFor="phone">Mobile No</label>
                                         <Field
                                             type="phone"
@@ -153,8 +153,8 @@ class Register extends React.Component {
                                             className={"form-control b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" + (errors.phone && touched.phone ? ' is-invalid' : '')}
                                         />
                                         <ErrorMessage name="phone" component="div" className="invalid-feedback" />
-                                    </div>
-                                    <div className="mt3">
+                                    </div> */}
+                                    {/* <div className="mt3">
                                         <label className="db fw6 lh-copy f6" htmlFor="photo">Upload Image</label>
                                         <input
                                             type="file"
@@ -164,7 +164,7 @@ class Register extends React.Component {
                                             className={"form-control b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" + (errors.photo && touched.photo ? ' is-invalid' : '')}
                                         />
                                         <ErrorMessage name="file" component="div" className="invalid-feedback" />
-                                    </div>
+                                    </div> */}
                                     <div className="mv3">
                                         <label className="db fw6 lh-copy f6" htmlFor="password">Password *</label>
                                         <Field

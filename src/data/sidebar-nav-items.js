@@ -134,7 +134,7 @@ export default function() {
           {
             title: "Subscription settings",
             htmlBefore: '<i class="material-icons">video_library</i>',
-            to: "/products/subscriptionSettings",
+            to: "/products/subscriptions",
           }
         ]
       },
@@ -179,17 +179,17 @@ export default function() {
           {
             title: "Downloads",
             htmlBefore: '<i class="material-icons">person</i>',
-            to: "/#",
+            to: "/accounts/downloads",
           },
           {
             title: "Purchase",
             htmlBefore: '<i class="material-icons">person</i>',
-            to: "#",
+            to: "/accounts/purchase",
           },
           {
-            title: "Subscriptions",
+            title: "Invite",
             htmlBefore: '<i class="material-icons">person</i>',
-            to: "#",
+            to: "/accounts/invite",
           },
           
         ]

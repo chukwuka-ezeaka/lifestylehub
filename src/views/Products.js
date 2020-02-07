@@ -7,7 +7,7 @@ import PageTitle from "../components/common/PageTitle";
 import Category from '../components/Products/Category/Category';
 import Media from '../components/Products/AddProduct/Media';
 import Content from '../components/Products/AddProduct/Content';
-import Stats from '../components/Vendor/Dashboard/Stats';
+import Stats from '../components/Products/Stats';
 import HttpService from "../utils/API";
 import Audio from "../components/Products/Types/Audios";
 import Video from "../components/Products/Types/Videos";
@@ -103,7 +103,7 @@ componentWillUnmount = () => {
     const { showAddMedia, showCategories, showAddContent, showAll, showAudio, showAuthor, showContent, showEbook, showVideo } = this.state.showViews;
     let video, audio, ebook = [];
     if((media) && (media.length > 0)){
-      video = media.filter(product => {
+      video = media.filter(media => {
         if(media.media_type){
             return media.media_type.id === 1;
         }
@@ -115,7 +115,7 @@ componentWillUnmount = () => {
         }
       });
       
-      ebook = media.filter(product => {
+      ebook = media.filter(media => {
         if(media.media_type){
             return media.media_type.id === 4;
         }
