@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 import { Container, Row, Col } from "shards-react";
 
 import PageTitle from "../components/common/PageTitle";
@@ -11,53 +11,60 @@ import HttpService from "../utils/API";
 
 const _http = new HttpService();
 
-class Dashboard extends React.Component{
-  constructor(props){
+class Dashboard extends React.Component {
+  constructor(props) {
     super(props);
-    this.state={
-        users: [],
-        loading: true,
-        errorMessage: ''
-    }
-}
-
-  componentWillMount() {
+    this.state = {
+      users: [],
+      loading: true,
+      errorMessage: ""
+    };
   }
 
-  componentDidMount(){
+  componentWillMount() {}
+
+  componentDidMount() {
     const url = "account/user/list/with_roles";
-    _http.sendGet(url)
-    .then(response => {
-        response.data ?
-        this.setState({ errorMessage: '',  users: response.data, loading: false })
-        :
-        this.setState({ errorMessage: response.message, loading: false })
-    })
+    _http.sendGet(url).then(response => {
+      response.data
+        ? this.setState({
+            errorMessage: "",
+            users: response.data,
+            loading: false
+          })
+        : this.setState({ errorMessage: response.message, loading: false });
+    });
   }
-  
-  
+
   componentWillUnmount = () => {
     this.abortController.abort();
+    console.log("[Dashboard]:abortcontroller will unmount if not signed in");
   };
-  
-  abortController = new window.AbortController(); 
 
-render(){
-  const { users, loading } = this.state;
-    return(
+  abortController = new window.AbortController();
+
+  render() {
+    console.log("[Dashboard]: Rendering");
+    const { users, loading } = this.state;
+
+    return (
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
         <Row noGutters className="page-header py-4">
-          <PageTitle title="General Overview" subtitle="Dashboard" className="text-sm-left mb-3" />
+          <PageTitle
+            title="General Overview"
+            subtitle="Dashboard"
+            className="text-sm-left mb-3"
+          />
         </Row>
 
         {/* Small Stats Blocks */}
-        <Stats users={users} loading={loading}/>
-      
+        <Stats users={users} loading={loading} />
+
         <Row>
           {/* Users Overview */}
           <Col lg="8" md="12" sm="12" className="mb-4">
-          <Notifications />
+            <Notifications />
           </Col>
 
           {/* Users by Device */}

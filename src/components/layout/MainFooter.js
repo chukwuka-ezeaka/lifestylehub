@@ -5,69 +5,24 @@ import { Link } from "react-router-dom";
 import "./layout.css";
 
 const MainFooter = ({ contained, menuItems, copyright }) => (
-  <section className="section-footer">
-    <div className="first-footer">
-      <div className="container">
-        <Row>
-          <div className="col-md-4 footer-block wow fadeIn" data-wow-delay="0.30s">
-            <div className="heading">
-              <h3>ABOUT LIFESTYLE</h3>
-            </div>
-            <p>
-              Nullam hendrerit sem ullamcorper erat ut luctus proin aenean
-              nullam sagittis praesent, donec faucibus rutrum fusce ante rutrum
-              curabitur lacus{" "}
-            </p>
-          </div>
-          <div className="col-md-4 footer-block wow fadeIn" data-wow-delay="0.35s">
-            <div className="heading">
-              <h3>CONTACT</h3>
-            </div>
-            <ul className="list-unstyled">
-              <li>
-                <i className="fa fa-map-marker"></i> 15A Hendon Ave Mount Albert
-                Auckland New Zealand .
-              </li>
-              <li>
-                <i className="fa fa-envelope"></i> support@LifeStyle.com
-              </li>
-              <li>
-                <i className="fa fa-phone"></i> +64-7589-6477
-              </li>
-            </ul>
-          </div>
-          <div className="col-md-4 footer-block wow fadeIn" data-wow-delay="0.40s">
-            <div className="heading">
-              <h3>STAY IN TOUCH</h3>
-            </div>
-            <p>
-              Nullam hendrerit sem ullamcorper erat ut luctus proin aenean
-              nullam sagittis praesent, donec faucibus rutrum fusce ante rutrum
-              curabitur lacus{" "}
-            </p>
-          </div>
-        </Row>
-      </div>
-    </div>
-    <footer className="main-footer footer-bottom d-flex px-3">
-      <Container fluid={contained}>
-        <Row>
-          {
-            <Nav>
-              {menuItems.map((item, idx) => (
-                <NavItem key={idx}>
-                  <NavLink tag={Link} to={item.to}>
-                    {item.title}
-                  </NavLink>
-                </NavItem>
-              ))}
-            </Nav>
-          }
-          <span className="copyright ml-auto my-auto mr-auto">{copyright}</span>
-        </Row>
-      </Container>
-    </footer>
-  </section>
+  <footer className="main-footer footer-bottom d-flex px-3">
+    <Container fluid={contained}>
+      <Row>
+        {
+          <Nav>
+            {menuItems.map((item, idx) => (
+              <NavItem key={idx}>
+                <NavLink tag={Link} to={item.to}>
+                  {item.title}
+                </NavLink>
+              </NavItem>
+            ))}
+          </Nav>
+        }
+        <span className="copyright ml-auto my-auto mr-auto">{copyright}</span>
+      </Row>
+    </Container>
+  </footer>
 );
 
 MainFooter.propTypes = {

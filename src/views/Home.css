@@ -1,12 +1,12 @@
-.view{
+.view {
     min-height: 83vh;
 }
 
-.image-row{
+.image-row {
     height: 200px;
     align-content: center !important;
 }
 
-.logo{
+.logo {
     height: 100% !important;
 }
