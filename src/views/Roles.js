@@ -17,9 +17,6 @@ class Roles extends React.Component {
     }
 
     componentDidMount() {
-        if(!localStorage.getItem('Auth')){
-          this.props.history.push('/signin');
-        }
       }
 
     render(){

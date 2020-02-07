@@ -54,7 +54,7 @@ export default class NavExample extends React.Component {
         style={{ backgroundColor: "transparent" }}
         theme="default"
         expand="md"
-        navbar-fixed-top
+        navbar-fixed-top="true"
       >
         <NavbarBrand href="/">
           <img
@@ -71,19 +71,17 @@ export default class NavExample extends React.Component {
           <Nav navbar className="ml-auto">
             <Nav navbar>
               <NavItem>
-                <NavLink href="">About Us</NavLink>
+                <NavLink href="#about">About Us</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="">Contact Us</NavLink>
+                <NavLink href="#contact">Contact Us</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="/signin">Sign In</NavLink>
               </NavItem>
-              {
-                //   <NavItem>
-                //   <NavLink href="/register">Register</NavLink>
-                // </NavItem>
-              }
+              {/* {<NavItem>
+                <NavLink href="/register">Register</NavLink>
+              </NavItem>} */}
             </Nav>
           </Nav>
         </Collapse>

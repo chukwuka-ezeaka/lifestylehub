@@ -1,11 +1,14 @@
 import React from 'react';
-import Loader from '../../../Loaders/Loader';
+import Loader from '../../Loaders/Loader';
 import {Card, CardHeader, CardBody, Button } from "shards-react"
+import GetImage from '../../common/getImage';
 
 class ViewCategories extends React.Component{
 
 render(){
     const { categories, isLoading } = this.props;
+    console.log(categories)
+    const width = "70"
     let i = 1;
     return(
 
@@ -25,10 +28,13 @@ render(){
                             #
                         </th>
                         <th scope="col" className="border-0">
-                            Role
+                            Name
                         </th>
                         <th scope="col" className="border-0">
-                           Id
+                            Description
+                        </th>
+                        <th scope="col" className="border-0">
+                            Cover
                         </th>
                         <th scope="col" className="border-0">
 
@@ -46,8 +52,13 @@ render(){
                                 <tr key={category.id}>
                                     <td>{i++}</td>
                                     <td>{category.name}</td>
-                                    <td>{category.id}</td>
-                                  
+                                    <td>{category.description}</td>
+                                    <td>
+                                    {category.image_url !== null ?
+                                    <GetImage image={category.image_url} title={category.name} width={width}/>
+                                    :
+                                    ""}
+                                    </td>
                                     <td>
                                         <Button size="sm" theme="warning" className="mb-2 mr-1" id={index}>
                                             Delete

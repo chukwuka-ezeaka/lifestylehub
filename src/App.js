@@ -30,6 +30,8 @@ import Confirmation from "./views/Confirmation";
 import Dashboard from "./views/Dashboard";
 import Products from "./views/Products";
 import ViewReflection from "./views/ViewReflection";
+import Posts from "./views/Posts";
+import Accounts from "./views/Accounts";
 
 import "tachyons";
 
@@ -158,6 +160,15 @@ class App extends React.Component {
                 </DefaultLayout>
               )}
             />
+
+            <Route
+              path="/posts/:id"
+              render={props => (
+                <DefaultLayout user={user}>
+                  <Posts user={user} Auth={Auth} />
+                </DefaultLayout>
+              )}
+            />
             <Route
               path="/roles"
               render={props => (
@@ -188,6 +199,14 @@ class App extends React.Component {
                 <HomeLayout user={user}>
                   <Confirmation user={user} Auth={Auth} />
                 </HomeLayout>
+              )}
+            />
+            <Route
+              path="/accounts/:id"
+              render={props => (
+                <DefaultLayout user={user}>
+                  <Accounts user={user} Auth={Auth} />
+                </DefaultLayout>
               )}
             />
           </Switch>

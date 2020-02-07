@@ -25,6 +25,7 @@
     "react-scripts": "2.1.1",
     "react-toastify": "^5.4.1",
     "react-top-loading-bar": "^1.2.0",
+    "react-truncate": "^2.4.0",
     "shards-react": "^1.0.0",
     "shortid": "^2.2.14",
     "tachyons": "^4.11.1",

@@ -68,33 +68,14 @@ handleUpload = () => {
 });
 }
 
-getBase64 = () => {
-  axios
-  .get('https://lshub.herokuapp.com/api/v1/media/manager/image/single/find/01a0926d-fa45-4317-ac34-523b300ba197-.jpg',
-  {responseType: 'arrayBuffer'},
-  { headers: {
-    Authorization : `Bearer ${localStorage.getItem('Auth')}`},
-    
-  })
-  .then(response => {
-    let image = new Buffer.from(response.data.image, 'base64');
-    this.setState({
-        avatar: image,
-    })
-  }, (error) => {
-    this.setState({ loading: false });
-});
-}
-
   render() { 
     const { loading } = this.state;
     const { user } = this.props;
-    console.log(user);
     const userDetails = {
         name: user.fullname,
         avatar: require("./../../images/avatars/0.png"),
         jobTitle: "Life Coach",
-        performanceReportTitle: "Experiencey",
+        performanceReportTitle: "Experience",
         performanceReportValue: 74,
         metaTitle: "Work History",
         metaValue:

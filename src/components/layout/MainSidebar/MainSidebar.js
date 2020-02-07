@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Col } from "shards-react";
+import { withRouter } from 'react-router-dom';
 
 import SidebarMainNavbar from "./SidebarMainNavbar";
 import SidebarSearch from "./SidebarSearch";
@@ -22,6 +23,9 @@ class MainSidebar extends React.Component {
   }
 
   componentWillMount() {
+      if(!localStorage.getItem('Auth')){
+        this.props.history.push('/signin');
+      }
     Store.addChangeListener(this.onChange);
   }
 
@@ -72,4 +76,4 @@ MainSidebar.defaultProps = {
   hideLogoText: false
 };
 
-export default MainSidebar;
+export default withRouter(MainSidebar);

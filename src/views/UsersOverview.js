@@ -2,7 +2,6 @@ import React from "react";
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from "shards-react";
 import HttpService from '../utils/API';
-import axios from 'axios';
 
 import PageTitle from "../components/common/PageTitle";
 import Users from '../components/Admin/Users/Users';
@@ -33,10 +32,6 @@ class UsersOverview extends React.Component {
     }
   
   componentWillMount() {
-    if(!localStorage.getItem('Auth')){
-      this.props.history.push('/signin');
-    }
-   
 }
 
 showContent = (handle) => {
@@ -93,21 +88,21 @@ abortController = new window.AbortController();
   render(){
     const {users, loading, errorMessage } = this.state;
     const {showAdmin, showVendors, showCoaches, showSubscribers} = this.state.showViews;
-    let isEmpty = () => users.length > 0;
+    let notEmpty = () => users.length > 0;
 
-    let admins = isEmpty() ? users.filter(user => {
+    let admins = notEmpty() ? users.filter(user => {
       return user.UserRole.roleId === 75;
     }) : users;
 
-    let vendors = isEmpty() ? users.filter(user => {
+    let vendors = notEmpty() ? users.filter(user => {
       return user.UserRole.roleId === 99;
     }) : users;
 
-    let coaches = isEmpty() ? users.filter(user => {
+    let coaches = notEmpty() ? users.filter(user => {
       return user.UserRole.roleId === 100;
     }) : users;
     
-    let subscribers = isEmpty() ? users.filter(user => {
+    let subscribers = notEmpty() ? users.filter(user => {
       return user.UserRole.roleId === 87;
     }) : users;
 

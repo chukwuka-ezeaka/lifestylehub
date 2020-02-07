@@ -189,7 +189,6 @@ class NewReflection extends React.Component{
                 .then(response => {
                     this.setState({ requestPending: false });
                     if(response.data ){
-                        this.setState({requestPending: true});
                         let type = "";
                         if(response.status === "success"){
                             type = "success";

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Media from './Media';
-import LoaderSmall from '../../../Loaders/LoaderSmall';
+import LoaderSmall from '../../Loaders/LoaderSmall';
 import {
     Card,
     CardHeader,
@@ -9,14 +8,12 @@ import {
   InputGroup,
   InputGroupAddon,
   Button,
-  Row,
-  Col
   } from "shards-react";
-import HttpService from '../../../../utils/API';
+import HttpService from '../../../utils/API';
 
 const _http = new HttpService();
 
-class AddProduct extends Component {
+class AddCategory extends Component {
     constructor(){
         super();
         this.state={
@@ -33,31 +30,23 @@ class AddProduct extends Component {
     render() { 
         const { requestPending } = this.state;
         return (
-            <Row>
-            <Col lg="8">
-              <Media/>
-            </Col>
-            <Col lg="4">
-                <Card small className="mb-3">
-                    <CardHeader className="border-bottom">
-                    <h6 className="m-0">Add Media</h6>
-                    </CardHeader>
-                    <CardBody className="p-3">
+            <Card small className="mb-3">
+                <CardHeader className="border-bottom">
+                <h6 className="m-0">Add Category</h6>
+                </CardHeader>
+                <CardBody className="p-3">
+                
+                <InputGroup className="ml-auto">
+                <FormInput id="newCategory" onChange={this.handleCategory} placeholder="New category" />
+                <InputGroupAddon type="append">
+                    <Button theme="white" className="px-2 bg-success" onClick={this.onSubmitRequest}>
+                    {requestPending ? <LoaderSmall /> : <i className="material-icons white">add</i>}
+                    </Button>
+                </InputGroupAddon>
+                </InputGroup>
                     
-                    <InputGroup className="ml-auto">
-                    <FormInput id="newCategory" onChange={this.handleCategory} placeholder="New category" />
-                    <InputGroupAddon type="append">
-                        <Button theme="white" className="px-2 bg-success" onClick={this.onSubmitRequest}>
-                        {requestPending ? <LoaderSmall /> : <i className="material-icons white">add</i>}
-                        </Button>
-                    </InputGroupAddon>
-                    </InputGroup>
-                        
-                    </CardBody>
-                </Card>
-         
-            </Col>
-          </Row> 
+                </CardBody>
+            </Card>
             );
     }
 
@@ -88,4 +77,4 @@ class AddProduct extends Component {
     }
 }
  
-export default AddProduct;
+export default AddCategory;

@@ -1,9 +1,7 @@
 export default function() {
   let user = JSON.parse(localStorage.getItem('user'));
-  let userRole =  user ? user.role.id : 0;
-  console.log(userRole)
-  switch(userRole){
-    case 75:
+  let userRole =  user ? parseInt(user.role.id) : 0;
+  if(userRole === 75){
       return [
       {
         title: "Dashboard",
@@ -95,7 +93,7 @@ export default function() {
           {
             title: "All products",
             htmlBefore: '<i class="material-icons">shopping_cart</i>',
-            to: "/products/allProducts",
+            to: "/products/allProducts   ",
           },
           {
             title: "Videos",
@@ -118,52 +116,58 @@ export default function() {
             to: "/products/authors",
           },
           {
-            title: "Add product",
+            title: "Add Product",
             htmlBefore: '<i class="material-icons">add_box</i>',
-            to: "/products/addProduct",
+            to: "/products/addMedia",
+          },
+  
+          {
+            title: "Add Content",
+            htmlBefore: '<i class="material-icons">add_box</i>',
+            to: "/products/addContent",
           },
           {
             title: "Category",
             htmlBefore: '<i class="material-icons">list_alt</i>',
-            to: "/products/Category",
+            to: "/products/Category"
           },
           {
             title: "Subscription settings",
             htmlBefore: '<i class="material-icons">video_library</i>',
-            to: "/products/subscriptionSettings",
+            to: "/products/subscriptions",
           }
         ]
       },
       
 
-      {
-        title: "Chats",
-        to: "#",
-        htmlBefore: '<i class="material-icons">chat</i>',
-        htmlAfter: '<i class="fas fa-caret-down"></i>',
-        subMenu: [
-          {
-            title: "All chats",
-            htmlBefore: '<i class="material-icons">person</i>',
-            to: "/#",
-          },
-          {
-            title: "Compose",
-            htmlBefore: '<i class="material-icons">person</i>',
-            to: "#",
-          },
-          {
-            title: "Inbox",
-            htmlBefore: '<i class="material-icons">person</i>',
-            to: "#",
-          },
-          {
-            title: "Coach Settings",
-            htmlBefore: '<i class="material-icons">person</i>',
-            to: "#",
-          }
-        ]
-      },
+      // {
+      //   title: "Chats",
+      //   to: "#",
+      //   htmlBefore: '<i class="material-icons">chat</i>',
+      //   htmlAfter: '<i class="fas fa-caret-down"></i>',
+      //   subMenu: [
+      //     {
+      //       title: "All chats",
+      //       htmlBefore: '<i class="material-icons">person</i>',
+      //       to: "/#",
+      //     },
+      //     {
+      //       title: "Compose",
+      //       htmlBefore: '<i class="material-icons">person</i>',
+      //       to: "#",
+      //     },
+      //     {
+      //       title: "Inbox",
+      //       htmlBefore: '<i class="material-icons">person</i>',
+      //       to: "#",
+      //     },
+      //     {
+      //       title: "Coach Settings",
+      //       htmlBefore: '<i class="material-icons">person</i>',
+      //       to: "#",
+      //     }
+      //   ]
+      // },
 
 
       {
@@ -175,24 +179,24 @@ export default function() {
           {
             title: "Downloads",
             htmlBefore: '<i class="material-icons">person</i>',
-            to: "/#",
+            to: "/accounts/downloads",
           },
           {
             title: "Purchase",
             htmlBefore: '<i class="material-icons">person</i>',
-            to: "#",
+            to: "/accounts/purchase",
           },
           {
-            title: "Subscriptions",
+            title: "Invite",
             htmlBefore: '<i class="material-icons">person</i>',
-            to: "#",
+            to: "/accounts/invite",
           },
           
         ]
       },
-    ];
-    break;
-default:
+    ]
+  }
+  if(userRole === 99){
   return [
     {
       title: "Products",
@@ -222,10 +226,35 @@ default:
         },
       
         {
-          title: "Add product",
+          title: "Add Product",
           htmlBefore: '<i class="material-icons">add_box</i>',
-          to: "/products/addProduct",
+          to: "/products/addMedia",
+        },
+
+        {
+          title: "Add Content",
+          htmlBefore: '<i class="material-icons">add_box</i>',
+          to: "/products/addContent",
         }
+      ]
+    },
+    
+    {
+      title: "Posts",
+      to: "#",
+      htmlBefore: '<i class="material-icons">assignment</i>',
+      htmlAfter: '<i class="fas fa-caret-down"></i>',
+      subMenu: [
+        {
+          title: "All post",
+          htmlBefore: '<i class="material-icons">assignment</i>',
+          to: "/posts/all",
+        },
+        {
+          title: "New post",
+          htmlBefore: '<i class="material-icons">create</i>',
+          to: "/posts/new",
+        },
       ]
     },
 
@@ -237,6 +266,5 @@ default:
     },
     
   ];
-  break;
 }
 }

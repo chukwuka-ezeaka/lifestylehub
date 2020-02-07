@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import LoaderSmall from '../../Loaders/LoaderSmall';
-import { toast } from 'react-toastify';
 import {
     Card,
     CardHeader,

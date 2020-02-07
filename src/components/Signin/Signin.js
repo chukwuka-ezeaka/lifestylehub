@@ -3,7 +3,9 @@ import { withRouter } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import LoaderSmall from "../Loaders/LoaderSmall";
-import "./Signin.css";
+import HttpService from "../../utils/API";
+
+const _http = new HttpService();
 
 class Signin extends React.Component {
   constructor() {
@@ -34,33 +36,26 @@ class Signin extends React.Component {
           this.setState({
             disabled: true
           });
-          fetch("https://lshub.herokuapp.com/api/v1/auth/login", {
-            method: "post",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: email,
-              password: password
-            })
-          })
-            .then(response => response.json())
-            .then(user => {
-              this.setState({
-                disabled: false
-              });
-              switch (user.status) {
+          const url = "auth/login";
+          const postData = {
+            email: email,
+            password: password
+          };
+          _http.sendPostNoAuth(url, postData).then(response => {
+            if (response.data) {
+              switch (response.status) {
                 case "success":
-                  if (user.data.id) {
-                    console.log(user.data.id)
-                    let userData = JSON.stringify(user.data);
-                    switch (user.data.role.id) {
+                  if (response.data.id) {
+                    let userData = JSON.stringify(response.data);
+                    switch (response.data.role.id) {
                       case 75:
                         localStorage.setItem("user", userData);
-                        localStorage.setItem("Auth", user.token);
+                        localStorage.setItem("Auth", response.token);
                         this.props.history.push("/dashboard");
                         break;
                       case 99:
                         localStorage.setItem("user", userData);
-                        localStorage.setItem("Auth", user.token);
+                        localStorage.setItem("Auth", response.token);
                         this.props.history.push("/products/allProducts");
                         break;
                       default:
@@ -73,7 +68,7 @@ class Signin extends React.Component {
                   break;
                 case "fail":
                   this.setState({
-                    errMessage: user.message,
+                    errMessage: response.message,
                     disabled: false
                   });
                   break;
@@ -84,13 +79,14 @@ class Signin extends React.Component {
                   });
                   break;
               }
-            })
-            .catch(err => {
+            } else {
               this.setState({
-                disabled: false,
-                errMessage: "Please check your network connection and try again"
+                disabled: false
               });
-            });
+              _http.notify(response.message);
+              this.setState({ requestPending: false });
+            }
+          });
         }}
         render={({ errors, touched }) => (
           <article className="br3 mv4 w-100 w-50 w-25-1 mw6 center">

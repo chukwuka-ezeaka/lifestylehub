@@ -2,11 +2,10 @@ import React from "react";
 import Signin from "../components/Signin/Signin";
 
 import "./Signin.css";
-
-const SignInView = ({ loadUser }) => {
+const SignInView = () => {
   return (
     <div className="view mr-4 ml-4">
-      <Signin loadUser={loadUser} />
+      <Signin />
     </div>
   );
 };

@@ -25,7 +25,7 @@ class ViewPermissions extends React.Component{
     abortController = new window.AbortController(); 
 
 render(){
-    const { permissions, errorMessage } = this.state;
+    const { permissions } = this.state;
     let i = 1;
     return(
             <Card small className="mb-4 overflow-hidden">
