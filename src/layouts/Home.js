@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Container, Row, Col, } from "shards-react";
+import { Container, Row, Col } from "shards-react";
 
 import MainNavbar from "../components/layout/HomeNavbar";
 //import MainSidebar from "../components/layout/MainSidebar/MainSidebar";
 import MainFooter from "../components/layout/MainFooter";
-import './Home.css'
+import "./Home.css";
 
 const HomeLayout = ({ children, noNavbar, noFooter }) => (
   <Container fluid className="body">
@@ -19,10 +19,9 @@ const HomeLayout = ({ children, noNavbar, noFooter }) => (
       >
         {!noNavbar && <MainNavbar />}
         {children}
-        
+        {!noFooter && <MainFooter />}
       </Col>
     </Row>
-    {!noFooter && <MainFooter />}
   </Container>
 );
 

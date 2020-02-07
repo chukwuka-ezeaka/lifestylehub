@@ -16,7 +16,9 @@ export default class UserActions extends React.Component {
 
     this.state = {
       visible: false,
-      user: localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : {}
+      user: localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))
+        : {}
     };
 
     this.toggleUserActions = this.toggleUserActions.bind(this);
@@ -28,13 +30,13 @@ export default class UserActions extends React.Component {
     });
   }
 
-  componentDidMount(){
+  componentDidMount() {
     //console.log(this.props.user.name);
   }
 
   render() {
-    console.log(this.state.users);
     const { user, visible } = this.state;
+
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
         <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
@@ -43,7 +45,9 @@ export default class UserActions extends React.Component {
             src={require("./../../../../images/avatars/0.png")}
             alt="User Avatar"
           />{" "}
-          <span className="d-none d-md-inline-block pointer">{user ? user.fullname : ''}</span>
+          <span className="d-none d-md-inline-block pointer">
+            {user ? user.fullname : ""}
+          </span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={visible}>
           <DropdownItem tag={Link} to="/profile">

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 import { Container, Row, Col } from "shards-react";
 
 import PageTitle from "../components/common/PageTitle";
@@ -8,72 +8,78 @@ import Stats from "../components/Admin/Dashboard/Stats";
 import UsersByDevice from "../components/Admin/Dashboard/UsersByRoles";
 import Notifications from "../components/Admin/Dashboard/Notifications";
 
-class Dashboard extends React.Component{
-  constructor(props){
+class Dashboard extends React.Component {
+  constructor(props) {
     super(props);
-    this.state={
-        users: [],
-        loading: true,
-    }
-}
-
-  componentWillMount() {
-    if(!localStorage.getItem('Auth')){
-      this.props.history.push('/signin');
-    }
-    
+    this.state = {
+      users: [],
+      loading: true
+    };
   }
 
-  componentDidMount(){
-    
-    fetch('https://lshub.herokuapp.com/api/v1/account/user/list/with_roles',{
-      method: 'get',
+  componentWillMount() {
+    console.log("[Dashboard]: Local Storage will mount if signed in");
+    if (!localStorage.getItem("Auth")) {
+      this.props.history.push("/signin");
+      console.log("[Dashboard]: Local Storage will mount if not signed in");
+    }
+  }
+
+  componentDidMount() {
+    console.log("[Dashboard]: Fetch did mount if signed or not signed in");
+    fetch("https://lshub.herokuapp.com/api/v1/account/user/list/with_roles", {
+      method: "get",
       headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'bearer ' + localStorage.getItem('Auth'),
+        "Content-Type": "application/json",
+        Authorization: "bearer " + localStorage.getItem("Auth")
       },
       signal: this.abortController.signal
     })
-    .then(response => response.json())
-    .then(object => {
+      .then(response => response.json())
+      .then(object => {
         this.setState({
-            users: object.data,
-            loading: false
-        })
-    })
-    .catch(err => {
-        this.setState({
-            loading: false
+          users: object.data,
+          loading: false
         });
-        if (err.name === 'AbortError') return; // expected, this is the abort, so just return
+      })
+      .catch(err => {
+        this.setState({
+          loading: false
+        });
+        if (err.name === "AbortError") return; // expected, this is the abort, so just return
         throw err;
-    });
-   
+      });
   }
-  
-  
+
   componentWillUnmount = () => {
     this.abortController.abort();
+    console.log("[Dashboard]:abortcontroller will unmount if not signed in");
   };
-  
-  abortController = new window.AbortController(); 
 
-render(){
-  const { users, loading } = this.state;
-    return(
+  abortController = new window.AbortController();
+
+  render() {
+    console.log("[Dashboard]: Rendering");
+    const { users, loading } = this.state;
+
+    return (
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
         <Row noGutters className="page-header py-4">
-          <PageTitle title="General Overview" subtitle="Dashboard" className="text-sm-left mb-3" />
+          <PageTitle
+            title="General Overview"
+            subtitle="Dashboard"
+            className="text-sm-left mb-3"
+          />
         </Row>
 
         {/* Small Stats Blocks */}
-        <Stats users={users} loading={loading}/>
-      
+        <Stats users={users} loading={loading} />
+
         <Row>
           {/* Users Overview */}
           <Col lg="8" md="12" sm="12" className="mb-4">
-          <Notifications />
+            <Notifications />
           </Col>
 
           {/* Users by Device */}

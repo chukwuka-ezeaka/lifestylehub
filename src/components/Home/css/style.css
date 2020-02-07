@@ -11,9 +11,6 @@
             background-color: #fff;
         }
         /**/
-        /**/
-        /**/
-        /**/
         
         @keyframes moveInLeft {
             0% {
@@ -53,33 +50,6 @@
                 transform: translate(0);
             }
         }
-        /* 
-*,
-*::after,
-*::before {
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
-}
-
-html {
-    font-size: 62.5%;
-}
-
-body {
-    box-sizing: border-box;
-}
-
-body {
-    font-family: "Lato", sans-serif;
-    font-weight: 400; */
-        /* font-size: 16px; */
-        /* line-height: 1.7;
-color: rgb(80, 78, 78);
-padding: 3rem;
-
-}
-*/
         /*TYPOGRAPHY**/
         /***/
         
@@ -382,24 +352,30 @@ padding: 3rem;
             /* Firefox 18- */
             font-size: 13px;
         }
-        /* button.submit {
-            background: none repeat scroll 0 0 #272727;
-            border: 1px solid transparent;
-            color: #ffffff;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 400;
-            letter-spacing: 2px;
-            margin: 20px -17px;
-            padding: 16px;
-            position: relative;
-            float: left;
-            text-decoration: none;
-            text-transform: uppercase;
-            transition: all 0.2s ease-in-out 0s;
-            width: auto;
-        } */
         
         .btn-primary {
             width: inherit;
+        }
+        
+        .footer-block {
+            padding-bottom: 30px;
+            padding-top: 30px;
+        }
+        
+        .section-footer p {
+            color: white;
+        }
+        
+        .section-footer h3 {
+            color: #ffffff;
+            font-size: 20px;
+        }
+        
+        .section-footer li {
+            color: white;
+        }
+        
+        ul {
+            margin-top: 0;
+            margin-bottom: 1rem;
         }

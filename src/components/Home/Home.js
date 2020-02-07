@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Container,
-  Row,
-  Col
-  //   Card,
-  //   CardBody,
-  //   CardFooter,
-  //   Badge,
-  //   Button
-} from "shards-react";
+import { Container, Row, Col } from "shards-react";
 
 import "./css/style.css";
 import "./css/icon-font.css";
@@ -45,7 +36,7 @@ class Landing extends React.Component {
             <Col lg="6" md="12" sm="24"></Col>
           </Row>
         </header>
-        <section className="section-features">
+        <section id="" className="section-features">
           <div class="u-center-text u-margin-buttom-big">
             <h2 class="heading-secoundary">WHY CHOOSE US</h2>
             <div class="sub-heading">
@@ -199,6 +190,58 @@ class Landing extends React.Component {
                 </form>
               </Col>
             </div>
+          </div>
+        </section>
+        <section className="section-footer">
+          <div class="container">
+            <Row>
+              <div
+                class="col-md-4 footer-block wow fadeIn"
+                data-wow-delay="0.30s"
+              >
+                <div class="heading">
+                  <h3>ABOUT LIFESTYLE</h3>
+                </div>
+                <p>
+                  Nullam hendrerit sem ullamcorper erat ut luctus proin aenean
+                  nullam sagittis praesent, donec faucibus rutrum fusce ante
+                  rutrum curabitur lacus{" "}
+                </p>
+              </div>
+              <div
+                class="col-md-4 footer-block wow fadeIn"
+                data-wow-delay="0.35s"
+              >
+                <div class="heading">
+                  <h3>CONTACT</h3>
+                </div>
+                <ul class="list-unstyled">
+                  <li>
+                    <i class="fa fa-map-marker"></i> 15A Hendon Ave Mount Albert
+                    Auckland New Zealand.
+                  </li>
+                  <li>
+                    <i class="fa fa-envelope"></i> support@LifeStyle.com
+                  </li>
+                  <li>
+                    <i class="fa fa-phone"></i> +64-7589-6477
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="col-md-4 footer-block wow fadeIn"
+                data-wow-delay="0.40s"
+              >
+                <div class="heading">
+                  <h3>STAY IN TOUCH</h3>
+                </div>
+                <p>
+                  Nullam hendrerit sem ullamcorper erat ut luctus proin aenean
+                  nullam sagittis praesent, donec faucibus rutrum fusce ante
+                  rutrum curabitur lacus{" "}
+                </p>
+              </div>
+            </Row>
           </div>
         </section>
       </Container>
