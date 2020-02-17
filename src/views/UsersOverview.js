@@ -32,6 +32,10 @@ class UsersOverview extends React.Component {
     }
   
   componentWillMount() {
+    if(!localStorage.getItem('Auth')){
+      this.props.history.push('/signin');
+    }
+   
 }
 
 showContent = (handle) => {
@@ -88,21 +92,21 @@ abortController = new window.AbortController();
   render(){
     const {users, loading, errorMessage } = this.state;
     const {showAdmin, showVendors, showCoaches, showSubscribers} = this.state.showViews;
-    let notEmpty = () => users.length > 0;
+    let isEmpty = () => users.length > 0;
 
-    let admins = notEmpty() ? users.filter(user => {
+    let admins = isEmpty() ? users.filter(user => {
       return user.UserRole.roleId === 75;
     }) : users;
 
-    let vendors = notEmpty() ? users.filter(user => {
+    let vendors = isEmpty() ? users.filter(user => {
       return user.UserRole.roleId === 99;
     }) : users;
 
-    let coaches = notEmpty() ? users.filter(user => {
+    let coaches = isEmpty() ? users.filter(user => {
       return user.UserRole.roleId === 100;
     }) : users;
     
-    let subscribers = notEmpty() ? users.filter(user => {
+    let subscribers = isEmpty() ? users.filter(user => {
       return user.UserRole.roleId === 87;
     }) : users;
 

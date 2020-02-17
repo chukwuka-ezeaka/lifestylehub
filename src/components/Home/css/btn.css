@@ -1,0 +1,460 @@
+.btn {
+    padding: 10px 36px;
+    margin: 0px;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.btn.btn-large {
+    padding: 15px 60px;
+}
+
+.btn.btn-medium {
+    padding: 10px 30px;
+}
+
+.btn.btn-small {
+    padding: 8px 18px;
+}
+
+.btn.btn-small-2 {
+    padding: 4px 18px;
+}
+
+.btn.btn-fullwidth {
+    width: 100%;
+}
+
+.btn.btn-half-fullwidth {
+    width: 50%;
+}
+
+
+/* button radius
+ ------------------------------ */
+
+.btn.btn-xround {
+    border-radius: 20px;
+}
+
+.btn.btn-xround-2 {
+    border-radius: 30px;
+}
+
+.btn.btn-round {
+    border-radius: 5px;
+}
+
+.btn.top-margin {
+    margin-top: 20px;
+}
+
+
+/* button right margins
+ ------------------------------ */
+
+.btn.btn-mar-right-1 {
+    margin-right: 10px
+}
+
+.btn.btn-mar-right-2 {
+    margin-right: 20px
+}
+
+.btn.btn-mar-right-3 {
+    margin-right: 30px
+}
+
+.btn.btn-mar-right-4 {
+    margin-right: 40px
+}
+
+.btn.btn-mar-right-5 {
+    margin-right: 50px
+}
+
+
+/* button left margins
+ ------------------------------ */
+
+.btn.btn-mar-left-1 {
+    margin-left: 10px
+}
+
+.btn.btn-mar-left-2 {
+    margin-left: 20px
+}
+
+.btn.btn-mar-left-3 {
+    margin-left: 30px
+}
+
+.btn.btn-mar-left-4 {
+    margin-left: 40px
+}
+
+.btn.btn-mar-left-5 {
+    margin-left: 50px
+}
+
+
+/* button background colors
+ ------------------------------ */
+
+
+/* button white
+ ------------------------------ */
+
+.btn.btn-white {
+    color: #101010;
+    background-color: #fff;
+}
+
+.btn.btn-white:hover {
+    color: #fff;
+    background-color: #101010;
+}
+
+
+/* button white transparent
+ ------------------------------ */
+
+.btn.btn-white-tr {
+    color: #101010;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.btn.btn-white-tr:hover {
+    color: #101010;
+    background-color: #fff;
+}
+
+
+/* button dark
+ ------------------------------ */
+
+.btn.btn-dark {
+    color: #fff;
+    background-color: #101010;
+}
+
+.btn.btn-dark:hover {
+    color: #fff;
+    background-color: #3e3e3e;
+}
+
+
+/* button dark-2
+ ------------------------------ */
+
+.btn.btn-dark-2 {
+    color: #fff;
+    background-color: #161616;
+}
+
+.btn.btn-dark-2:hover {
+    color: #161616;
+    background-color: #fff;
+}
+
+
+/* button dark-3
+ ------------------------------ */
+
+.btn.btn-dark-3 {
+    color: #727272;
+    background-color: #101010;
+}
+
+.btn.btn-dark-3:hover {
+    color: #727272;
+    background-color: #242424;
+}
+
+
+/* button light
+ ------------------------------ */
+
+.btn.btn-light {
+    color: #101010;
+    background-color: #f5f5f5;
+}
+
+.btn.btn-light:hover {
+    color: #727272;
+    background-color: #101010;
+}
+
+
+/* button golden yellow
+ ------------------------------ */
+
+.btn.btn-prim {
+    color: #fff;
+    background-color: #007bff;
+}
+
+.btn.btn-prim:hover {
+    color: #fff;
+    background-color: #101010;
+}
+
+.btn.text-dark {
+    color: #101010;
+}
+
+
+/* button with border
+ ------------------------------ */
+
+.btn.btn-border {
+    color: #242424;
+    border: 2px solid;
+}
+
+.btn.btn-border.less-bor {
+    border: 1px solid;
+}
+
+.btn.btn-border.border-1x {
+    border: 1px solid;
+}
+
+.btn.btn-border.border-2x {
+    border: 2px solid;
+}
+
+.btn.btn-border.border-3x {
+    border: 3px solid;
+}
+
+.btn.btn-border.border-4x {
+    border: 4px solid;
+}
+
+
+/* button border white
+ ------------------------------ */
+
+.btn.btn-border.white {
+    color: #fff;
+    border-color: #fff;
+}
+
+.btn.btn-border:hover.white {
+    color: #242424;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+
+/* button border dark
+ ------------------------------ */
+
+.btn.btn-border.dark {
+    border-color: #101010;
+}
+
+.btn.btn-border:hover.dark {
+    color: #fff;
+    background-color: #101010;
+    border-color: #101010;
+}
+
+
+/* button border dark
+ ------------------------------ */
+
+.btn.btn-border.dark-2 {
+    color: #fff;
+    border-color: #545454;
+}
+
+.btn.btn-border:hover.dark-2 {
+    color: #101010;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+
+/* button border light
+ ------------------------------ */
+
+.btn.btn-border.light {
+    border-color: #e4e4e4;
+}
+
+.btn.btn-border:hover.light {
+    color: #fff;
+    background-color: #101010;
+    border-color: #101010;
+}
+
+
+/* button border extra light
+ ------------------------------ */
+
+.btn.btn-border.xlight {
+    border-color: #f5f5f5;
+}
+
+.btn.btn-border:hover.xlight {
+    color: #727272;
+    background-color: #101010;
+    border-color: #101010;
+}
+
+
+/* button border orange-2
+ ------------------------------ */
+
+.btn.btn-border.prim {
+    color: #007bff;
+    border-color: #007bff;
+}
+
+.btn.btn-border:hover.prim {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+
+/* button border gray
+ ------------------------------ */
+
+.btn.btn-border.gray {
+    color: #fff;
+    border-color: #727272;
+}
+
+.btn.btn-border:hover.gray {
+    color: #fff;
+    background-color: #5c5b5b;
+    border-color: #5c5b5b;
+}
+
+
+/* button border gray-2
+ ------------------------------ */
+
+.btn.btn-border.gray-2 {
+    color: #101010;
+    border-color: #727272;
+}
+
+.btn.btn-border:hover.gray-2 {
+    color: #fff;
+    background-color: #5c5b5b;
+    border-color: #5c5b5b;
+}
+
+
+/* button border xdark
+ ------------------------------ */
+
+.btn.btn-border.xdark {
+    color: #161616;
+    border-color: #161616;
+}
+
+.btn.btn-border:hover.xdark {
+    color: #fff;
+    background-color: #161616;
+    border-color: #161616;
+}
+
+
+/* button border white on hover golden yellow
+ ------------------------------ */
+
+.btn.btn-border.white.gyellow {
+    color: #fff;
+    border-color: #fff;
+}
+
+.btn.btn-border:hover.white.gyellow {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+
+/* Appstore buttons
+ ------------------------------ */
+
+.btn.appstore {
+    width: 200px;
+    padding: 10px 25px;
+    margin: 0px;
+    text-align: left;
+}
+
+.btn.appstore.right-margin {
+    margin-right: 10px;
+}
+
+.btn.appstore.gyellow {
+    background-color: #007bff;
+}
+
+.btn.appstore span {
+    margin: 0px;
+    float: left;
+    padding: 0;
+    text-align: left;
+}
+
+.btn.appstore span i {
+    font-size: 40px;
+    color: #fff;
+    padding: 0 20px 0 0;
+}
+
+.btn.appstore p {
+    font-size: 12px;
+    display: block;
+    margin: 0;
+    padding: 0 25px 0 20px;
+    text-align: left;
+}
+
+.btn.appstore .big {
+    margin: 0px;
+    font-size: 18px;
+    padding: 0;
+}
+
+.btn.appstore.gyellow:hover {
+    background-color: #fff;
+}
+
+.btn.appstore.gyellow:hover p,
+.btn.appstore.gyellow:hover .big,
+.btn.appstore.gyellow:hover span i {
+    color: #101010;
+}
+
+
+/* Appstore button white
+ ------------------------------ */
+
+.btn.appstore.white {
+    background-color: #fff;
+}
+
+.btn.appstore.white span i {
+    font-size: 40px;
+    color: #101010;
+    padding: 0 20px 0 0;
+}
+
+.btn.appstore.white:hover {
+    background-color: #007bff;
+}
+
+.btn.appstore.white:hover p,
+.btn.appstore.white:hover .big,
+.btn.appstore.white:hover span i {
+    color: #fff;
+}

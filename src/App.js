@@ -18,6 +18,8 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { DefaultLayout, HomeLayout } from "./layouts";
 // Route Views
 import Home from "./views/Home";
+import About from "./views/About";
+import Contact from "./views/Contact";
 import RegisterView from "./views/Register";
 import SignInView from "./views/SignInView";
 import UsersOverview from "./views/UsersOverview";
@@ -75,6 +77,22 @@ class App extends React.Component {
               render={props => (
                 <HomeLayout>
                   <Home />
+                </HomeLayout>
+              )}
+            />
+            <Route
+              path="/about"
+              render={props => (
+                <HomeLayout>
+                  <About />
+                </HomeLayout>
+              )}
+            />
+            <Route
+              path="/contact"
+              render={props => (
+                <HomeLayout>
+                  <Contact />
                 </HomeLayout>
               )}
             />
