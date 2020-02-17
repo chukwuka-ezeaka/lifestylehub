@@ -71,10 +71,10 @@ export default class NavExample extends React.Component {
           <Nav navbar className="ml-auto">
             <Nav navbar>
               <NavItem>
-                <NavLink href="#about">About Us</NavLink>
+                <NavLink href="/about">About Us</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="#contact">Contact Us</NavLink>
+                <NavLink href="/contact">Contact Us</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="/signin">Sign In</NavLink>
