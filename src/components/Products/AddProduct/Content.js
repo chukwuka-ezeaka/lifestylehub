@@ -164,7 +164,7 @@ class Content extends React.Component{
             .then(res => {
                 if(res.data){
                     const payload = {
-                        "art_id" : res.data.id,
+                        "content_media_id" : res.data.id,
                         "owner_id" : this.state.user.id,
                         "category_id" : this.state.category,
                         "content_type_id" : 7,

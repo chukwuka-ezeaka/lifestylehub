@@ -32,7 +32,7 @@ componentDidMount(){
 }
 
 render(){
-    const {reflections, loading, width} = this.state;
+    const { reflections, loading, width } = this.state;
     let i = 1;
     return(
 
@@ -100,7 +100,7 @@ render(){
                                     <td>
                                          <img
                                         className="rounded-circle link pointer dim"
-                                        src= {require("./../../../images/audio-cover/audio.png")}
+                                        src= {require("./../../../images/covers/audio.png")}
                                         alt={reflection.title}
                                         width="80"
                                         id={reflection.id}

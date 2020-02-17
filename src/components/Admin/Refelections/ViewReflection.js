@@ -31,7 +31,7 @@ class ViewReflection extends Component {
     }
     render() { 
         const {reflection, image, image_type, audio, audio_type, requestPending, edit} = this.state;
-        
+       // console.log(audio);
         return ( 
             <Container className="mt-4">
             <Row>
@@ -53,7 +53,7 @@ class ViewReflection extends Component {
                                 </Col>
                                 <Col lg="8" md="12" sm="12">
                                     <ReactAudioPlayer
-                                    src={audio? `data:${audio_type};base64,${audio}`:''}
+                                    src={audio ? `data:audio/mp3;base64,${audio}`:''}
                                     //src={require('./test3.mp3')}
                                     autoPlay
                                     controls
@@ -134,6 +134,17 @@ class ViewReflection extends Component {
         const url = `media/manager/audio/single/find/${file}`;
         _http.sendGet(url)
         .then(res => {
+            // if('audio' in res.data && 'type' in res.data){
+            //     const {audio, type} = res.data;
+                
+            //     this.setState({
+            //         audio:audio,
+            //         audio_type:type
+            //     })
+            // }else{
+            //     console.log('Invalid media received')
+            // }
+           console.log(res)
             this.setState({
                 audio:res
                 // audio_type:res.headers['content-type']
@@ -144,7 +155,9 @@ class ViewReflection extends Component {
     getReflection = (id) => {
         const url = `reflection/${id}`;
         _http.sendGet(url)
+        
         .then(res => {
+            console.log(res)
             this.getAudio(res.data.audio_link);
             this.getImage(res.data.image_link);
             this.setState({

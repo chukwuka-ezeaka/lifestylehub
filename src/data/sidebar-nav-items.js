@@ -178,17 +178,17 @@ export default function() {
         subMenu: [
           {
             title: "Downloads",
-            htmlBefore: '<i class="material-icons">person</i>',
+            htmlBefore: '<i class="material-icons">get_app</i>',
             to: "/accounts/downloads",
           },
           {
             title: "Purchase",
-            htmlBefore: '<i class="material-icons">person</i>',
+            htmlBefore: '<i class="material-icons">add_shopping_cart</i>',
             to: "/accounts/purchase",
           },
           {
             title: "Invite",
-            htmlBefore: '<i class="material-icons">person</i>',
+            htmlBefore: '<i class="material-icons">person_add</i>',
             to: "/accounts/invite",
           },
           
@@ -198,6 +198,12 @@ export default function() {
   }
   if(userRole === 99){
   return [
+    {
+      title: "Dashboard",
+      htmlBefore: '<i class="material-icons">bar_chart</i>',
+      to: "#",
+      subMenu: ""
+    },
     {
       title: "Products",
       to: "#",

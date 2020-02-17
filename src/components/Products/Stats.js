@@ -8,6 +8,8 @@ import {
     CardBody
 } from 'shards-react';
 import HttpService from '../../utils/API';
+import Loader from '../Loaders/Loader';
+import LoaderSmall from '../Loaders/LoaderSmall';
 
 const _http = new HttpService();
 class Stats extends Component {
@@ -47,7 +49,7 @@ class Stats extends Component {
     }
 
     render() { 
-        const { media, contents } = this.props;
+        const { media, contents, loading } = this.props;
         let products, contentLength = 0;
         let video, audio, ebook = [];
        (contents) && (contents.length > 0) ? contentLength = contents.length : contentLength = 0;
@@ -66,7 +68,7 @@ class Stats extends Component {
                 }
             });
             
-            ebook = media.filter(product => {
+            ebook = media.filter(media => {
                 if(media.media_type){
                     return media.media_type.id === 4;
                 }
@@ -78,7 +80,7 @@ class Stats extends Component {
                     <Card>
                         <CardBody className="text-center text white link dim pointer f4 fw6 bg-success" id="products">
                             <h5 className="text white">All</h5>
-                            {products}
+                            {loading ? <LoaderSmall/> : products}
                         </CardBody>
                     </Card>
                 </Col>
@@ -86,7 +88,7 @@ class Stats extends Component {
                     <Card>
                         <CardBody className="text-center text white f4 fw6 bg-warning link dim pointer" id="videos" onClick={this.changeRoute}>
                             <h5 className="text white">Videos</h5>
-                            {video ? video.length : 0}
+                            {loading ? <LoaderSmall/> : video ? video.length : 0}
                         </CardBody>
                     </Card>
                 </Col>
@@ -94,7 +96,7 @@ class Stats extends Component {
                     <Card>
                         <CardBody className="text-center text white f4 fw6 bg-info link bg-animate dim pointer" id="audios" onClick={this.changeRoute}>
                             <h5 className="text white">Audios</h5>
-                            {audio ? audio.length : 0}
+                            {loading ? <LoaderSmall/> : audio ? audio.length : 0}
                         </CardBody>
                     </Card>
                 </Col>
@@ -102,7 +104,7 @@ class Stats extends Component {
                     <Card>
                         <CardBody className="text-center text white f4 fw6 bg-dark link dim pointer" id="ebooks" onClick={this.changeRoute}>
                             <h5 className="text white">Ebooks</h5>
-                            {ebook ? ebook.length : 0}
+                            {loading ? <LoaderSmall/> : ebook ? ebook.length : 0}
                         </CardBody>
                     </Card>
                 </Col>
@@ -110,7 +112,7 @@ class Stats extends Component {
                     <Card>
                         <CardBody className="text-center text white f4 fw6 bg-primary link dim pointer" id="ebooks" onClick={this.changeRoute}>
                             <h5 className="text white">Contents</h5>
-                            {contents ? contents.length : 0}
+                            {loading ? <LoaderSmall/> : contents ? contents.length : 0}
                         </CardBody>
                     </Card>
                 </Col>

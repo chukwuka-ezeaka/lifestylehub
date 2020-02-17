@@ -1,6 +1,8 @@
 import React from 'react';
 import Loader from '../../Loaders/Loader';
+import ReactAudioPlayer from 'react-audio-player';
 import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react"
+import GetAudio from '../../common/GetAudio';
 
 class Audio extends React.Component{
     constructor(){
@@ -53,12 +55,25 @@ render(){
                     {media.map((media, index)  => {
                             //let userId = `#${user.id}`;
                             //console.log(index);
+                            console.log(media);
                             return(
+                               
                                 <tr key={media.id}>
                                     <td>{i++}</td>
                                     <td>{media.title ? media.title : ''}</td>
                                     <td>{media.category ? media.category.name : ''}</td>
-                                    <td>{media.url ? media.url : ''}</td>
+                                    <td>
+                                    <GetAudio audio={media.url ? media.url : ''}/>
+                                    {/* <img
+                                        className="rounded-circle link pointer dim"
+                                        src= {require("./../../../images/audio-cover/audio.png")}
+                                        alt={media.title}
+                                        width="80"
+                                        id={media.id}
+                                        onClick={this.viewReflections}
+                                        /> */}
+                                        {/* {media.url ? media.url : ''} */}
+                                        </td>
                                     <td>
                                         <Button size="sm" theme="primary" className="mb-2 mr-1" onClick={this.toggleModal} id={index}>
                                             View
@@ -83,6 +98,8 @@ render(){
         </Container>
     );
 }
+
+
 }
 
 export default Audio;

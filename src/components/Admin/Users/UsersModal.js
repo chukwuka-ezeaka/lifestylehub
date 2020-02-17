@@ -276,7 +276,9 @@ render(){
                              />
                           </Col>
                         </Row>
-                        <Button theme="accent">Update</Button>
+                        <Button theme="accent">Update</Button> 
+                        <Button theme="accent" className="bg-warning">Block</Button>
+                        <Button theme="accent" className="bg-warning">Un-Block</Button>
                       </Form>
                     </Col>
                   </Row>

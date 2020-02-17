@@ -173,8 +173,8 @@ class Media extends React.Component{
                 mediaType = 'video';
             }                   
             if(type === 4){
-                url = 'media/manager/ebook/single/create';
-                mediaType = 'ebook';
+                url = 'media/manager/pdf/single/create';
+                mediaType = 'pdf';
             }                  
             if(type === 5){
                 url = 'media/manager/audio/single/create';
@@ -196,6 +196,8 @@ class Media extends React.Component{
                 console.log(res)
                 if(res.data){
                     const payload = {
+                        'title': this.state.title,
+                        'description' : this.state.title,
                         "url" : res.data.url,
                         "owner_id" : this.state.user.id,
                         "category_id" : this.state.category,

@@ -60,7 +60,8 @@ class Signin extends React.Component {
                         break;
                       default:
                         this.setState({
-                          errMessage: "Please login on the mobile app"
+                          errMessage: "Please login on the mobile app",
+                           disabled: false
                         });
                         break;
                     }

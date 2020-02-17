@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { Row, Col, Card, CardBody } from "shards-react";
+import LoaderSmall from "../../Loaders/LoaderSmall";
 
 class Stats extends Component {
   state = {};
@@ -28,7 +29,7 @@ class Stats extends Component {
   };
 
   render() {
-    const { users } = this.props;
+    const { users, loading } = this.props;
 
     let vendors = users.filter(user => {
       return user.UserRole.roleId === 99;
@@ -52,7 +53,7 @@ class Stats extends Component {
               onClick={this.changeRoute}
             >
               <h5 className="text white">Users</h5>
-              {users.length}
+              {loading? <LoaderSmall/> : users.length}
             </CardBody>
           </Card>
         </Col>
@@ -64,7 +65,7 @@ class Stats extends Component {
               onClick={this.changeRoute}
             >
               <h5 className="text white">Coaches</h5>
-              {coaches.length}
+              {loading? <LoaderSmall/> : coaches.length}
             </CardBody>
           </Card>
         </Col>
@@ -76,7 +77,7 @@ class Stats extends Component {
               onClick={this.changeRoute}
             >
               <h5 className="text white">Vendors</h5>
-              {vendors.length}
+              {loading? <LoaderSmall/> : vendors.length}
             </CardBody>
           </Card>
         </Col>
@@ -88,7 +89,7 @@ class Stats extends Component {
               onClick={this.changeRoute}
             >
               <h5 className="text white">Subscribers</h5>
-              {subscribers.length}
+              {loading? <LoaderSmall/> : subscribers.length}
             </CardBody>
           </Card>
         </Col>

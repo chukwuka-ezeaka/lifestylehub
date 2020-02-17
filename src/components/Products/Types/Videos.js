@@ -58,7 +58,17 @@ render(){
                                     <td>{i++}</td>
                                     <td>{media.title ? media.title : ''}</td>
                                     <td>{media.category ? media.category.name : ''}</td>
-                                    <td>{media.url ? media.url : ''}</td>
+                                    <td>
+                                    <img
+                                        className="link pointer dim"
+                                        src= {require("./../../../images/covers/video.png")}
+                                        alt={media.title}
+                                        width="50"
+                                        id={media.id}
+                                        
+                                        />
+                                        {/* {media.url ? media.url : ''} */}
+                                        </td>
                                     <td>
                                         <Button size="sm" theme="primary" className="mb-2 mr-1" onClick={this.toggleModal} id={index}>
                                             View

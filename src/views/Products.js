@@ -13,6 +13,7 @@ import Audio from "../components/Products/Types/Audios";
 import Video from "../components/Products/Types/Videos";
 import Ebook from "../components/Products/Types/Ebooks";
 import Author from "../components/Products/Types/Audios";
+import Subscriptions from "../components/Products/Subscriptions/Subscriptions";
 
 const _http = new HttpService();
 const views = {
@@ -24,7 +25,8 @@ const views = {
   showContent: false,
   showAddContent: false,
   showAddMedia: false,
-  showCategories: false
+  showCategories: false,
+  showSubscriptions: false
 }
 
 class Products extends React.Component {
@@ -72,6 +74,9 @@ showContent = (handle) => {
       case '/products/Category':
         this.setState({showViews: {showCategories: true}})
         break;
+      case '/products/subscriptions':
+        this.setState({showViews: {showSubscriptions: true}})
+        break;
     default:
       this.setState({showViews: {showAll: true}})
       break;
@@ -100,7 +105,7 @@ componentWillUnmount = () => {
 
   render(){
     const { media, contents, user, errorMessage, loading} = this.state;
-    const { showAddMedia, showCategories, showAddContent, showAll, showAudio, showAuthor, showContent, showEbook, showVideo } = this.state.showViews;
+    const { showAddMedia, showCategories, showAddContent, showAll, showAudio, showAuthor, showContent, showEbook, showVideo, showSubscriptions } = this.state.showViews;
     let video, audio, ebook = [];
     if((media) && (media.length > 0)){
       video = media.filter(media => {
@@ -129,7 +134,7 @@ componentWillUnmount = () => {
         <Row>
           <Col lg="12" md="12">
             {showAll ?
-            <Stats media={media} contents={contents}/>
+            <Stats media={media} contents={contents} loading={loading}/>
             :
             showVideo ?
             <Video media={video} user={user} error={errorMessage} loading={loading}/>
@@ -154,6 +159,9 @@ componentWillUnmount = () => {
             :
             showAddContent ?
             <Content />
+            :
+            showSubscriptions ?
+            <Subscriptions/>
             : ''
             }
           </Col>
