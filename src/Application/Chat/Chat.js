@@ -30,8 +30,7 @@ class Chat extends Component {
     showChatBox: false, // For small devices only
     showChatList: true, // For small devices only
     error: false,
-    errorMessage: "",
-    lU: []
+    errorMessage: ""
   };
 
   componentDidMount() {
@@ -47,18 +46,7 @@ class Chat extends Component {
         : this.setState({ errorMessage: response.message, loading: false });
     });
     this.initUser();
-    this.initUsers();
     // this.setupSocketListeners();
-  }
-
-  initUsers() {
-    const localUsers = localStorage.getItem("with_roles")
-      ? JSON.parse(localStorage.getItem("with_roles"))
-      : {};
-
-    this.setState({
-      lU: [localUsers]
-    });
   }
 
   initUser() {
@@ -279,18 +267,24 @@ class Chat extends Component {
             </Col>
           </Row>
         </div>
-        <Modal open={this.state.signInModalShow}>
-          <ModalHeader>
-            <Modal titleClass>Continue as:</Modal>
-          </ModalHeader>
-          <ModalBody>
-            <UserList
-              userData={this.state.user}
-              onUserClicked={this.onUserClicked.bind(this)}
-              showSignInList
-            />
-          </ModalBody>
-        </Modal>
+
+        {
+          // this modal is a welcome modal into the chat engine.....asksif user should continue.button
+          // used a s a temporary hack to initilize current user so that current user will be filtered
+          // from user_list when displayed in the chat module
+          <Modal open={this.state.signInModalShow}>
+            <ModalHeader>
+              <Modal titleClass>Continue as:</Modal>
+            </ModalHeader>
+            <ModalBody>
+              <UserList
+                userData={this.state.user}
+                onUserClicked={this.onUserClicked.bind(this)}
+                showSignInList
+              />
+            </ModalBody>
+          </Modal>
+        }
         <ErrorModal
           show={this.state.error}
           errorMessage={this.state.errorMessage}
