@@ -9,7 +9,7 @@ class SecoundSection extends Component {
           <Row>
             <Col sm="12">
               <div className="sec-title-container text-center">
-                <h5 className="font-weight-4 less-mar-1 line-height-4 text-primary opacity-9">
+                <h5 className="font-weight-4 less-mar-1 line-height-4 text-primary">
                   Our Services
                 </h5>
                 <h2 className="font-weight-6 less-mar-1 line-height-5">
@@ -31,7 +31,7 @@ class SecoundSection extends Component {
                     <span className="icon-toolbox"></span>
                   </div>
                   <div>
-                    <h5 className="title font-weight-5">Health tips</h5>
+                    <h5 className="title font-weight-5">Marketing tools</h5>
                     <p className="small-text">
                       Vestibulum ante ipsum primis sit amet justo elit faucibus
                       orci luctus ultrices posuere.
@@ -47,7 +47,7 @@ class SecoundSection extends Component {
                     <span className="icon-lock"></span>
                   </div>
                   <div>
-                    <h5 className="title font-weight-5">Daily Advice</h5>
+                    <h5 className="title font-weight-5">Online Secure</h5>
                     <p className="small-text">
                       Vestibulum ante ipsum primis sit amet justo elit faucibus
                       orci luctus ultrices posuere.
@@ -63,9 +63,7 @@ class SecoundSection extends Component {
                     <span className="icon-heart"></span>
                   </div>
                   <div>
-                    <h5 className="title font-weight-5">
-                      Beautiful Living Tips
-                    </h5>
+                    <h5 className="title font-weight-5">Beautiful Designs</h5>
                     <p className="small-text">
                       Vestibulum ante ipsum primis sit amet justo elit faucibus
                       orci luctus ultrices posuere.
@@ -83,9 +81,7 @@ class SecoundSection extends Component {
                     <span className="icon-video"></span>
                   </div>
                   <div>
-                    <h5 className="title font-weight-5">
-                      Custom Encouragments
-                    </h5>
+                    <h5 className="title font-weight-5">Custom Videos</h5>
                     <p className="small-text">
                       Vestibulum ante ipsum primis sit amet justo elit faucibus
                       orci luctus ultrices posuere.
@@ -101,7 +97,7 @@ class SecoundSection extends Component {
                     <span className="icon-heart"></span>
                   </div>
                   <div>
-                    <h5 className="title font-weight-5">Live Large</h5>
+                    <h5 className="title font-weight-5">Beautiful Designs</h5>
                     <p className="small-text">
                       Vestibulum ante ipsum primis sit amet justo elit faucibus
                       orci luctus ultrices posuere.
@@ -117,7 +113,7 @@ class SecoundSection extends Component {
                     <span className="icon-lock"></span>
                   </div>
                   <div>
-                    <h5 className="title font-weight-5">Adventure</h5>
+                    <h5 className="title font-weight-5">Online Secure</h5>
                     <p className="small-text">
                       Vestibulum ante ipsum primis sit amet justo elit faucibus
                       orci luctus ultrices posuere.
