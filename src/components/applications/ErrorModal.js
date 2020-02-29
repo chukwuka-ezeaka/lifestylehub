@@ -11,18 +11,15 @@ export default class ErrorModal extends Component {
   state = {};
   render() {
     return (
-      <Modal show={this.props.show}>
-        <ModalHeader>
-          <Modal titleClass>Error</Modal>
-        </ModalHeader>
-
-        <ModalBody>
-          <h1 className="text-center">
-            {
-              //<Glyphicon glyph="alert" />
-            }
-          </h1>
-          <h5 className="text-center">{this.props.errorMessage}</h5>
+      <Modal open={this.props.show}>
+        <ModalHeader>Error</ModalHeader>
+        <ModalBody className="text-center">
+          {
+            //   <h1>
+            //     <Glyphicon glyph="alert" />
+            // </h1>
+          }
+          {this.props.errorMessage}
         </ModalBody>
       </Modal>
     );

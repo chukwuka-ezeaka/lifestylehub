@@ -1,11 +1,11 @@
 import React, { Component } from "react";
+import { Card, CardBody, CardTitle, CardSubtitle } from "shards-react";
 import {
-  Form,
+  FormInput,
   InputGroup,
   Button,
   FormGroup,
   Col,
-  Modal,
   InputGroupAddon
 } from "shards-react";
 
@@ -86,7 +86,7 @@ export default class ChatBox extends Component {
             />
             <FormGroup>
               <InputGroup>
-                <Form
+                <FormInput
                   type="text"
                   value={this.state.messageText}
                   onChange={this.onMessageInputChange.bind(this)}
@@ -101,7 +101,7 @@ export default class ChatBox extends Component {
                   <Button
                     disabled={!this.state.messageText}
                     className="sendButton"
-                    theme="secoundary"
+                    theme="secondary"
                     onClick={this.onSendClicked.bind(this)}
                   >
                     Send
@@ -111,12 +111,16 @@ export default class ChatBox extends Component {
             </FormGroup>
           </div>
         ) : (
-          <div>
-            <Modal>
-              <h1>Hello, {(this.props.signedInUser || {}).name}!</h1>
-              <p>Select a friend to start a chat.</p>
-            </Modal>
-          </div>
+          <Card>
+            <CardBody>
+              <CardTitle>
+                <h1>Hello, {(this.props.signedInUser || {}).name}!</h1>
+              </CardTitle>
+              <CardSubtitle>
+                <p>Select a friend to start a chat.</p>{" "}
+              </CardSubtitle>
+            </CardBody>
+          </Card>
         )}
       </div>
     );
