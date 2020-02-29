@@ -33,6 +33,12 @@ class Chat extends Component {
     errorMessage: ""
   };
 
+  /**
+   *
+   * Setups Axios to monitor XHR errors.
+   * Initiates and listen to socket.
+   * fetches User's list from backend to populate.
+   */
   componentDidMount() {
     // this.initAxios();
     // this.initSocketConnection();
@@ -162,6 +168,7 @@ class Chat extends Component {
    * @param {User} e
    *
    * called when user clicks to sign-in
+   * temporary hack to permit user to continue in Modal Component
    */
   onUserClicked(e) {
     let user = e.user;
