@@ -1,16 +1,15 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { Container, Row } from "shards-react";
+import { Container, Row, Col } from "shards-react";
 
 import PageTitle from "../components/common/PageTitle";
-import CreatePost from "../components/Posts/CreatePost";
+import ChatApp from "../Application/Chat/Chat";
 
 const views = {
-  showPosts: false,
-  showCreatePost: false
+  showChatApp: false
 };
 
-class Posts extends React.Component {
+class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,14 +24,11 @@ class Posts extends React.Component {
 
   showContent = handle => {
     switch (handle) {
-      case "/posts/all":
-        this.setState({ showViews: { showPosts: true } });
-        break;
-      case "/posts/add":
-        this.setState({ showViews: { showCreatePost: true } });
+      case "/chats/allChats":
+        this.setState({ showViews: { showChatApp: true } });
         break;
       default:
-        this.setState({ showViews: { showPosts: true } });
+        this.setState({ showViews: { showChatApp: true } });
         break;
     }
   };
@@ -58,22 +54,21 @@ class Posts extends React.Component {
 
   render() {
     const { loading, errorMessage } = this.state;
-    const { showPosts, showCreatePost } = this.state.showViews;
+    const { showChatApp } = this.state.showViews;
 
     return (
       <Container fluid className="main-content-container px-4 pb-4">
         <Row noGutters className="page-header py-4">
-          <PageTitle
-            sm="4"
-            title="Posts"
-            subtitle=""
-            className="text-sm-left"
-          />
+          <PageTitle sm="4" title="Chat" subtitle="" className="text-sm-left" />
         </Row>
-        {<CreatePost />}
+        <Row>
+          <Col lg="12" md="12">
+            <ChatApp />
+          </Col>
+        </Row>
       </Container>
     );
   }
 }
 
-export default withRouter(Posts);
+export default withRouter(Chat);
