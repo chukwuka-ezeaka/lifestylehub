@@ -41,18 +41,18 @@
 }
 
 .chat-list {
-    height: 74vh;
+    height: 60vh;
     background-color: white;
 }
 
 .message-list {
-    height: 68vh;
+    height: 48vh;
     border-left: 2px solid #f4f4f4;
     border-right: 2px solid #f4f4f4;
 }
 
 .user-list {
-    height: 300px;
+    height: 7rem;
     overflow-y: scroll;
 }
 

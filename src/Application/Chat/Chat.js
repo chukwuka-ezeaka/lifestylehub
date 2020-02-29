@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Row, Col, Modal, ModalHeader, ModalBody } from "shards-react";
-// import Grid from "react-bootstrap/lib/Grid";
 import HttpService from "../../utils/API";
 import "./Chat.css";
 
@@ -9,6 +8,7 @@ import UserList from "../../components/applications/UserList";
 import ChatBox from "../../components/applications/ChatBox";
 import ErrorModal from "../../components/applications/ErrorModal";
 import LoadingModal from "../../components/applications/LoadingModal";
+import io from "socket.io-client";
 
 import "react-chat-elements/dist/main.css";
 import {
@@ -21,17 +21,58 @@ import axios from "axios";
 const _http = new HttpService();
 
 class Chat extends Component {
-  state = {
-    signInModalShow: false,
-    users: [], // Avaiable users for signing-in
-    userChatData: [], // this contains users from which signed-in user can chat and its message data.
-    user: null, // Signed-In User
-    selectedUserIndex: null,
-    showChatBox: false, // For small devices only
-    showChatList: true, // For small devices only
-    error: false,
-    errorMessage: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      signInModalShow: true,
+      users: [
+        {
+          id: 1,
+          name: "Toyota"
+        },
+        {
+          id: 2,
+          name: "Ford"
+        },
+        {
+          id: 3,
+          name: "Siri"
+        },
+        {
+          id: 4,
+          name: "Mistubishi"
+        },
+        {
+          id: 5,
+          name: "Range Rover"
+        },
+        {
+          id: 6,
+          name: "G Wagon"
+        },
+        {
+          id: 7,
+          name: "Mercedes"
+        }
+      ], // Avaiable users for signing-in
+      userChatData: [], // this contains users from which signed-in user can chat and its message data.
+      //user: null, // Signed-In User
+      user: [
+        // localStorage.getItem("user")
+        //   ? JSON.parse(localStorage.getItem("user"))
+        //   : {}
+        {
+          id: 8,
+          name: "Tesla"
+        }
+      ],
+      selectedUserIndex: null,
+      showChatBox: false, // For small devices only
+      showChatList: true, // For small devices only
+      error: false,
+      errorMessage: ""
+    };
+  }
 
   /**
    *
@@ -42,28 +83,24 @@ class Chat extends Component {
   componentDidMount() {
     // this.initAxios();
     // this.initSocketConnection();
-    const url = "account/user/list/with_roles";
-    _http.sendGet(url).then(response => {
-      response.data
-        ? this.setState({
-            users: response.data,
-            signInModalShow: true
-          })
-        : this.setState({ errorMessage: response.message, loading: false });
-    });
-    this.initUser();
+    // this.fetchUsers();
     // this.setupSocketListeners();
   }
 
-  initUser() {
-    const user = localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user"))
-      : {};
-
-    this.setState({
-      user: [user]
-    });
-  }
+  // fetchUsers() {
+  //   const url = "account/user/list/with_roles";
+  //   _http.sendGet(url).then(response => {
+  //     response.data
+  //       ? this.setState({
+  //           users: response.data,
+  //           signInModalShow: true
+  //         })
+  //       : this.setState({
+  //           errorMessage: `Couldn't connect to server. try refreshing the page`,
+  //           error: true
+  //         });
+  //   });
+  // }
 
   // initSocketConnection() {
   //   this.socket = io.connect(SOCKET_URI);
@@ -162,7 +199,6 @@ class Chat extends Component {
     userChatData[targetIndex].messages.push(messageData);
     this.setState({ userChatData });
   }
-
   /**
    *
    * @param {User} e
@@ -172,11 +208,10 @@ class Chat extends Component {
    */
   onUserClicked(e) {
     let user = e.user;
-    this.socket.emit("sign-in", user);
+    // this.socket.emit("sign-in", user);
     let userChatData = this.state.users.filter(u => u.id !== user.id);
     this.setState({ user, signInModalShow: false, userChatData });
   }
-
   /**
    *
    * @param {ChatItem} e
@@ -194,7 +229,6 @@ class Chat extends Component {
       }
     }
   }
-
   /**
    *
    * @param {messageText} text
@@ -215,7 +249,6 @@ class Chat extends Component {
     };
     this.socket.emit("message", message);
   }
-
   /**
    * Toggles views from 'ChatList' to 'ChatBox'
    *
@@ -231,7 +264,6 @@ class Chat extends Component {
   render() {
     console.log(this.state.user);
     console.log(this.state.users);
-    console.log(this.state.lU);
     let chatBoxProps = this.state.showChatBox
       ? {
           xs: 12,
@@ -274,24 +306,16 @@ class Chat extends Component {
             </Col>
           </Row>
         </div>
-
-        {
-          // this modal is a welcome modal into the chat engine.....asksif user should continue.button
-          // used a s a temporary hack to initilize current user so that current user will be filtered
-          // from user_list when displayed in the chat module
-          <Modal open={this.state.signInModalShow}>
-            <ModalHeader>
-              <Modal titleClass>Continue as:</Modal>
-            </ModalHeader>
-            <ModalBody>
-              <UserList
-                userData={this.state.user}
-                onUserClicked={this.onUserClicked.bind(this)}
-                showSignInList
-              />
-            </ModalBody>
-          </Modal>
-        }
+        <Modal className="text-center" open={this.state.signInModalShow}>
+          <ModalHeader>Continue as:</ModalHeader>
+          <ModalBody>
+            <UserList
+              userData={this.state.user}
+              onUserClicked={this.onUserClicked.bind(this)}
+              showSignInList
+            />
+          </ModalBody>
+        </Modal>
         <ErrorModal
           show={this.state.error}
           errorMessage={this.state.errorMessage}
