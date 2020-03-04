@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import { Row, Col, Modal, ModalHeader, ModalBody } from "shards-react";
 import HttpService from "../../utils/API";
 import "./Chat.css";
-
-// import NavBar from "../../components/applications/NavBar";
 import UserList from "../../components/applications/UserList";
 import ChatBox from "../../components/applications/ChatBox";
 import ErrorModal from "../../components/applications/ErrorModal";
 import LoadingModal from "../../components/applications/LoadingModal";
 import io from "socket.io-client";
-
 import "react-chat-elements/dist/main.css";
 import {
   NotificationContainer,
@@ -17,14 +14,31 @@ import {
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import axios from "axios";
+import Subscribers from "../../components/Admin/Users/Subscribers";
+
+/**
+ * Fetches socket server URL from env
+ */
+const SOCKET_URI = process.env.REACT_APP_SERVER_URI;
+
+/**
+ * App Component
+ *
+ * initiaites Socket connection and handle all cases like disconnected,
+ * reconnected again so that user can send messages when he is back online
+ *
+ * handles Error scenarios if requests from Axios fails.
+ *
+ */
 
 const _http = new HttpService();
 
 class Chat extends Component {
+  socket = null;
+
   constructor(props) {
     super(props);
     this.state = {
-      signInModalShow: true,
       users: [
         {
           id: 1,
@@ -53,19 +67,18 @@ class Chat extends Component {
         {
           id: 7,
           name: "Mercedes"
-        }
-      ], // Avaiable users for signing-in
-      userChatData: [], // this contains users from which signed-in user can chat and its message data.
-      //user: null, // Signed-In User
-      user: [
-        // localStorage.getItem("user")
-        //   ? JSON.parse(localStorage.getItem("user"))
-        //   : {}
+        },
         {
           id: 8,
           name: "Tesla"
         }
-      ],
+      ], // Avaiable users for signing-in
+      userChatData: [], // this contains users from which signed-in user can chat and its message data.
+      //user: null, // Signed-In User
+      user: localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))
+        : {},
+
       selectedUserIndex: null,
       showChatBox: false, // For small devices only
       showChatList: true, // For small devices only
@@ -81,99 +94,97 @@ class Chat extends Component {
    * fetches User's list from backend to populate.
    */
   componentDidMount() {
-    // this.initAxios();
-    // this.initSocketConnection();
+    this.initAxios();
+    this.initSocketConnection();
+    this.setupSocketListeners();
     // this.fetchUsers();
-    // this.setupSocketListeners();
+
+    // let user = this.state.user;
+    // let userChatData = this.state.users.filter(u => u.id !== user.id);
+    // this.setState({ user,  userChatData });
   }
 
-  // fetchUsers() {
-  //   const url = "account/user/list/with_roles";
-  //   _http.sendGet(url).then(response => {
-  //     response.data
-  //       ? this.setState({
-  //           users: response.data,
-  //           signInModalShow: true
-  //         })
-  //       : this.setState({
-  //           errorMessage: `Couldn't connect to server. try refreshing the page`,
-  //           error: true
-  //         });
-  //   });
-  // }
+  fetchUsers() {
+    let user = this.state.user;
+    let subscriber = this.state.subscribers;
 
-  // initSocketConnection() {
-  //   this.socket = io.connect(SOCKET_URI);
-  // }
+    const url = "account/user/list/with_roles";
+    _http.sendGet(url).then(response => {
+      response.data
+        ? this.setState({
+            userChatData: response.data.filter(
+              u => u.id !== user.id && u.id !== subscriber.id
+            ),
+            user
+          })
+        : this.setState({
+            errorMessage: `Couldn't connect to server. try refreshing the page`,
+            error: true
+          });
+    });
+  }
+
+  initSocketConnection() {
+    this.socket = io.connect(SOCKET_URI);
+  }
 
   // /**
   //  *
   //  * Checks if request from axios fails
   //  * and if it does then shows error modal.
   //  */
-  // initAxios() {
-  //   axios.interceptors.request.use(
-  //     config => {
-  //       this.setState({ loading: true });
-  //       return config;
-  //     },
-  //     error => {
-  //       this.setState({ loading: false });
-  //       this.setState({
-  //         errorMessage: `Couldn't connect to server. try refreshing the page.`,
-  //         error: true
-  //       });
-  //       return Promise.reject(error);
-  //     }
-  //   );
-  //   axios.interceptors.response.use(
-  //     response => {
-  //       this.setState({ loading: false });
-  //       return response;
-  //     },
-  //     error => {
-  //       this.setState({ loading: false });
-  //       this.setState({
-  //         errorMessage: `Some error occured. try after sometime`,
-  //         error: true
-  //       });
-  //       return Promise.reject(error);
-  //     }
-  //   );
-  // }
+  initAxios() {
+    axios.interceptors.request.use(
+      config => {
+        this.setState({ loading: true });
+        return config;
+      },
+      error => {
+        this.setState({ loading: false });
+        this.setState({
+          errorMessage: `Couldn't connect to server. try refreshing the page.`,
+          error: true
+        });
+        return Promise.reject(error);
+      }
+    );
+    axios.interceptors.response.use(
+      response => {
+        this.setState({ loading: false });
+        return response;
+      },
+      error => {
+        this.setState({ loading: false });
+        this.setState({
+          errorMessage: `Some error occured. try after sometime`,
+          error: true
+        });
+        return Promise.reject(error);
+      }
+    );
+  }
 
   /**
    *
    * Shows error if client gets disconnected.
    */
-  // onClientDisconnected() {
-  //   NotificationManager.error(
-  //     "Connection Lost from server please check your connection.",
-  //     "Error!"
-  //   );
-  // }
+  onClientDisconnected() {
+    NotificationManager.error(
+      "Connection Lost from server please check your connection.",
+      "Error!"
+    );
+  }
 
   /**
    *
    * Established new connection if reconnected.
    */
-  // onReconnection() {
-  //   if (this.state.user) {
-  //     this.socket.emit("sign-in", this.state.user);
-  //     NotificationManager.success("Connection Established.", "Reconnected!");
-  //   }
-  // }
-
-  /**
-   *
-   * Setup all listeners
-   */
-
-  // setupSocketListeners() {
-  //   this.socket.on("message", this.onMessageRecieved.bind(this));
-  //   this.socket.on("reconnect", this.onReconnection.bind(this));
-  //   this.socket.on("disconnect", this.onClientDisconnected.bind(this));
-  // }
+  onReconnection() {
+    if (this.state.user) {
+      this.socket.emit("sign-in", this.state.user);
+      NotificationManager.success("Connection Established.", "Reconnected!");
+    }
+  }
 
   onMessageRecieved(message) {
     let userChatData = this.state.userChatData;
@@ -199,19 +210,17 @@ class Chat extends Component {
     userChatData[targetIndex].messages.push(messageData);
     this.setState({ userChatData });
   }
+
   /**
    *
-   * @param {User} e
-   *
-   * called when user clicks to sign-in
-   * temporary hack to permit user to continue in Modal Component
+   * Setup all listeners
    */
-  onUserClicked(e) {
-    let user = e.user;
-    // this.socket.emit("sign-in", user);
-    let userChatData = this.state.users.filter(u => u.id !== user.id);
-    this.setState({ user, signInModalShow: false, userChatData });
+  setupSocketListeners() {
+    this.socket.on("message", this.onMessageRecieved.bind(this));
+    this.socket.on("reconnect", this.onReconnection.bind(this));
+    this.socket.on("disconnect", this.onClientDisconnected.bind(this));
   }
+
   /**
    *
    * @param {ChatItem} e
@@ -262,8 +271,6 @@ class Chat extends Component {
   }
 
   render() {
-    console.log(this.state.user);
-    console.log(this.state.users);
     let chatBoxProps = this.state.showChatBox
       ? {
           xs: 12,
@@ -284,8 +291,9 @@ class Chat extends Component {
           smhidden: "true"
         };
 
-    return (
-      <div>
+    let initChat = null;
+    if (this.state.user) {
+      initChat = (
         <div>
           <Row>
             <Col {...chatListProps} md={4}>
@@ -305,25 +313,17 @@ class Chat extends Component {
               />
             </Col>
           </Row>
+          <ErrorModal
+            show={this.state.error}
+            errorMessage={this.state.errorMessage}
+          />
+          <LoadingModal show={this.state.loading} />
+          <NotificationContainer />
         </div>
-        <Modal className="text-center" open={this.state.signInModalShow}>
-          <ModalHeader>Continue as:</ModalHeader>
-          <ModalBody>
-            <UserList
-              userData={this.state.user}
-              onUserClicked={this.onUserClicked.bind(this)}
-              showSignInList
-            />
-          </ModalBody>
-        </Modal>
-        <ErrorModal
-          show={this.state.error}
-          errorMessage={this.state.errorMessage}
-        />
-        <LoadingModal show={this.state.loading} />
-        <NotificationContainer />
-      </div>
-    );
+      );
+    }
+
+    return <div>{initChat}</div>;
   }
 }
 
