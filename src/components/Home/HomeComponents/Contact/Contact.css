@@ -33,16 +33,6 @@
     font-size: 1.3rem;
 }
 
-.section-contact p .error-message {
-    color: red !important;
-    font-size: 1.3rem !important;
-}
-
-.section-contact p .success-message {
-    color: green !important;
-    font-size: 1.3rem !important;
-}
-
 .section-contact .title-line {
     width: 12%;
     height: 2px;

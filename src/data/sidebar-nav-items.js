@@ -136,6 +136,35 @@ export default function() {
       },
 
       {
+        title: "Chats",
+        to: "#",
+        htmlBefore: '<i class="material-icons">chat</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
+        subMenu: [
+          {
+            title: "All chats",
+            htmlBefore: '<i class="material-icons">person</i>',
+            to: "/chats/allChats"
+          }
+          // {
+          //   title: "Compose",
+          //   htmlBefore: '<i class="material-icons">person</i>',
+          //   to: "#",
+          // },
+          // {
+          //   title: "Inbox",
+          //   htmlBefore: '<i class="material-icons">person</i>',
+          //   to: "#",
+          // },
+          // {
+          //   title: "Coach Settings",
+          //   htmlBefore: '<i class="material-icons">person</i>',
+          //   to: "#",
+          // }
+        ]
+      },
+
+      {
         title: "Accounts",
         to: "#",
         htmlBefore: '<i class="material-icons">group</i>',
@@ -219,34 +248,6 @@ export default function() {
             htmlBefore: '<i class="material-icons">create</i>',
             to: "/posts/new"
           }
-        ]
-      },
-      {
-        title: "Chats",
-        to: "#",
-        htmlBefore: '<i class="material-icons">chat</i>',
-        htmlAfter: '<i class="fas fa-caret-down"></i>',
-        subMenu: [
-          {
-            title: "All chats",
-            htmlBefore: '<i class="material-icons">person</i>',
-            to: "/chats/allChats"
-          }
-          // {
-          //   title: "Compose",
-          //   htmlBefore: '<i class="material-icons">person</i>',
-          //   to: "#",
-          // },
-          // {
-          //   title: "Inbox",
-          //   htmlBefore: '<i class="material-icons">person</i>',
-          //   to: "#",
-          // },
-          // {
-          //   title: "Coach Settings",
-          //   htmlBefore: '<i class="material-icons">person</i>',
-          //   to: "#",
-          // }
         ]
       },
 

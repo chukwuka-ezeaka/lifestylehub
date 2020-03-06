@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, CardBody, CardHeader, CardSubtitle } from "shards-react";
+import { Card, CardBody, CardTitle, CardSubtitle } from "shards-react";
 import {
   FormInput,
   InputGroup,
@@ -63,7 +63,7 @@ export default class ChatBox extends Component {
             <NavbarComponent
               left={
                 <div>
-                  <Col xshidden="true" smhidden="true">
+                  <Col mdHidden lgHidden>
                     <p className="navBarText">
                       {
                         //   <Glyphicon
@@ -111,11 +111,11 @@ export default class ChatBox extends Component {
             </FormGroup>
           </div>
         ) : (
-          <Card className="text-center">
-            <CardHeader>
-              <h1>Hello, {(this.props.signedInUser || {}).fullname}!</h1>
-            </CardHeader>
+          <Card>
             <CardBody>
+              <CardTitle>
+                <h1>Hello, {(this.props.signedInUser || {}).name}!</h1>
+              </CardTitle>
               <CardSubtitle>
                 <p>Select a friend to start a chat.</p>{" "}
               </CardSubtitle>

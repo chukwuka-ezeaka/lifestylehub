@@ -3,14 +3,14 @@ import React from "react";
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //import PropTypes from "prop-types";
 //import classNames from "classnames";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Navbar,
   NavbarToggler,
   NavbarBrand,
   Nav,
   NavItem,
-  // NavLink,
+  NavLink,
   Collapse
 } from "shards-react";
 
@@ -71,22 +71,16 @@ export default class NavExample extends React.Component {
           <Nav navbar className="ml-auto">
             <Nav navbar>
               <NavItem>
-                <NavLink className="nav-link" to={{ pathname: "/about" }}>
-                  About Us
-                </NavLink>
+                <NavLink href="/about">About Us</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className="nav-link" to={{ pathname: "/contact" }}>
-                  Contact Us
-                </NavLink>
+                <NavLink href="/contact">Contact Us</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className="nav-link" to={{ pathname: "/signin" }}>
-                  Sign In
-                </NavLink>
+                <NavLink href="/signin">Sign In</NavLink>
               </NavItem>
               {/* {<NavItem>
-                <NavLink className="nav-link" to={{ pathname: "/register" }}>Register</NavLink>
+                <NavLink href="/register">Register</NavLink>
               </NavItem>} */}
             </Nav>
           </Nav>
