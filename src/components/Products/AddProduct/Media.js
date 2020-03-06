@@ -11,7 +11,7 @@ import {
   Button,
   Col,
   Row,
-  FormSelect
+  FormSelect,
 } from "shards-react";
 import HttpService from "../../../utils/API";
 import LoaderSmall from "../../Loaders/LoaderSmall";
@@ -93,7 +93,7 @@ class Media extends React.Component{
 
     render(){
         const { title } = this.props;
-        const { types, user, categories, requestPending, disable, fileError} = this.state;
+        const { user, categories, requestPending, disable, fileError} = this.state;
         return (
             <Row>
             <Col lg="8" className="pb-4">
@@ -145,6 +145,15 @@ class Media extends React.Component{
                         </FormGroup>
                     </Col>
                     </Row>
+                    <FormGroup>
+                        <label htmlFor="title">Author Name</label>
+                        <FormInput id="Title" type="text" placeholder="Author" />
+                     </FormGroup>
+                    {/* <fieldset>
+                        <FormCheckbox toggle onChange={this.toggle} small checked={this.state.checked}>
+                            Sell product on store
+                        </FormCheckbox>
+                    </fieldset> */}
                     <FormGroup className="mb-0">
                     <Button theme="accent" type="submit" disabled={disable}>
                        {requestPending ? <LoaderSmall/> : 'Publish Media'}
@@ -193,18 +202,18 @@ class Media extends React.Component{
             //post data
             _http.sendPost(url, data)
             .then(res => {
-                console.log(res)
+                //console.log(res)
                 if(res.data){
                     const payload = {
+                        "content_media_id" : res.data.id,
                         'title': this.state.title,
                         'description' : this.state.title,
-                        "url" : res.data.url,
                         "owner_id" : this.state.user.id,
                         "category_id" : this.state.category,
-                        "type_id" : parseInt(this.state.type)
+                        "content_type_id" : parseInt(this.state.type)
                     }
 
-                const mediaUrl = 'content/media/create';
+                const mediaUrl = 'content/create';
 
                 //post media data
                 _http.sendPost(mediaUrl, payload)

@@ -1,7 +1,6 @@
 import React from "react";
 
 import LoaderSmall from '../../Loaders/LoaderSmall';
-import { toast } from 'react-toastify';
 import {
   Modal,
   ModalBody, 
@@ -22,6 +21,9 @@ import {
 } from "shards-react";
 
 import './UsersModal.css';
+import HttpService from "../../../utils/API";
+
+const _http = new HttpService();
 
 class UsersModal extends React.Component{
   constructor(){
@@ -32,19 +34,6 @@ class UsersModal extends React.Component{
     }
   }
 
-  notify = (message) => {
-    switch(this.state.type){
-      case "success":
-              toast.success(message);
-          break;
-      case "warn":
-          toast.warn("Error: " + message);
-          break;
-      default:
-          break;
-    }
-}
-
   handleRole = (event) => {
     this.setState({
       loading: true
@@ -52,57 +41,42 @@ class UsersModal extends React.Component{
     const userId = event.target.id;
     const roleId = event.target.value;
     //console.log(userId, value)
-    fetch('https://lshub.herokuapp.com/api/v1/account/user/role/assign',{
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'bearer ' + localStorage.getItem('Auth'),
-    },
-      body: JSON.stringify({
-        user_id: userId,
-        role_id: roleId
-    })
-  })
-  .then(response => response.json())
-        .then(data => {
+
+    const url = "account/user/role/assign";
+    const postData = {
+      user_id: userId,
+      role_id: roleId
+    }
+    _http.sendPost(url, postData)
+    .then(response => {
+        if(response.data ){
             this.setState({loading: false});
-            switch(data.status){
-                case "success":
-                    this.setState({type: "success"});
-                    this.notify(data.message); 
-                break;
-                case "fail":
-                    this.setState({type: "warn"});
-                    this.notify(data.message); 
-                break;
-                default:
-                        this.setState({type: "warn"});
-                    this.notify(data.message);
-                break;
+            let type = "";
+            if(response.status === "success"){
+                type = "success";
+                _http.notify(response.message, type)
+            }else{
+                type = "warn";
+                _http.notify(response.message, type)
             }
-        ;})
-        .catch(err => {
-            this.setState({
-                loading: false
-             });
-            this.setState({errMessage: 'Error' + err});
-        })
+        
+        }else{
+            _http.notify(response.message)
+            this.setState({loading: false })
+        }
+    })
   }
 
 
   componentDidMount = () => {
-    fetch('https://lshub.herokuapp.com/api/v1/account/role/list',{
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'bearer ' + localStorage.getItem('Auth'),
-      },
-      signal: this.abortController.signal
+    const url = 'account/role/list';
+    _http.sendGet(url)
+    .then(res => {
+        this.setState({
+          roles: res.data
+        })
     })
-    .then(response => response.json())
-    .then(object => this.setState({roles: object.data}))
-    .catch(err => (err))
-}
+  }
 
 componentWillUnmount = () => {
   this.abortController.abort();
@@ -276,9 +250,8 @@ render(){
                              />
                           </Col>
                         </Row>
-                        <Button theme="accent">Update</Button> 
-                        <Button theme="accent" className="bg-warning">Block</Button>
-                        <Button theme="accent" className="bg-warning">Un-Block</Button>
+                        <Button theme="accent" className="mr-1">Update</Button> 
+                        <Button theme="accent" className="mr-3 bg-warning">Block</Button>
                       </Form>
                     </Col>
                   </Row>

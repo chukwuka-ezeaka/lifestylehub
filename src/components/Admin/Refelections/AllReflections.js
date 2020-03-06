@@ -4,7 +4,14 @@ import { confirmAlert } from 'react-confirm-alert';
 import LoaderSmall from '../../Loaders/LoaderSmall';
 import { withRouter } from 'react-router-dom';
 import Truncate from 'react-truncate';
-import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react"
+import { 
+    Container, 
+    Row, 
+    Col, 
+    Card, 
+    CardBody,
+    Badge,
+} from "shards-react"
 import HttpService from '../../../utils/API';
 import GetImage from '../../common/getImage';
 
@@ -32,101 +39,142 @@ componentDidMount(){
 }
 
 render(){
-    const { reflections, loading, width } = this.state;
-    let i = 1;
+    const { reflections, loading } = this.state;
     return(
 
-        <Container className="mt-4">
-            <Row>
-            <Col>
-                <Card small className="mb-4 overflow-hidden">
-                <CardHeader className="bg-light">
-                    <h6 className="m-0 text-black">All Reflections</h6>
-                </CardHeader>
-                <CardBody className="bg-light p-0 pb-3">
+        <Container fluid className="mt-4">
+            <h5 className="card-title">All reflections</h5>
                 {loading ?
                 <Loader />
                 :
-                    <table className="table table-light mb-0 table-responsive">
-                    <thead className="thead-light">
-                        <tr>
-                        <th scope="col" className="border-0">
-                            #
-                        </th>
-                        <th scope="col" className="border-0">
-                           Title
-                        </th>
-                        <th scope="col" className="border-0">
-                            Author
-                        </th>
-                        <th scope="col" className="border-0" width="300px">
-                            Content
-                        </th>
-                        <th scope="col" className="border-0">
-                            Cover Image
-                        </th>
-                        <th scope="col" className="border-0">
-                            Media
-                        </th>
-                        <th scope="col" className="border-0">
-                            Posted By
-                        </th>
-                        <th scope="col" className="border-0" width="100px">
-                            Date
-                        </th>
-                        <th scope="col" className="border-0">
-
-                        </th>
-                        </tr>
-                    </thead>
-                    <tbody  className="f6">
+                <Row>
                     {reflections ?
                     reflections.map((reflection, index)  => {
                             //let reflectionId = `#${reflection.id}`;
                             //console.log(index);
-                            return(
-                                <tr key={reflection.id}>
-                                    <td>{i++}</td>
-                                    <td>{reflection.title ? reflection.title : ''}</td>
-                                    <td>{reflection.author ? reflection.author : ''}</td>
-                                    <td>
-                                        <Truncate lines={3} ellipsis={<span>... <p className="link pointer blue" id={reflection.id} onClick={this.viewReflections}>show more</p></span>}>
-                                            {reflection.content}
-                                        </Truncate>
-                                    </td>
-                                    <td>
-                                    {reflection.content? <GetImage image={reflection.image_link} title={reflection.title} width={width}/> : <LoaderSmall/>} 
-                                    </td>
-                                    <td>
-                                         <img
-                                        className="rounded-circle link pointer dim"
+                            return (
+                                <Col lg="3" md="6" sm="12" className="mb-4" key={reflection.id}>
+                                <Card small className="card-post card-post--1">
+                                  <div
+                                    className="card-post__image"
+                                    style={{ textAlign : 'center' }}
+                                  >
+                                      {reflection.content? <GetImage image={reflection.image_link}   title={reflection.title} width="150px"/> : <LoaderSmall/>}
+                                    <Badge
+                                      pill
+                                      className={`card-post__category bg-dark`}
+                                    >
+                                       {reflection.author ? reflection.author : ''}
+                                    </Badge>
+                                    <div className="card-post__author d-flex">
+                                      <img
+                                        className="rounded-circle link pointer dim img-responsive"
                                         src= {require("./../../../images/covers/audio.png")}
                                         alt={reflection.title}
-                                        width="80"
+                                        width="50px"
                                         id={reflection.id}
                                         onClick={this.viewReflections}
                                         />
-                                    </td>
-                                    <td>{reflection.postedBy ? reflection.postedBy : ''}</td>
-                                    <td             >{reflection.date ? reflection.date : ''}</td>
-                                    <td>
-                                        <Button size="sm" theme="warning" className="mb-2 mr-1" onClick={this.handleDelete} id={reflection.id}>
-                                            {this.state.requestPending ? <LoaderSmall /> : 'Delete'}
-                                        </Button>
-                                    </td>
-                                   
-                                </tr> 
-                                
+                                    </div>
+                                  </div>
+                                  <CardBody>
+                                    <h5 className="card-title">
+                                      <p className="text-fiord-blue">
+                                      <Truncate lines={2} ellipsis={<span>... </span>}>
+                                            { reflection.title}
+                                        </Truncate>
+                                      {/* {reflection.title ? reflection.title : ''} */}
+                                      </p>
+                                    </h5>
+                                    <div className="card-text d-inline-block mb-0">
+                                        <Truncate lines={3} ellipsis={<span>... <p className="link pointer blue" id={reflection.id} onClick={this.viewReflections}>show more</p></span>}>
+                                            {reflection.content}
+                                        </Truncate>
+                                    </div>
+                                    <span className="text-muted">{reflection.date ? reflection.date : ''}</span>
+                                  </CardBody>
+                                </Card>
+                              </Col>
+
+                            //     <Col lg="6" sm="12" className="mb-4" key={reflection.id}>
+                            //     <Card small className="card-post card-post--aside card-post--1">
+                            //       <div
+                            //         className="card-post__image"
+                            //         style={{ backgroundImage: `url('${null}')` }}
+                            //       >
+                            //         <Badge
+                            //           pill
+                            //           className={`card-post__category bg-dark`}
+                            //         >
+                            //           {reflection.author ? reflection.author : ''}
+                            //         </Badge>
+                            //         <div className="card-post__author d-flex">
+                            //         <a><img
+                            //             className="rounded-circle link pointer dim img-responsive"
+                            //             src= {require("./../../../images/covers/audio.png")}
+                            //             alt={reflection.title}
+                            //             width="50px"
+                            //             id={reflection.id}
+                            //             onClick={this.viewReflections}
+                            //             />
+                            //             </a>
+                            //         </div>
+                            //       </div>
+                            //       <CardBody>
+                            //         <h5 className="card-title">
+                            //           <a className="text-fiord-blue" href="#">
+                            //           {reflection.title ? reflection.title : ''}
+                            //           </a>
+                            //         </h5>
+                            //         <p className="card-text d-inline-block mb-3">
+                            //             <Truncate lines={3} ellipsis={<span>... <p className="link pointer blue" id={reflection.id} onClick={this.viewReflections}>show more</p></span>}>
+                            //                 {reflection.content}
+                            //             </Truncate>
+                            //         </p>
+                            //         <span className="text-muted">{reflection.date ? reflection.date : ''}</span>
+                            //       </CardBody>
+                            //     </Card>
+                            //   </Col>
                             )
+                            // return(
+                            //     <tr key={reflection.id}>
+                            //         <td>{i++}</td>
+                            //         <td>{reflection.title ? reflection.title : ''}</td>
+                            //         <td>{reflection.author ? reflection.author : ''}</td>
+                            //         <td>
+                            //             <Truncate lines={3} ellipsis={<span>... <p className="link pointer blue" id={reflection.id} onClick={this.viewReflections}>show more</p></span>}>
+                            //                 {reflection.content}
+                            //             </Truncate>
+                            //         </td>
+                            //         <td>
+                            //         {reflection.content? <GetImage image={reflection.image_link} title={reflection.title} width={width}/> : <LoaderSmall/>} 
+                            //         </td>
+                            //         <td>
+                            //              <img
+                            //             className="rounded-circle link pointer dim"
+                            //             src= {require("./../../../images/covers/audio.png")}
+                            //             alt={reflection.title}
+                            //             width="80"
+                            //             id={reflection.id}
+                            //             onClick={this.viewReflections}
+                            //             />
+                            //         </td>
+                            //         <td>{reflection.postedBy ? reflection.postedBy : ''}</td>
+                            //         <td             >{reflection.date ? reflection.date : ''}</td>
+                            //         <td>
+                            //             <Button size="sm" theme="warning" className="mb-2 mr-1" onClick={this.handleDelete} id={reflection.id}>
+                            //                 {this.state.requestPending ? <LoaderSmall /> : 'Delete'}
+                            //             </Button>
+                            //         </td>
+                                   
+                            //     </tr> 
+                                
+                            // )
                         })
-                    : <tr></tr>}
-                    </tbody>
-                    </table>
+                        : <div></div>
+                    }
+                </Row>
                 }
-                </CardBody>
-                </Card>
-            </Col>
-            </Row>
         </Container>
     );
 }

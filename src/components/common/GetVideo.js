@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactAudioPlayer from 'react-audio-player';
+import ReactPlayer from 'react-player'
 import HttpService from '../../utils/API';
 
 const _http = new HttpService();
@@ -9,17 +9,14 @@ class GetVideo extends Component {
 
 
     componentDidMount(){
-        this.getAudio(this.props.video);
+        //this.getAudio(this.props.video);
     }
     
     render() { 
         return ( 
-            <ReactAudioPlayer
-                src={`data:video/mp3;base64,${this.state.video}`}
-                //src={require('./test3.mp3')}
-                autoPlay
-                controls
-            />
+            <ReactPlayer 
+            url='https://www.youtube.com/watch?v=E_avNkrUVbc' 
+            width={this.props.width}/>
          );
     }
 

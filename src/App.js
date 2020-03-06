@@ -3,7 +3,6 @@ import React from "react";
 import {
   BrowserRouter as Router,
   Route,
-  Redirect,
   Switch
 } from "react-router-dom";
 
@@ -28,24 +27,20 @@ import Logout from "./views/Logout";
 import Permissions from "./views/Permissions";
 import Confirmation from "./views/Confirmation";
 import Dashboard from "./views/Dashboard";
+import VendorDashboard from "./views/VendorDashboard";
 import Products from "./views/Products";
 import ViewReflection from "./views/ViewReflection";
 import Posts from "./views/Posts";
 import Accounts from "./views/Accounts";
 
 import "tachyons";
+import InviteUsers from "./views/InviteUser";
+import AddProduct from "./views/AddProduct";
 
 const initialState = {
-  user: {
-    id: "",
-    fullname: "",
-    username: "",
-    email: "",
-    phone: ""
-  },
-  Auth: "",
+  user: {},
   Authenticated: false,
-  logout: false
+  logout: false,
 };
 
 class App extends React.Component {
@@ -102,6 +97,25 @@ class App extends React.Component {
                 </DefaultLayout>
               )}
             />
+             <Route
+              path="/vendor"
+              exact
+              render={props => (
+                <DefaultLayout user={user}>
+                  <VendorDashboard user={user} Auth={Auth} />
+                </DefaultLayout>
+              )}
+            />
+
+            <Route
+              path="/users/invite"
+              exact
+              render={props => (
+                <DefaultLayout user={user}>
+                  <InviteUsers Auth={Auth} />
+                </DefaultLayout>
+              )}
+            />
 
             <Route
               path="/users/:id"
@@ -121,6 +135,7 @@ class App extends React.Component {
             />
             <Route
               path="/reflections"
+              exact
               render={props => (
                 <DefaultLayout user={user}>
                   <Reflections user={user} Auth={Auth} />
@@ -137,6 +152,7 @@ class App extends React.Component {
             />
             <Route
               path="/viewReflection"
+              exact
               render={props => (
                 <DefaultLayout user={user}>
                   <ViewReflection user={user} Auth={Auth} />
@@ -144,11 +160,19 @@ class App extends React.Component {
               )}
             />
             <Route
-              exact
               path="/viewReflection/:id"
               render={props => (
                 <DefaultLayout user={user}>
                   <ViewReflection user={user} Auth={Auth} />
+                </DefaultLayout>
+              )}
+            />
+             <Route
+              path="/products"
+              exact
+              render={props => (
+                <DefaultLayout user={user}>
+                  <Products user={user} Auth={Auth} />
                 </DefaultLayout>
               )}
             />
@@ -160,7 +184,15 @@ class App extends React.Component {
                 </DefaultLayout>
               )}
             />
-
+  
+            <Route
+              path="/add/:id"
+              render={props => (
+                <DefaultLayout user={user}>
+                  <AddProduct user={user} Auth={Auth} />
+                </DefaultLayout>
+              )}
+            />
             <Route
               path="/posts/:id"
               render={props => (

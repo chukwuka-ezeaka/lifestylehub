@@ -4,8 +4,9 @@ import { Container, Row,} from "shards-react";
 
 import PageTitle from "../components/common/PageTitle";
 import CreatePost from '../components/Posts/CreatePost'
+import HttpService from "../utils/API";
 
-
+const _http = new HttpService();
 const views = {
   showPosts: false,
   showCreatePost: false
@@ -18,7 +19,8 @@ class Posts extends React.Component {
             loading: true,
             showViews: views,
             path: '',
-            errorMessage: ''
+            errorMessage: '',
+            posts: []
         }
     }
   
@@ -37,6 +39,17 @@ showContent = (handle) => {
       this.setState({showViews: {showPosts: true}})
       break;
   }
+}
+
+getPost = () => {
+  const url = 'post';
+  _http.sendGet(url)
+  .then(response => {
+      response.data ?
+      this.setState({ posts: response.data})
+      :
+      _http.notify(response.message);
+  })
 }
 
 componentDidMount(){
@@ -59,8 +72,9 @@ componentWillUnmount = () => {
 };
 
   render(){
-    const {loading, errorMessage } = this.state;
+    const {loading, errorMessage, posts } = this.state;
     const { showPosts, showCreatePost } = this.state.showViews;
+    //console.log(posts)
     
     return(
       <Container fluid className="main-content-container px-4 pb-4">

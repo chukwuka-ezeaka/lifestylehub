@@ -1,6 +1,7 @@
 export default function() {
   let user = JSON.parse(localStorage.getItem('user'));
   let userRole =  user ? parseInt(user.role.id) : 0;
+  //const username = user ? user.fullname : null
   if(userRole === 75){
       return [
       {
@@ -46,9 +47,19 @@ export default function() {
             to: "/users/coaches",
           },
           {
+            title: "Vendor Coaches",
+            htmlBefore: '<i class="material-icons">emoji_people</i>',
+            to: "/users/coaches",
+          },
+          {
             title: "Admins",
             htmlBefore: '<i class="material-icons">how_to_reg</i>',
             to: "/users/admins",
+          },
+          {
+            title: "Invite",
+            htmlBefore: '<i class="material-icons">person_add</i>',
+            to: "/users/invite",
           },
           {
             title: "User Role",
@@ -93,7 +104,7 @@ export default function() {
           {
             title: "All products",
             htmlBefore: '<i class="material-icons">shopping_cart</i>',
-            to: "/products/allProducts   ",
+            to: "/products",
           },
           {
             title: "Videos",
@@ -118,13 +129,13 @@ export default function() {
           {
             title: "Add Product",
             htmlBefore: '<i class="material-icons">add_box</i>',
-            to: "/products/addMedia",
+            to: "/add/media",
           },
   
           {
-            title: "Add Content",
+            title: "Add Text",
             htmlBefore: '<i class="material-icons">add_box</i>',
-            to: "/products/addContent",
+            to: "/add/text",
           },
           {
             title: "Category",
@@ -171,6 +182,35 @@ export default function() {
 
 
       {
+        title: "Chats",
+        to: "#",
+        htmlBefore: '<i class="material-icons">chat</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
+        subMenu: [
+          {
+            title: "All chats",
+            htmlBefore: '<i class="material-icons">person</i>',
+            to: "/chats/allChats"
+          }
+          // {
+          //   title: "Compose",
+          //   htmlBefore: '<i class="material-icons">person</i>',
+          //   to: "#",
+          // },
+          // {
+          //   title: "Inbox",
+          //   htmlBefore: '<i class="material-icons">person</i>',
+          //   to: "#",
+          // },
+          // {
+          //   title: "Coach Settings",
+          //   htmlBefore: '<i class="material-icons">person</i>',
+          //   to: "#",
+          // }
+        ]
+      },
+
+      {
         title: "Accounts",
         to: "#",
         htmlBefore: '<i class="material-icons">group</i>',
@@ -187,21 +227,69 @@ export default function() {
             to: "/accounts/purchase",
           },
           {
-            title: "Invite",
-            htmlBefore: '<i class="material-icons">person_add</i>',
-            to: "/accounts/invite",
+            title: "Settings",
+            htmlBefore: '<i class="material-icons">build</i>',
+            to: "/accounts/settings",
           },
           
         ]
       },
+      {
+        title: "Store",
+        to: "#",
+        htmlBefore: '<i class="material-icons">shopping_cart</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
+        subMenu: [
+          // {
+          //   title: "All products",
+          //   htmlBefore: '<i class="material-icons">shopping_cart</i>',
+          //   to: "/products/allProducts",
+          // },
+          {
+            title: "Videos",
+            htmlBefore: '<i class="material-icons">theaters</i>',
+            to: "#",
+          },
+          {
+            title: "Audios",
+            htmlBefore: '<i class="material-icons">audiotrack</i>',
+            to: "#",
+          },
+          {
+            title: "Ebooks",
+            htmlBefore: '<i class="material-icons">book</i>',
+            to: "#",
+          },
+        
+          {
+            title: "Add Product",
+            htmlBefore: '<i class="material-icons">add_box</i>',
+            to: "#",
+          },
+  
+          {
+            title: "Add Text",
+            htmlBefore: '<i class="material-icons">add_box</i>',
+            to: "#",
+          }
+        ]
+      }, 
     ]
   }
+
+  //Vendor sidenav items
   if(userRole === 99){
   return [
     {
       title: "Dashboard",
       htmlBefore: '<i class="material-icons">bar_chart</i>',
-      to: "#",
+      to: `/vendor`,
+      subMenu: ""
+    },
+    {
+      title: "Profile",
+      htmlBefore: '<i class="material-icons">account_circle</i>',
+      to: "/profile",
       subMenu: ""
     },
     {
@@ -210,11 +298,11 @@ export default function() {
       htmlBefore: '<i class="material-icons">shopping_cart</i>',
       htmlAfter: '<i class="fas fa-caret-down"></i>',
       subMenu: [
-        {
-          title: "All products",
-          htmlBefore: '<i class="material-icons">shopping_cart</i>',
-          to: "/products/allProducts",
-        },
+        // {
+        //   title: "All products",
+        //   htmlBefore: '<i class="material-icons">shopping_cart</i>',
+        //   to: "/products/allProducts",
+        // },
         {
           title: "Videos",
           htmlBefore: '<i class="material-icons">theaters</i>',
@@ -230,17 +318,73 @@ export default function() {
           htmlBefore: '<i class="material-icons">book</i>',
           to: "/products/ebooks",
         },
-      
+        {
+          title: "Texts",
+          htmlBefore: '<i class="material-icons">assignment</i>',
+          to: "/products/text",
+        },
         {
           title: "Add Product",
           htmlBefore: '<i class="material-icons">add_box</i>',
-          to: "/products/addMedia",
+          to: "/add/media",
         },
+<<<<<<< HEAD
+=======
+      {
+        title: "Posts",
+        to: "#",
+        htmlBefore: '<i class="material-icons">assignment</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
+        subMenu: [
+          {
+            title: "All post",
+            htmlBefore: '<i class="material-icons">assignment</i>',
+            to: "/posts/all"
+          },
+          {
+            title: "New post",
+            htmlBefore: '<i class="material-icons">create</i>',
+            to: "/posts/new"
+          }
+        ]
+      },
+<<<<<<< HEAD
+      {
+        title: "Chats",
+        to: "#",
+        htmlBefore: '<i class="material-icons">chat</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
+        subMenu: [
+          {
+            title: "All chats",
+            htmlBefore: '<i class="material-icons">person</i>',
+            to: "/chats/allChats"
+          }
+          // {
+          //   title: "Compose",
+          //   htmlBefore: '<i class="material-icons">person</i>',
+          //   to: "#",
+          // },
+          // {
+          //   title: "Inbox",
+          //   htmlBefore: '<i class="material-icons">person</i>',
+          //   to: "#",
+          // },
+          // {
+          //   title: "Coach Settings",
+          //   htmlBefore: '<i class="material-icons">person</i>',
+          //   to: "#",
+          // }
+        ]
+      },
+>>>>>>> undid sidebar changes
+=======
+>>>>>>> 6925eb1f70fae88b6fa5cf800204563df576196f
 
         {
-          title: "Add Content",
+          title: "Add Text",
           htmlBefore: '<i class="material-icons">add_box</i>',
-          to: "/products/addContent",
+          to: "/add/text",
         }
       ]
     },
@@ -263,14 +407,70 @@ export default function() {
         },
       ]
     },
-
     {
-      title: "Profile",
-      htmlBefore: '<i class="material-icons">account_circle</i>',
-      to: "/profile",
-      subMenu: ""
+      title: "Accounts",
+      to: "#",
+      htmlBefore: '<i class="material-icons">group</i>',
+      htmlAfter: '<i class="fas fa-caret-down"></i>',
+      subMenu: [
+        {
+          title: "Downloads",
+          htmlBefore: '<i class="material-icons">get_app</i>',
+          to: "/accounts/downloads",
+        },
+        {
+          title: "Purchase",
+          htmlBefore: '<i class="material-icons">add_shopping_cart</i>',
+          to: "/accounts/purchase",
+        },
+        {
+          title: "Settings",
+          htmlBefore: '<i class="material-icons">build</i>',
+          to: "/accounts/settings",
+        },
+        
+      ]
     },
-    
+    {
+      title: "Store",
+      to: "#",
+      htmlBefore: '<i class="material-icons">shopping_cart</i>',
+      htmlAfter: '<i class="fas fa-caret-down"></i>',
+      subMenu: [
+        // {
+        //   title: "All products",
+        //   htmlBefore: '<i class="material-icons">shopping_cart</i>',
+        //   to: "/products/allProducts",
+        // },
+        {
+          title: "Videos",
+          htmlBefore: '<i class="material-icons">theaters</i>',
+          to: "#",
+        },
+        {
+          title: "Audios",
+          htmlBefore: '<i class="material-icons">audiotrack</i>',
+          to: "#",
+        },
+        {
+          title: "Ebooks",
+          htmlBefore: '<i class="material-icons">book</i>',
+          to: "#",
+        },
+      
+        {
+          title: "Add Product",
+          htmlBefore: '<i class="material-icons">add_box</i>',
+          to: "#",
+        },
+
+        {
+          title: "Add Text",
+          htmlBefore: '<i class="material-icons">add_box</i>',
+          to: "#",
+        }
+      ]
+    },                
   ];
 }
 }

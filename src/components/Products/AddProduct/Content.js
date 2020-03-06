@@ -68,7 +68,7 @@ class Content extends React.Component{
       }*/
 
     render(){
-        const { user, categories, loading} = this.state;
+        const { user, categories} = this.state;
         const { title } = this.props;
         return (
             <Row>
@@ -100,8 +100,8 @@ class Content extends React.Component{
                         </FormGroup>
 
                         <FormGroup>
-                            <label htmlFor="description">Description</label>
-                            <FormTextarea placeholder="Description" onChange={this.handleDescription} required/>
+                            <label htmlFor="description">Main body</label>
+                            <FormTextarea rows="7"placeholder="main body..." onChange={this.handleDescription} required/>
                         </FormGroup>
 
                         <Row>
@@ -169,7 +169,8 @@ class Content extends React.Component{
                         "category_id" : this.state.category,
                         "content_type_id" : 7,
                         "title" : this.state.title,
-                        "description" : this.state.description
+                        "description" : this.state.description,
+                        // "content_art" : contnet_art
                     }
                     const contentUrl = 'content/create';
 
@@ -205,7 +206,7 @@ Content.propTypes = {
 };
 
 Content.defaultProps = {
-  title: "New Content"
+  title: "New Text"
 };
 
 export default Content;

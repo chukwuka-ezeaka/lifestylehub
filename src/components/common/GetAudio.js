@@ -1,38 +1,21 @@
 import React, { Component } from 'react';
 import ReactAudioPlayer from 'react-audio-player';
-import HttpService from '../../utils/API';
-
-const _http = new HttpService();
 
 class GetAudio extends Component {
-    state = { audio: '' }
-
 
     componentDidMount(){
-        this.getAudio(this.props.audio);
+       // this.getAudio(this.props.audio);
     }
     
     render() { 
+        const audioUrl = `https://myacademyhub.s3.amazonaws.com/audio/${this.props.audio}`;
         return ( 
-            <ReactAudioPlayer
-                src={`data:audio/mp3;base64,${this.state.audio}`}
-                //src={require('./test3.mp3')}
+            <ReactAudioPlayer 
+            src={audioUrl}
                 autoPlay
                 controls
             />
          );
-    }
-
-    getAudio = (audio) => {
-        const url = `media/manager/audio/single/find/${audio}`;
-        _http.sendGet(url)
-        .then(res => {
-           //console.log(res)
-            this.setState({
-                audio:res
-                // audio_type:res.headers['content-type']
-            })
-        })
     }
 }
  

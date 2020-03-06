@@ -72,6 +72,7 @@ render(){
                     </thead>
                     <tbody>
                     {roles ? roles.map((role, index)  => {
+                        console.log(role)
                             //let userId = `#${user.id}`;
                             //console.log(index);
                             return(
