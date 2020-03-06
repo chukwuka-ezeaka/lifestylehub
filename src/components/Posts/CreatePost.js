@@ -36,6 +36,26 @@ class CreatePost extends React.Component{
         this.setState({tags: event.target.value});
     }
 
+   /* checkMimeType=(event)=>{
+        //getting file object
+        let file = event.target.file[0] 
+        //define message container
+        let err = ''
+        // list allow mime type
+       const types = ['image/png', 'image/jpeg', 'image/gif']
+         // compare file type find doesn't matach
+             if (types.every(type => file.type !== type)) {
+             // create error message and assign to container   
+             err += file.type+' is not a supported format\n';
+           }
+       if (err !== '') { // if message not same old that mean has error 
+            event.target.value = null // discard selected file
+            console.log(err)
+             return false; 
+        }
+       return true;
+      
+      }*/
 
     render(){
         const { title } = this.props;

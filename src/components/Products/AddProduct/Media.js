@@ -11,7 +11,7 @@ import {
   Button,
   Col,
   Row,
-  FormSelect,
+  FormSelect
 } from "shards-react";
 import HttpService from "../../../utils/API";
 import LoaderSmall from "../../Loaders/LoaderSmall";
@@ -90,27 +90,10 @@ class Media extends React.Component{
       
       }
 
-      categoryCheck = () => {
-          this.setState({disable: true})
-      }
-
 
     render(){
-        const { user, title } = this.props;
-        const {requestPending, disable, fileError} = this.state;
-        let author= "";
-        let message = "";
-        if(user.UserRole.roleId === 75){
-            author = <FormGroup>
-                <label htmlFor="title">Author Name</label>
-                <FormInput id="Title" type="text" placeholder="Author" />
-            </FormGroup>
-        }
-
-        if(user.catgerory === null){
-            message = <p className="text-center text-danger">Please update your category under your profile to continue</p>;
-        }
-
+        const { title } = this.props;
+        const { types, user, categories, requestPending, disable, fileError} = this.state;
         return (
             <Row>
             <Col lg="8" className="pb-4">
@@ -121,13 +104,12 @@ class Media extends React.Component{
                 </CardHeader>
 
                 <CardBody className="d-flex flex-column">
-                    {message}
                 <Form onSubmit={this.handlePublish}>
                     <Row>
                         <Col md="6">
                         <FormGroup>
                             <label htmlFor={user.id}>Product type</label>
-                            <FormSelect id={user.id} onChange={this.handleType} required disabled={user.catgerory === null}>
+                            <FormSelect id={user.id} onChange={this.handleType} required>
                             <option>Select...</option>
                             <option value='1'>Video</option>
                             <option value='5'>Audio</option>
@@ -138,30 +120,31 @@ class Media extends React.Component{
                         <Col md="6" className="pb-4">
                         <FormGroup>
                             <label htmlFor={user.id}>Category</label>
-                        <FormInput defaultValue={user.category ? user.category.name : ''} required disabled/>
+                            <FormSelect id={user.id} onChange={this.handleCategory} onClick={this.getCategory} required>
+                                {categories ? categories.map((category)  => {
+                                return(
+                                    <option key={category.id} value={category.id}>{category.name}</option>
+                                )
+                                })
+                            : <LoaderSmall/>}
+                            </FormSelect>
                         </FormGroup>
                         </Col>
                     </Row>     
                     <FormGroup>
                         <label htmlFor="title">Title</label>
-                        <FormInput id="Title" type="text" placeholder="Title" onChange={this.handleTitle} required disabled={user.catgerory === null}/>
+                        <FormInput id="Title" type="text" placeholder="Title" onChange={this.handleTitle} required/>
                      </FormGroup>
 
                     <Row>
                     <Col md="6">
                     <FormGroup>
                         <label htmlFor="coverImage">Select File</label>
-                        <FormInput id="file" type="file" onChange={this.checkMimeType} required disabled={user.catgerory === null}/>
+                        <FormInput id="file" type="file" onChange={this.checkMimeType} required/>
                         {fileError ? <p className="f8 red">{fileError}</p> : ''}
                         </FormGroup>
                     </Col>
                     </Row>
-                    {author}
-                    <fieldset>
-                        <FormCheckbox toggle onChange={this.toggle} small checked={this.state.checked}>
-                            Sell product on store
-                        </FormCheckbox>
-                    </fieldset>
                     <FormGroup className="mb-0">
                     <Button theme="accent" type="submit" disabled={disable}>
                        {requestPending ? <LoaderSmall/> : 'Publish Media'}
@@ -190,8 +173,8 @@ class Media extends React.Component{
                 mediaType = 'video';
             }                   
             if(type === 4){
-                url = 'media/manager/pdf/single/create';
-                mediaType = 'pdf';
+                url = 'media/manager/ebook/single/create';
+                mediaType = 'ebook';
             }                  
             if(type === 5){
                 url = 'media/manager/audio/single/create';
@@ -204,24 +187,22 @@ class Media extends React.Component{
             const data = new FormData();
             data.append('title', this.state.title)
             data.append('description', this.state.title)
-            data.append('category_id', this.props.user.category.id)
+            data.append('category_id', this.state.category)
             data.append(mediaType, file.files[0])
 
             //post data
             _http.sendPost(url, data)
             .then(res => {
-                //console.log(res)
+                console.log(res)
                 if(res.data){
                     const payload = {
-                        "content_media_id" : res.data.id,
-                        'title': this.state.title,
-                        'description' : this.state.title,
+                        "url" : res.data.url,
                         "owner_id" : this.state.user.id,
-                        "category_id" : this.props.user.category.id,
-                        "content_type_id" : parseInt(this.state.type)
+                        "category_id" : this.state.category,
+                        "type_id" : parseInt(this.state.type)
                     }
 
-                const mediaUrl = 'content/create';
+                const mediaUrl = 'content/media/create';
 
                 //post media data
                 _http.sendPost(mediaUrl, payload)
@@ -255,6 +236,17 @@ class Media extends React.Component{
             .then(response => {
                 response.data ?
                 this.setState({ errorMessage: '', types: response.data, loading: false })
+                :
+                this.setState({ errorMessage: response.message, loading: false })
+            })
+        }
+
+        getCategory = () => {
+            const url = 'content/category/list';
+            _http.sendGet(url)
+            .then(response => {
+                response.data ?
+                this.setState({ errorMessage: '', categories: response.data, loading: false })
                 :
                 this.setState({ errorMessage: response.message, loading: false })
             })

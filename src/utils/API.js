@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 //import {loadState,loadAppMode} from "../utils/localStorage";
 
 
-const BASE_URL = "https://lshub.herokuapp.com/api/v1/";
+let BASE_URL = "https://lshub.herokuapp.com/api/v1/";
 
 const httpService = axios.create({
     baseURL: BASE_URL,
@@ -14,13 +14,12 @@ const httpService = axios.create({
         Authorization: localStorage.getItem('Auth') ? `Bearer ${localStorage.getItem('Auth')}` : '' }
 });
 
-httpService.interceptors.request.use(
-    res => res,
-    err => {
-        //console.log(err);
-        Promise.reject(err);
-    }
-  )
+// httpService.interceptors.response.use(
+//     res => res,
+//     err => {
+//       return err;
+//     }
+//   )
 
 const networkError = (error) => {
     const message = {message: "Something went wrong, please try again"}
@@ -71,11 +70,14 @@ class HttpService {
     notify = (message, type) => {
         switch(type){
             case "success":
-                return toast.success(message);
+                toast.success(message);
+                break;
             case "warn":
-                return toast.warn("Error: " + message);
+                toast.warn("Error: " + message);
+                break;
             default:
-               return toast.warn(message);
+                toast.warn(message);
+                break;
           }
     }
 

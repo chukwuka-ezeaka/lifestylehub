@@ -12,7 +12,7 @@ class Author extends React.Component{
 
 
 render(){
-    const { contents, user, error, loading } = this.props;
+    const { media, user, error, loading } = this.props;
     let i = 1;
     return(
 
@@ -27,7 +27,7 @@ render(){
                 {loading ?
                 <Loader />
                 :
-                    Array.isArray(contents) && contents.length > 0?
+                    Array.isArray(media) && media.length > 0?
                     <table className="table table-light mb-0 table-responsive">
                     <thead className="thead-light">
                         <tr>
@@ -50,15 +50,15 @@ render(){
                         </tr>
                     </thead>
                     <tbody>
-                    {contents.map((content, index)  => {
+                    {media.map((media, index)  => {
                             //let userId = `#${user.id}`;
                             //console.log(index);
                             return(
-                                <tr key={content.id}>
+                                <tr key={media.id}>
                                     <td>{i++}</td>
-                                    <td>{content.title ? content.title : ''}</td>
-                                    <td>{content.category ? content.category.name : ''}</td>
-                                    <td>{content.url ? content.url : ''}</td>
+                                    <td>{media.title ? media.title : ''}</td>
+                                    <td>{media.category ? media.category.name : ''}</td>
+                                    <td>{media.url ? media.url : ''}</td>
                                     <td>
                                         <Button size="sm" theme="primary" className="mb-2 mr-1" onClick={this.toggleModal} id={index}>
                                             View

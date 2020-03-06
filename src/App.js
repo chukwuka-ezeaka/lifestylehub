@@ -3,6 +3,7 @@ import React from "react";
 import {
   BrowserRouter as Router,
   Route,
+  Redirect,
   Switch
 } from "react-router-dom";
 
@@ -17,6 +18,8 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { DefaultLayout, HomeLayout } from "./layouts";
 // Route Views
 import Home from "./views/Home";
+import About from "./views/About";
+import Contact from "./views/Contact";
 import RegisterView from "./views/Register";
 import SignInView from "./views/SignInView";
 import UsersOverview from "./views/UsersOverview";
@@ -27,20 +30,25 @@ import Logout from "./views/Logout";
 import Permissions from "./views/Permissions";
 import Confirmation from "./views/Confirmation";
 import Dashboard from "./views/Dashboard";
-import VendorDashboard from "./views/VendorDashboard";
 import Products from "./views/Products";
 import ViewReflection from "./views/ViewReflection";
 import Posts from "./views/Posts";
 import Accounts from "./views/Accounts";
+import Chat from "./views/Chat";
 
 import "tachyons";
-import InviteUsers from "./views/InviteUser";
-import AddProduct from "./views/AddProduct";
 
 const initialState = {
-  user: {},
+  user: {
+    id: "",
+    fullname: "",
+    username: "",
+    email: "",
+    phone: ""
+  },
+  Auth: "",
   Authenticated: false,
-  logout: false,
+  logout: false
 };
 
 class App extends React.Component {
@@ -74,6 +82,22 @@ class App extends React.Component {
               )}
             />
             <Route
+              path="/about"
+              render={props => (
+                <HomeLayout>
+                  <About />
+                </HomeLayout>
+              )}
+            />
+            <Route
+              path="/contact"
+              render={props => (
+                <HomeLayout>
+                  <Contact />
+                </HomeLayout>
+              )}
+            />
+            <Route
               path="/register"
               render={props => (
                 <HomeLayout>
@@ -97,25 +121,6 @@ class App extends React.Component {
                 </DefaultLayout>
               )}
             />
-             <Route
-              path="/vendor"
-              exact
-              render={props => (
-                <DefaultLayout user={user}>
-                  <VendorDashboard user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-
-            <Route
-              path="/users/invite"
-              exact
-              render={props => (
-                <DefaultLayout user={user}>
-                  <InviteUsers Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
 
             <Route
               path="/users/:id"
@@ -135,7 +140,6 @@ class App extends React.Component {
             />
             <Route
               path="/reflections"
-              exact
               render={props => (
                 <DefaultLayout user={user}>
                   <Reflections user={user} Auth={Auth} />
@@ -152,7 +156,6 @@ class App extends React.Component {
             />
             <Route
               path="/viewReflection"
-              exact
               render={props => (
                 <DefaultLayout user={user}>
                   <ViewReflection user={user} Auth={Auth} />
@@ -160,19 +163,11 @@ class App extends React.Component {
               )}
             />
             <Route
+              exact
               path="/viewReflection/:id"
               render={props => (
                 <DefaultLayout user={user}>
                   <ViewReflection user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-             <Route
-              path="/products"
-              exact
-              render={props => (
-                <DefaultLayout user={user}>
-                  <Products user={user} Auth={Auth} />
                 </DefaultLayout>
               )}
             />
@@ -184,15 +179,7 @@ class App extends React.Component {
                 </DefaultLayout>
               )}
             />
-  
-            <Route
-              path="/add/:id"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <AddProduct user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
+
             <Route
               path="/posts/:id"
               render={props => (
@@ -206,6 +193,14 @@ class App extends React.Component {
               render={props => (
                 <DefaultLayout user={user}>
                   <Roles user={user} Auth={Auth} />
+                </DefaultLayout>
+              )}
+            />
+            <Route
+              path="/chats/:id"
+              render={props => (
+                <DefaultLayout user={user}>
+                  <Chat user={user} Auth={Auth} />
                 </DefaultLayout>
               )}
             />

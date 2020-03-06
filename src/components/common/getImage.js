@@ -15,9 +15,9 @@ class GetImage extends Component {
         this.getImage(this.props.image);
     }
     render() { 
-        const {title, width, classname} = this.props;
+        const {title, width} = this.props;
         return ( 
-            <img src={`data:${this.state.type};base64,${this.state.image}`} alt={title}  width={width} className={ classname ? classname: ''}/>
+            <img src={`data:${this.state.type};base64,${this.state.image}`} alt={title}  width={width}/>
          );
     }
 
@@ -36,7 +36,6 @@ class GetImage extends Component {
                 console.log('Invalid media received')
             }
         })
-        .catch(error => console.log(error))
       }
 }
  

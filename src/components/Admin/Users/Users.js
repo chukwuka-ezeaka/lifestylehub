@@ -1,7 +1,7 @@
 import React from 'react';
 import UsersModal from './UsersModal';
 import Loader from '../../Loaders/Loader';
-import { Container, Row, Col, Card, CardHeader, CardBody } from "shards-react"
+import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react"
 
 class Users extends React.Component{
     constructor(){
@@ -39,20 +39,20 @@ render(){
     let i = 1;
     return(
 
-        <Container fluid>
+        <Container className="mt-4">
             <Row>
             <Col>
-                <Card small className="mb-4">
-                <CardHeader className="border-bottom">
-                    <h6 className="m-0">All Users</h6>
+                <Card small className="mb-4 overflow-hidden">
+                <CardHeader className="bg-light">
+                    <h6 className="m-0 text-black">All Users</h6>
                 </CardHeader>
-                <CardBody className="p-0 pb-3">
+                <CardBody className="bg-light p-0 pb-3">
                 {loading ?
                 <Loader />
                 :
                 users.length > 0 ?
-                    <table className="table mb-0 table-responsive">
-                    <thead className="bg-light">
+                    <table className="table table-light mb-0 table-responsive">
+                    <thead className="thead-light">
                         <tr>
                         <th scope="col" className="border-0">
                             #
@@ -76,7 +76,7 @@ render(){
                             Signup Date
                         </th>
                         <th scope="col" className="border-0">
-                             -
+
                         </th>
                         </tr>
                     </thead>
@@ -94,9 +94,9 @@ render(){
                                     <td>{user.UserRole.Role ? user.UserRole.Role.name : ''}</td>
                                     <td></td>
                                     <td>
-                                        <button theme="primary" className="btn btn-sm btn-info mb-2 mr-1" onClick={this.toggleModal} id={index}>
+                                        <Button size="sm" theme="primary" className="mb-2 mr-1" onClick={this.toggleModal} id={index}>
                                             View
-                                        </button>
+                                        </Button>
                                     </td>
                                    
                                 </tr> 

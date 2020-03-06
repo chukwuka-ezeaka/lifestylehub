@@ -4,16 +4,16 @@ import { Container, Row, Col } from "shards-react";
 import HttpService from '../utils/API';
 
 import PageTitle from "../components/common/PageTitle";
-import Purchase from "../components/Accounts/Purchase";
-import Downloads from "../components/Accounts/Downloads";
-import Settings from "../components/Accounts/Settings";
+import Invite from "../components/Admin/Accounts/Invite";
+import Purchase from "../components/Admin/Accounts/Purchase";
+import Downloads from "../components/Admin/Accounts/Downloads";
 
-//const _http = new HttpService();
+const _http = new HttpService();
 
 const views = {
   showDownloads: false,
   showPurchase: false,
-  showSettings: false
+  showInvite: false
 }
 
 class Accounts extends React.Component {
@@ -38,11 +38,11 @@ showContent = (handle) => {
     case '/accounts/purchase':
       this.setState({showViews: {showPurchase: true}})
       break;
-    case '/account/settings':
-      this.setState({showViews: {showSettings: true}})
+    case '/account/invite':
+      this.setState({showViews: {showInvite: true}})
       break;
     default:
-      this.setState({showViews: {showSettings: true}})
+      this.setState({showViews: {showInvite: true}})
       break;
   }
 }
@@ -71,7 +71,7 @@ abortController = new window.AbortController();
 
   render(){
     const {loading, errorMessage } = this.state;
-    const {showDownloads, showPurchase, showSettings} = this.state.showViews;
+    const {showDownloads, showPurchase, showInvite} = this.state.showViews;
     return(
       <Container fluid className="main-content-container px-4 pb-4">
          <Row noGutters className="page-header py-4">
@@ -86,9 +86,9 @@ abortController = new window.AbortController();
                 showPurchase ?
                 <Purchase error={errorMessage} loading={loading}/>
                 :
-                showSettings?
-                <Settings />
-                :
+                  showInvite ?
+                  <Invite error={errorMessage} loading={loading}/>
+                  :
                  null
             }
             

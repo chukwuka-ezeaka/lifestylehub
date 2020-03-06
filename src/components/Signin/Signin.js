@@ -56,12 +56,11 @@ class Signin extends React.Component {
                       case 99:
                         localStorage.setItem("user", userData);
                         localStorage.setItem("Auth", response.token);
-                        this.props.history.push(`/vendor`);
+                        this.props.history.push("/products/allProducts");
                         break;
                       default:
                         this.setState({
-                          errMessage: "Please login on the mobile app",
-                           disabled: false
+                          errMessage: "Please login on the mobile app"
                         });
                         break;
                     }
@@ -141,12 +140,12 @@ class Signin extends React.Component {
                 </div>
               </fieldset>
               <div className="button-box">
-              <button
-                    className="b ph3 pv2 input-reset ba bg-transparent grow pointer f6"
-                    type="submit"
-                    value="signinr"
-                    disabled={this.state.disabled}
-                  >{this.state.disabled ? <LoaderSmall/> : 'Sign In'}</button>
+                <input
+                  className="b ph3 pv2 input-reset ba bg-transparent grow pointer f6"
+                  type="submit"
+                  value="Sign In"
+                  disabled={this.state.disabled}
+                />
               </div>
             </Form>
           </article>
