@@ -1,7 +1,7 @@
 import React from 'react';
 import UsersModal from './UsersModal';
 import Loader from '../../Loaders/Loader';
-import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react"
+import { Container, Row, Col, Card, CardHeader, CardBody} from "shards-react"
 
 class Coaches extends React.Component{
     constructor(){
@@ -39,17 +39,17 @@ render(){
         <Container className="mt-4">
             <Row>
             <Col>
-                <Card small className="mb-4 overflow-hidden">
-                <CardHeader className="bg-light">
-                    <h6 className="m-0 text-black">All Coaches</h6>
+            <Card small className="mb-4">
+                <CardHeader className="border-bottom">
+                    <h6 className="m-0">All Coaches</h6>
                 </CardHeader>
-                <CardBody className="bg-light p-0 pb-3" sstyle={{width: 'auto'}}>
+                <CardBody className="p-0 pb-3">
                 {loading ?
                 <Loader />
                 :
                     users[0] ?
                     <table className="table table-light mb-0 table-responsive">
-                    <thead className="thead-light">
+                    <thead className="bg-light">
                         <tr>
                         <th scope="col" className="border-0">
                             #
@@ -91,9 +91,9 @@ render(){
                                     <td>{user.UserRole.Role ? user.UserRole.Role.name : ''}</td>
                                     <td></td>
                                     <td>
-                                        <Button size="sm" theme="primary" className="mb-2 mr-1" onClick={this.toggleModal} id={index}>
+                                        <button theme="primary" className="btn btn-sm btn-info mb-2 mr-1" onClick={this.toggleModal} id={index}>
                                             View
-                                        </Button>
+                                        </button>
                                     </td>
                                    
                                 </tr> 

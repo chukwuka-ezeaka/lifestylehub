@@ -3,9 +3,6 @@ import PropTypes from "prop-types";
 import LoaderSmall from '../../Loaders/LoaderSmall';
 import axios from 'axios';
 import {
-  Card,
-  CardHeader,
-  CardBody,
   Form,
   FormGroup,
   FormInput,
@@ -77,7 +74,7 @@ class UpdateReflection extends React.Component{
       }*/
 
     render(){
-        const { reflection, title } = this.props;
+        const { reflection} = this.props;
         return (
                 
             <Form onSubmit={this.handlePublish}>

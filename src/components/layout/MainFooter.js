@@ -42,7 +42,7 @@ MainFooter.propTypes = {
 
 MainFooter.defaultProps = {
   contained: false,
-  copyright: "Copyright © 2019 Lifestyle Hub | All rights reserved.",
+  copyright: "Copyright © 2019 Lifestyle Hub",
   menuItems: []
 };
 

@@ -1,4 +1,6 @@
 .body {
+    padding: 0px;
+    margin: 0px;
     min-height: 100vh;
     background-image: linear-gradient(to right bottom, #000000dc, #0b081fe1), url(../assets/images/bg.jpg);
     background-size: cover;
@@ -6,6 +8,6 @@
     background-attachment: fixed;
     overflow-y: hidden;
     font-family: 'Roboto', sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     color: #fff;
 }

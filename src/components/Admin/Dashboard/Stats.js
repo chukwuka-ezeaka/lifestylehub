@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import classNames from "classnames";
 import { Row, Col, Card, CardBody } from "shards-react";
+import LoaderSmall from "../../Loaders/LoaderSmall";
 
 class Stats extends Component {
   state = {};
 
   changeRoute = event => {
     const target = event.target.id;
-    console.log(event.target.id);
+   // console.log(event.target.id);
     switch (target) {
       case "users":
         this.props.history.push("/users/all");
@@ -28,7 +30,41 @@ class Stats extends Component {
   };
 
   render() {
-    const { users } = this.props;
+    const variation ="1";
+    const cardClasses = classNames(
+      "stats-small",
+      variation && `stats-small--${variation}`
+    );
+
+    const cardBodyClasses = classNames(
+      variation === "1" ? "p-0 d-flex" : "px-0 pb-0"
+    );
+
+    const innerWrapperClasses = classNames(
+      "d-flex",
+      variation === "1" ? "flex-column m-auto" : "px-3"
+    );
+
+    const dataFieldClasses = classNames(
+      "stats-small__data",
+      variation === "1" && "text-center"
+    );
+
+    const labelClasses = classNames(
+      "stats-small__label",
+      "text-uppercase",
+      variation !== "1" && "mb-1"
+    );
+
+    const valueClasses = classNames(
+      "stats-small__value",
+      "count",
+      variation === "1" ? "my-3" : "m-0"
+    );
+
+    
+
+    const { users, loading } = this.props;
 
     let vendors = users.filter(user => {
       return user.UserRole.roleId === 99;
@@ -42,56 +78,93 @@ class Stats extends Component {
       return user.UserRole.roleId === 87;
     });
 
+    let VendorCoaches = users.filter(user => {
+      return user.UserRole.roleId === 103;
+    });
+
+
     return (
       <Row>
-        <Col lg="3" md="6" sm="6" className="mb-4">
-          <Card>
-            <CardBody
-              className="text-center text white link dim pointer f4 fw6 bg-success"
-              id="users"
-              onClick={this.changeRoute}
-            >
-              <h5 className="text white">Users</h5>
-              {users.length}
+        <Col className="col-lg mb-4 link pointer dim">
+          <Card small className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="users"
+            onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>Total Users</span>
+                  <h6 className={valueClasses}> {loading? <LoaderSmall/> : users.length}</h6>
+                </div>
+              </div>
             </CardBody>
           </Card>
         </Col>
-        <Col lg="3" md="6" sm="6" className="mb-4">
-          <Card>
-            <CardBody
-              className="text-center text white f4 fw6 bg-warning link dim pointer"
-              id="coaches"
-              onClick={this.changeRoute}
-            >
-              <h5 className="text white">Coaches</h5>
-              {coaches.length}
+
+        <Col className="col-lg mb-4 link pointer dim">
+          <Card small className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="subscribers"
+              onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>Subscribers</span>
+                  <h6 className={valueClasses}> {loading ? <LoaderSmall/> : subscribers.length}</h6>
+                </div>
+              </div>
             </CardBody>
           </Card>
         </Col>
-        <Col lg="3" md="6" sm="6" className="mb-4">
-          <Card>
-            <CardBody
-              className="text-center text white f4 fw6 bg-dark link bg-animate dim pointer"
-              id="vendors"
-              onClick={this.changeRoute}
-            >
-              <h5 className="text white">Vendors</h5>
-              {vendors.length}
+
+        <Col className="col-lg mb-4 link pointer dim">
+          <Card small className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="coaches"
+            onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>Coaches</span>
+                  <h6 className={valueClasses}> {loading ? <LoaderSmall/> : coaches.length}</h6>
+                </div>
+              </div>
             </CardBody>
           </Card>
         </Col>
-        <Col lg="3" md="6" sm="6" className="mb-4">
-          <Card>
-            <CardBody
-              className="text-center text white f4 fw6 bg-info link dim pointer"
-              id="subscribers"
-              onClick={this.changeRoute}
-            >
-              <h5 className="text white">Subscribers</h5>
-              {subscribers.length}
+
+        <Col className="col-lg mb-4 link pointer dim">
+          <Card small className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="vendors"
+            onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>Vendors</span>
+                  <h6 className={valueClasses}> {loading ? <LoaderSmall/> : vendors.length}</h6>
+                </div>
+              </div>
             </CardBody>
           </Card>
         </Col>
+       
+        <Col className="col-lg mb-4 link pointer dim">
+          <Card small className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="subscribers"
+              onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>VendorCoaches</span>
+                  <h6 className={valueClasses}> {loading ? <LoaderSmall/> : VendorCoaches.length}</h6>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+        
       </Row>
     );
   }

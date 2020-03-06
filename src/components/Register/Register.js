@@ -6,8 +6,11 @@ import * as Yup from "yup";
 
 import LoaderSmall from "../Loaders/LoaderSmall";
 import "./Register.css";
+import HttpService from "../../utils/API";
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,3})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+const _http = new HttpService();
+
+//const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,3})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 class Register extends React.Component {
   constructor(props) {
@@ -37,13 +40,13 @@ class Register extends React.Component {
           email: Yup.string()
             .email("Email is invalid")
             .required("Email is required"),
-          phone: Yup.string()
-            .length(11, "Please enter a valid Mobile number")
-            .matches(
-              phoneRegExp,
-              "Invalid format. Please enter a valid Mobile number"
-            ),
-          photo: Yup.mixed(),
+          // phone: Yup.string()
+          //   .length(11, "Please enter a valid Mobile number")
+          //   .matches(
+          //     phoneRegExp,
+          //     "Invalid format. Please enter a valid Mobile number"
+          //   ),
+          // photo: Yup.mixed(),
           password: Yup.string()
             .min(6, "Password must be at least 6 characters")
             .required("Password is required"),
@@ -51,52 +54,81 @@ class Register extends React.Component {
             .oneOf([Yup.ref("password"), null], "Passwords must match")
             .required("Confirm Password is required")
         })}
-        onSubmit={({ firstName, lastName, email, phone, photo, password }) => {
-          // console.log(photo.name);
-          // console.log(photo.type);
-          // console.log(`${photo.size} bytes`);
-          this.setState({
-            disabled: true
-          });
-          fetch("https://lshub.herokuapp.com/api/v1/auth/register", {
-            method: "post",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              firstname: firstName,
-              lastname: lastName,
-              email: email,
-              role: "99",
-              password: password
-            }),
-            redirect: "follow"
-          })
-            .then(response => response.json())
-            .then(user => {
-              this.setState({
-                disabled: false
-              });
-              switch (user.status) {
-                case "success":
-                  this.props.history.push("/confirmation");
-                  break;
-                case "fail":
-                  this.setState({
-                    disabled: false,
-                    errMessage: "Error" + user.message
-                  });
-                  break;
-                default:
-                  this.setState({
-                    disabled: false,
-                    errMessage: user.message
-                  }).catch(err => {
+        onSubmit={({ firstName, lastName, email, password }) => {
+
+          this.setState({disabled: true});
+
+          const url = "auth/register";
+
+          const payload = {
+            firstname: firstName,
+            lastname: lastName,
+            email: email,
+            role: "99",
+            password: password
+          }
+          _http.sendPostNoAuth(url,payload)
+          .then(response => {
+              if(response.data ){
+                this.setState({disabled: false});
+                  let type = "";
+                  if(response.status === "success"){
+                      type = "success";
+                      this.props.history.push("/confirmation");
+                  }else{
                     this.setState({
                       disabled: false,
-                      errMessage: "Error" + err
+                      errMessage: "Error" + response.message
                     });
-                  });
+                  }
+              
+              } else {
+                this.setState({
+                  disabled: false
+                });
+                _http.notify(response.message);
+                this.setState({ disabled: false });
               }
-            });
+          })
+          // fetch("https://lshub.herokuapp.com/api/v1/auth/register", {
+          //   method: "post",
+          //   headers: { "Content-Type": "application/json" },
+          //   body: JSON.stringify({
+          //     firstname: firstName,
+          //     lastname: lastName,
+          //     email: email,
+          //     role: "99",
+          //     password: password
+          //   }),
+          //   redirect: "follow"
+          // })
+          //   .then(response => response.json())
+          //   .then(user => {
+          //     this.setState({
+          //       disabled: false
+          //     });
+          //     switch (user.status) {
+          //       case "success":
+          //         this.props.history.push("/confirmation");
+          //         break;
+          //       case "fail":
+          //         this.setState({
+          //           disabled: false,
+          //           errMessage: "Error" + user.message
+          //         });
+          //         break;
+          //       default:
+          //         this.setState({
+          //           disabled: false,
+          //           errMessage: user.message
+          //         }).catch(err => {
+          //           this.setState({
+          //             disabled: false,
+          //             errMessage: "Error" + err
+          //           });
+          //         });
+          //     }
+          //   });
         }}
         render={({ errors, touched, setFieldValue }) => (
           <article className="br3 mv4 w-100 w-50 w-25-1 mw6 center">
@@ -168,7 +200,7 @@ class Register extends React.Component {
                       className="invalid-feedback"
                     />
                   </div>
-                  <div className="mt4">
+                  {/* <div className="mt4">
                     <Field
                       type="phone"
                       name="phone"
@@ -184,8 +216,8 @@ class Register extends React.Component {
                       component="div"
                       className="invalid-feedback"
                     />
-                  </div>
-                  <div className="mt4">
+                  </div> */}
+                  {/* <div className="mt4">
                     <input
                       type="file"
                       name="photo"
@@ -204,7 +236,7 @@ class Register extends React.Component {
                       component="div"
                       className="invalid-feedback"
                     />
-                  </div>
+                  </div> */}
                   <div className="mv4">
                     <Field
                       type="password"
@@ -245,12 +277,12 @@ class Register extends React.Component {
                   </div>
                 </fieldset>
                 <div className="button-box">
-                  <input
+                  <button
                     className="b ph3 pv2 input-reset ba bg-transparent grow pointer f6"
                     type="submit"
-                    value="Sign In"
+                    value="Register"
                     disabled={this.state.disabled}
-                  />
+                  >{this.state.disabled ? <LoaderSmall/> : 'Register'}</button>
                 </div>
               </div>
             </Form>

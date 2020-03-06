@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import ReactAudioPlayer from 'react-audio-player';
 import { withRouter } from 'react-router-dom';
 import queryString from 'querystring';
 import { Container, Row, Col, Card, CardHeader, CardBody, FormTextarea, FormGroup, Button, FormInput } from "shards-react";
 import HttpService from '../../../utils/API';
-import LoaderSmall from '../../Loaders/LoaderSmall';
 import UpdateReflection from './UpdateReflection';
+import GetAudio from '../../common/GetAudio';
+import GetImage from '../../common/getImage';
+import Loader from '../../Loaders/Loader';
 
 const _http = new HttpService();
 
@@ -20,7 +21,8 @@ class ViewReflection extends Component {
             image: '',
             image_type: '',
             requestPending: false,
-            edit: false
+            edit: false,
+            loading: true
         }
     }
 
@@ -30,8 +32,8 @@ class ViewReflection extends Component {
         this.getReflection(params.id);
     }
     render() { 
-        const {reflection, image, image_type, audio, audio_type, requestPending, edit} = this.state;
-        
+        const {reflection, loading, requestPending, edit} = this.state;
+       // console.log(audio);
         return ( 
             <Container className="mt-4">
             <Row>
@@ -45,20 +47,25 @@ class ViewReflection extends Component {
                     <Row>
                         <Col lg="4" md="12" sm="12" className="mb-3">
                             <Row>
+                                {loading ? 
+                                <Loader/> 
+                                :
+                                <>
                                 <Col lg="12" md="12" sm="12" className="pb-3">
-                                    <img 
-                                    src={image? `data:${image_type};base64,${image}` :''} 
-                                    alt={reflection.title}  
-                                    width="300"/>
+                                { reflection.image_link ? <GetImage image={reflection.image_link} width="300px"/> : null }
                                 </Col>
                                 <Col lg="8" md="12" sm="12">
-                                    <ReactAudioPlayer
-                                    src={audio? `data:${audio_type};base64,${audio}`:''}
+                                    {
+                                    /* <ReactAudioPlayer
+                                    src={audio ? `data:audio/mp3;base64,${audio}`:''}
                                     //src={require('./test3.mp3')}
                                     autoPlay
                                     controls
-                                    />
+                                    /> */}
+                                    { reflection.audio_link ? <GetAudio audio={reflection.audio_link}/> : null }
                                 </Col>
+                                </>
+                                }
                             </Row>
                         </Col>
                         <Col lg="7" md="12" sm="12">
@@ -130,45 +137,23 @@ class ViewReflection extends Component {
         // });
     }
 
-    getAudio = (file) => {
-        const url = `media/manager/audio/single/find/${file}`;
-        _http.sendGet(url)
-        .then(res => {
-            this.setState({
-                audio:res
-                // audio_type:res.headers['content-type']
-            })
-        })
-    }
+    
 
     getReflection = (id) => {
         const url = `reflection/${id}`;
         _http.sendGet(url)
+        
         .then(res => {
-            this.getAudio(res.data.audio_link);
-            this.getImage(res.data.image_link);
+           // console.log(res)
+            //this.getAudio(res.data.audio_link);
+            //this.getImage(res.data.image_link);
             this.setState({
-                reflection: res.data
+                reflection: res.data,
+                loading: false
             })
         })
         }
 
-        getImage = (image)=>{
-            const url = `media/manager/image/single/find/${image}`;
-            _http.sendGet(url)
-            .then(res => {
-                if('image' in res.data && 'type' in res.data){
-                const {image, type} = res.data;
-                
-                this.setState({
-                    image:image,
-                    image_type:type
-                })
-                }else{
-                    console.log('Invalid media received')
-                }
-            })
-          }
 }
 
  
