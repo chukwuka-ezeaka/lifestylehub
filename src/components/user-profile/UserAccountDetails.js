@@ -129,7 +129,8 @@ class UserAccountDetails extends Component{
   handleSubmit = (event) => {
     event.preventDefault();
     const payload = this.state.accountDetails;
-  this.props.updateProfile(payload);
+    const id = this.props.user.id;
+  this.props.updateProfile(payload, id);
   }
   render(){
     const { title, user, categories, getCategories, getCountries, countries } = this.props;
@@ -211,7 +212,7 @@ class UserAccountDetails extends Component{
                     <FormGroup>
                     <label htmlFor="location">Location</label>
                     <FormSelect  id="location" onChange={this.handleLocation} onClick={() => getCountries()} disabled={!this.state.edit} required>
-                        <option  value={user ? user.phone : ''}>{user ? user.country_name : ''}</option>
+                        <option  value={user.country_name ? user.country_name : ''}>{user.country_name ? user.country_name : ''}</option>
                             {countries.map((country)  => {
                             return(
                                 <option key={country.alpha2Code} defaultValue={country.name}>{country.name}</option>
@@ -239,7 +240,6 @@ class UserAccountDetails extends Component{
                         id="pitch"
                         placeholder="Industry"
                         onChange={this.handleIndustry}
-                        defaultValue= ""
                         disabled={!this.state.edit} />
                     </Col>
                     <Col md="6" className="form-group">
@@ -249,8 +249,7 @@ class UserAccountDetails extends Component{
                         id="birthday"
                         defaultValue={birthday}
                         onChange={this.handleBirthday}
-                        disabled={!this.state.edit}
-                      required />
+                        disabled={!this.state.edit} />
                     </Col>
                   </Row>
                   <Row form>

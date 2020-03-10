@@ -63,12 +63,12 @@ class Dashboard extends React.Component {
 
         <Row>
           {/* Users Overview */}
-          <Col lg="8" md="12" sm="12" className="mb-4">
+          <Col lg="8" md="8" sm="12" className="mb-4">
             <Notifications />
           </Col>
 
           {/* Users by Device */}
-          <Col lg="4" md="6" sm="12" className="mb-4">
+          <Col lg="4" md="4" sm="12" className="mb-4">
             <Earnings />
           </Col>
         </Row>

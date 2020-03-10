@@ -22,6 +22,8 @@ import {
 
 import './UsersModal.css';
 import HttpService from "../../../utils/API";
+import UserAccountDetails from "../../user-profile/UserAccountDetails";
+import UserDetails from "../../user-profile/UserDetails";
 
 const _http = new HttpService();
 
@@ -30,7 +32,9 @@ class UsersModal extends React.Component{
     super();
     this.state = {
       roles: [],
-      loading: false
+      loading: false,
+      countries: [],
+      categories: []
     }
   }
 
@@ -40,31 +44,38 @@ class UsersModal extends React.Component{
    });
     const userId = event.target.id;
     const roleId = event.target.value;
-    //console.log(userId, value)
-
-    const url = "account/user/role/assign";
-    const postData = {
+    const payload = {
       user_id: userId,
       role_id: roleId
     }
-    _http.sendPost(url, postData)
+    
+    this.props.updateRole(payload);
+  }
+
+  getCategories = () => {
+    if(!this.state.categories[0]){
+      const url = 'content/category/list';
+      _http.sendGet(url)
+      .then(response => {
+          response.data ?
+          this.setState({ categories: response.data})
+          :
+          _http.notify(response.message);
+      })
+  }
+  }
+  
+  getCountries = () => {
+  if(!this.state.countries[0]){
+    const url = 'region/country/list';
+    _http.sendGet(url)
     .then(response => {
-        if(response.data ){
-            this.setState({loading: false});
-            let type = "";
-            if(response.status === "success"){
-                type = "success";
-                _http.notify(response.message, type)
-            }else{
-                type = "warn";
-                _http.notify(response.message, type)
-            }
-        
-        }else{
-            _http.notify(response.message)
-            this.setState({loading: false })
-        }
+        response.data ?
+        this.setState({ countries: response.data})
+        :
+        _http.notify(response.message);
     })
+  }
   }
 
 
@@ -82,17 +93,24 @@ componentWillUnmount = () => {
   this.abortController.abort();
 };
 
+// componentDidUpdate(prevProps, prevState){
+//   if(prevProps.user !== this.props.user){
+//     this.setState({showViews: views});
+//     this.showContent(this.state.path);
+//   }
+// }
+
 abortController = new window.AbortController(); 
 
 render(){
-  const {toggle, open, user} = this.props;
+  const {toggle, open, user, updateProfile} = this.props;
   const { roles, loading } = this.state;
   
       return (
         <div>
           <Modal size="lg" open={open}>
             <ModalHeader toggle={toggle}>
-              {open ? user.fullname : ''}
+              {open ? user.firstname + " " + user.lastname : ''}
                   <div>
                     {loading ? <LoaderSmall /> : ''}
                     <InputGroup className="mb-3">
@@ -111,152 +129,24 @@ render(){
                     </InputGroup>
                   </div>
             </ModalHeader>
-            <ModalBody>
-              <ListGroup flush>
-                <ListGroupItem className="p-3">
-                  <Row>
-                    <Col>
-                      <Form>
-                        <Row form>
-                          {/* First Name */}
-                          <Col md="6" className="form-group">
-                            <label htmlFor="feFirstName">Full Name</label>
-                            <FormInput
-                              id="feFirstName"
-                              placeholder="First Name"
-                              value={user? user.fullname : ''}
-                              onChange={() => {}}
-                              disabled
-                            />
-                          </Col>
-                          {/* Last Name */}
-                          <Col md="6" className="form-group">
-                            <label htmlFor="feLastName">Username</label>
-                            <FormInput
-                              id="feLastName"
-                              placeholder="Last Name"
-                              onChange={() => {}}
-                              disabled
-                            />
-                          </Col>
-                        </Row>
-                        <Row form>
-                          {/* Email */}
-                          <Col md="6" className="form-group">
-                            <label htmlFor="feEmail">Email</label>
-                            <FormInput
-                              type="email"
-                              id="feEmail"
-                              placeholder="Email Address"
-                              value={user ? user.email : ''}
-                              onChange={() => {}}
-                              disabled
-                              autoComplete="email"
-                            />
-                          </Col>
-                          {/* Password */}
-                          <Col md="6" className="form-group">
-                            <label htmlFor="fePassword">Phone Number</label>
-                            <FormInput
-                              type="text"
-                              id="fePassword"
-                              placeholder="Phone Number"
-                              onChange={() => {}}
-                              disabled
-                              autoComplete="current-password"
-                            />
-                          </Col>
-                        </Row>
-                        <Row>
-                          
-                          </Row>
-                          <FormGroup>
-                          <label htmlFor="feAddress">Location</label>
-                          <FormInput
-                            id="feAddress"
-                            placeholder="Location"
-                            value="1234 Main St."
-                            onChange={() => {}}
-                            disabled
-                          />
-                        </FormGroup>
-                        <FormGroup>
-                          <label htmlFor="feAddress">Address</label>
-                          <FormInput
-                            id="feAddress"
-                            placeholder="Address"
-                            value="1234 Main St."
-                            onChange={() => {}}
-                            disabled
-                          />
-                        </FormGroup>
-                        <Row form>
-                          {/* Email */}
-                          <Col md="6" className="form-group">
-                            <label htmlFor="feEmail">Industry</label>
-                            <FormInput
-                              type="text"
-                              id="feEmail"
-                              placeholder="Industery"
-                              value=""
-                              onChange={() => {}}
-                              disabled
-                            />
-                          </Col>
-                          {/* Password */}
-                          <Col md="6" className="form-group">
-                            <label htmlFor="fePassword">Birthday</label>
-                            <FormInput
-                              type="date"
-                              id="fePassword"
-                              onChange={() => {}}
-                              disabled
-                            />
-                          </Col>
-                        </Row>
-                        <Row form>
-                          {/* Email */}
-                          <Col md="6" className="form-group">
-                            <label htmlFor="feEmail">Years of Experience</label>
-                            <FormInput
-                              type="number"
-                              id="feEmail"
-                              placeholder="number"
-                              value="1"
-                              onChange={() => {}}
-                              disabled
-                            />
-                          </Col>
-                          {/* Password */}
-                          <Col md="6" className="form-group">
-                            <label htmlFor="fePassword">Specialty</label>
-                            <FormInput
-                              type="text"
-                              id="fePassword"
-                              placeholder="Specialty"
-                              value=""
-                              onChange={() => {}}
-                              disabled
-                            />
-                          </Col>
-                        </Row>
-                        
-                        <Row form>
-                          {/* Description */}
-                          <Col md="12" className="form-group">
-                            <label htmlFor="feDescription">Work History</label>
-                            <FormTextarea id="feDescription" rows="3"
-                            disabled
-                             />
-                          </Col>
-                        </Row>
-                        <Button theme="accent" className="mr-1">Update</Button> 
-                        <Button theme="accent" className="mr-3 bg-warning">Block</Button>
-                      </Form>
-                    </Col>
-                  </Row>
-                </ListGroupItem>
-              </ListGroup>
+            <ModalBody className="px-2 py-2">
+              <Row>
+                <Col md="5">
+                  <UserDetails user={user} pending={this.state.requestPending}/>
+                </Col>
+                <Col md="7">
+                  <UserAccountDetails 
+                  user={user}
+                  getCategories={this.getCategories} 
+                  categories={this.state.categories} 
+                  getCountries={this.getCountries} 
+                  countries={this.state.countries}
+                  updateProfile={updateProfile}
+                  pending={this.state.requestPending}
+                  />
+                </Col>
+              </Row>
+              
             </ModalBody>
           </Modal>
         </div>

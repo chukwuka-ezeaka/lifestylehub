@@ -102,7 +102,7 @@ componentWillUnmount = () => {
 
   render(){
     const { contents, user, errorMessage, loading} = this.state;
-   // console.log(contents)
+  //
     const { showCategories, showAll, showAudio, showAuthor, showContent, showEbook, showVideo, showText, showSubscriptions } = this.state.showViews;
     let video  = [];
     let audio  = [];
@@ -175,8 +175,13 @@ componentWillUnmount = () => {
 
     getContents = () => {
     //  console.log(this.state.user.id);
+    let contentUrl = "";
       this.setState({loading: true})
-      const contentUrl= `content/list?owner_id=${this.state.user.id}`;
+      if(this.state.user.role.id === 75){
+        contentUrl= `content/list`;
+      }else{
+      contentUrl= `content/list?owner_id=${this.state.user.id}`;
+      }
         _http.sendGet(contentUrl)
         .then(response => {
           //   console.log(response1.data)

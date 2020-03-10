@@ -23,11 +23,12 @@ httpService.interceptors.request.use(
   )
 
 const networkError = (error) => {
-    const message = {message: "Something went wrong, please try again"}
+    console.log(error.response)
+    const message = {message: "Please check your network connection and try again"}
     if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        if(error.response.data.message === "Unauthorized Access"){
+    if((error.response.data.status === 401) || (error.response.data === "Unauthorized")){
             localStorage.clear();
             window.location.reload()
          }else{
@@ -42,7 +43,9 @@ const networkError = (error) => {
       } else {
         // Something happened in setting up the request that triggered an Error
         console.log('Error', error.message);
-        return message;
+        localStorage.clear();
+        window.location.reload()
+        //return message;
       }
       console.log(error.config)
     //const message = {message: "Please check your network connection, and reload the page"}
@@ -50,7 +53,8 @@ const networkError = (error) => {
 }
 
 const statusError = (error) => {
-    if(error.message === "Unauthorized Access"){
+   
+    if((error.message === "Unauthorized Access") || (error === "Unauthorized")){
        localStorage.clear();
        window.location.reload()
     }else{

@@ -71,15 +71,11 @@ class Stats extends Component {
     });
 
     let coaches = users.filter(user => {
-      return user.UserRole.roleId === 100;
+      return user.UserRole.roleId === 100 || user.UserRole.roleId === 103;
     });
 
     let subscribers = users.filter(user => {
       return user.UserRole.roleId === 87;
-    });
-
-    let VendorCoaches = users.filter(user => {
-      return user.UserRole.roleId === 103;
     });
 
 
@@ -149,7 +145,7 @@ class Stats extends Component {
           </Card>
         </Col>
        
-        <Col className="col-lg mb-4 link pointer dim">
+        {/* <Col className="col-lg mb-4 link pointer dim">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
@@ -163,7 +159,7 @@ class Stats extends Component {
               </div>
             </CardBody>
           </Card>
-        </Col>
+        </Col> */}
         
       </Row>
     );

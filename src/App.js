@@ -17,6 +17,8 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { DefaultLayout, HomeLayout } from "./layouts";
 // Route Views
 import Home from "./views/Home";
+import About from "./views/About";
+import Contact from "./views/Contact";
 import RegisterView from "./views/Register";
 import SignInView from "./views/SignInView";
 import UsersOverview from "./views/UsersOverview";
@@ -32,6 +34,7 @@ import Products from "./views/Products";
 import ViewReflection from "./views/ViewReflection";
 import Posts from "./views/Posts";
 import Accounts from "./views/Accounts";
+import Chat from "./views/Chat";
 
 import "tachyons";
 import InviteUsers from "./views/InviteUser";
@@ -70,6 +73,22 @@ class App extends React.Component {
               render={props => (
                 <HomeLayout>
                   <Home />
+                </HomeLayout>
+              )}
+            />
+            <Route
+              path="/about"
+              render={props => (
+                <HomeLayout>
+                  <About />
+                </HomeLayout>
+              )}
+            />
+            <Route
+              path="/contact"
+              render={props => (
+                <HomeLayout>
+                  <Contact />
                 </HomeLayout>
               )}
             />
@@ -206,6 +225,14 @@ class App extends React.Component {
               render={props => (
                 <DefaultLayout user={user}>
                   <Roles user={user} Auth={Auth} />
+                </DefaultLayout>
+              )}
+            />
+            <Route
+              path="/chats/:id"
+              render={props => (
+                <DefaultLayout user={user}>
+                  <Chat user={user} Auth={Auth} />
                 </DefaultLayout>
               )}
             />

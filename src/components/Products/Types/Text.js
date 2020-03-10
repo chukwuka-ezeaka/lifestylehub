@@ -42,7 +42,7 @@ render(){
                             //let contentId = `#${content.id}`;
                             //console.log(index);
                             return (
-                                <Col lg="3" md="6" sm="12" className="mb-4" key={content.id}>
+                                <Col lg="3" md="3" sm="12" className="mb-4" key={content.id}>
                                 <Card small className="card-post card-post--1">
                                   <div
                                     className="card-post__image"

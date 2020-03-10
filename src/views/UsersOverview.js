@@ -29,7 +29,8 @@ class UsersOverview extends React.Component {
             loading: true,
             showViews: views,
             path: '',
-            errorMessage: ''
+            errorMessage: '',
+            requestPending: false
         }
     }
   
@@ -83,15 +84,15 @@ componentDidUpdate(prevProps, prevState){
 
 
 
-updateRole = (userId, roleId) => {
-    this.setState({
-      loading: true
-  });
+updateRole = (payload) => {
+  //   this.setState({
+  //     loading: true
+  // });
     //console.log(userId, value)
-    const payload = {
-      user_id: userId,
-      role_id: roleId
-    }
+    // const payload = {
+    //   user_id: userId,
+    //   role_id: roleId
+    // }
 
     const url = "account/user/role/assign";
 
@@ -117,6 +118,29 @@ updateRole = (userId, roleId) => {
 
 }
 
+
+
+updateProfile = (payload, id) => {
+  this.setState({ requestPending: true})
+    const url = `account/user/${id}`;
+  _http.sendPut(url, payload)
+  .then(response => {
+      this.setState({ requestPending: false, disable: false });
+      // if(response.data ){
+          let type = "";
+          if(response.status === "success"){
+            this.setState({ requestPending: false})
+              type = "success";
+              _http.notify("Profile updated successfully", type);
+          }else{
+            this.setState({ requestPending: false})
+              type = "warn";
+              _http.notify(response.message, type)
+          }
+      
+  });
+} 
+
 componentWillUnmount = () => {
   this.abortController.abort();
   this.unlisten();
@@ -125,7 +149,7 @@ componentWillUnmount = () => {
 abortController = new window.AbortController(); 
 
   render(){
-    const {users, loading, errorMessage } = this.state;
+    const {users, loading, errorMessage, requestPending } = this.state;
     const {showAdmin, showVendors, showCoaches, showSubscribers } = this.state.showViews;
     let notEmpty = () => users.length > 0;
 
@@ -163,19 +187,49 @@ abortController = new window.AbortController();
           <Col lg="12" md="12">
             {
             showAdmin ? 
-            <Admins users={admins} error={errorMessage} loading={loading}/>
+              <Admins 
+              users={admins}
+              error={errorMessage}
+              profileUpdate={this.updateProfile}
+              pending={requestPending}
+              roleUpdate={this.updateRole}
+              loading={loading}/>
               :
-                showVendors ?
-                <Vendors users={vendors} error={errorMessage} loading={loading}/>
-                :
-                  showSubscribers ?
-                  <Subscribers users={subscribers} error={errorMessage} loading={loading}/>
-                  :
-                  showCoaches ?
-                  <Coaches users={coaches} error={errorMessage} loading={loading}/>
-                  :
-                    <Users users={users} error={errorMessage} loading={loading}/>
-            }
+              showVendors ?
+              <Vendors 
+              users={vendors} 
+              error={errorMessage} 
+              profileUpdate={this.updateProfile} 
+              pending={requestPending} 
+              roleUpdate={this.updateRole} 
+              loading={loading}/>
+              :
+              showSubscribers ?
+              <Subscribers 
+              users={subscribers} 
+              error={errorMessage} 
+              ProfileUpdate={this.updateProfile} 
+              pending={requestPending}  
+              roleUpdate={this.updateRole} 
+              loading={loading}/>
+              :
+              showCoaches ?
+              <Coaches 
+              users={coaches} 
+              error={errorMessage} 
+              profileUpdate={this.updateProfile} 
+              pending={requestPending} 
+              roleUpdate={this.updateRole}
+              loading={loading}/>
+              :
+              <Users 
+              users={users} 
+              error={errorMessage} 
+              profileUpdate={this.updateProfile} 
+              pending={requestPending} 
+              roleUpdate={this.updateRole} 
+              loading={loading}/>
+          }
             
           </Col>
         </Row>

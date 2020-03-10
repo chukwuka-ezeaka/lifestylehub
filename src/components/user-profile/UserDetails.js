@@ -33,8 +33,9 @@ handleUpload = () => {
 
   render() { 
     const { user, pending } = this.props;
+    //console.log(user)
     const userDetails = {
-        name: user.fullname,
+        name: user ? user.firstname + " " + user.lastname : " ",
         avatar: require("./../../images/avatars/0.png"),
         jobTitle: "Life Coach",
         performanceReportTitle: "Experience",
@@ -48,7 +49,7 @@ handleUpload = () => {
         <CardHeader className="border-bottom text-center">
           <div className="mb-3 mx-auto">
           {user.photo ? 
-          <GetImage image={user.photo}   title={user.fullname} width="130px" classname="rounded-circle"/>
+          <GetImage image={user.photo}   title={userDetails.name} width="130px" classname="rounded-circle"/>
           :
           <img
           className="rounded-circle"
@@ -81,17 +82,17 @@ handleUpload = () => {
         <ListGroup flush>
           <ListGroupItem className="p-4">
           <Row>
-            <Col md="4" className="f7 text-primary fw4">
-              <span>Followers</span><br/>
-              <i className="material-icons mr-1">person_add</i>30
+            <Col md="4" sm="4" xs="4" className="f7 text-primary fw4">
+              <i className="material-icons mr-1">person_add</i>0<br/>
+              <span>Followers</span>
             </Col>
-            <Col md="4" className="f7 text-primary fw4">
-              <span>Likes</span><br/>
-              <i className="material-icons mr-1">person_add</i>50
+            <Col md="4" sm="4" xs="4" className="f7 text-primary fw4">
+              <i className="material-icons mr-1">thumb_up</i>{user.likeCount}<br/>
+              <span>Likes</span>
             </Col>
-            <Col md="4" className="f7 text-primary fw4">
-              <span>Subscriptions</span><br/>
-              <i className="material-icons mr-1">person_add</i>10
+            <Col md="4" sm="4" xs="4" className="f7 text-primary fw4">
+              <i className="material-icons mr-1">how_to_reg</i>{user.subscriptionCount}<br/>
+              <span>Subscriptions</span>
             </Col>
           </Row>
           </ListGroupItem>

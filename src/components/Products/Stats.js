@@ -91,7 +91,6 @@ class Stats extends Component {
       // Array.isArray(contents) && (contents.length > 0) ? contentLength = contents.length : contentLength = 0;
         if(Array.isArray(contents) && (contents.length > 0)){
             products = contents.length;
-          console.log(contents);
             video = contents.filter(content => {
                 return content.content_type.id === 1;
             });

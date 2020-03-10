@@ -27,19 +27,19 @@ class UserProfile extends Component{
     this.getUser();
   }
 
-  componentDidUpdate(){
-    this.getUser();
-  }
+  // componentDidUpdate(){
+  //   this.getUser();
+  // }
 
  getUser = () => {
-    const url = `account/user/get/${this.state.user.id}`;
+  const url = `account/user/list?email=${this.state.user.email}`;
     _http.sendGet(url)
     .then(response => {
       if(response.status === 'success'){
-      this.setState({ userData: response.data, loading: false})
+      this.setState({ userData: response.data[0], loading: false})
       }else{
       this.setState({ loading: false})
-      _http.notify(response.status);
+      _http.notify(response.message);
       }
     })
   }
@@ -70,9 +70,9 @@ getCountries = () => {
 }
 }
 
-updateProfile = (payload) => {
+updateProfile = (payload, id) => {
   this.setState({ requestPending: true})
-    const url = `account/user/${this.state.user.id}`;
+    const url = `account/user/${id}`;
   _http.sendPut(url, payload)
   .then(response => {
       this.setState({ requestPending: false, disable: false });
@@ -134,7 +134,7 @@ updatePhoto = (payload) => {
       <Container fluid className="main-content-container mt-2 px-4">
         <Row noGutters className="page-header py-4">
           <PageTitle
-            title="User Profile"
+            title="My Profile"
             subtitle="Overview"
             md="12"
             className="ml-sm-auto mr-sm-auto"

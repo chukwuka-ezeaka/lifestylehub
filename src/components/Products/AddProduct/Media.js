@@ -12,6 +12,9 @@ import {
   Col,
   Row,
   FormSelect,
+  FormCheckbox,
+  InputGroupAddon,
+  InputGroup
 } from "shards-react";
 import HttpService from "../../../utils/API";
 import LoaderSmall from "../../Loaders/LoaderSmall";
@@ -22,7 +25,6 @@ class Media extends React.Component{
     constructor(){
         super();
         this.state ={
-            user: localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : {},
             title: '',
             type: 0,
             types:[],
@@ -31,8 +33,13 @@ class Media extends React.Component{
             errorMessage: '',
             fileError: '',
             disable: false,
-            requestPending: false
+            requestPending: false,
+            checked: false
         }
+    }
+
+    toggle = () => {
+        this.setState({checked: !this.state.checked})
     }
   
     handleTitle = (event) => {
@@ -90,10 +97,51 @@ class Media extends React.Component{
       
       }
 
+      categoryCheck = () => {
+          this.setState({disable: true})
+      }
+
 
     render(){
-        const { title } = this.props;
-        const { user, categories, requestPending, disable, fileError} = this.state;
+        
+        const { user, title } = this.props;
+        const {requestPending, disable, fileError} = this.state;
+        let author= "";
+        let message = "";
+        let paymentFeild = null;
+
+        if(user.UserRole.roleId === 75){
+            author = <FormGroup>
+                <label htmlFor="title">Author Name</label>
+                <InputGroup className="mb-3">
+                        <InputGroupAddon type="append">
+                        <FormSelect onChange={this.searchFilter}>
+                        <option vlaue="all">All</option>
+                        <option value="name">Name</option>
+                        <option value="username">Username</option>
+                        <option value="email">Email</option>
+                        </FormSelect> 
+                        </InputGroupAddon>
+                        <FormInput type="text" placeholder="search for authors based on filter..." onInput={this.searchInput}/>
+                    </InputGroup>
+            </FormGroup>
+        }
+
+        if(user.catgerory === null){
+            message = <p className="text-center text-danger">Please update your category under your profile to continue</p>;
+        }
+
+        if(this.state.checked){
+            paymentFeild = <Row>
+                <Col lg="6" md="6" className="pb-4">
+                    <FormGroup className="mb-0">
+                    <label htmlFor="price">Price</label>
+                    <FormInput id="price" type="number" classplaceholder="Title" onChange={this.handlePrice} required/>
+                    </FormGroup>
+                </Col>
+                </Row>
+        }
+
         return (
             <Row>
             <Col lg="8" className="pb-4">
@@ -104,12 +152,13 @@ class Media extends React.Component{
                 </CardHeader>
 
                 <CardBody className="d-flex flex-column">
+                    {message}
                 <Form onSubmit={this.handlePublish}>
                     <Row>
                         <Col md="6">
                         <FormGroup>
                             <label htmlFor={user.id}>Product type</label>
-                            <FormSelect id={user.id} onChange={this.handleType} required>
+                            <FormSelect id={user.id} onChange={this.handleType} required disabled={user.catgerory === null}>
                             <option>Select...</option>
                             <option value='1'>Video</option>
                             <option value='5'>Audio</option>
@@ -120,40 +169,32 @@ class Media extends React.Component{
                         <Col md="6" className="pb-4">
                         <FormGroup>
                             <label htmlFor={user.id}>Category</label>
-                            <FormSelect id={user.id} onChange={this.handleCategory} onClick={this.getCategory} required>
-                                {categories ? categories.map((category)  => {
-                                return(
-                                    <option key={category.id} value={category.id}>{category.name}</option>
-                                )
-                                })
-                            : <LoaderSmall/>}
-                            </FormSelect>
+                        <FormInput defaultValue={user.category ? user.category.name : ''} required disabled/>
                         </FormGroup>
                         </Col>
                     </Row>     
                     <FormGroup>
                         <label htmlFor="title">Title</label>
-                        <FormInput id="Title" type="text" placeholder="Title" onChange={this.handleTitle} required/>
+                        <FormInput id="Title" type="text" placeholder="Title" onChange={this.handleTitle} required disabled={user.catgerory === null}/>
                      </FormGroup>
 
                     <Row>
                     <Col md="6">
                     <FormGroup>
                         <label htmlFor="coverImage">Select File</label>
-                        <FormInput id="file" type="file" onChange={this.checkMimeType} required/>
+                        <FormInput id="file" type="file" onChange={this.checkMimeType} required disabled={user.catgerory === null}/>
                         {fileError ? <p className="f8 red">{fileError}</p> : ''}
                         </FormGroup>
                     </Col>
                     </Row>
-                    <FormGroup>
-                        <label htmlFor="title">Author Name</label>
-                        <FormInput id="Title" type="text" placeholder="Author" />
-                     </FormGroup>
-                    {/* <fieldset>
+                    {author}
+                    
+                    <fieldset>
                         <FormCheckbox toggle onChange={this.toggle} small checked={this.state.checked}>
                             Sell product on store
                         </FormCheckbox>
-                    </fieldset> */}
+                    </fieldset>
+                    {paymentFeild}
                     <FormGroup className="mb-0">
                     <Button theme="accent" type="submit" disabled={disable}>
                        {requestPending ? <LoaderSmall/> : 'Publish Media'}
@@ -196,7 +237,7 @@ class Media extends React.Component{
             const data = new FormData();
             data.append('title', this.state.title)
             data.append('description', this.state.title)
-            data.append('category_id', this.state.category)
+            data.append('category_id', this.props.user.category.id)
             data.append(mediaType, file.files[0])
 
             //post data
@@ -209,7 +250,7 @@ class Media extends React.Component{
                         'title': this.state.title,
                         'description' : this.state.title,
                         "owner_id" : this.state.user.id,
-                        "category_id" : this.state.category,
+                        "category_id" : this.props.user.category.id,
                         "content_type_id" : parseInt(this.state.type)
                     }
 
@@ -247,17 +288,6 @@ class Media extends React.Component{
             .then(response => {
                 response.data ?
                 this.setState({ errorMessage: '', types: response.data, loading: false })
-                :
-                this.setState({ errorMessage: response.message, loading: false })
-            })
-        }
-
-        getCategory = () => {
-            const url = 'content/category/list';
-            _http.sendGet(url)
-            .then(response => {
-                response.data ?
-                this.setState({ errorMessage: '', categories: response.data, loading: false })
                 :
                 this.setState({ errorMessage: response.message, loading: false })
             })
