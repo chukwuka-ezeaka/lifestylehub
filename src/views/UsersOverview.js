@@ -65,6 +65,10 @@ componentDidMount(){
   const handle = this.props.location.pathname;
   this.showContent(handle);
  
+  this.getUser();
+}
+
+getUser = () => {
   const url = "account/user/list/with_roles";
   _http.sendGet(url)
   .then(response => {
@@ -132,6 +136,7 @@ updateProfile = (payload, id) => {
             this.setState({ requestPending: false})
               type = "success";
               _http.notify("Profile updated successfully", type);
+              this.getUser();
           }else{
             this.setState({ requestPending: false})
               type = "warn";

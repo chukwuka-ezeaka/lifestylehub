@@ -61,7 +61,7 @@ class CreatePost extends React.Component{
 
                    <FormGroup className="mb-0">
                     <Button theme="accent" type="submit" disabled={this.state.requestPending}>
-                    {this.state.requestPending  ? <LoaderSmall/>: 'Publish'}
+                    {this.props.pending  ? <LoaderSmall/>: 'Publish'}
                     </Button>
                     </FormGroup>
                 </Form>
@@ -72,32 +72,13 @@ class CreatePost extends React.Component{
 
     handlePublish = (event) => {
         event.preventDefault();
-        this.setState({requestPending: true});
 
         const payload = {
             "content": this.state.content,
             "tags": this.state.tags,
 	        "status": "publish"
         }
-        const url = 'post/create';
-        _http.sendPost(url, payload)
-        .then(response => {
-            this.setState({ requestPending: false });
-            if(response.data ){
-                let type = "";
-                if(response.status === "success"){
-                    type = "success";
-                    _http.notify(response.message, type)
-                }else{
-                    type = "warn";
-                    _http.notify(response.message, type)
-                }
-            
-            }else{
-                _http.notify(response.message)
-                this.setState({requestPending: false })
-            }
-        });
+      this.props.publish(payload);
         }
     }
 

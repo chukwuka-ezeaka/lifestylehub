@@ -82,6 +82,7 @@ updateProfile = (payload, id) => {
             this.setState({ requestPending: false})
               type = "success";
               _http.notify("Profile updated successfully", type);
+              this.getUser();
           }else{
             this.setState({ requestPending: false})
               type = "warn";
@@ -101,6 +102,7 @@ updatePhoto = (payload) => {
       this.setState({ requestPending: false})
         type = "success";
         _http.notify("Profile updated successfully", type);
+        this.getUser();
        
     }else{
       this.setState({ requestPending: false})
@@ -115,10 +117,14 @@ updatePhoto = (payload) => {
     let content = <Loader />
     if(!this.state.loading){
       content =  <Row>
-          <Col lg="4">
-            <UserDetails user={this.state.userData} pending={this.state.requestPending} updatePhoto={this.updatePhoto}/>
+          <Col lg="5">
+            <UserDetails 
+            user={this.state.userData} 
+            pending={this.state.requestPending} 
+            updatePhoto={this.updatePhoto}
+            updateProfile={this.updateProfile}/>
           </Col>
-          <Col lg="8">
+          <Col lg="7">
             <UserAccountDetails 
             user={this.state.userData} 
             getCategories={this.getCategories} 

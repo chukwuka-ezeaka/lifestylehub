@@ -34,7 +34,8 @@ class Media extends React.Component{
             fileError: '',
             disable: false,
             requestPending: false,
-            checked: false
+            checked: false,
+            price: null
         }
     }
 
@@ -53,6 +54,10 @@ class Media extends React.Component{
 
     handleCategory = (event) => {
         this.setState({category: event.target.value});
+    }
+
+    handlePrice = (event) =>{
+        this.setState({price: event.target.value});                                                                                                      
     }
 
    checkMimeType=(event)=>{
@@ -127,7 +132,7 @@ class Media extends React.Component{
             </FormGroup>
         }
 
-        if(user.catgerory === null){
+        if(user.category === null){
             message = <p className="text-center text-danger">Please update your category under your profile to continue</p>;
         }
 
@@ -135,8 +140,13 @@ class Media extends React.Component{
             paymentFeild = <Row>
                 <Col lg="6" md="6" className="pb-4">
                     <FormGroup className="mb-0">
-                    <label htmlFor="price">Price</label>
-                    <FormInput id="price" type="number" classplaceholder="Title" onChange={this.handlePrice} required/>
+                        <label htmlFor="price">Price</label>
+                        <InputGroup className="mb-3">
+                            <InputGroupAddon type="append">
+                            ₦
+                            </InputGroupAddon>
+                            <FormInput id="price" type="number" classplaceholder="Title" onChange={this.handlePrice} required/>
+                        </InputGroup>
                     </FormGroup>
                 </Col>
                 </Row>
@@ -158,7 +168,7 @@ class Media extends React.Component{
                         <Col md="6">
                         <FormGroup>
                             <label htmlFor={user.id}>Product type</label>
-                            <FormSelect id={user.id} onChange={this.handleType} required disabled={user.catgerory === null}>
+                            <FormSelect id={user.id} onChange={this.handleType} required disabled={user.category === null}>
                             <option>Select...</option>
                             <option value='1'>Video</option>
                             <option value='5'>Audio</option>
@@ -175,14 +185,14 @@ class Media extends React.Component{
                     </Row>     
                     <FormGroup>
                         <label htmlFor="title">Title</label>
-                        <FormInput id="Title" type="text" placeholder="Title" onChange={this.handleTitle} required disabled={user.catgerory === null}/>
+                        <FormInput id="Title" type="text" placeholder="Title" onChange={this.handleTitle} required disabled={user.category === null}/>
                      </FormGroup>
 
                     <Row>
                     <Col md="6">
                     <FormGroup>
                         <label htmlFor="coverImage">Select File</label>
-                        <FormInput id="file" type="file" onChange={this.checkMimeType} required disabled={user.catgerory === null}/>
+                        <FormInput id="file" type="file" onChange={this.checkMimeType} required disabled={user.category === null}/>
                         {fileError ? <p className="f8 red">{fileError}</p> : ''}
                         </FormGroup>
                     </Col>
@@ -190,14 +200,14 @@ class Media extends React.Component{
                     {author}
                     
                     <fieldset>
-                        <FormCheckbox toggle onChange={this.toggle} small checked={this.state.checked}>
+                        <FormCheckbox toggle onChange={this.toggle} small checked={this.state.checked} disabled={user.category === null}>
                             Sell product on store
                         </FormCheckbox>
                     </fieldset>
                     {paymentFeild}
                     <FormGroup className="mb-0">
                     <Button theme="accent" type="submit" disabled={disable}>
-                       {requestPending ? <LoaderSmall/> : 'Publish Media'}
+        {requestPending ? <span>uploading <LoaderSmall/></span> : 'Publish Media'}
                     </Button>
                     </FormGroup>
                 </Form>
@@ -245,13 +255,25 @@ class Media extends React.Component{
             .then(res => {
                 //console.log(res)
                 if(res.data){
-                    const payload = {
+                    let payload = {};
+                    const data = {
                         "content_media_id" : res.data.id,
                         'title': this.state.title,
                         'description' : this.state.title,
-                        "owner_id" : this.state.user.id,
+                        "owner_id" : this.props.user.id,
                         "category_id" : this.props.user.category.id,
-                        "content_type_id" : parseInt(this.state.type)
+                        "content_type_id" : parseInt(this.state.type),
+                        
+                    }
+                    if(this.state.price){
+                        payload={
+                            ...data,
+                            "price": this.state.price
+                        }
+                    }else{
+                        payload={
+                            ...data
+                        }
                     }
 
                 const mediaUrl = 'content/create';

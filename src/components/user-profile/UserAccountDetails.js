@@ -232,16 +232,6 @@ class UserAccountDetails extends Component{
                     required />
                   </FormGroup>
                   <Row form>
-                    {/* Email */}
-                    <Col md="6" className="form-group">
-                      <label htmlFor="industry">Pitch Video</label>
-                      <FormInput
-                        type="file"
-                        id="pitch"
-                        placeholder="Industry"
-                        onChange={this.handleIndustry}
-                        disabled={!this.state.edit} />
-                    </Col>
                     <Col md="6" className="form-group">
                       <label htmlFor="birthday">Birthday</label>
                       <FormInput
@@ -251,9 +241,6 @@ class UserAccountDetails extends Component{
                         onChange={this.handleBirthday}
                         disabled={!this.state.edit} />
                     </Col>
-                  </Row>
-                  <Row form>
-                    {/* Email */}
                     <Col md="6" className="form-group">
                       <label htmlFor="experience">Years of Experience</label>
                       <FormInput
@@ -288,7 +275,7 @@ class UserAccountDetails extends Component{
                       id="workHistory" rows="3" 
                       defaultValue= ""
                       disabled={!this.state.edit}
-                      required />
+                      />
                     </Col>
                   </Row>
                   {this.state.edit ?

@@ -8,16 +8,23 @@ import {
   ListGroupItem,
   FormInput,
   Row,
-  Col
+  Col,
+  InputGroup,
+  InputGroupAddon
 } from "shards-react";
 import GetImage from "../common/getImage";
 import GetVideo from "../common/GetVideo";
+import HttpService from "../../utils/API";
+
+const _http = new HttpService();
 
 class UserDetails extends React.Component {
   constructor(){
     super()
     this.state = {
       loading: false,
+      requestPending: false,
+      disabled: false,
       avatar: ''
     }
   }
@@ -31,11 +38,39 @@ handleUpload = () => {
  }
 }
 
+handlePitch = () => {
+  const file = document.getElementById('pitch');
+  const url = 'media/manager/video/single/create';
+  const formdata = new FormData();
+  if(file.files[0]){
+  this.setState({requestPending: true});
+   formdata.append("video", file.files[0]);
+
+   _http.sendPost(url, formdata)
+   .then(res => {
+       //console.log(res)
+       if(res.data){
+         console.log(res.data)
+           const payload = {
+               "pitch_video_link" : res.data.url,
+           }
+           this.setState({requestPending: false })
+           const id = this.props.user.id;
+           this.props.updateProfile(payload, id);
+       }else{
+           _http.notify(res.message)
+           this.setState({requestPending: false })
+       }
+   });
+  }
+ }
+
+
   render() { 
     const { user, pending } = this.props;
-    //console.log(user)
+    console.log(user)
     const userDetails = {
-        name: user ? user.firstname + " " + user.lastname : " ",
+        name:  user.firstname ? user.firstname + " " + user.lastname : " ",
         avatar: require("./../../images/avatars/0.png"),
         jobTitle: "Life Coach",
         performanceReportTitle: "Experience",
@@ -49,7 +84,7 @@ handleUpload = () => {
         <CardHeader className="border-bottom text-center">
           <div className="mb-3 mx-auto">
           {user.photo ? 
-          <GetImage image={user.photo}   title={userDetails.name} width="130px" classname="rounded-circle"/>
+          <GetImage image={user.photo}   alt={userDetails.name} width="130px" classname="rounded-circle"/>
           :
           <img
           className="rounded-circle"
@@ -75,14 +110,26 @@ handleUpload = () => {
             <strong className="text-muted d-block mb-2">
               Pitch video
             </strong>
-           <GetVideo width="auto"/>
+            <div>
+           <GetVideo width="100%" video={user.pitch_video_link}/><br/>
+           </div>
+           <InputGroup className="mb-3">
+              <FormInput type="file" id="pitch"/>
+              <InputGroupAddon type="append">
+                {this.state.requestPending ?
+                 <Button className="btn btn-secondary btn-xs" disabled >Uploading...</Button>
+                :
+                <Button className="btn btn-secondary btn-xs px-1" onClick={this.handlePitch} disabled={pending}>Upload Pitch</Button>
+                }
+              </InputGroupAddon>
+          </InputGroup>
           </ListGroupItem>
         </ListGroup>
 
         <ListGroup flush>
           <ListGroupItem className="p-4">
           <Row>
-            <Col md="4" sm="4" xs="4" className="f7 text-primary fw4">
+            <Col lg="4" md="4" sm="4" xs="4" className="f7 text-primary fw4">
               <i className="material-icons mr-1">person_add</i>0<br/>
               <span>Followers</span>
             </Col>

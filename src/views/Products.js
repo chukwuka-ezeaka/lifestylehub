@@ -110,19 +110,19 @@ componentWillUnmount = () => {
     let text = [];
     if(Array.isArray(contents) && (contents.length > 0)){
       video = contents.filter(content => {
-            return content.content_type.id === 1;
+            return content.content_type.id === 1 && content.price === null;
       });
 
       audio = contents.filter(content => {
-            return content.content_type.id === 5;
+            return content.content_type.id === 5 && content.price === null;
       });
       
       ebook = contents.filter(content => {
-            return content.content_type.id === 4;
+            return content.content_type.id === 4 && content.price === null;
       });
 
       text = contents.filter(content => {
-        return content.content_type.id === 7;
+        return content.content_type.id === 7 && content.price === null;
   });
   } 
 

@@ -1,7 +1,5 @@
 import React from 'react';
 import Loader from '../../Loaders/Loader';
-import { confirmAlert } from 'react-confirm-alert';
-import LoaderSmall from '../../Loaders/LoaderSmall';
 import { withRouter } from 'react-router-dom';
 import Truncate from 'react-truncate';
 import { 
@@ -43,12 +41,12 @@ render(){
                             //console.log(index);
                             return (
                                 <Col lg="3" md="3" sm="12" className="mb-4" key={content.id}>
-                                <Card small className="card-post card-post--1">
+                                <Card small className="card-post card-post--1 pb-0" style={{'height': '100%'}}>
                                   <div
                                     className="card-post__image"
                                     style={{ textAlign : 'center' }}
                                   >
-                                      {content.content_art ? <GetImage image={content.content_art}   title={content.title} width="150px"/> : ""}
+                                      {content.content_art ? <GetImage image={content.content_art}   title={content.title} width="100px"/> : ""}
                                     <Badge
                                       pill
                                       className={`card-post__category bg-dark`}
@@ -65,11 +63,12 @@ render(){
                                       {/* {content.title ? content.title : ''} */}
                                       </p>
                                     </h5>
-                                    <div className="card-text d-inline-block mb-0">
-                                        <Truncate lines={3} ellipsis={<span>... <p className="link pointer blue" id={content.id}>show more</p></span>}>
+                                    <div className="card-text d-inline-block mb-0 pb-0">
+                                        <Truncate lines={2} ellipsis={<span className="mb-0">... <p className="link pointer blue mb-0 pb-0" id={content.id}>show more</p></span>}>
                                             {content.description}
                                         </Truncate>
                                     </div>
+                                    <p><span className="text-muted"><i className="material-icons mr-1">person</i>{content.owner ? content.owner.fullname : ''}</span></p>
                                   </CardBody>
                                 </Card>
                               </Col>

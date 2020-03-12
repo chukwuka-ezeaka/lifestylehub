@@ -35,6 +35,7 @@ import ViewReflection from "./views/ViewReflection";
 import Posts from "./views/Posts";
 import Accounts from "./views/Accounts";
 import Chat from "./views/Chat";
+import Store from "./views/Store";
 
 import "tachyons";
 import InviteUsers from "./views/InviteUser";
@@ -233,6 +234,14 @@ class App extends React.Component {
               render={props => (
                 <DefaultLayout user={user}>
                   <Chat user={user} Auth={Auth} />
+                </DefaultLayout>
+              )}
+            />
+             <Route
+              path="/store/:id"
+              render={props => (
+                <DefaultLayout user={user}>
+                  <Store user={user} Auth={Auth} />
                 </DefaultLayout>
               )}
             />

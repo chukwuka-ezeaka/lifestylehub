@@ -5,13 +5,13 @@ import HttpService from '../utils/API';
 
 import PageTitle from "../components/common/PageTitle";
 import Purchase from "../components/Accounts/Purchase";
-import Downloads from "../components/Accounts/Downloads";
+import Earnings from "../components/Accounts/Earnings";
 import Settings from "../components/Accounts/Settings";
 
 //const _http = new HttpService();
 
 const views = {
-  showDownloads: false,
+  showEarnings: false,
   showPurchase: false,
   showSettings: false
 }
@@ -32,8 +32,8 @@ class Accounts extends React.Component {
 
 showContent = (handle) => {
   switch(handle){
-    case '/accounts/downloads':
-      this.setState({showViews: {showDownloads: true}})
+    case '/accounts/earnings':
+      this.setState({showViews: {showEarnings: true}})
       break;
     case '/accounts/purchase':
       this.setState({showViews: {showPurchase: true}})
@@ -71,7 +71,7 @@ abortController = new window.AbortController();
 
   render(){
     const {loading, errorMessage } = this.state;
-    const {showDownloads, showPurchase, showSettings} = this.state.showViews;
+    const {showEarnings, showPurchase, showSettings} = this.state.showViews;
     return(
       <Container fluid className="main-content-container px-4 pb-4">
          <Row noGutters className="page-header py-4">
@@ -80,8 +80,8 @@ abortController = new window.AbortController();
         <Row>
           <Col lg="12" md="12">
             {
-            showDownloads ? 
-            <Downloads error={errorMessage} loading={loading}/>
+            showEarnings ? 
+            <Earnings error={errorMessage} loading={loading}/>
               :
                 showPurchase ?
                 <Purchase error={errorMessage} loading={loading}/>

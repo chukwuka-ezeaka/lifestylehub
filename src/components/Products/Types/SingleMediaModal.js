@@ -34,7 +34,7 @@ render(){
       {media.title}
     </ModalHeader>
     <ModalBody>
-        <GetAudio audio={media.content_type.media.url}/>
+        <GetAudio audio={media.content_media.url}/>
     </ModalBody>
   </Modal>
    )

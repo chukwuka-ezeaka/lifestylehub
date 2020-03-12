@@ -11,6 +11,11 @@ import {
     Card, 
     CardBody,
     Badge,
+    FormGroup,
+    FormSelect,
+    FormInput,
+    InputGroupAddon,
+    InputGroup
 } from "shards-react"
 import HttpService from '../../../utils/API';
 import GetImage from '../../common/getImage';
@@ -29,7 +34,9 @@ class AllReflections extends React.Component{
             reflections: [],
             loading: true,
             errorMessage: '',
-            width: "100"
+            width: "100",
+            searchQuery: null,
+            filter: ''
         };
     }
 
@@ -38,8 +45,40 @@ componentDidMount(){
     this.getReflections()
 }
 
+searchFilter = (e) => {
+  let filter = e.target.value;
+   return this.setState({filter: filter});
+}
+
+searchInput = (e) => {
+  let value = e.target.value;
+ this.setState({ searchQuery: value });
+} 
+
+getFilteredReflectionList() {
+  return !this.state.searchQuery
+    ? this.state.reflections
+    : this.state.reflections.filter(reflection => {
+        switch(this.state.filter){
+          case "all":
+              return  reflection.title.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                      reflection.date.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+          case "date":
+              return  reflection.date.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+          case "title":
+              return  reflection.title.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+          default:
+           return reflection.date.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                  reflection.title.toLowerCase().includes(this.state.searchQuery.toLowerCase())
+        }
+       
+    }
+      );
+}     
+
 render(){
-    const { reflections, loading } = this.state;
+    const { loading } = this.state;
+    let reflections = this.getFilteredReflectionList();
     return(
 
         <Container fluid className="mt-4">
@@ -48,13 +87,24 @@ render(){
                 <Loader />
                 :
                 <Row>
+                  <InputGroup className="mb-3 mx-3">
+                        <InputGroupAddon type="prepend">
+                        <FormSelect onChange={this.searchFilter}>
+                        <option vlaue="all">All</option>
+                        <option value="date">Date</option>
+                        {/* <option value="reflectionname">Username</option> */}
+                        <option value="title">Title</option>
+                        </FormSelect> 
+                        </InputGroupAddon>
+                        <FormInput type="text" placeholder="search for reflection..." onInput={this.searchInput}/>
+                    </InputGroup>
                     {reflections ?
                     reflections.map((reflection, index)  => {
                             //let reflectionId = `#${reflection.id}`;
                             //console.log(index);
                             return (
-                                <Col lg="3" md="6" sm="12" className="mb-4" key={reflection.id}>
-                                <Card small className="card-post card-post--1">
+                                <Col lg="3" md="3" sm="12" className="mb-4" key={reflection.id}>
+                                <Card small className="card-post card-post--1" style={{'height': '100%'}}>
                                   <div
                                     className="card-post__image"
                                     style={{ textAlign : 'center' }}
@@ -72,6 +122,7 @@ render(){
                                         src= {require("./../../../images/covers/audio.png")}
                                         alt={reflection.title}
                                         width="50px"
+                                        height="50px"
                                         id={reflection.id}
                                         onClick={this.viewReflections}
                                         />
@@ -91,7 +142,7 @@ render(){
                                             {reflection.content}
                                         </Truncate>
                                     </div>
-                                    <span className="text-muted">{reflection.date ? reflection.date : ''}</span>
+                                    <p><span className="text-muted">{reflection.date ? reflection.date : ''}</span></p>
                                   </CardBody>
                                 </Card>
                               </Col>

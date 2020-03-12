@@ -45,6 +45,7 @@ class Content extends React.Component{
     handleCategory = (event) => {
         this.setState({category: event.target.value});
     }
+    
      
    /* checkMimeType=(event)=>{
         //getting file object
@@ -73,8 +74,9 @@ class Content extends React.Component{
 
     render(){
         const { title, user } = this.props;
+        console.log(user)
         let author= "";
-        let message = "";
+        let message = null;
         if(user.UserRole.roleId === 75){
             author = <FormGroup>
                 <label htmlFor="title">Author Name</label>
@@ -82,7 +84,7 @@ class Content extends React.Component{
             </FormGroup>
         }
 
-        if(user.catgerory === null){
+        if(user.category === null){
             message = <p className="text-center text-danger">Please update your category under your profile to continue</p>;
         }
         
@@ -104,19 +106,19 @@ class Content extends React.Component{
                     </FormGroup>
                         <FormGroup>
                             <label htmlFor="Title">Title</label>
-                            <FormInput placeholder="Title" onChange={this.handleTitle} required disabled={user.catgerory === null}/>
+                            <FormInput placeholder="Title" onChange={this.handleTitle} required disabled={user.category === null}/>
                         </FormGroup>
 
                         <FormGroup>
                             <label htmlFor="description">Main body</label>
-                            <FormTextarea rows="7"placeholder="main body..." onChange={this.handleDescription} required disabled={user.catgerory === null}/>
+                            <FormTextarea rows="7"placeholder="main body..." onChange={this.handleDescription} required disabled={user.category === null}/>
                         </FormGroup>
 
                         <Row>
                         <Col md="6">
                         <FormGroup>
                             <label htmlFor="coverImage">Cover Image</label>
-                            <FormInput id="coverImage" placeholder="Image link" type="file" required disabled={user.catgerory === null}/>
+                            <FormInput id="coverImage" placeholder="Image link" type="file" required disabled={user.category === null}/>
                             </FormGroup>
                         </Col>
                         <Col md="6">
@@ -161,7 +163,7 @@ class Content extends React.Component{
                 if(res.data){
                     const payload = {
                         "content_media_id" : res.data.id,
-                        "owner_id" : this.state.user.id,
+                        "owner_id" : this.props.user.id,
                         "category_id" : this.props.user.category.id,
                         "content_type_id" : 7,
                         "title" : this.state.title,

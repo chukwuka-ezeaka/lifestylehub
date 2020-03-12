@@ -38,6 +38,7 @@ render(){
 
     const { contents, error, loading } = this.props;
     let showModal = '';
+    //console.log(contents)
     if(this.state.currentMedia !== null){
          showModal = <SingleMedia media={this.state.currentMedia} toggle={this.toggleModal} open={this.state.open}/>;
     }
@@ -56,7 +57,7 @@ render(){
                             //console.log(content);
                             return(
                                 <Col lg="3" md="3" sm="12" className="mb-4" key={content.id}>
-                                <Card small className="card-post card-post--1">
+                                <Card small className="card-post card-post--1" style={{'height': '100%'}}>
                                   <div
                                     className="card-post__image"
                                     style={{ textAlign : 'center' }}
@@ -83,6 +84,8 @@ render(){
                                       {content.title ? content.title : ''}
                                       </p>
                                     </h5>
+                                    <p><span className="text-muted"><i className="material-icons mr-1">person</i>{content.owner ? content.owner.fullname : ''}</span></p>
+                                    <p>{content.price? <span className="text-success">₦ {content.price}</span> : ""}</p>
                                   </CardBody>
                                 </Card>
                               </Col>

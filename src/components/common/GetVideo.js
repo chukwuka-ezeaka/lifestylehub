@@ -13,24 +13,16 @@ class GetVideo extends Component {
     }
     
     render() { 
+        const videoUrl = `https://myacademyhub.s3.amazonaws.com/video/${this.props.video}`;
         return ( 
             <ReactPlayer 
-            url='https://www.youtube.com/watch?v=E_avNkrUVbc' 
-            width={this.props.width}/>
+            url = {videoUrl}
+            width={this.props.width}
+            controls
+            height="auto"/>
          );
     }
 
-    getAudio = (video) => {
-        const url = `media/manager/video/single/find/${video}`;
-        _http.sendGet(url)
-        .then(res => {
-           //console.log(res)
-            this.setState({
-                video:res
-                // audio_type:res.headers['content-type']
-            })
-        })
-    }
 }
  
 export default GetVideo;

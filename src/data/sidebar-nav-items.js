@@ -113,6 +113,11 @@ export default function() {
             to: "/products/ebooks"
           },
           {
+            title: "Texts",
+            htmlBefore: '<i class="material-icons">assignment</i>',
+            to: "/products/text",
+          },
+          {
             title: "Add Product",
             htmlBefore: '<i class="material-icons">add_box</i>',
             to: "/add/media",
@@ -173,7 +178,7 @@ export default function() {
           {
             title: "Total Earnings",
             htmlBefore: '<i class="material-icons">get_app</i>',
-            to: "/accounts/downloads",
+            to: "/accounts/earnings",
           },
           // {
           //   title: "Purchase",
@@ -202,30 +207,30 @@ export default function() {
           {
             title: "Videos",
             htmlBefore: '<i class="material-icons">theaters</i>',
-            to: "#",
+            to: "/store/videos",
           },
           {
             title: "Audios",
             htmlBefore: '<i class="material-icons">audiotrack</i>',
-            to: "#",
+            to: "/store/audios",
           },
           {
             title: "Ebooks",
             htmlBefore: '<i class="material-icons">book</i>',
-            to: "#",
+            to: "/store/ebooks",
           },
         
-          {
-            title: "Add Product",
-            htmlBefore: '<i class="material-icons">add_box</i>',
-            to: "#",
-          },
+          // {
+          //   title: "Add Product",
+          //   htmlBefore: '<i class="material-icons">add_box</i>',
+          //   to: "#",
+          // },
   
-          {
-            title: "Add Text",
-            htmlBefore: '<i class="material-icons">add_box</i>',
-            to: "#",
-          }
+          // {
+          //   title: "Add Text",
+          //   htmlBefore: '<i class="material-icons">add_box</i>',
+          //   to: "#",
+          // }
         ]
       }, 
     ]
@@ -313,7 +318,7 @@ export default function() {
         {
           title: "Total Earnings",
           htmlBefore: '<i class="material-icons">get_app</i>',
-          to: "/accounts/downloads",
+          to: "/accounts/earnings",
         },
         // {
         //   title: "Purchase",
@@ -342,30 +347,30 @@ export default function() {
         {
           title: "Videos",
           htmlBefore: '<i class="material-icons">theaters</i>',
-          to: "#",
+          to: "/store/videos",
         },
         {
           title: "Audios",
           htmlBefore: '<i class="material-icons">audiotrack</i>',
-          to: "#",
+          to: "/store/audios",
         },
         {
           title: "Ebooks",
           htmlBefore: '<i class="material-icons">book</i>',
-          to: "#",
+          to: "/store/ebooks",
         },
       
-        {
-          title: "Add Product",
-          htmlBefore: '<i class="material-icons">add_box</i>',
-          to: "#",
-        },
+        // {
+        //   title: "Add Product",
+        //   htmlBefore: '<i class="material-icons">add_box</i>',
+        //   to: "#",
+        // },
 
-        {
-          title: "Add Text",
-          htmlBefore: '<i class="material-icons">add_box</i>',
-          to: "#",
-        }
+        // {
+        //   title: "Add Text",
+        //   htmlBefore: '<i class="material-icons">add_box</i>',
+        //   to: "#",
+        // }
       ]
     }, 
     {
@@ -424,7 +429,7 @@ if(userRole === 100){
         {
           title: "Total Earnings",
           htmlBefore: '<i class="material-icons">get_app</i>',
-          to: "/accounts/downloads",
+          to: "/accounts/earnings",
         },
         // {
         //   title: "Purchase",

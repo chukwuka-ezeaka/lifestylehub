@@ -1,33 +1,19 @@
 import React from "react";
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from "shards-react";
-import axios from 'axios';
 
 import PageTitle from "../components/common/PageTitle";
-import Category from '../components/Products/Category/Category';
-import Media from '../components/Products/AddProduct/Media';
-import Content from '../components/Products/AddProduct/Content';
-import Stats from '../components/Products/Stats';
 import HttpService from "../utils/API";
 import Audio from "../components/Products/Types/Audios";
 import Video from "../components/Products/Types/Videos";
 import Ebook from "../components/Products/Types/Ebooks";
-import Author from "../components/Products/Types/Audios";
-import Subscriptions from "../components/Products/Subscriptions/Subscriptions";
 import Loader from "../components/Loaders/Loader";
 
 const _http = new HttpService();
 const views = {
-  showAll: false,
   showVideo: false,
   showAudio: false,
   showEbook: false,
-  showAuthor: false,
-  showContent: false,
-  showAddContent: false,
-  showAddMedia: false,
-  showCategories: false,
-  showSubscriptions: false
 }
 
 class Store extends React.Component {
@@ -35,8 +21,8 @@ class Store extends React.Component {
         super(props);
         this.state={
           user: localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : {},
-          contents: null,
-          media: null,
+          contents: [],
+          media: [],
           loading: true,
           showViews: views,
           path: '',
@@ -47,38 +33,17 @@ class Store extends React.Component {
 
 showContent = (handle) => {
   switch(handle){
-    case '/products':
-      this.setState({showViews: {showAll: true}})
-      break;
-    case '/products/videos':
+    case '/store/videos':
         this.setState({showViews: {showVideo: true}})
         break;
-    case '/products/audios':
+    case '/store/audios':
         this.setState({showViews: {showAudio: true}})
         break;
-      case '/products/ebooks':
+      case '/store/ebooks':
         this.setState({showViews: {showEbook: true}})
         break;
-      case '/products/authors':
-        this.setState({showViews: {showAuthor: true}})
-        break;
-      case '/products/contents':
-        this.setState({showViews: {showContent: true}})
-        break;
-      case '/products/addMedia':
-        this.setState({showViews: {showAddMedia: true}})
-        break;
-      case '/products/addContent':
-        this.setState({showViews: {showAddContent: true}})
-        break;
-      case '/products/Category':
-        this.setState({showViews: {showCategories: true}})
-        break;
-      case '/products/subscriptions':
-        this.setState({showViews: {showSubscriptions: true}})
-        break;
     default:
-      this.setState({showViews: {showAll: true}})
+      this.setState({showViews: {showAudio: true}})
       break;
   }
 }
@@ -104,26 +69,22 @@ componentWillUnmount = () => {
 }
 
   render(){
-    const { media, contents, user, errorMessage, loading} = this.state;
-    const { showAddMedia, showCategories, showAddContent, showAll, showAudio, showAuthor, showContent, showEbook, showVideo, showSubscriptions } = this.state.showViews;
-    let video, audio, ebook = null;
-    if(Array.isArray(media) && (media.length > 0)){
-      video = media.filter(media => {
-        if(media.media_type){
-            return media.media_type.id === 1;
-        }
+    const { contents, user, errorMessage, loading} = this.state;
+    const { showAudio, showEbook, showVideo, } = this.state.showViews;
+    let video  = [];
+    let audio  = [];
+    let ebook = [];
+    if(Array.isArray(contents) && (contents.length > 0)){
+      video = contents.filter(content => {
+            return (content.content_type.id === 1) && (content.price !== null);
       });
 
-      audio = media.filter(media => {
-        if(media.media_type){
-            return media.media_type.id === 5;
-        }
+      audio = contents.filter(content => {
+            return (content.content_type.id) === 5 && (content.price !== null);
       });
       
-      ebook = media.filter(media => {
-        if(media.media_type){
-            return media.media_type.id === 4;
-        }
+      ebook = contents.filter(content => {
+            return (content.content_type.id === 4) && (content.price !== null);
       });
   } 
 
@@ -140,35 +101,15 @@ componentWillUnmount = () => {
             </Row>
         <Row>
           <Col lg="12" md="12">
-            {showAll ?
-            <Stats media={media} contents={contents} loading={loading}/>
-            :
+            {
             showVideo ?
-            <Video media={video} user={user} error={errorMessage} loading={loading}/>
+            <Video contents={video} user={user} error={errorMessage} loading={loading}/>
             :
             showAudio ? 
-            <Audio media={audio} user={user} error={errorMessage} loading={loading}/>
+            <Audio contents={audio} user={user} error={errorMessage} loading={loading}/>
             :
             showEbook ?
-            <Ebook media={ebook} user={user} error={errorMessage} loading={loading}/>
-            :
-            showAuthor ? 
-            <Author media={Author} user={user} error={errorMessage} loading={loading}/>
-            :
-            showContent ? 
-            <Content media={contents} user={user}/>
-            :
-            showCategories ?
-            <Category />
-            :
-            showAddMedia ?
-            <Media />
-            :
-            showAddContent ?
-            <Content />
-            :
-            showSubscriptions ?
-            <Subscriptions/>
+            <Ebook contents={ebook} user={user} error={errorMessage} loading={loading}/>
             : null
             }
           </Col>
@@ -178,18 +119,20 @@ componentWillUnmount = () => {
     }
 
     getContents = () => {
+    //  console.log(this.state.user.id);
+    let contentUrl = "";
       this.setState({loading: true})
-      const mediaUrl = `content/media/list?owner_id=${this.state.user.id}`;
-      const contentUrl= `content/list?owner_id=${this.state.user.id}`;
-      axios.all([
-        _http.sendGet(mediaUrl),
+      if(this.state.user.role.id === 75){
+        contentUrl= `content/list`;
+      }else{
+      contentUrl= `content/list?owner_id=${this.state.user.id}`;
+      }
         _http.sendGet(contentUrl)
-        ])
-        .then(axios.spread((response1, response2)=> {
+        .then(response => {
           //   console.log(response1.data)
           //   console.log(response2.data)
-          this.setState({media: response1.data, contents: response2.data, loading: false})
-        }))
+          this.setState({contents: response.data, loading: false})
+        })
     }
   }
 

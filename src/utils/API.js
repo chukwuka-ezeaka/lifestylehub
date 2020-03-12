@@ -23,12 +23,11 @@ httpService.interceptors.request.use(
   )
 
 const networkError = (error) => {
-    console.log(error.response)
     const message = {message: "Please check your network connection and try again"}
     if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-    if((error.response.data.status === 401) || (error.response.data === "Unauthorized")){
+    if((error.response.data.message === "Unauthorized Access") || (error.response.data === "Unauthorized")){
             localStorage.clear();
             window.location.reload()
          }else{
@@ -38,7 +37,7 @@ const networkError = (error) => {
         // The request was made but no response was received
         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
         // http.ClientRequest in node.js
-        console.log(error.request);
+        //console.log(error.request);
         return message;
       } else {
         // Something happened in setting up the request that triggered an Error
@@ -117,11 +116,6 @@ class HttpService {
         }else{
             statusError(res)
         }
-        // if(res.status === 200) {
-        //     return res.data;
-        // }else{
-        //     statusError(res.data)
-        // }
              
     })
     .catch(err=> networkError(err))
