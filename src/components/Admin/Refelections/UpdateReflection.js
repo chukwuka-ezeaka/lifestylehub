@@ -241,6 +241,7 @@ class UpdateReflection extends React.Component{
                     if(response.status === "success"){
                         type = "success";
                         _http.notify(response.message, type)
+                        this.props.edit();
                     }else{
                         type = "warn";
                         _http.notify(response.message, type)

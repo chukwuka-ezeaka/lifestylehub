@@ -24,6 +24,10 @@ class ViewRoles extends React.Component{
       }
 
     componentDidMount = () => {
+        this.getRoles();
+    }
+
+    getRoles = () => {
         const url = "account/role/list";
         _http.sendGet(url)
         .then(response => {
@@ -33,7 +37,6 @@ class ViewRoles extends React.Component{
             this.setState({ errorMessage: response.message, isLoading: false })
         })
     }
-
     componentWillUnmount = () => this.abortController.abort();
 
     abortController = new window.AbortController(); 
@@ -72,7 +75,6 @@ render(){
                     </thead>
                     <tbody>
                     {roles ? roles.map((role, index)  => {
-                        console.log(role)
                             //let userId = `#${user.id}`;
                             //console.log(index);
                             return(
@@ -150,7 +152,8 @@ handleDelete = (event) => {
         let type = "";
         if(response.status === "success"){
             type = "success";
-            _http.notify(response.message, type)
+            _http.notify(response.message, type);
+            this.getRoles();
         }else{
             type = "warn";
             _http.notify(response.message, type)

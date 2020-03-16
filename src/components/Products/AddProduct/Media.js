@@ -14,7 +14,8 @@ import {
   FormSelect,
   FormCheckbox,
   InputGroupAddon,
-  InputGroup
+  InputGroup,
+  FormTextarea
 } from "shards-react";
 import HttpService from "../../../utils/API";
 import LoaderSmall from "../../Loaders/LoaderSmall";
@@ -28,14 +29,19 @@ class Media extends React.Component{
             title: '',
             type: 0,
             types:[],
-            category: 0,
+            category: null,
             categories:[],
             errorMessage: '',
             fileError: '',
             disable: false,
             requestPending: false,
             checked: false,
-            price: null
+            price: null,
+            description: '',
+            authors: null,
+            filter: '',
+            searchQuery: null,
+            author: null
         }
     }
 
@@ -54,6 +60,10 @@ class Media extends React.Component{
 
     handleCategory = (event) => {
         this.setState({category: event.target.value});
+    }
+
+    handleDescription = (event) =>{
+        this.setState({description: event.target.value});                                                                                                      
     }
 
     handlePrice = (event) =>{
@@ -106,6 +116,64 @@ class Media extends React.Component{
           this.setState({disable: true})
       }
 
+      searchFilter = (e) => {
+        let filter = e.target.value;
+         return this.setState({filter: filter});
+      }
+      
+      searchInput = (e) => {
+        let value = e.target.value;
+       this.setState({ searchQuery: value });
+      } 
+      
+      getFilteredAuthorList() {
+        return !this.state.searchQuery || !this.state.authors
+        ? null
+        : this.state.authors.filter(user => {
+            switch(this.state.filter){
+              case "name":
+                  return  user.firstname.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                          user.lastname.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+              // case "username":
+              //     return  user.username.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+              case "email":
+                  return  user.email.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+              default:
+               return user.firstname.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                      user.lastname.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                      //user.username.toLowerCase().includes(this.state.searchQuery.toLowerCase()) ||
+                      user.email.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+            }
+           
+        }
+          );
+      }  
+      
+      selectAuthor = (author) => {
+          if(author.category){
+          this.setState({
+              category: author.category.id,
+              author: author.id,
+              searchQuery: null
+        })
+          document.getElementById('author').value = author.firstname + " " + author.lastname;
+        }else{
+            _http.notify("Selected author doesn't belong to any category")
+            this.setState({
+                category: null,
+                author: null,
+                searchQuery: null
+          })
+          document.getElementById('author').value = '';
+        }
+    }
+
+      componentDidMount() {
+        if(this.props.user.UserRole.roleId === 75){
+          this.getAuthors();
+        }
+      }
+
 
     render(){
         
@@ -116,20 +184,35 @@ class Media extends React.Component{
         let paymentFeild = null;
 
         if(user.UserRole.roleId === 75){
-            author = <FormGroup>
+            const authorList = this.getFilteredAuthorList();
+            author = <>
+            <FormGroup>
                 <label htmlFor="title">Author Name</label>
                 <InputGroup className="mb-3">
+                        <FormInput type="text" id="author" placeholder="search for authors based on filter..." onInput={this.searchInput}/>
                         <InputGroupAddon type="append">
                         <FormSelect onChange={this.searchFilter}>
                         <option vlaue="all">All</option>
                         <option value="name">Name</option>
-                        <option value="username">Username</option>
+                        {/* <option value="username">Username</option> */}
                         <option value="email">Email</option>
                         </FormSelect> 
                         </InputGroupAddon>
-                        <FormInput type="text" placeholder="search for authors based on filter..." onInput={this.searchInput}/>
                     </InputGroup>
             </FormGroup>
+            <ul style={{border : '0.2px solid grey'}}>
+                {authorList ?
+                authorList.map((author, idx) => {
+                   if(this.state.filter === 'email'){
+                        return idx < 5 ? <li key={idx} onClick={() => this.selectAuthor(author)} className="link pointer dim">{author.email}</li> : null
+                    }else{
+                        return idx < 5 ? <li key={idx} onClick={() => this.selectAuthor(author)} className="link pointer dim">{author.firstname} {author.lastname}</li> : null
+                    }
+                })
+            :
+            null}
+            </ul>
+            </>
         }
 
         if(user.category === null){
@@ -187,7 +270,10 @@ class Media extends React.Component{
                         <label htmlFor="title">Title</label>
                         <FormInput id="Title" type="text" placeholder="Title" onChange={this.handleTitle} required disabled={user.category === null}/>
                      </FormGroup>
-
+                     <FormGroup>
+                            <label htmlFor="description">Description</label>
+                            <FormTextarea rows="5"placeholder="main body..." onChange={this.handleDescription} required disabled={user.category === null}/>
+                        </FormGroup>
                     <Row>
                     <Col md="6">
                     <FormGroup>
@@ -259,9 +345,9 @@ class Media extends React.Component{
                     const data = {
                         "content_media_id" : res.data.id,
                         'title': this.state.title,
-                        'description' : this.state.title,
-                        "owner_id" : this.props.user.id,
-                        "category_id" : this.props.user.category.id,
+                        'description' : this.state.description,
+                        "owner_id" : this.state.author ? this.state.author : this.props.user.id,
+                        "category_id" : this.state.category ? this.state.category : this.props.user.category.id,
                         "content_type_id" : parseInt(this.state.type),
                         
                     }
@@ -312,6 +398,21 @@ class Media extends React.Component{
                 this.setState({ errorMessage: '', types: response.data, loading: false })
                 :
                 this.setState({ errorMessage: response.message, loading: false })
+            })
+        }
+
+        getAuthors = () => {
+            const url = `account/user/list?role=99`
+          
+            _http.sendGet(url)
+            .then(response => {
+             console.log(response)
+              if(response.status === 'success'){
+                this.setState({ authors: response.data, loading: false})
+              }else{
+              this.setState({ loading: false})
+              _http.notify(response.message);
+              }
             })
         }
 

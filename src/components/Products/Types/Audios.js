@@ -6,9 +6,11 @@ import {
      Col, 
      Card, 
      CardBody, 
-     Badge 
+     Badge,
+     CardFooter 
     } from "shards-react"
 import SingleMedia from './SingleMediaModal';
+import ReadMore from '../../ReadMore/ReadMore';
 
 class Audio extends React.Component{
     constructor(props){
@@ -59,7 +61,7 @@ render(){
                                 <Col lg="3" md="3" sm="12" className="mb-4" key={content.id}>
                                 <Card small className="card-post card-post--1" style={{'height': '100%'}}>
                                   <div
-                                    className="card-post__image"
+                                    className="card-post__image mb-0"
                                     style={{ textAlign : 'center' }}
                                   >
                                     <img
@@ -84,9 +86,17 @@ render(){
                                       {content.title ? content.title : ''}
                                       </p>
                                     </h5>
-                                    <p><span className="text-muted"><i className="material-icons mr-1">person</i>{content.owner ? content.owner.fullname : ''}</span></p>
-                                    <p>{content.price? <span className="text-success">₦ {content.price}</span> : ""}</p>
-                                  </CardBody>
+                                    <div className="card-text d-inline-block mb-0 pb-0">
+                                        {/* <Truncate lines={2} ellipsis={<span className="mb-0">... <p className="link pointer blue mb-0 pb-0" id={content.id}>show more</p></span>}>
+                                            {content.description}
+                                        </Truncate> */}
+                                        <ReadMore children={content.description} id={content.id}/>
+                                    </div>
+                                    </CardBody>
+                                  <CardFooter className="mt-0 pt-2">
+                                  <span className="text-muted mb-1 pb-0"><i className="material-icons mr-1">person</i>{content.owner ? content.owner.fullname : ''}</span><br/>
+                                    {content.price? <b><i className="material-icons mr-1">money</i><span className="text-muted">₦{content.price}</span></b> : ""}
+                                  </CardFooter>
                                 </Card>
                               </Col>
                                 

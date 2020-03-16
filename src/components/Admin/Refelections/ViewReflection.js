@@ -71,7 +71,7 @@ class ViewReflection extends Component {
                         <Col lg="7" md="12" sm="12">
                         {this.state.edit ? 
                             <>
-                                <UpdateReflection reflection={reflection}/>
+                                <UpdateReflection reflection={reflection} edit={this.handleEdit}/>
                                 <Button theme="warning" type="submit" className="mt-2" onClick={this.handleEdit} disabled={requestPending}>
                                     cancel
                                 </Button>

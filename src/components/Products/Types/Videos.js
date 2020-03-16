@@ -1,6 +1,7 @@
 import React from 'react';
 import Loader from '../../Loaders/Loader';
-import { Container, Row, Col, Card, CardBody, Badge} from "shards-react"
+import { Container, Row, Col, Card, CardBody, Badge, CardFooter} from "shards-react";
+import ReadMore from '../../ReadMore/ReadMore';
 
 class Video extends React.Component{
     constructor(){
@@ -49,15 +50,23 @@ render(){
                                     </Badge>
                                    
                                   </div>
-                                  <CardBody>
+                                  <CardBody className="mb-0 pb-0">
                                     <h5 className="card-title">
                                       <p className="text-fiord-blue link pointer">
                                       {content.title ? content.title : ''}
                                       </p>
                                     </h5>
-                                    <p><span className="text-muted"><i className="material-icons mr-1">person</i>{content.owner ? content.owner.fullname : ''}</span></p>
-                                    <p>{content.price? <span className="text-success">₦ {content.price}</span> : ""}</p>
-                                  </CardBody>
+                                    <div className="card-text d-inline-block mb-0 pb-0">
+                                        {/* <Truncate lines={2} ellipsis={<span className="mb-0">... <p className="link pointer blue mb-0 pb-0" id={content.id}>show more</p></span>}>
+                                            {content.description}
+                                        </Truncate> */}
+                                        <ReadMore children={content.description} id={content.id}/>
+                                    </div>
+                                    </CardBody>
+                                  <CardFooter className="mt-0 pt-2">
+                                    <span className="text-muted mb-1 pb-0"><i className="material-icons mr-1">person</i>{content.owner ? content.owner.fullname : ''}</span><br/>
+                                    {content.price? <b><i className="material-icons mr-1">money</i><span className="text-muted">₦{content.price}</span></b> : ""}
+                                  </CardFooter>
                                 </Card>
                               </Col>
                                 

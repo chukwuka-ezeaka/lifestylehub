@@ -257,7 +257,8 @@ render(){
         let type = "";
         if(response.status === "success"){
             type = "success";
-            _http.notify(response.message, type)
+            _http.notify(response.message, type);
+            this.getReflections();
         }else{
             type = "warn";
             _http.notify(response.message, type)

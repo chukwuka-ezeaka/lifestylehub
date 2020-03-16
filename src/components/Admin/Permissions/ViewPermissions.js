@@ -2,6 +2,7 @@ import React from 'react';
 import Loader from '../../Loaders/Loader';
 import {Card, CardHeader, CardBody, Button } from "shards-react"
 import HttpService from '../../../utils/API';
+import { confirmAlert } from 'react-confirm-alert';
 
 const _http = new HttpService();
 
@@ -63,7 +64,7 @@ render(){
                                     <td>{permission.name}</td>
                                     <td>{permission.id}</td>
                                     <td>
-                                        <Button size="sm" theme="warning" className="mb-2 mr-1" id={permission.id}>
+                                        <Button size="sm" theme="warning" className="mb-2 mr-1" onClick={this.handleDelete} id={permission.id}>
                                             Delete
                                         </Button>
                                     </td>
@@ -91,6 +92,42 @@ getPermissions = () => {
         this.setState({ errorMessage: response.message, loading: false })
     })
 }
+
+handleDelete = (event) => {
+    const roleId = event.target.id;
+   confirmAlert({
+       title: 'Confirm Delete',
+       message: 'Are you sure you want to delete this role?',
+       buttons: [
+         {
+           label: 'Yes',
+           onClick: () => this.deletePermission(roleId)
+         },
+         {
+           label: 'No',
+           
+         }
+       ]
+     });
+ }
+
+ deletePermission = (id) => {
+     const url = `account/permission/${id}`;
+     this.setState({requestPending: true});
+   _http.sendDelete(url)
+   .then(response => {
+        this.setState({requestPending: false});
+        let type = "";
+        if(response.status === "success"){
+            type = "success";
+            _http.notify(response.message, type)
+            this.getPermissions();
+        }else{
+            type = "warn";
+            _http.notify(response.message, type)
+        }
+   })
+ }
 }
 
 export default ViewPermissions;

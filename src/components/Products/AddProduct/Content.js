@@ -12,7 +12,9 @@ import {
   FormSelect,
   Button,
   Col,
-  Row
+  Row,
+  InputGroup,
+  InputGroupAddon
 } from "shards-react";
 import HttpService from "../../../utils/API";
 import LoaderSmall from "../../Loaders/LoaderSmall"
@@ -25,12 +27,16 @@ class Content extends React.Component{
         this.state ={
             title: '',
             description: '',
-            category: 0,
+            category: null,
             requestPending: false,
             loading: false,
             errMessage: '',
             categories: [],
-            disable: false
+            disable: false,
+            authors: null,
+            filter: '',
+            searchQuery: null,
+            author: null
         }
     }
 
@@ -72,16 +78,98 @@ class Content extends React.Component{
         this.setState({disable: true})
     }
 
+    searchFilter = (e) => {
+        let filter = e.target.value;
+         return this.setState({filter: filter});
+      }
+      
+      searchInput = (e) => {
+        let value = e.target.value;
+       this.setState({ searchQuery: value });
+      } 
+      
+      getFilteredAuthorList() {
+        return !this.state.searchQuery || !this.state.authors
+        ? null
+        : this.state.authors.filter(user => {
+            switch(this.state.filter){
+              case "name":
+                  return  user.firstname.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                          user.lastname.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+              // case "username":
+              //     return  user.username.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+              case "email":
+                  return  user.email.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+              default:
+               return user.firstname.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                      user.lastname.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                      //user.username.toLowerCase().includes(this.state.searchQuery.toLowerCase()) ||
+                      user.email.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+            }
+           
+        }
+          );
+      }  
+      
+      selectAuthor = (author) => {
+          if(author.category){
+          this.setState({
+              category: author.category.id,
+              author: author.id,
+              searchQuery: null
+        })
+          document.getElementById('author').value = author.firstname + " " + author.lastname;
+        }else{
+            _http.notify("Selected author doesn't belong to any category")
+            this.setState({
+                category: null,
+                author: null,
+                searchQuery: null
+          })
+          document.getElementById('author').value = '';
+        }
+    }
+
+      componentDidMount() {
+        if(this.props.user.UserRole.roleId === 75){
+          this.getAuthors();
+        }
+      }
+
     render(){
         const { title, user } = this.props;
-        console.log(user)
         let author= "";
         let message = null;
         if(user.UserRole.roleId === 75){
-            author = <FormGroup>
+            const authorList = this.getFilteredAuthorList();
+            author = <>
+            <FormGroup>
                 <label htmlFor="title">Author Name</label>
-                <FormInput id="Title" type="text" placeholder="Author" />
+                <InputGroup className="mb-3">
+                        <FormInput type="text" id="author" placeholder="search for authors based on filter..." onInput={this.searchInput}/>
+                        <InputGroupAddon type="append">
+                        <FormSelect onChange={this.searchFilter}>
+                        <option vlaue="all">All</option>
+                        <option value="name">Name</option>
+                        {/* <option value="username">Username</option> */}
+                        <option value="email">Email</option>
+                        </FormSelect> 
+                        </InputGroupAddon>
+                    </InputGroup>
             </FormGroup>
+            <ul style={{border : '0.2px solid grey'}}>
+                {authorList ?
+                authorList.map((author, idx) => {
+                   if(this.state.filter === 'email'){
+                        return idx < 5 ? <li key={idx} onClick={() => this.selectAuthor(author)} className="link pointer dim">{author.email}</li> : null
+                    }else{
+                        return idx < 5 ? <li key={idx} onClick={() => this.selectAuthor(author)} className="link pointer dim">{author.firstname} {author.lastname}</li> : null
+                    }
+                })
+            :
+            null}
+            </ul>
+            </>
         }
 
         if(user.category === null){
@@ -163,8 +251,8 @@ class Content extends React.Component{
                 if(res.data){
                     const payload = {
                         "content_media_id" : res.data.id,
-                        "owner_id" : this.props.user.id,
-                        "category_id" : this.props.user.category.id,
+                        "owner_id" : this.state.author ? this.state.author : this.props.user.id,
+                        "category_id" : this.state.category ? this.state.category : this.props.user.category.id,
                         "content_type_id" : 7,
                         "title" : this.state.title,
                         "description" : this.state.description,
@@ -193,6 +281,20 @@ class Content extends React.Component{
                 });
                 }
             });
+        }
+
+        getAuthors = () => {
+            const url = `account/user/list?role=99`
+          
+            _http.sendGet(url)
+            .then(response => {
+              if(response.status === 'success'){
+                this.setState({ authors: response.data, loading: false})
+              }else{
+              this.setState({ loading: false})
+              _http.notify(response.message);
+              }
+            })
         }
     }
 
