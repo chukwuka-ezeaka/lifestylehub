@@ -5,20 +5,19 @@ const cors = require("cors");
 const creds = require("./configs");
 
 const app = express();
+
 const port = 4444;
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(cors());
 
 app.listen(port, () => {
   console.log("We are live on port 4444");
 });
 
-app.get("/", (req, res) => {
-  res.send("Welcome");
-});
-
-app.post("/api/v1", (req, res) => {
+app.post("/send", (req, res) => {
   var data = req.body;
 
   var smtpTransport = nodemailer.createTransport({
@@ -32,7 +31,7 @@ app.post("/api/v1", (req, res) => {
 
   var mailOptions = {
     from: data.email,
-    to: "RECIEVING_EMAIL_GOES_HERE",
+    to: "RECEIVER_EMAIL",
     subject: "New Message from Contact Form",
     html: `<p>${data.name}</p>
       <p>${data.email}</p>
