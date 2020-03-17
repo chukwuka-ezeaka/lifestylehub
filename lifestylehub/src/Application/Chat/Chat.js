@@ -247,6 +247,12 @@ class Chat extends Component {
     });
   }
 
+  toggleModal() {
+    this.setState({
+      error: false
+    });
+  }
+
   render() {
     let chatBoxProps = this.state.showChatBox
       ? {
@@ -293,6 +299,7 @@ class Chat extends Component {
           <ErrorModal
             show={this.state.error}
             errorMessage={this.state.errorMessage}
+            onToggle={this.toggleModal.bind(this)}
           />
           <LoadingModal show={this.state.loading} />
           <NotificationContainer />

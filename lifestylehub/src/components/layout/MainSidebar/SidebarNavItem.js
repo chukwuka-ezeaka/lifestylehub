@@ -10,6 +10,8 @@ import {
 } from "shards-react";
 import "./SidebarNavItem.css";
 
+import { Dispatcher, Constants } from "../../../flux";
+
 class SidebarNavItem extends React.Component {
   constructor(props) {
     super(props);
@@ -18,8 +20,15 @@ class SidebarNavItem extends React.Component {
       visible: false
       // user: localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : {}
     };
+    this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
 
     this.toggleUserActions = this.toggleUserActions.bind(this);
+  }
+
+  handleToggleSidebar() {
+    Dispatcher.dispatch({
+      actionType: Constants.TOGGLE_SIDEBAR
+    });
   }
 
   toggleUserActions() {
@@ -38,7 +47,11 @@ class SidebarNavItem extends React.Component {
       >
         {item.subMenu === "" ? (
           <li>
-            <NavLink tag={RouteNavLink} to={item.to}>
+            <NavLink
+              tag={RouteNavLink}
+              to={item.to}
+              onClick={this.handleToggleSidebar}
+            >
               {item.htmlBefore && (
                 <div
                   className="d-inline-block item-icon-wrapper"
@@ -79,6 +92,7 @@ class SidebarNavItem extends React.Component {
                     tag={RouteNavLink}
                     to={menu.to}
                     className="px-5 "
+                    onClick={this.handleToggleSidebar}
                   >
                     {menu.htmlBefore && (
                       <div
