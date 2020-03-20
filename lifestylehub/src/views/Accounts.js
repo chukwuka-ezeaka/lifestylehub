@@ -1,19 +1,27 @@
 import React from "react";
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from "shards-react";
+<<<<<<< HEAD:lifestylehub/src/views/Accounts.js
 import HttpService from '../API';
+=======
+<<<<<<< HEAD:src/views/Accounts.js
+//import HttpService from '../utils/API';
+=======
+import HttpService from '../API';
+>>>>>>> homefeature:lifestylehub/src/views/Accounts.js
+>>>>>>> master:src/views/Accounts.js
 
 import PageTitle from "../components/common/PageTitle";
-import Invite from "../components/Admin/Accounts/Invite";
-import Purchase from "../components/Admin/Accounts/Purchase";
-import Downloads from "../components/Admin/Accounts/Downloads";
+import Purchase from "../components/Accounts/Purchase";
+import Earnings from "../components/Accounts/Earnings";
+import Settings from "../components/Accounts/Settings";
 
-const _http = new HttpService();
+//const _http = new HttpService();
 
 const views = {
-  showDownloads: false,
+  showEarnings: false,
   showPurchase: false,
-  showInvite: false
+  showSettings: false
 }
 
 class Accounts extends React.Component {
@@ -32,17 +40,17 @@ class Accounts extends React.Component {
 
 showContent = (handle) => {
   switch(handle){
-    case '/accounts/downloads':
-      this.setState({showViews: {showDownloads: true}})
+    case '/accounts/earnings':
+      this.setState({showViews: {showEarnings: true}})
       break;
     case '/accounts/purchase':
       this.setState({showViews: {showPurchase: true}})
       break;
-    case '/account/invite':
-      this.setState({showViews: {showInvite: true}})
+    case '/account/settings':
+      this.setState({showViews: {showSettings: true}})
       break;
     default:
-      this.setState({showViews: {showInvite: true}})
+      this.setState({showViews: {showSettings: true}})
       break;
   }
 }
@@ -71,7 +79,7 @@ abortController = new window.AbortController();
 
   render(){
     const {loading, errorMessage } = this.state;
-    const {showDownloads, showPurchase, showInvite} = this.state.showViews;
+    const {showEarnings, showPurchase, showSettings} = this.state.showViews;
     return(
       <Container fluid className="main-content-container px-4 pb-4">
          <Row noGutters className="page-header py-4">
@@ -80,15 +88,15 @@ abortController = new window.AbortController();
         <Row>
           <Col lg="12" md="12">
             {
-            showDownloads ? 
-            <Downloads error={errorMessage} loading={loading}/>
+            showEarnings ? 
+            <Earnings error={errorMessage} loading={loading}/>
               :
                 showPurchase ?
                 <Purchase error={errorMessage} loading={loading}/>
                 :
-                  showInvite ?
-                  <Invite error={errorMessage} loading={loading}/>
-                  :
+                showSettings?
+                <Settings />
+                :
                  null
             }
             
