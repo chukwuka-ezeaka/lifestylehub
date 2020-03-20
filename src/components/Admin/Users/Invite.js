@@ -14,10 +14,10 @@ import {
   FormSelect,
   FormTextarea
 } from "shards-react";
-import HttpService from "../../../utils/API";
-import LoaderSmall from "../../Loaders/LoaderSmall";
+//import HttpService from "../../../utils/API";
+//import LoaderSmall from "../../Loaders/LoaderSmall";
 
-const _http = new HttpService();
+//const _http = new HttpService();
 
 class Invite extends React.Component{
     constructor(){

@@ -32,7 +32,7 @@ class ViewReflection extends Component {
         this.getReflection(params.id);
     }
     render() { 
-        const {reflection, loading, requestPending, edit} = this.state;
+        const {reflection, loading, requestPending,} = this.state;
        // console.log(audio);
         return ( 
             <Container className="mt-4">

@@ -98,7 +98,6 @@ class Signin extends React.Component {
                 </div>
 
                 <div className="w-100">
-                  {this.state.disabled === true ? <LoaderSmall /> : ""}
                   <p className="p-0" style={{ color: "brown" }}>
                     {this.state.errMessage}
                   </p>

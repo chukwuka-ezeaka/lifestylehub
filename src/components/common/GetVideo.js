@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import ReactPlayer from 'react-player'
-import HttpService from '../../utils/API';
-
-const _http = new HttpService();
+import ReactPlayer from 'react-player';
 
 class GetVideo extends Component {
     state = { video: '' }

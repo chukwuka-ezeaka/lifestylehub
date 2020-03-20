@@ -10,10 +10,7 @@ import {
   FormTextarea,
   Button,
 } from "shards-react";
-import HttpService from "../../utils/API";
 import LoaderSmall from "../Loaders/LoaderSmall";
-
-const _http = new HttpService();
 
 class CreatePost extends React.Component{
     constructor(){

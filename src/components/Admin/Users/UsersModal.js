@@ -32,9 +32,9 @@ class UsersModal extends React.Component{
   }
 
   handleRole = (event) => {
-    this.setState({
-      loading: true
-   });
+  //   this.setState({
+  //     loading: true
+  //  });
     const userId = event.target.id;
     const roleId = event.target.value;
     const payload = {
@@ -96,8 +96,8 @@ componentWillUnmount = () => {
 abortController = new window.AbortController(); 
 
 render(){
-  const {toggle, open, user, updateProfile} = this.props;
-  const { roles, loading } = this.state;
+  const {toggle, open, user, updateProfile, pending} = this.props;
+  const { roles } = this.state;
   
       return (
         <div>
@@ -105,7 +105,7 @@ render(){
             <ModalHeader toggle={toggle}>
               {open ? user.firstname + " " + user.lastname : ''}
                   <div>
-                    {loading ? <LoaderSmall /> : ''}
+                    {pending ? <LoaderSmall /> : ''}
                     <InputGroup className="mb-3">
                       <InputGroupAddon type="prepend">
                         <InputGroupText className="bg-green text-white">Role</InputGroupText>

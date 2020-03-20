@@ -1,8 +1,6 @@
 import React from 'react';
 import Loader from '../Loaders/Loader';
-import { confirmAlert } from 'react-confirm-alert';
 import { withRouter } from 'react-router-dom';
-import Truncate from 'react-truncate';
 import { 
     Container, 
     Row, 
@@ -11,11 +9,10 @@ import {
     CardBody,
     CardFooter,
     Button
-} from "shards-react"
-import HttpService from '../../utils/API';
+} from "shards-react";
 import GetImage from '../common/getImage';
 
-const _http = new HttpService();
+
 
 class Post extends React.Component{
     constructor(props){

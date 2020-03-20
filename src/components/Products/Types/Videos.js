@@ -2,18 +2,38 @@ import React from 'react';
 import Loader from '../../Loaders/Loader';
 import { Container, Row, Col, Card, CardBody, Badge, CardFooter} from "shards-react";
 import ReadMore from '../../ReadMore/ReadMore';
+import SingleMedia from './SingleMediaModal';
 
 class Video extends React.Component{
-    constructor(){
-        super();
-        this.state={
-            
-        }
+  constructor(props){
+    super(props);
+    this.state={
+       currentMedia: null,
+        open: false
     }
+}
 
-
+    toggleModal = (event) => {
+      
+      if(event){
+        
+       let mediaId = event.target.id;
+       console.log(mediaId)
+       this.setState({
+          open: !this.state.open,
+          currentMedia: this.props.contents[mediaId]
+       });
+   }
+     // return this.state.open
+      
+   }
 render(){
     const { contents, error, loading } = this.props;
+    let showModal = '';
+    //console.log(contents)
+    if(this.state.currentMedia !== null){
+         showModal = <SingleMedia media={this.state.currentMedia} toggle={this.toggleModal} open={this.state.open}/>;
+    }
     return(
 
         <Container className="mt-4">
@@ -24,9 +44,6 @@ render(){
                    Array.isArray(contents) && contents.length > 0 ?
                    <Row>
                     {contents.map((content, index)  => {
-                            //let userId = `#${user.id}`;
-                            //console.log(index);
-                           // console.log(content);
                             return(
                                 <Col lg="3" md="3" sm="12" className="mb-4" key={index}>
                                 <Card small className="card-post card-post--1" style={{'height': '100%'}}>
@@ -39,7 +56,8 @@ render(){
                                         src= {require("../../../images/covers/video.png")}
                                         alt={content.title}
                                         width="150px"
-                                        id={content.id}
+                                        id={index}
+                                        onClick={this.toggleModal}
                                         // onClick={this.viewReflections}
                                         />
                                     <Badge
@@ -79,6 +97,7 @@ render(){
                         <p className="text-center brown" style={{color: 'brown'}}>{error}</p>
                         : <p className="f4 fw6 text-center">You have no products of this type</p>
                 }
+                {showModal}
         </Container>
     );
 }

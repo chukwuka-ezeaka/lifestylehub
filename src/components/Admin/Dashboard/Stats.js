@@ -14,6 +14,9 @@ class Stats extends Component {
       case "users":
         this.props.history.push("/users/all");
         break;
+      case "admins":
+        this.props.history.push("/users/admins");
+        break;
       case "coaches":
         this.props.history.push("/users/coaches");
         break;
@@ -66,6 +69,10 @@ class Stats extends Component {
 
     const { users, loading } = this.props;
 
+    let admins = users.filter(user => {
+      return user.UserRole.roleId === 75;
+    });
+
     let vendors = users.filter(user => {
       return user.UserRole.roleId === 99;
     });
@@ -81,7 +88,7 @@ class Stats extends Component {
 
     return (
       <Row>
-        <Col className="col-lg mb-4 link pointer dim">
+        <Col className="col-lg col-md-4 col-sm-12 mb-4 link pointer dim">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
@@ -97,7 +104,23 @@ class Stats extends Component {
           </Card>
         </Col>
 
-        <Col className="col-lg mb-4 link pointer dim">
+        <Col className="col-lg col-md-4 col-sm-12 mb-4 link pointer dim">
+          <Card small className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="admins"
+              onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>Admins</span>
+                  <h6 className={valueClasses}> {loading ? <LoaderSmall/> : admins.length}</h6>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+
+        <Col className="col-lg col-md-4 col-sm-12 mb-4 link pointer dim">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
@@ -113,7 +136,7 @@ class Stats extends Component {
           </Card>
         </Col>
 
-        <Col className="col-lg mb-4 link pointer dim">
+        <Col className="col-lg col-md-4 col-sm-12 mb-4 link pointer dim">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
@@ -129,7 +152,7 @@ class Stats extends Component {
           </Card>
         </Col>
 
-        <Col className="col-lg mb-4 link pointer dim">
+        <Col className="col-lg col-md-4 col-sm-12 mb-4 link pointer dim">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
@@ -145,7 +168,7 @@ class Stats extends Component {
           </Card>
         </Col>
        
-        {/* <Col className="col-lg mb-4 link pointer dim">
+        {/* <Col className="col-lg col-md-4 col-sm-12 mb-4 link pointer dim">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}

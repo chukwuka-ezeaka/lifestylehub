@@ -82,7 +82,7 @@ render(){
                                   </div>
                                   <CardBody>
                                     <h5 className="card-title">
-                                      <p onClick={this.toggleModal} className="text-fiord-blue link pointer">
+                                      <p onClick={this.toggleModal} id={index} className="text-fiord-blue link pointer">
                                       {content.title ? content.title : ''}
                                       </p>
                                     </h5>

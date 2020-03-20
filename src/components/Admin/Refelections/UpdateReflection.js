@@ -181,7 +181,7 @@ class UpdateReflection extends React.Component{
                         "audio_link": audioRes.url,
 
                     }
-                    this.update(payload);
+                    return this.update(payload);
                 }
             }));
         }else if(image.files[0]){
@@ -197,7 +197,7 @@ class UpdateReflection extends React.Component{
                         "image_link": imageRes.url,
                         "audio_link": this.props.reflection.audio_link,
                     }
-                    this.update(payload);
+                   return this.update(payload);
                 }
             });
         }else if(audio.files[0]){
@@ -214,7 +214,7 @@ class UpdateReflection extends React.Component{
                         "audio_link": audioRes.url,
 
                     }
-                    this.update(payload);
+                   return this.update(payload);
                 }
             });
         }else{
@@ -227,7 +227,7 @@ class UpdateReflection extends React.Component{
                 "audio_link": this.props.reflection.audio_link,
 
             }
-            this.update(payload);
+            return this.update(payload);
         }
     }
 

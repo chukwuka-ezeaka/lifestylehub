@@ -11,13 +11,10 @@ import {
   Button,
   Col,
   Row,
-  // FormSelect,
-  // FormCheckbox,
-  // FormTextarea
 } from "shards-react";
-import HttpService from "../../utils/API";
+//import HttpService from "../../utils/API";
 
-const _http = new HttpService();
+//const _http = new HttpService();
 
 class Settings extends React.Component{
     constructor(){

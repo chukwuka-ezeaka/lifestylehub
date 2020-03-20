@@ -12,8 +12,8 @@ import HttpService from "../utils/API";
 const _http = new HttpService();
 
 class Dashboard extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       users: [],
       loading: true,

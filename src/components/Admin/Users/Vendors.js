@@ -12,7 +12,6 @@ import {
     FormSelect,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
 } from "shards-react"
 
 class Vendors extends React.Component{

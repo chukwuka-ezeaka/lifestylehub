@@ -10,12 +10,11 @@ import {
     CardBody,
     Badge,
     CardFooter,
-} from "shards-react"
-import HttpService from '../../../utils/API';
+} from "shards-react";
 import GetImage from '../../common/getImage';
 import ReadMore from '../../ReadMore/ReadMore';
 
-const _http = new HttpService();
+
 
 class Text extends React.Component{
     constructor(props){

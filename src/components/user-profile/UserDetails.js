@@ -68,7 +68,6 @@ handlePitch = () => {
 
   render() { 
     const { user, pending } = this.props;
-    console.log(user)
     const userDetails = {
         name:  user.firstname ? user.firstname + " " + user.lastname : " ",
         avatar: require("./../../images/avatars/0.png"),

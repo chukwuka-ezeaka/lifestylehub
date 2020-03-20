@@ -132,7 +132,7 @@ class Register extends React.Component {
         }}
         render={({ errors, touched, setFieldValue }) => (
           <article className="br3 mv4 w-100 w-50 w-25-1 mw6 center">
-            <Form className="pa4">
+            <Form className="px-0">
               <div className="measure">
                 <fieldset id="register" className="register-box">
                   <div className="label">
