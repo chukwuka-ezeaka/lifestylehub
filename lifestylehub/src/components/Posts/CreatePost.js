@@ -10,7 +10,7 @@ import {
   FormTextarea,
   Button,
 } from "shards-react";
-import HttpService from "../../utils/API";
+import HttpService from "../../API";
 import LoaderSmall from "../Loaders/LoaderSmall";
 
 const _http = new HttpService();

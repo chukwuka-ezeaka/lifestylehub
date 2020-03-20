@@ -7,7 +7,7 @@ import PageTitle from "../components/common/PageTitle";
 import Stats from "../components/Admin/Dashboard/Stats";
 import UsersByDevice from "../components/Admin/Dashboard/UsersByRoles";
 import Notifications from "../components/Admin/Dashboard/Notifications";
-import HttpService from "../utils/API";
+import HttpService from "../API";
 
 const _http = new HttpService();
 

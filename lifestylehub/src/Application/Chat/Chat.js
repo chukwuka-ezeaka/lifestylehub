@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Modal, ModalHeader, ModalBody } from "shards-react";
+import { Row, Col } from "shards-react";
 import HttpService from "../../utils/API";
 import "./Chat.css";
 import UserList from "../../components/applications/UserList";

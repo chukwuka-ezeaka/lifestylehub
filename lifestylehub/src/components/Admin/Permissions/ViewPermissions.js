@@ -1,7 +1,7 @@
 import React from 'react';
 import Loader from '../../Loaders/Loader';
 import {Card, CardHeader, CardBody, Button } from "shards-react"
-import HttpService from '../../../utils/API';
+import HttpService from '../../../API';
 
 const _http = new HttpService();
 

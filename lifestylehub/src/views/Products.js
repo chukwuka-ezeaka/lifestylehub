@@ -8,7 +8,7 @@ import Category from '../components/Products/Category/Category';
 import Media from '../components/Products/AddProduct/Media';
 import Content from '../components/Products/AddProduct/Content';
 import Stats from '../components/Products/Stats';
-import HttpService from "../utils/API";
+import HttpService from "../API";
 import Audio from "../components/Products/Types/Audios";
 import Video from "../components/Products/Types/Videos";
 import Ebook from "../components/Products/Types/Ebooks";

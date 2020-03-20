@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import LoaderSmall from "../Loaders/LoaderSmall";
-import HttpService from "../../utils/API";
+import HttpService from "../../API";
 
 const _http = new HttpService();
 

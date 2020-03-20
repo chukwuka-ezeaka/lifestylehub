@@ -3,7 +3,7 @@ import ReactAudioPlayer from 'react-audio-player';
 import { withRouter } from 'react-router-dom';
 import queryString from 'querystring';
 import { Container, Row, Col, Card, CardHeader, CardBody, FormTextarea, FormGroup, Button, FormInput } from "shards-react";
-import HttpService from '../../../utils/API';
+import HttpService from '../../../API';
 import LoaderSmall from '../../Loaders/LoaderSmall';
 import UpdateReflection from './UpdateReflection';
 

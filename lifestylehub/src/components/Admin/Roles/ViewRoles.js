@@ -3,7 +3,7 @@ import Loader from '../../Loaders/Loader';
 import { confirmAlert } from 'react-confirm-alert';
 import LoaderSmall from '../../Loaders/LoaderSmall';
 import {Card, CardHeader, CardBody, Button, Collapse, ListGroupItem, ListGroup, ListGroupItemHeading } from "shards-react"
-import HttpService from '../../../utils/API';
+import HttpService from '../../../API';
 
 const _http = new HttpService();
 

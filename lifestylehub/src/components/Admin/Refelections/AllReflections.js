@@ -5,7 +5,7 @@ import LoaderSmall from '../../Loaders/LoaderSmall';
 import { withRouter } from 'react-router-dom';
 import Truncate from 'react-truncate';
 import { Container, Row, Col, Card, CardHeader, CardBody, Button } from "shards-react"
-import HttpService from '../../../utils/API';
+import HttpService from '../../../API';
 import GetImage from '../../common/getImage';
 
 const _http = new HttpService();
