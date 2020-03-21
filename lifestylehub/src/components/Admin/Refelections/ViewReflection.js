@@ -32,9 +32,12 @@ class ViewReflection extends Component {
     render() { 
 <<<<<<< HEAD:lifestylehub/src/components/Admin/Refelections/ViewReflection.js
 <<<<<<< HEAD:lifestylehub/src/components/Admin/Refelections/ViewReflection.js
+<<<<<<< HEAD:lifestylehub/src/components/Admin/Refelections/ViewReflection.js
         const {reflection, image, image_type, audio, audio_type, requestPending, edit} = this.state;
         
 =======
+=======
+>>>>>>> parent of 1afa491... changed to routing to hasrouter:src/components/Admin/Refelections/ViewReflection.js
 =======
 >>>>>>> parent of 1afa491... changed to routing to hasrouter:src/components/Admin/Refelections/ViewReflection.js
         const {reflection, loading, requestPending, edit} = this.state;
