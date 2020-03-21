@@ -10,7 +10,11 @@ import {
   FormTextarea,
   Button,
 } from "shards-react";
+<<<<<<< HEAD:lifestylehub/src/components/Posts/CreatePost.js
 import HttpService from "../../API";
+=======
+import HttpService from "../../utils/API";
+>>>>>>> parent of 1afa491... changed to routing to hasrouter:src/components/Posts/CreatePost.js
 import LoaderSmall from "../Loaders/LoaderSmall";
 
 const _http = new HttpService();

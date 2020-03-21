@@ -93,22 +93,34 @@ componentDidUpdate(prevProps, prevState){
 
 
 updateRole = (payload) => {
-    this.setState({
-      requestPending: true
-  });
+  //   this.setState({
+  //     loading: true
+  // });
+    //console.log(userId, value)
+    // const payload = {
+    //   user_id: userId,
+    //   role_id: roleId
+    // }
+
     const url = "account/user/role/assign";
 
     _http.sendPost(url, payload)
     .then(response => {
-      console.log(response)
       this.setState({ requestPending: false });
-      let type = "";
-      if(response.status === "success"){
-          type = "success";
-          _http.notify(response.message, type)
+      if(response.data ){
+          this.setState({requestPending: true});
+          let type = "";
+          if(response.status === "success"){
+              type = "success";
+              _http.notify(response.message, type)
+          }else{
+              type = "warn";
+              _http.notify(response.message, type)
+          }
+      
       }else{
-          type = "warn";
-          _http.notify(response.message, type)
+          _http.notify(response.message)
+          this.setState({requestPending: false })
       }
   });
 

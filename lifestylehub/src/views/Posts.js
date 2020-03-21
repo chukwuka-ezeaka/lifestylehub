@@ -66,7 +66,7 @@ componentWillUnmount = () => {
 };
 
   render(){
-    const {loading, posts } = this.state;
+    const {loading, errorMessage, posts } = this.state;
     const { showPosts, showCreatePost } = this.state.showViews;
     //console.log(posts)
     const show = <>

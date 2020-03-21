@@ -1,11 +1,15 @@
 import React from "react";
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from "shards-react";
+<<<<<<< HEAD:lifestylehub/src/views/Accounts.js
 <<<<<<< HEAD:src/views/Accounts.js
 //import HttpService from '../utils/API';
 =======
 import HttpService from '../API';
 >>>>>>> homefeature:lifestylehub/src/views/Accounts.js
+=======
+import HttpService from '../utils/API';
+>>>>>>> parent of 1afa491... changed to routing to hasrouter:src/views/Accounts.js
 
 import PageTitle from "../components/common/PageTitle";
 import Purchase from "../components/Accounts/Purchase";

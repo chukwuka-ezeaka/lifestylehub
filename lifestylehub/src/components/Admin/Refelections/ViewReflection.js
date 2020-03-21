@@ -30,8 +30,13 @@ class ViewReflection extends Component {
         this.getReflection(params.id);
     }
     render() { 
+<<<<<<< HEAD:lifestylehub/src/components/Admin/Refelections/ViewReflection.js
         const {reflection, image, image_type, audio, audio_type, requestPending, edit} = this.state;
         
+=======
+        const {reflection, loading, requestPending, edit} = this.state;
+       // console.log(audio);
+>>>>>>> parent of 1afa491... changed to routing to hasrouter:src/components/Admin/Refelections/ViewReflection.js
         return ( 
             <Container className="mt-4">
             <Row>
