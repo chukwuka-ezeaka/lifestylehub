@@ -55,9 +55,9 @@ class Posts extends React.Component {
   componentWillUnmount = () => {
     this.unlisten();
   };
+  render(){
+    const {loading, errorMessage, posts } = this.state;
 
-  render() {
-    const { loading, errorMessage } = this.state;
     const { showPosts, showCreatePost } = this.state.showViews;
 
     return (

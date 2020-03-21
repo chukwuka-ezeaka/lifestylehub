@@ -83,6 +83,44 @@ class UsersOverview extends React.Component {
     }
   }
 
+}
+
+
+
+updateRole = (payload) => {
+  //   this.setState({
+  //     loading: true
+  // });
+    //console.log(userId, value)
+    // const payload = {
+    //   user_id: userId,
+    //   role_id: roleId
+    // }
+
+    const url = "account/user/role/assign";
+
+    _http.sendPost(url, payload)
+    .then(response => {
+      this.setState({ requestPending: false });
+      if(response.data ){
+          this.setState({requestPending: true});
+          let type = "";
+          if(response.status === "success"){
+              type = "success";
+              _http.notify(response.message, type)
+          }else{
+              type = "warn";
+              _http.notify(response.message, type)
+          }
+      
+      }else{
+          _http.notify(response.message)
+          this.setState({requestPending: false })
+      }
+  });
+
+}
+
   componentWillUnmount = () => {
     this.abortController.abort();
     this.unlisten();

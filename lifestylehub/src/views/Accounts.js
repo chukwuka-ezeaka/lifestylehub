@@ -1,7 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { Container, Row, Col } from "shards-react";
-import HttpService from "../API";
+import HttpService from '../utils/API';
+
 
 import PageTitle from "../components/common/PageTitle";
 import Purchase from "../components/Accounts/Purchase";

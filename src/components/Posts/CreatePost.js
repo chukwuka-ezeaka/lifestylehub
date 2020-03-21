@@ -10,19 +10,7 @@ import {
   FormTextarea,
   Button,
 } from "shards-react";
-<<<<<<< HEAD:lifestylehub/src/components/Posts/CreatePost.js
-<<<<<<< HEAD:lifestylehub/src/components/Posts/CreatePost.js
-<<<<<<< HEAD:lifestylehub/src/components/Posts/CreatePost.js
-import HttpService from "../../API";
-=======
 import HttpService from "../../utils/API";
->>>>>>> parent of 1afa491... changed to routing to hasrouter:src/components/Posts/CreatePost.js
-=======
-import HttpService from "../../utils/API";
->>>>>>> parent of 1afa491... changed to routing to hasrouter:src/components/Posts/CreatePost.js
-=======
-import HttpService from "../../utils/API";
->>>>>>> parent of 1afa491... changed to routing to hasrouter:src/components/Posts/CreatePost.js
 import LoaderSmall from "../Loaders/LoaderSmall";
 
 const _http = new HttpService();
@@ -48,26 +36,6 @@ class CreatePost extends React.Component{
         this.setState({tags: event.target.value});
     }
 
-   /* checkMimeType=(event)=>{
-        //getting file object
-        let file = event.target.file[0] 
-        //define message container
-        let err = ''
-        // list allow mime type
-       const types = ['image/png', 'image/jpeg', 'image/gif']
-         // compare file type find doesn't matach
-             if (types.every(type => file.type !== type)) {
-             // create error message and assign to container   
-             err += file.type+' is not a supported format\n';
-           }
-       if (err !== '') { // if message not same old that mean has error 
-            event.target.value = null // discard selected file
-            console.log(err)
-             return false; 
-        }
-       return true;
-      
-      }*/
 
     render(){
         const { title } = this.props;
@@ -93,7 +61,7 @@ class CreatePost extends React.Component{
 
                    <FormGroup className="mb-0">
                     <Button theme="accent" type="submit" disabled={this.state.requestPending}>
-                    {this.state.requestPending  ? <LoaderSmall/>: 'Publish'}
+                    {this.props.pending  ? <LoaderSmall/>: 'Publish'}
                     </Button>
                     </FormGroup>
                 </Form>
@@ -104,32 +72,13 @@ class CreatePost extends React.Component{
 
     handlePublish = (event) => {
         event.preventDefault();
-        this.setState({requestPending: true});
 
         const payload = {
             "content": this.state.content,
             "tags": this.state.tags,
 	        "status": "publish"
         }
-        const url = 'post/create';
-        _http.sendPost(url, payload)
-        .then(response => {
-            this.setState({ requestPending: false });
-            if(response.data ){
-                let type = "";
-                if(response.status === "success"){
-                    type = "success";
-                    _http.notify(response.message, type)
-                }else{
-                    type = "warn";
-                    _http.notify(response.message, type)
-                }
-            
-            }else{
-                _http.notify(response.message)
-                this.setState({requestPending: false })
-            }
-        });
+      this.props.publish(payload);
         }
     }
 
