@@ -10,7 +10,7 @@ import {
     Button,
     FormCheckbox
   } from "shards-react";
-import HttpService from '../../../API';
+import HttpService from '../../../utils/API';
 
   const _http = new HttpService();
   const addPermissions = [];

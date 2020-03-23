@@ -13,7 +13,7 @@ import {
     FormTextarea,
     Form
   } from "shards-react";
-import HttpService from '../../../API';
+import HttpService from '../../../utils/API';
 
 const _http = new HttpService()
 class Category extends Component {
@@ -130,7 +130,7 @@ class Category extends Component {
             _http.sendPost(imageUrl, imageData)
             .then(response => {
                 let  imageRes = response.data;
-                console.log(imageRes)
+               // console.log(imageRes)
                 if(imageRes.status === 1){
                     const payload = {
                         "name": this.state.name,

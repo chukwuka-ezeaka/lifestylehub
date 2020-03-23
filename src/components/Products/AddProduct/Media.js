@@ -11,9 +11,13 @@ import {
   Button,
   Col,
   Row,
-  FormSelect
+  FormSelect,
+  FormCheckbox,
+  InputGroupAddon,
+  InputGroup,
+  FormTextarea
 } from "shards-react";
-import HttpService from "../../../API";
+import HttpService from "../../../utils/API";
 import LoaderSmall from "../../Loaders/LoaderSmall";
 
 const _http = new HttpService();
@@ -22,17 +26,27 @@ class Media extends React.Component{
     constructor(){
         super();
         this.state ={
-            user: localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : {},
             title: '',
             type: 0,
             types:[],
-            category: 0,
+            category: null,
             categories:[],
             errorMessage: '',
             fileError: '',
             disable: false,
-            requestPending: false
+            requestPending: false,
+            checked: false,
+            price: null,
+            description: '',
+            authors: null,
+            filter: '',
+            searchQuery: null,
+            author: null
         }
+    }
+
+    toggle = () => {
+        this.setState({checked: !this.state.checked})
     }
   
     handleTitle = (event) => {
@@ -46,6 +60,14 @@ class Media extends React.Component{
 
     handleCategory = (event) => {
         this.setState({category: event.target.value});
+    }
+
+    handleDescription = (event) =>{
+        this.setState({description: event.target.value});                                                                                                      
+    }
+
+    handlePrice = (event) =>{
+        this.setState({price: event.target.value});                                                                                                      
     }
 
    checkMimeType=(event)=>{
@@ -90,10 +112,129 @@ class Media extends React.Component{
       
       }
 
+      categoryCheck = () => {
+          this.setState({disable: true})
+      }
+
+      searchFilter = (e) => {
+        let filter = e.target.value;
+         return this.setState({filter: filter});
+      }
+      
+      searchInput = (e) => {
+        let value = e.target.value;
+       this.setState({ searchQuery: value });
+      } 
+      
+      getFilteredAuthorList() {
+        return !this.state.searchQuery || !this.state.authors
+        ? null
+        : this.state.authors.filter(user => {
+            switch(this.state.filter){
+              case "name":
+                  return  user.firstname.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                          user.lastname.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+              // case "username":
+              //     return  user.username.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+              case "email":
+                  return  user.email.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+              default:
+               return user.firstname.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                      user.lastname.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                      //user.username.toLowerCase().includes(this.state.searchQuery.toLowerCase()) ||
+                      user.email.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+            }
+           
+        }
+          );
+      }  
+      
+      selectAuthor = (author) => {
+          if(author.category){
+          this.setState({
+              category: author.category.id,
+              author: author.id,
+              searchQuery: null
+        })
+          document.getElementById('author').value = author.firstname + " " + author.lastname;
+        }else{
+            _http.notify("Selected author doesn't belong to any category")
+            this.setState({
+                category: null,
+                author: null,
+                searchQuery: null
+          })
+          document.getElementById('author').value = '';
+        }
+    }
+
+      componentDidMount() {
+        if(this.props.user.UserRole.roleId === 75){
+          this.getAuthors();
+        }
+      }
+
 
     render(){
-        const { title } = this.props;
-        const { types, user, categories, requestPending, disable, fileError} = this.state;
+        
+        const { user, title } = this.props;
+        const {requestPending, disable, fileError} = this.state;
+        let author= "";
+        let message = "";
+        let paymentFeild = null;
+
+        if(user.UserRole.roleId === 75){
+            const authorList = this.getFilteredAuthorList();
+            author = <>
+            <FormGroup>
+                <label htmlFor="title">Author Name</label>
+                <InputGroup className="mb-3">
+                        <FormInput type="text" id="author" placeholder="search for authors based on filter..." onInput={this.searchInput}/>
+                        <InputGroupAddon type="append">
+                        <FormSelect onChange={this.searchFilter}>
+                        <option vlaue="all">All</option>
+                        <option value="name">Name</option>
+                        {/* <option value="username">Username</option> */}
+                        <option value="email">Email</option>
+                        </FormSelect> 
+                        </InputGroupAddon>
+                    </InputGroup>
+            </FormGroup>
+            <ul style={{border : '0.2px solid grey'}}>
+                {authorList ?
+                authorList.map((author, idx) => {
+                   if(this.state.filter === 'email'){
+                        return idx < 5 ? <li key={idx} onClick={() => this.selectAuthor(author)} className="link pointer dim">{author.email}</li> : null
+                    }else{
+                        return idx < 5 ? <li key={idx} onClick={() => this.selectAuthor(author)} className="link pointer dim">{author.firstname} {author.lastname}</li> : null
+                    }
+                })
+            :
+            null}
+            </ul>
+            </>
+        }
+
+        if(user.category === null){
+            message = <p className="text-center text-danger">Please update your category under your profile to continue</p>;
+        }
+
+        if(this.state.checked){
+            paymentFeild = <Row>
+                <Col lg="6" md="6" className="pb-4">
+                    <FormGroup className="mb-0">
+                        <label htmlFor="price">Price</label>
+                        <InputGroup className="mb-3">
+                            <InputGroupAddon type="append">
+                            ₦
+                            </InputGroupAddon>
+                            <FormInput id="price" type="number" classplaceholder="Title" onChange={this.handlePrice} required/>
+                        </InputGroup>
+                    </FormGroup>
+                </Col>
+                </Row>
+        }
+
         return (
             <Row>
             <Col lg="8" className="pb-4">
@@ -104,12 +245,13 @@ class Media extends React.Component{
                 </CardHeader>
 
                 <CardBody className="d-flex flex-column">
+                    {message}
                 <Form onSubmit={this.handlePublish}>
                     <Row>
                         <Col md="6">
                         <FormGroup>
                             <label htmlFor={user.id}>Product type</label>
-                            <FormSelect id={user.id} onChange={this.handleType} required>
+                            <FormSelect id={user.id} onChange={this.handleType} required disabled={user.category === null}>
                             <option>Select...</option>
                             <option value='1'>Video</option>
                             <option value='5'>Audio</option>
@@ -120,34 +262,38 @@ class Media extends React.Component{
                         <Col md="6" className="pb-4">
                         <FormGroup>
                             <label htmlFor={user.id}>Category</label>
-                            <FormSelect id={user.id} onChange={this.handleCategory} onClick={this.getCategory} required>
-                                {categories ? categories.map((category)  => {
-                                return(
-                                    <option key={category.id} value={category.id}>{category.name}</option>
-                                )
-                                })
-                            : <LoaderSmall/>}
-                            </FormSelect>
+                        <FormInput defaultValue={user.category ? user.category.name : ''} required disabled/>
                         </FormGroup>
                         </Col>
                     </Row>     
                     <FormGroup>
                         <label htmlFor="title">Title</label>
-                        <FormInput id="Title" type="text" placeholder="Title" onChange={this.handleTitle} required/>
+                        <FormInput id="Title" type="text" placeholder="Title" onChange={this.handleTitle} required disabled={user.category === null}/>
                      </FormGroup>
-
+                     <FormGroup>
+                            <label htmlFor="description">Description</label>
+                            <FormTextarea rows="5"placeholder="main body..." onChange={this.handleDescription} required disabled={user.category === null}/>
+                        </FormGroup>
                     <Row>
                     <Col md="6">
                     <FormGroup>
                         <label htmlFor="coverImage">Select File</label>
-                        <FormInput id="file" type="file" onChange={this.checkMimeType} required/>
+                        <FormInput id="file" type="file" onChange={this.checkMimeType} required disabled={user.category === null}/>
                         {fileError ? <p className="f8 red">{fileError}</p> : ''}
                         </FormGroup>
                     </Col>
                     </Row>
+                    {author}
+                    
+                    <fieldset>
+                        <FormCheckbox toggle onChange={this.toggle} small checked={this.state.checked} disabled={user.category === null}>
+                            Sell product on store
+                        </FormCheckbox>
+                    </fieldset>
+                    {paymentFeild}
                     <FormGroup className="mb-0">
                     <Button theme="accent" type="submit" disabled={disable}>
-                       {requestPending ? <LoaderSmall/> : 'Publish Media'}
+        {requestPending ? <span>uploading <LoaderSmall/></span> : 'Publish Media'}
                     </Button>
                     </FormGroup>
                 </Form>
@@ -173,8 +319,8 @@ class Media extends React.Component{
                 mediaType = 'video';
             }                   
             if(type === 4){
-                url = 'media/manager/ebook/single/create';
-                mediaType = 'ebook';
+                url = 'media/manager/pdf/single/create';
+                mediaType = 'pdf';
             }                  
             if(type === 5){
                 url = 'media/manager/audio/single/create';
@@ -187,22 +333,36 @@ class Media extends React.Component{
             const data = new FormData();
             data.append('title', this.state.title)
             data.append('description', this.state.title)
-            data.append('category_id', this.state.category)
+            data.append('category_id', this.props.user.category.id)
             data.append(mediaType, file.files[0])
 
             //post data
             _http.sendPost(url, data)
             .then(res => {
-                console.log(res)
+                //console.log(res)
                 if(res.data){
-                    const payload = {
-                        "url" : res.data.url,
-                        "owner_id" : this.state.user.id,
-                        "category_id" : this.state.category,
-                        "type_id" : parseInt(this.state.type)
+                    let payload = {};
+                    const data = {
+                        "content_media_id" : res.data.id,
+                        'title': this.state.title,
+                        'description' : this.state.description,
+                        "owner_id" : this.state.author ? this.state.author : this.props.user.id,
+                        "category_id" : this.state.category ? this.state.category : this.props.user.category.id,
+                        "content_type_id" : parseInt(this.state.type),
+                        
+                    }
+                    if(this.state.price){
+                        payload={
+                            ...data,
+                            "price": this.state.price
+                        }
+                    }else{
+                        payload={
+                            ...data
+                        }
                     }
 
-                const mediaUrl = 'content/media/create';
+                const mediaUrl = 'content/create';
 
                 //post media data
                 _http.sendPost(mediaUrl, payload)
@@ -241,14 +401,18 @@ class Media extends React.Component{
             })
         }
 
-        getCategory = () => {
-            const url = 'content/category/list';
+        getAuthors = () => {
+            const url = `account/user/list?role=99`
+          
             _http.sendGet(url)
             .then(response => {
-                response.data ?
-                this.setState({ errorMessage: '', categories: response.data, loading: false })
-                :
-                this.setState({ errorMessage: response.message, loading: false })
+             console.log(response)
+              if(response.status === 'success'){
+                this.setState({ authors: response.data, loading: false})
+              }else{
+              this.setState({ loading: false})
+              _http.notify(response.message);
+              }
             })
         }
 

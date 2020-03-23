@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
+import classNames from "classnames";
 import {
     Row,
     Col,
     Card,
     CardBody
 } from 'shards-react';
-import HttpService from '../../API';
+import LoaderSmall from '../Loaders/LoaderSmall';
 
-const _http = new HttpService();
 class Stats extends Component {
     constructor(){
         super();
         this.state={
             // user: localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : {},
             // contents: [],
-            // media: []
+            // contents: []
         }
     }
 
@@ -35,6 +34,9 @@ class Stats extends Component {
             case 'ebooks':
                 this.props.history.push('/products/ebooks');
                 break;
+            case 'text':
+                this.props.history.push('/products/text');
+                break;
             default:
                 this.props.history.push('#');
                 break;
@@ -47,88 +49,160 @@ class Stats extends Component {
     }
 
     render() { 
-        const { media, contents } = this.props;
-        let products, contentLength = 0;
-        let video, audio, ebook = [];
-       (contents) && (contents.length > 0) ? contentLength = contents.length : contentLength = 0;
-        if((media) && (media.length > 0)){
-            products = media.length + contentLength;
+        const variation ="1";
+        const cardClasses = classNames(
+          "stats-small",
+          variation && `stats-small--${variation}`
+        );
+    
+        const cardBodyClasses = classNames(
+          variation === "1" ? "p-0 d-flex" : "px-0 pb-0"
+        );
+    
+        const innerWrapperClasses = classNames(
+          "d-flex",
+          variation === "1" ? "flex-column m-auto" : "px-3"
+        );
+    
+        const dataFieldClasses = classNames(
+          "stats-small__data",
+          variation === "1" && "text-center"
+        );
+    
+        const labelClasses = classNames(
+          "stats-small__label",
+          "text-uppercase",
+          variation !== "1" && "mb-1"
+        );
+    
+        const valueClasses = classNames(
+          "stats-small__value",
+          "count",
+          variation === "1" ? "my-3" : "m-0"
+        );
 
-            video = media.filter(media => {
-                if(media.media_type){
-                    return media.media_type.id === 1;
-                }
+        const {contents, loading } = this.props;
+        let products = 0
+        let video= [];
+         let audio= [];
+        let ebook = [];
+        let text = [];
+        
+      // Array.isArray(contents) && (contents.length > 0) ? contentLength = contents.length : contentLength = 0;
+        if(Array.isArray(contents) && (contents.length > 0)){
+            products = contents.length;
+            video = contents.filter(content => {
+                return content.content_type.id === 1;
             });
 
-            audio = media.filter(media => {
-                if(media.media_type){
-                    return media.media_type.id === 5;
-                }
+            audio = contents.filter(content => {
+                return content.content_type.id === 5;
             });
             
-            ebook = media.filter(product => {
-                if(media.media_type){
-                    return media.media_type.id === 4;
-                }
+            ebook = contents.filter(content => {
+                return content.content_type.id === 4;
             });
+
+            text = contents.filter(content => {
+                return content.content_type.id === 7;
+          });
         }
         return ( 
             <Row >
-                <Col lg="12" md="12" sm="12" className="mb-4">
-                    <Card>
-                        <CardBody className="text-center text white link dim pointer f4 fw6 bg-success" id="products">
-                            <h5 className="text white">All</h5>
-                            {products}
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col lg="3" md="6" sm="6" className="mb-4">
-                    <Card>
-                        <CardBody className="text-center text white f4 fw6 bg-warning link dim pointer" id="videos" onClick={this.changeRoute}>
-                            <h5 className="text white">Videos</h5>
-                            {video ? video.length : 0}
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col lg="3" md="6" sm="6" className="mb-4">
-                    <Card>
-                        <CardBody className="text-center text white f4 fw6 bg-info link bg-animate dim pointer" id="audios" onClick={this.changeRoute}>
-                            <h5 className="text white">Audios</h5>
-                            {audio ? audio.length : 0}
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col lg="3" md="6" sm="6" className="mb-4">
-                    <Card>
-                        <CardBody className="text-center text white f4 fw6 bg-dark link dim pointer" id="ebooks" onClick={this.changeRoute}>
-                            <h5 className="text white">Ebooks</h5>
-                            {ebook ? ebook.length : 0}
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col lg="3" md="6" sm="6" className="mb-4">
-                    <Card>
-                        <CardBody className="text-center text white f4 fw6 bg-primary link dim pointer" id="ebooks" onClick={this.changeRoute}>
-                            <h5 className="text white">Contents</h5>
-                            {contents ? contents.length : 0}
-                        </CardBody>
-                    </Card>
-                </Col>
+                 <Col className="col-lg col-md-2 col-sm-2 mb-4 link pointer dim">
+          <Card className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="all"
+            onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>All</span>
+                  <h6 className={valueClasses}> {loading ? <LoaderSmall/> : products}</h6>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+
+        <Col className="col-lg col-md-2 col-sm-2 mb-4 link pointer dim">
+          <Card className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="audios"
+              onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>Audios</span>
+                  <h6 className={valueClasses}> {loading ? <LoaderSmall/> : audio.length}</h6>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+
+        <Col className="col-lg col-md-2 col-sm-2 mb-4 link pointer dim">
+          <Card className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="videos"
+            onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>Videos</span>
+                  <h6 className={valueClasses}> {loading ? <LoaderSmall/> : video.length}</h6>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+
+        <Col className="col-lg col-md-2 col-sm-2 mb-4 link pointer dim">
+          <Card className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="ebooks"
+            onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>Ebooks</span>
+                  <h6 className={valueClasses}> {loading ? <LoaderSmall/> : ebook.length}</h6>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+       
+        <Col className="col-lg col-md-2 col-sm-2 mb-4 link pointer dim">
+          <Card className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="text"
+              onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>Text</span>
+                  <h6 className={valueClasses}> {loading ? <LoaderSmall/> : text.length}</h6>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
             </Row>
          );
     }
 
     // getContents = () => {
-    //     const mediaUrl = `content/media/list?owner_id=${this.state.user.id}`;
+    //     const contentsUrl = `content/contents/list?owner_id=${this.state.user.id}`;
     //     const contentUrl= `content/list?owner_id=${this.state.user.id}`;
     //     axios.all([
-    //       _http.sendGet(mediaUrl),
+    //       _http.sendGet(contentsUrl),
     //       _http.sendGet(contentUrl)
     //       ])
     //       .then(axios.spread((response1, response2)=> {
     //         //   console.log(response1.data)
     //         //   console.log(response2.data)
-    //         this.setState({media: response1.data, contents: response2.data})
+    //         this.setState({contents: response1.data, contents: response2.data})
     //       }))
     //   }
 }

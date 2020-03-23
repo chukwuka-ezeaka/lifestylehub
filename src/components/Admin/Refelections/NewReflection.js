@@ -14,7 +14,7 @@ import {
   Col,
   Row
 } from "shards-react";
-import HttpService from "../../../API";
+import HttpService from "../../../utils/API";
 
 const _http = new HttpService();
 
@@ -172,8 +172,8 @@ class NewReflection extends React.Component{
             .then(axios.spread((response1, response2)=> {
                 let  audioRes = response1.data;
                 let  imageRes = response2.data;
-                console.log(audioRes)
-                console.log(imageRes)
+               // console.log(audioRes)
+               // console.log(imageRes)
                 if(audioRes.status === 1 && imageRes.status === 1){
                     const payload = {
                         "title": this.state.title,

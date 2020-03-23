@@ -10,6 +10,8 @@ import {
 } from "shards-react";
 import "./SidebarNavItem.css";
 
+import { Dispatcher, Constants } from "../../../flux";
+
 class SidebarNavItem extends React.Component {
   constructor(props) {
     super(props);
@@ -18,8 +20,15 @@ class SidebarNavItem extends React.Component {
       visible: false
       // user: localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : {}
     };
+    this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
 
     this.toggleUserActions = this.toggleUserActions.bind(this);
+  }
+
+  handleToggleSidebar() {
+    Dispatcher.dispatch({
+      actionType: Constants.TOGGLE_SIDEBAR
+    });
   }
 
   toggleUserActions() {
@@ -31,14 +40,19 @@ class SidebarNavItem extends React.Component {
     const { visible } = this.state;
     const { item } = this.props;
     return (
-      <NavItem
-        className="pointer nav-caret"
-        tag={Dropdown}
-        toggle={this.toggleUserActions}
-      >
+      <>
         {item.subMenu === "" ? (
+          <NavItem
+          className="pointer nav-caret"
+          tag={Dropdown}
+          toggle={this.toggleUserActions}
+        >
           <li>
-            <NavLink tag={RouteNavLink} to={item.to}>
+            <NavLink
+              tag={RouteNavLink}
+              to={item.to}
+              onClick={this.handleToggleSidebar}
+            >
               {item.htmlBefore && (
                 <div
                   className="d-inline-block item-icon-wrapper"
@@ -54,7 +68,14 @@ class SidebarNavItem extends React.Component {
               )}
             </NavLink>
           </li>
+      </NavItem>
         ) : (
+          <>
+            <NavItem
+            className="pointer nav-caret"
+            tag={Dropdown}
+            toggle={this.toggleUserActions}
+          >
           <li>
             <DropdownToggle tag={NavLink} to={item.to}>
               {item.htmlBefore && (
@@ -71,14 +92,26 @@ class SidebarNavItem extends React.Component {
                 />
               )}
             </DropdownToggle>
-            <Collapse open={visible} style={{ background: "transparent" }}>
+            
+          </li>
+          </NavItem>
+            <Collapse open={visible} className="colapse" style={{ background: "transparent" }}>
+            
               {item.subMenu.map((menu, index) => {
                 return (
+                  <NavItem
+                  key={index}
+                  className="pointer nav-caret colapse"
+                  tag={Dropdown}
+                  toggle={this.toggleUserActions}
+                >
+            <li>
                   <NavLink
                     key={index}
                     tag={RouteNavLink}
                     to={menu.to}
                     className="px-5 "
+                    onClick={this.handleToggleSidebar}
                   >
                     {menu.htmlBefore && (
                       <div
@@ -96,12 +129,15 @@ class SidebarNavItem extends React.Component {
                       />
                     )}
                   </NavLink>
+                  </li>
+                  </NavItem>
                 );
               })}
+              
             </Collapse>
-          </li>
+          </>
         )}
-      </NavItem>
+      </>
     );
   }
 }

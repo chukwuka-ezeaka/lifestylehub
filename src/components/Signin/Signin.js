@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import LoaderSmall from "../Loaders/LoaderSmall";
-import HttpService from "../../API";
+import HttpService from "../../utils/API";
 
 const _http = new HttpService();
 
@@ -56,11 +56,12 @@ class Signin extends React.Component {
                       case 99:
                         localStorage.setItem("user", userData);
                         localStorage.setItem("Auth", response.token);
-                        this.props.history.push("/products/allProducts");
+                        this.props.history.push(`/vendor`);
                         break;
                       default:
                         this.setState({
-                          errMessage: "Please login on the mobile app"
+                          errMessage: "Please login on the mobile app",
+                           disabled: false
                         });
                         break;
                     }
@@ -97,7 +98,6 @@ class Signin extends React.Component {
                 </div>
 
                 <div className="w-100">
-                  {this.state.disabled === true ? <LoaderSmall /> : ""}
                   <p className="p-0" style={{ color: "brown" }}>
                     {this.state.errMessage}
                   </p>
@@ -140,12 +140,12 @@ class Signin extends React.Component {
                 </div>
               </fieldset>
               <div className="button-box">
-                <input
-                  className="b ph3 pv2 input-reset ba bg-transparent grow pointer f6"
-                  type="submit"
-                  value="Sign In"
-                  disabled={this.state.disabled}
-                />
+              <button
+                    className="b ph3 pv2 input-reset ba bg-transparent grow pointer f6"
+                    type="submit"
+                    value="signinr"
+                    disabled={this.state.disabled}
+                  >{this.state.disabled ? <LoaderSmall/> : 'Sign In'}</button>
               </div>
             </Form>
           </article>

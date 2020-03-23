@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import { Container, Row, Col } from "shards-react";
 
 import PageTitle from "../components/common/PageTitle";
-//import ChatApp from "../Application/Chat/Chat";
+import ChatApp from "../Application/Chat/Chat";
 
 const views = {
   showChatApp: false
@@ -63,7 +63,7 @@ class Chat extends React.Component {
         </Row>
         <Row>
           <Col lg="12" md="12">
-            {/* <ChatApp /> */}
+            <ChatApp />
           </Col>
         </Row>
       </Container>

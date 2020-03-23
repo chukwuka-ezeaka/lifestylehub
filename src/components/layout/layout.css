@@ -2,3 +2,46 @@
     background-color: #101010;
     padding: 20px 0 5px;
 }
+
+@media (min-width: 768px) {
+    .nav-link {
+        padding-right: .625rem;
+        padding-left: .625rem;
+    }
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, .5);
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, .5);
+}
+
+@media (min-width: 768px) {
+    .nav-link {
+        padding-right: .5rem;
+        padding-left: .5rem;
+    }
+}
+
+.nav-link {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.nav-link {
+    font-size: .8125rem;
+    font-weight: 400;
+}
+
+.nav-link {
+    padding: .625rem .625rem;
+    -webkit-transition: all 250ms cubic-bezier(.27, .01, .38, 1.06);
+    transition: all 250ms cubic-bezier(.27, .01, .38, 1.06);
+}
+
+.nav-link {
+    display: block;
+    padding: .5rem 1rem;
+}

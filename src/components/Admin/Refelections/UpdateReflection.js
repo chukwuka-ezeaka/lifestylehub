@@ -3,9 +3,6 @@ import PropTypes from "prop-types";
 import LoaderSmall from '../../Loaders/LoaderSmall';
 import axios from 'axios';
 import {
-  Card,
-  CardHeader,
-  CardBody,
   Form,
   FormGroup,
   FormInput,
@@ -14,7 +11,7 @@ import {
   Col,
   Row
 } from "shards-react";
-import HttpService from "../../../API";
+import HttpService from "../../../utils/API";
 
 const _http = new HttpService();
 
@@ -77,7 +74,7 @@ class UpdateReflection extends React.Component{
       }*/
 
     render(){
-        const { reflection, title } = this.props;
+        const { reflection} = this.props;
         return (
                 
             <Form onSubmit={this.handlePublish}>
@@ -184,7 +181,7 @@ class UpdateReflection extends React.Component{
                         "audio_link": audioRes.url,
 
                     }
-                    this.update(payload);
+                    return this.update(payload);
                 }
             }));
         }else if(image.files[0]){
@@ -200,7 +197,7 @@ class UpdateReflection extends React.Component{
                         "image_link": imageRes.url,
                         "audio_link": this.props.reflection.audio_link,
                     }
-                    this.update(payload);
+                   return this.update(payload);
                 }
             });
         }else if(audio.files[0]){
@@ -217,7 +214,7 @@ class UpdateReflection extends React.Component{
                         "audio_link": audioRes.url,
 
                     }
-                    this.update(payload);
+                   return this.update(payload);
                 }
             });
         }else{
@@ -230,7 +227,7 @@ class UpdateReflection extends React.Component{
                 "audio_link": this.props.reflection.audio_link,
 
             }
-            this.update(payload);
+            return this.update(payload);
         }
     }
 
@@ -244,6 +241,7 @@ class UpdateReflection extends React.Component{
                     if(response.status === "success"){
                         type = "success";
                         _http.notify(response.message, type)
+                        this.props.edit();
                     }else{
                         type = "warn";
                         _http.notify(response.message, type)

@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col } from "shards-react";
+//import { Container, Row, Col } from "shards-react";
 import Header from "./HomeComponents/Header";
 import FirstSection from "./HomeComponents/FirstSection";
 import SecoundSection from "./HomeComponents/SecoundSection";

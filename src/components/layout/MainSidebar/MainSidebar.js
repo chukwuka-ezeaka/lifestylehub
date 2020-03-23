@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Col } from "shards-react";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 
 import SidebarMainNavbar from "./SidebarMainNavbar";
 import SidebarSearch from "./SidebarSearch";
@@ -23,9 +23,9 @@ class MainSidebar extends React.Component {
   }
 
   componentWillMount() {
-      if(!localStorage.getItem('Auth')){
-        this.props.history.push('/signin');
-      }
+    if (!localStorage.getItem("Auth")) {
+      this.props.history.push("/signin");
+    }
     Store.addChangeListener(this.onChange);
   }
 
@@ -45,20 +45,20 @@ class MainSidebar extends React.Component {
     const classes = classNames(
       "main-sidebar",
       "px-0",
-      "col-12",
+      "col-8",
       this.state.menuVisible && "open"
     );
 
     return (
       <Col
-      style={{backgroundColor: "black"}}
+        style={{ backgroundColor: "black" }}
         tag="aside"
         className={classes}
         lg={{ size: 2 }}
         md={{ size: 3 }}
       >
         <SidebarMainNavbar hideLogoText={this.props.hideLogoText} />
-        <SidebarSearch />
+        {/* <SidebarSearch /> */}
         <SidebarNavItems />
       </Col>
     );
