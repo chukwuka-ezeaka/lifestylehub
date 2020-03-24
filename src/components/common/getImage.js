@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import HttpService from '../../API';
+import HttpService from '../../utils/API';
 
 const _http = new HttpService();
 class GetImage extends Component {
@@ -15,9 +15,9 @@ class GetImage extends Component {
         this.getImage(this.props.image);
     }
     render() { 
-        const {title, width} = this.props;
+        const {title, width, classname} = this.props;
         return ( 
-            <img src={`data:${this.state.type};base64,${this.state.image}`} alt={title}  width={width}/>
+            <img src={`data:${this.state.type};base64,${this.state.image}`} alt={title}  width={width} className={ classname ? classname: ''}/>
          );
     }
 
@@ -36,6 +36,7 @@ class GetImage extends Component {
                 console.log('Invalid media received')
             }
         })
+        .catch(error => console.log(error))
       }
 }
  

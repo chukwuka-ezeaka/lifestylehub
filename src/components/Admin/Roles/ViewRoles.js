@@ -3,7 +3,7 @@ import Loader from '../../Loaders/Loader';
 import { confirmAlert } from 'react-confirm-alert';
 import LoaderSmall from '../../Loaders/LoaderSmall';
 import {Card, CardHeader, CardBody, Button, Collapse, ListGroupItem, ListGroup, ListGroupItemHeading } from "shards-react"
-import HttpService from '../../../API';
+import HttpService from '../../../utils/API';
 
 const _http = new HttpService();
 
@@ -24,6 +24,10 @@ class ViewRoles extends React.Component{
       }
 
     componentDidMount = () => {
+        this.getRoles();
+    }
+
+    getRoles = () => {
         const url = "account/role/list";
         _http.sendGet(url)
         .then(response => {
@@ -33,7 +37,6 @@ class ViewRoles extends React.Component{
             this.setState({ errorMessage: response.message, isLoading: false })
         })
     }
-
     componentWillUnmount = () => this.abortController.abort();
 
     abortController = new window.AbortController(); 
@@ -149,7 +152,8 @@ handleDelete = (event) => {
         let type = "";
         if(response.status === "success"){
             type = "success";
-            _http.notify(response.message, type)
+            _http.notify(response.message, type);
+            this.getRoles();
         }else{
             type = "warn";
             _http.notify(response.message, type)

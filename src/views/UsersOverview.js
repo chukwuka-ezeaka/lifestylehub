@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { Container, Row, Col } from "shards-react";
-import HttpService from "../API";
+import HttpService from "../utils/API";
 
 import PageTitle from "../components/common/PageTitle";
 import Users from "../components/Admin/Users/Users";
@@ -9,6 +9,7 @@ import Vendors from "../components/Admin/Users/Vendors";
 import Admins from "../components/Admin/Users/Admins";
 import Subscribers from "../components/Admin/Users/Subscribers";
 import Coaches from "../components/Admin/Users/Coaches";
+import Loader from "../components/Loaders/Loader";
 
 const _http = new HttpService();
 
@@ -16,7 +17,8 @@ const views = {
   showVendors: false,
   showAdmin: false,
   showCoaches: false,
-  showSubscribers: false
+  showSubscribers: false,
+  showVendorCoaches: false
 };
 
 class UsersOverview extends React.Component {
@@ -27,14 +29,9 @@ class UsersOverview extends React.Component {
       loading: true,
       showViews: views,
       path: "",
-      errorMessage: ""
+      errorMessage: "",
+      requestPending: false
     };
-  }
-
-  componentWillMount() {
-    if (!localStorage.getItem("Auth")) {
-      this.props.history.push("/signin");
-    }
   }
 
   showContent = handle => {
@@ -51,6 +48,9 @@ class UsersOverview extends React.Component {
       case "/users/coaches":
         this.setState({ showViews: { showCoaches: true } });
         break;
+      case "/users/vendorCoaches":
+        this.setState({ showViews: { showVendorCoaches: true } });
+        break;
       default:
         this.setState({ showViews: { showUsers: true } });
         break;
@@ -64,6 +64,10 @@ class UsersOverview extends React.Component {
     const handle = this.props.location.pathname;
     this.showContent(handle);
 
+    this.getUser();
+  }
+
+  getUser = () => {
     const url = "account/user/list/with_roles";
     _http.sendGet(url).then(response => {
       response.data
@@ -74,7 +78,7 @@ class UsersOverview extends React.Component {
           })
         : this.setState({ errorMessage: response.message, loading: false });
     });
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.path !== this.state.path) {
@@ -84,32 +88,41 @@ class UsersOverview extends React.Component {
   }
 
   updateRole = payload => {
-    //   this.setState({
-    //     loading: true
-    // });
-    //console.log(userId, value)
-    // const payload = {
-    //   user_id: userId,
-    //   role_id: roleId
-    // }
-
+    this.setState({
+      requestPending: true
+    });
     const url = "account/user/role/assign";
 
     _http.sendPost(url, payload).then(response => {
+      console.log(response);
       this.setState({ requestPending: false });
-      if (response.data) {
-        this.setState({ requestPending: true });
-        let type = "";
-        if (response.status === "success") {
-          type = "success";
-          _http.notify(response.message, type);
-        } else {
-          type = "warn";
-          _http.notify(response.message, type);
-        }
+      let type = "";
+      if (response.status === "success") {
+        type = "success";
+        _http.notify(response.message, type);
       } else {
-        _http.notify(response.message);
+        type = "warn";
+        _http.notify(response.message, type);
+      }
+    });
+  };
+
+  updateProfile = (payload, id) => {
+    this.setState({ requestPending: true });
+    const url = `account/user/${id}`;
+    _http.sendPut(url, payload).then(response => {
+      this.setState({ requestPending: false, disable: false });
+      // if(response.data ){
+      let type = "";
+      if (response.status === "success") {
         this.setState({ requestPending: false });
+        type = "success";
+        _http.notify("Profile updated successfully", type);
+        this.getUser();
+      } else {
+        this.setState({ requestPending: false });
+        type = "warn";
+        _http.notify(response.message, type);
       }
     });
   };
@@ -122,40 +135,48 @@ class UsersOverview extends React.Component {
   abortController = new window.AbortController();
 
   render() {
-    const { users, loading, errorMessage } = this.state;
+    const { users, loading, errorMessage, requestPending } = this.state;
     const {
       showAdmin,
       showVendors,
       showCoaches,
       showSubscribers
     } = this.state.showViews;
-    let isEmpty = () => users.length > 0;
+    let notEmpty = () => users.length > 0;
 
-    let admins = isEmpty()
+    let admins = notEmpty()
       ? users.filter(user => {
           return user.UserRole.roleId === 75;
         })
       : users;
 
-    let vendors = isEmpty()
+    let vendors = notEmpty()
       ? users.filter(user => {
           return user.UserRole.roleId === 99;
         })
       : users;
 
-    let coaches = isEmpty()
-      ? users.filter(user => {
-          return user.UserRole.roleId === 100;
-        })
-      : users;
-
-    let subscribers = isEmpty()
+    let subscribers = notEmpty()
       ? users.filter(user => {
           return user.UserRole.roleId === 87;
         })
       : users;
 
-    return (
+    let coaches = notEmpty()
+      ? users.filter(user => {
+          return user.UserRole.roleId === 100 || user.UserRole.roleId === 103;
+        })
+      : users;
+
+    // let vendorCoaches = notEmpty() ? users.filter(user => {
+    //   return user.UserRole.roleId === 103;
+    // }) : users;
+
+    return loading ? (
+      <Container fluid className="main-content-container px-2 pb-4">
+        <Loader />
+      </Container>
+    ) : (
       <Container fluid className="main-content-container px-4 pb-4">
         <Row noGutters className="page-header py-4">
           <PageTitle
@@ -168,19 +189,50 @@ class UsersOverview extends React.Component {
         <Row>
           <Col lg="12" md="12">
             {showAdmin ? (
-              <Admins users={admins} error={errorMessage} loading={loading} />
+              <Admins
+                users={admins}
+                error={errorMessage}
+                profileUpdate={this.updateProfile}
+                pending={requestPending}
+                roleUpdate={this.updateRole}
+                loading={loading}
+              />
             ) : showVendors ? (
-              <Vendors users={vendors} error={errorMessage} loading={loading} />
+              <Vendors
+                users={vendors}
+                error={errorMessage}
+                profileUpdate={this.updateProfile}
+                pending={requestPending}
+                roleUpdate={this.updateRole}
+                loading={loading}
+              />
             ) : showSubscribers ? (
               <Subscribers
                 users={subscribers}
                 error={errorMessage}
+                ProfileUpdate={this.updateProfile}
+                pending={requestPending}
+                roleUpdate={this.updateRole}
                 loading={loading}
               />
             ) : showCoaches ? (
-              <Coaches users={coaches} error={errorMessage} loading={loading} />
+              <Coaches
+                users={coaches}
+                error={errorMessage}
+                profileUpdate={this.updateProfile}
+                pending={requestPending}
+                roleUpdate={this.updateRole}
+                loading={loading}
+              />
             ) : (
-              <Users users={users} error={errorMessage} loading={loading} />
+              <Users
+                users={users}
+                error={errorMessage}
+                profileUpdate={this.updateProfile}
+                pending={requestPending}
+                roleUpdate={this.updateRole}
+                loading={loading}
+              />
             )}
           </Col>
         </Row>

@@ -7,7 +7,7 @@ class ViewCategories extends React.Component{
 
 render(){
     const { categories, isLoading } = this.props;
-    console.log(categories)
+    //console.log(categories)
     const width = "70"
     let i = 1;
     return(

@@ -8,10 +8,10 @@ import { Modal, ModalBody, ModalHeader } from "shards-react";
  */
 
 export default class ErrorModal extends Component {
+  state = {};
   render() {
-    const { show, errorMessage, onToggle } = this.props;
     return (
-      <Modal open={show} toggle={onToggle}>
+      <Modal open={this.props.show}>
         <ModalHeader>Error</ModalHeader>
         <ModalBody className="text-center">
           {
@@ -19,7 +19,7 @@ export default class ErrorModal extends Component {
             //     <Glyphicon glyph="alert" />
             // </h1>
           }
-          {errorMessage}
+          {this.props.errorMessage}
         </ModalBody>
       </Modal>
     );

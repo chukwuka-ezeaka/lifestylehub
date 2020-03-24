@@ -1,78 +1,75 @@
 import React from "react";
-import axios from 'axios';
 import LoaderSmall from '../Loaders/LoaderSmall';
-import { toast } from 'react-toastify';
 import {
   Card,
   CardHeader,
   Button,
   ListGroup,
   ListGroupItem,
-  Progress, 
-  FormInput
+  FormInput,
+  Row,
+  Col,
+  InputGroup,
+  InputGroupAddon
 } from "shards-react";
+import GetImage from "../common/getImage";
+import GetVideo from "../common/GetVideo";
+import HttpService from "../../utils/API";
+
+const _http = new HttpService();
 
 class UserDetails extends React.Component {
   constructor(){
     super()
     this.state = {
       loading: false,
+      requestPending: false,
+      disabled: false,
       avatar: ''
     }
   }
 
-  notify = (message) => {
-    switch(this.state.type){
-      case "success":
-              toast.success(message);
-          break;
-      case "warn":
-          toast.warn("Error: " + message);
-          break;
-      default:
-          break;
-    }
-}
-
 handleUpload = () => {
  const image = document.getElementById('avatar');
  const formdata = new FormData();
+ if(image.files[0]){
   formdata.append("image", image.files[0], ".jpg");
-  this.setState({ loading: true })
-
-  axios.put('https://lshub.herokuapp.com/api/v1/user/profile/photo/', formdata,
-  { headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    Authorization : `Bearer ${localStorage.getItem('Auth')}`} 
-  })
-  .then(object => {
-    this.setState({ loading: false });
-    switch(object.data.status){
-      case "success":
-          this.setState({type: "success"});
-          this.notify(object.data.message); 
-      break;
-      case "fail":
-          this.setState({type: "warn"});
-          this.notify(object.data.message); 
-      break;
-      default:
-              this.setState({type: "warn"});
-          this.notify(object.data.message);
-      break;
-  }
-    console.log(object);
-  }, (error) => {
-    this.setState({ loading: false });
-    console.log(error);
-});
+  this.props.updatePhoto(formdata)
+ }
 }
 
+handlePitch = () => {
+  const file = document.getElementById('pitch');
+  const url = 'media/manager/video/single/create';
+  const formdata = new FormData();
+  if(file.files[0]){
+  this.setState({requestPending: true});
+   formdata.append("video", file.files[0]);
+
+   _http.sendPost(url, formdata)
+   .then(res => {
+       //console.log(res)
+       if(res.data){
+         console.log(res.data)
+           const payload = {
+               "pitch_video_link" : res.data.url,
+           }
+           this.setState({requestPending: false })
+           const id = this.props.user.id;
+           this.props.updateProfile(payload, id);
+       }else{
+           _http.notify(res.message)
+           this.setState({requestPending: false })
+       }
+   });
+  }
+ }
+
+
   render() { 
-    const { loading } = this.state;
-    const { user } = this.props;
+    const { user, pending } = this.props;
     const userDetails = {
-        name: user.fullname,
+        name:  user.firstname ? user.firstname + " " + user.lastname : " ",
         avatar: require("./../../images/avatars/0.png"),
         jobTitle: "Life Coach",
         performanceReportTitle: "Experience",
@@ -85,45 +82,65 @@ handleUpload = () => {
       <Card small className="mb-4 pt-3">
         <CardHeader className="border-bottom text-center">
           <div className="mb-3 mx-auto">
+          {user.photo ? 
+          <GetImage image={user.photo}   alt={userDetails.name} width="130px" classname="rounded-circle"/>
+          :
           <img
           className="rounded-circle"
           src={userDetails.avatar}
           alt={userDetails.name}
           width="110"
         />
+        }
           </div>
-          <FormInput size="sm"
+          <FormInput size="xs"
               id="avatar"
               type="file"
             />
-          <Button pill outline size="sm" className="mb-2 mt-2" onClick={this.handleUpload} disabled={loading}>
-            {loading? <LoaderSmall /> : 'Change Avatar'}
+          <Button pill outline size="sm" className="mb-2 mt-2" onClick={this.handleUpload} disabled={pending}>
+            {pending ? <LoaderSmall /> : 'Change Avatar'}
           </Button>
           <h4 className="mb-0">{userDetails.name}</h4>
-          <span className="text-muted d-block mb-2">{userDetails.jobTitle}</span>
         
         </CardHeader>
         <ListGroup flush>
-          <ListGroupItem className="px-4">
-            <div className="progress-wrapper">
-              <strong className="text-muted d-block mb-2">
-                {userDetails.performanceReportTitle}
-              </strong>
-              <Progress
-                className="progress-sm"
-                value={userDetails.performanceReportValue}
-              >
-                <span className="progress-value">
-                  {userDetails.performanceReportValue}%
-                </span>
-              </Progress>
-            </div>
-          </ListGroupItem>
+         
           <ListGroupItem className="p-4">
             <strong className="text-muted d-block mb-2">
-              {userDetails.metaTitle}
+              Pitch video
             </strong>
-            <span>{userDetails.metaValue}</span>
+            <div>
+           <GetVideo width="100%" video={user.pitch_video_link}/><br/>
+           </div>
+           <InputGroup className="mb-3">
+              <FormInput type="file" id="pitch"/>
+              <InputGroupAddon type="append">
+                {this.state.requestPending ?
+                 <Button className="btn btn-secondary btn-xs" disabled >Uploading...</Button>
+                :
+                <Button className="btn btn-secondary btn-xs px-1" onClick={this.handlePitch} disabled={pending}>Upload Pitch</Button>
+                }
+              </InputGroupAddon>
+          </InputGroup>
+          </ListGroupItem>
+        </ListGroup>
+
+        <ListGroup flush>
+          <ListGroupItem className="p-4">
+          <Row>
+            <Col lg="4" md="4" sm="4" xs="4" className="f7 text-primary fw4">
+              <i className="material-icons mr-1">person_add</i>0<br/>
+              <span>Followers</span>
+            </Col>
+            <Col md="4" sm="4" xs="4" className="f7 text-primary fw4">
+              <i className="material-icons mr-1">thumb_up</i>{user.likeCount}<br/>
+              <span>Likes</span>
+            </Col>
+            <Col md="4" sm="4" xs="4" className="f7 text-primary fw4">
+              <i className="material-icons mr-1">how_to_reg</i>{user.subscriptionCount}<br/>
+              <span>Subscriptions</span>
+            </Col>
+          </Row>
           </ListGroupItem>
         </ListGroup>
       </Card>

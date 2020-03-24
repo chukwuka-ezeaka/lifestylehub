@@ -12,25 +12,31 @@ import {
   FormSelect,
   Button,
   Col,
-  Row
+  Row,
+  InputGroup,
+  InputGroupAddon
 } from "shards-react";
-import HttpService from "../../../API";
+import HttpService from "../../../utils/API";
 import LoaderSmall from "../../Loaders/LoaderSmall"
 
 const _http = new HttpService();
 
 class Content extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state ={
-            user: localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : {},
             title: '',
             description: '',
-            category: 0,
+            category: null,
             requestPending: false,
             loading: false,
             errMessage: '',
-            categories: []
+            categories: [],
+            disable: false,
+            authors: null,
+            filter: '',
+            searchQuery: null,
+            author: null
         }
     }
 
@@ -45,6 +51,7 @@ class Content extends React.Component{
     handleCategory = (event) => {
         this.setState({category: event.target.value});
     }
+    
      
    /* checkMimeType=(event)=>{
         //getting file object
@@ -67,9 +74,108 @@ class Content extends React.Component{
       
       }*/
 
+      categoryCheck = () => {
+        this.setState({disable: true})
+    }
+
+    searchFilter = (e) => {
+        let filter = e.target.value;
+         return this.setState({filter: filter});
+      }
+      
+      searchInput = (e) => {
+        let value = e.target.value;
+       this.setState({ searchQuery: value });
+      } 
+      
+      getFilteredAuthorList() {
+        return !this.state.searchQuery || !this.state.authors
+        ? null
+        : this.state.authors.filter(user => {
+            switch(this.state.filter){
+              case "name":
+                  return  user.firstname.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                          user.lastname.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+              // case "username":
+              //     return  user.username.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+              case "email":
+                  return  user.email.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+              default:
+               return user.firstname.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                      user.lastname.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
+                      //user.username.toLowerCase().includes(this.state.searchQuery.toLowerCase()) ||
+                      user.email.toLowerCase().includes(this.state.searchQuery.toLowerCase());
+            }
+           
+        }
+          );
+      }  
+      
+      selectAuthor = (author) => {
+          if(author.category){
+          this.setState({
+              category: author.category.id,
+              author: author.id,
+              searchQuery: null
+        })
+          document.getElementById('author').value = author.firstname + " " + author.lastname;
+        }else{
+            _http.notify("Selected author doesn't belong to any category")
+            this.setState({
+                category: null,
+                author: null,
+                searchQuery: null
+          })
+          document.getElementById('author').value = '';
+        }
+    }
+
+      componentDidMount() {
+        if(this.props.user.UserRole.roleId === 75){
+          this.getAuthors();
+        }
+      }
+
     render(){
-        const { user, categories, loading} = this.state;
-        const { title } = this.props;
+        const { title, user } = this.props;
+        let author= "";
+        let message = null;
+        if(user.UserRole.roleId === 75){
+            const authorList = this.getFilteredAuthorList();
+            author = <>
+            <FormGroup>
+                <label htmlFor="title">Author Name</label>
+                <InputGroup className="mb-3">
+                        <FormInput type="text" id="author" placeholder="search for authors based on filter..." onInput={this.searchInput}/>
+                        <InputGroupAddon type="append">
+                        <FormSelect onChange={this.searchFilter}>
+                        <option vlaue="all">All</option>
+                        <option value="name">Name</option>
+                        {/* <option value="username">Username</option> */}
+                        <option value="email">Email</option>
+                        </FormSelect> 
+                        </InputGroupAddon>
+                    </InputGroup>
+            </FormGroup>
+            <ul style={{border : '0.2px solid grey'}}>
+                {authorList ?
+                authorList.map((author, idx) => {
+                   if(this.state.filter === 'email'){
+                        return idx < 5 ? <li key={idx} onClick={() => this.selectAuthor(author)} className="link pointer dim">{author.email}</li> : null
+                    }else{
+                        return idx < 5 ? <li key={idx} onClick={() => this.selectAuthor(author)} className="link pointer dim">{author.firstname} {author.lastname}</li> : null
+                    }
+                })
+            :
+            null}
+            </ul>
+            </>
+        }
+
+        if(user.category === null){
+            message = <p className="text-center text-danger">Please update your category under your profile to continue</p>;
+        }
+        
         return (
             <Row>
             <Col lg="8" className="pb-4">
@@ -80,39 +186,31 @@ class Content extends React.Component{
                     </CardHeader>
 
                     <CardBody className="d-flex flex-column">
-                    
+                    {message}
                     <Form onSubmit={this.handlePublish}>
                     <FormGroup>
                         <label htmlFor={user.id}>Category</label>
-                        <FormSelect id={user.id} onChange={this.handleCategory} onClick={this.getCategory} required>
-                        <option>Select...</option>
-                            {categories.map((category)  => {
-                            return(
-                                <option key={category.id} value={category.id}>{category.name}</option>
-                            )
-                            })
-                        }
-                        </FormSelect>
+                        <FormInput defaultValue={user.category ? user.category.name : ''} required disabled/>
                     </FormGroup>
                         <FormGroup>
                             <label htmlFor="Title">Title</label>
-                            <FormInput placeholder="Title" onChange={this.handleTitle} required/>
+                            <FormInput placeholder="Title" onChange={this.handleTitle} required disabled={user.category === null}/>
                         </FormGroup>
 
                         <FormGroup>
-                            <label htmlFor="description">Description</label>
-                            <FormTextarea placeholder="Description" onChange={this.handleDescription} required/>
+                            <label htmlFor="description">Main body</label>
+                            <FormTextarea rows="7"placeholder="main body..." onChange={this.handleDescription} required disabled={user.category === null}/>
                         </FormGroup>
 
                         <Row>
                         <Col md="6">
                         <FormGroup>
                             <label htmlFor="coverImage">Cover Image</label>
-                            <FormInput id="coverImage" placeholder="Image link" type="file" required/>
+                            <FormInput id="coverImage" placeholder="Image link" type="file" required disabled={user.category === null}/>
                             </FormGroup>
                         </Col>
                         <Col md="6">
-                    
+                        {author}
                         </Col>
                         </Row>
                         <FormGroup className="mb-0">
@@ -131,19 +229,7 @@ class Content extends React.Component{
             );
         }
 
-   
 
-        getCategory = () => {
-            const url = 'content/category/list';
-            this.setState({loading: true});
-            _http.sendGet(url)
-            .then(response => {
-                response.data ?
-                this.setState({ errorMessage: '', categories: response.data, loading: false })
-                :
-                this.setState({ errorMessage: response.message, loading: false })
-            })
-        }
 
         handlePublish = (event) => {
             event.preventDefault();
@@ -156,7 +242,7 @@ class Content extends React.Component{
             data.append('title', this.state.title)
             data.append('description', this.state.description)
             data.append('content_type_id', 7)
-            data.append('category_id', this.state.category)
+            data.append('category_id', this.props.user.category.id)
             data.append('image', file.files[0])
 
             //post image data
@@ -164,12 +250,13 @@ class Content extends React.Component{
             .then(res => {
                 if(res.data){
                     const payload = {
-                        "art_id" : res.data.id,
-                        "owner_id" : this.state.user.id,
-                        "category_id" : this.state.category,
+                        "content_media_id" : res.data.id,
+                        "owner_id" : this.state.author ? this.state.author : this.props.user.id,
+                        "category_id" : this.state.category ? this.state.category : this.props.user.category.id,
                         "content_type_id" : 7,
                         "title" : this.state.title,
-                        "description" : this.state.description
+                        "description" : this.state.description,
+                        // "content_art" : contnet_art
                     }
                     const contentUrl = 'content/create';
 
@@ -195,6 +282,20 @@ class Content extends React.Component{
                 }
             });
         }
+
+        getAuthors = () => {
+            const url = `account/user/list?role=99`
+          
+            _http.sendGet(url)
+            .then(response => {
+              if(response.status === 'success'){
+                this.setState({ authors: response.data, loading: false})
+              }else{
+              this.setState({ loading: false})
+              _http.notify(response.message);
+              }
+            })
+        }
     }
 
 Content.propTypes = {
@@ -205,7 +306,7 @@ Content.propTypes = {
 };
 
 Content.defaultProps = {
-  title: "New Content"
+  title: "New Text"
 };
 
 export default Content;

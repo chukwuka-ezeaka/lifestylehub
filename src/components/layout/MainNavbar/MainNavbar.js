@@ -18,9 +18,9 @@ const MainNavbar = ({ layout, stickyTop, user}) => {
     <div className={classes}>
       <Container className="p-0">
         <Navbar className="align-items-stretch flex-md-nowrap p-0">
-          <NavbarSearch />
-          <NavbarNav user={user}/>
+          {/* <NavbarSearch /> */}
           <NavbarToggle />
+          <NavbarNav user={user}/>
         </Navbar>
       </Container>
     </div>
