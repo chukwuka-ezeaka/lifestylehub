@@ -31,7 +31,9 @@ export default class UserList extends Component {
     return !this.state.searchQuery
       ? this.props.userData
       : this.props.userData.filter(user =>
-          user.name.toLowerCase().includes(this.state.searchQuery.toLowerCase())
+          user.firstname
+            .toLowerCase()
+            .includes(this.state.searchQuery.toLowerCase())
         );
   }
 
@@ -60,27 +62,24 @@ export default class UserList extends Component {
                 let lastMessage = f.messages[f.messages.length - 1];
                 date = new Date(lastMessage.timeStamp);
                 subtitle =
-                  (lastMessage.position === "right" ? "You: " : f.name + ": ") +
-                  lastMessage.text;
+                  (lastMessage.position === "right"
+                    ? "You: "
+                    : f.firstname + ": ") + lastMessage.text;
               }
               return {
                 // avatar: require(`../static/images/avatar/${f.id}.jpg`),
-                alt: f.name,
-                title: f.name,
+                alt: f.firstname,
+                title: f.firstname,
                 subtitle: subtitle,
                 date: date,
                 unread: f.unread,
                 user: f
               };
             })}
-            onClick={
-              !this.props.showSignInList
-                ? this.props.onChatClicked
-                : this.props.onUserClicked
-            }
+            onClick={this.props.onChatClicked}
           />
         ) : (
-          <div className="text-center no-users">No users to show.</div>
+          <div className="text-center no-users">No subscribers to show.</div>
         )}
       </div>
     );

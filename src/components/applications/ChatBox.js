@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, CardBody, CardTitle, CardSubtitle } from "shards-react";
+import { Card, CardBody, CardHeader, CardSubtitle } from "shards-react";
 import {
   FormInput,
   InputGroup,
@@ -29,6 +29,7 @@ export default class ChatBox extends Component {
   state = {
     messageText: ""
   };
+
   /**
    *
    * Sends a message only if it is not falsy.
@@ -40,9 +41,11 @@ export default class ChatBox extends Component {
     this.props.onSendClicked(this.state.messageText);
     this.setState({ messageText: "" });
   }
+
   onMessageInputChange(e) {
     this.setState({ messageText: e.target.value });
   }
+
   /**
    *
    * @param {KeyboardEvent} e
@@ -56,6 +59,7 @@ export default class ChatBox extends Component {
   }
 
   render() {
+    console.log(this.props.targetUser);
     return (
       <div>
         {this.props.targetUser ? (
@@ -63,18 +67,17 @@ export default class ChatBox extends Component {
             <NavbarComponent
               left={
                 <div>
-                  <Col mdhidden lghidden>
-                    <p className="navBarText">
-                      {
-                        //   <Glyphicon
-                        //   onClick={this.props.onBackPressed}
-                        //   glyph="chevron-left"
-                        // />
-                      }
-                    </p>
+                  <Col mdHidden lgHidden>
+                    <p className="navBarText"></p>
                   </Col>
-                  <Avatar alt={"logo"} size="large" type="circle flexible" />
-                  <p className="navBarText">{this.props.targetUser.name}</p>
+                  <Avatar
+                    alt={this.props.targetUser.firstname}
+                    size="large"
+                    type="circle flexible"
+                  />
+                  <p className="navBarText">
+                    {this.props.targetUser.firstname}
+                  </p>
                 </div>
               }
             />
@@ -91,10 +94,10 @@ export default class ChatBox extends Component {
                   value={this.state.messageText}
                   onChange={this.onMessageInputChange.bind(this)}
                   onKeyPress={this.onMessageKeyPress.bind(this)}
-                  placeholder="Type a message here (Limit 3000 characters)..."
+                  placeholder="Type a message here (Limit 200 characters)..."
                   ref="messageTextBox"
                   className="messageTextBox"
-                  maxLength="3000"
+                  maxLength="200"
                   autoFocus
                 />
                 <InputGroupAddon type="append">
@@ -111,11 +114,11 @@ export default class ChatBox extends Component {
             </FormGroup>
           </div>
         ) : (
-          <Card>
+          <Card className="text-center">
+            <CardHeader>
+              <h1>Hello, {(this.props.signedInUser || {}).fullname}!</h1>
+            </CardHeader>
             <CardBody>
-              <CardTitle>
-                <h1>Hello, {(this.props.signedInUser || {}).name}!</h1>
-              </CardTitle>
               <CardSubtitle>
                 <p>Select a friend to start a chat.</p>{" "}
               </CardSubtitle>

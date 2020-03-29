@@ -2,16 +2,17 @@ import React, { Component } from "react";
 import { Modal, ModalBody, ModalHeader } from "shards-react";
 // import Glyphicon from "react-bootstrap/Glyphicon";
 // import Modal from "react-bootstrap/lib/Modal";
+
 /**
  *
  * Renders a Error modal if app encounter any error.
  */
 
 export default class ErrorModal extends Component {
-  state = {};
   render() {
+    const { show, errorMessage, onToggle } = this.props;
     return (
-      <Modal open={this.props.show}>
+      <Modal open={show} toggle={onToggle}>
         <ModalHeader>Error</ModalHeader>
         <ModalBody className="text-center">
           {
@@ -19,7 +20,7 @@ export default class ErrorModal extends Component {
             //     <Glyphicon glyph="alert" />
             // </h1>
           }
-          {this.props.errorMessage}
+          {errorMessage}
         </ModalBody>
       </Modal>
     );

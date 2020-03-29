@@ -73,20 +73,19 @@ class UpdateReflection extends React.Component {
       
       }*/
 
-    render(){
-        const { reflection} = this.props;
-        return (
-                
-            <Form onSubmit={this.handlePublish}>
-                <FormGroup>
-                    <label htmlFor="Title">Title</label>
-                    <FormInput id="title" placeholder="Title" defaultValue={reflection.title} required/>
-                </FormGroup>
-
-                <FormGroup>
-                    <label>Content</label>
-                    <FormTextarea id="content" placeholder="Content" rows="10" defaultValue={reflection.content} required/>
-                </FormGroup>
+  render() {
+    const { reflection } = this.props;
+    return (
+      <Form onSubmit={this.handlePublish}>
+        <FormGroup>
+          <label htmlFor="Title">Title</label>
+          <FormInput
+            id="title"
+            placeholder="Title"
+            defaultValue={reflection.title}
+            required
+          />
+        </FormGroup>
 
         <FormGroup>
           <label>Content</label>
@@ -166,51 +165,30 @@ class UpdateReflection extends React.Component {
     const audioUrl = "media/manager/audio/single/create";
     const imageUrl = "media/manager/image/single/create";
 
-                    }
-                    return this.update(payload);
-                }
-            }));
-        }else if(image.files[0]){
-            _http.sendPost(imageUrl, imageData)
-            .then(response => {
-                let  imageRes = response.data;
-                if(imageRes.status === 1){
-                    const payload = {
-                        "title": title,
-                        "content": content,
-                        "author": author,
-                        "date": date,
-                        "image_link": imageRes.url,
-                        "audio_link": this.props.reflection.audio_link,
-                    }
-                   return this.update(payload);
-                }
-            });
-        }else if(audio.files[0]){
-            _http.sendPost(audioUrl, audioData)
-            .then(response => {
-                let  audioRes = response.data;
-                if(audioRes.status === 1){
-                    const payload = {
-                        "title": title,
-                        "content": content,
-                        "author": author,
-                        "date": date,
-                        "image_link": this.props.reflection.image_link,
-                        "audio_link": audioRes.url,
+    const audio = document.getElementById("audio");
+    const image = document.getElementById("coverImage");
+    const title = document.getElementById("title").value;
+    const content = document.getElementById("content").value;
+    const tags = document.getElementById("tags").value;
+    const author = document.getElementById("author").value;
+    const date = document.getElementById("date").value;
+    const audioData = new FormData();
+    const imageData = new FormData();
 
-                    }
-                   return this.update(payload);
-                }
-            });
-        }else{
-            const payload = {
-                "title": title,
-                "content": content,
-                "author": author,
-                "date": date,
-                "image_link": this.props.reflection.image_link,
-                "audio_link": this.props.reflection.audio_link,
+    if (audio.files[0]) {
+      audioData.append("title", title);
+      audioData.append("description", content);
+      audioData.append("tags", tags);
+      audioData.append("admin", 1);
+      audioData.append("audio", audio.files[0]);
+    }
+    if (image.files[0]) {
+      imageData.append("title", title);
+      imageData.append("description", content);
+      imageData.append("tags", tags);
+      imageData.append("admin", 1);
+      imageData.append("image", image.files[0]);
+    }
 
     if (image.files[0] && audio.files[0]) {
       axios
@@ -231,9 +209,23 @@ class UpdateReflection extends React.Component {
                 image_link: imageRes.url,
                 audio_link: audioRes.url
               };
-              this.update(payload);
+              return this.update(payload);
             }
-            return this.update(payload);
+          })
+        );
+    } else if (image.files[0]) {
+      _http.sendPost(imageUrl, imageData).then(response => {
+        let imageRes = response.data;
+        if (imageRes.status === 1) {
+          const payload = {
+            title: title,
+            content: content,
+            author: author,
+            date: date,
+            image_link: imageRes.url,
+            audio_link: this.props.reflection.audio_link
+          };
+          return this.update(payload);
         }
       });
     } else if (audio.files[0]) {
@@ -248,7 +240,7 @@ class UpdateReflection extends React.Component {
             image_link: this.props.reflection.image_link,
             audio_link: audioRes.url
           };
-          this.update(payload);
+          return this.update(payload);
         }
       });
     } else {
@@ -260,31 +252,23 @@ class UpdateReflection extends React.Component {
         image_link: this.props.reflection.image_link,
         audio_link: this.props.reflection.audio_link
       };
-      this.update(payload);
+      return this.update(payload);
     }
   };
 
-        update = (payload) => {
-            const reflectionUrl = `reflection/${this.props.reflection.id}`;
-            _http.sendPut(reflectionUrl, payload)
-            .then(response => {
-                this.setState({ requestPending: false });
-                if(response.data ){
-                    let type = "";
-                    if(response.status === "success"){
-                        type = "success";
-                        _http.notify(response.message, type)
-                        this.props.edit();
-                    }else{
-                        type = "warn";
-                        _http.notify(response.message, type)
-                    }
-                
-                }else{
-                    _http.notify(response.message)
-                    this.setState({requestPending: false })
-                }
-            });
+  update = payload => {
+    const reflectionUrl = `reflection/${this.props.reflection.id}`;
+    _http.sendPut(reflectionUrl, payload).then(response => {
+      this.setState({ requestPending: false });
+      if (response.data) {
+        let type = "";
+        if (response.status === "success") {
+          type = "success";
+          _http.notify(response.message, type);
+          this.props.edit();
+        } else {
+          type = "warn";
+          _http.notify(response.message, type);
         }
       } else {
         _http.notify(response.message);
