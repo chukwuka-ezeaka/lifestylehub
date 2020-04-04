@@ -1,8 +1,10 @@
 // import {BASE_URL, FAKE_BASE_URL} from "../actions/types";
+import React from 'react';
+import { Route, Redirect } from "react-router-dom";
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useAuth } from '../context/auth';
 //import {loadState,loadAppMode} from "../utils/localStorage";
-
 
 const BASE_URL = "https://lshub.herokuapp.com/api/v1/";
 
@@ -29,7 +31,8 @@ const networkError = (error) => {
         // that falls out of the range of 2xx
     if((error.response.data.message === "Unauthorized Access") || (error.response.data === "Unauthorized")){
             localStorage.clear();
-            window.location.reload()
+            return <Redirect to="/logout"/>;
+           // window.location.reload()
          }else{
              return error.response.data;
          }
@@ -42,8 +45,7 @@ const networkError = (error) => {
       } else {
         // Something happened in setting up the request that triggered an Error
         console.log('Error', error.message);
-        localStorage.clear();
-        window.location.reload()
+        return <Redirect to="/logout"/>;
         //return message;
       }
       console.log(error.config)
@@ -54,8 +56,7 @@ const networkError = (error) => {
 const statusError = (error) => {
    
     if((error.message === "Unauthorized Access") || (error === "Unauthorized")){
-       localStorage.clear();
-       window.location.reload()
+        return <Redirect to="/logout"/>;
     }else{
         return error;
     }

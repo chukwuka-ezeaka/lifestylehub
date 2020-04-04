@@ -1,22 +1,33 @@
-import React from "react";
+import React, {useState} from "react";
 import { withRouter } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import LoaderSmall from "../Loaders/LoaderSmall";
 import HttpService from "../../utils/API";
+import { useAuth } from "../../context/auth";
 
-const _http = new HttpService();
 
-class Signin extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      errMessage: "",
-      disabled: false,
-      isLoading: false
-    };
-  }
-  render() {
+
+
+function Signin(props) {
+  const _http = new HttpService();
+  const { setAuthTokens } = useAuth();
+  const [isSignedIn, setSignedIn] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
+  const [disabled, setDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedin] = useState(false);
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     errMessage: "",
+  //     disabled: false,
+  //     isLoading: false
+  //   };
+  // }
+  // if (isLoggedIn) {
+  //   return <Redirect to="/" />;
+  // }
     return (
       <Formik
         initialValues={{
@@ -33,9 +44,7 @@ class Signin extends React.Component {
             .required("Password is required")
         })}
         onSubmit={({ email, password }) => {
-          this.setState({
-            disabled: true
-          });
+          setDisabled(true)
           const url = "auth/login";
           const postData = {
             email: email,
@@ -50,42 +59,38 @@ class Signin extends React.Component {
                     switch (response.data.role.id) {
                       case 75:
                         localStorage.setItem("user", userData);
-                        localStorage.setItem("Auth", response.token);
-                        this.props.history.push("/dashboard");
+                        setAuthTokens(response.token);
+                        props.history.push("/dashboard");
                         break;
                       case 99:
                         localStorage.setItem("user", userData);
-                        localStorage.setItem("Auth", response.token);
-                        this.props.history.push(`/vendor`);
+                        setAuthTokens(response.token);
+                        props.history.push(`/vendor`);
+                        break;
+                      case 100:
+                        localStorage.setItem("user", userData);
+                        setAuthTokens(response.token);
+                        props.history.push(`/vendor`);
                         break;
                       default:
-                        this.setState({
-                          errMessage: "Please login on the mobile app",
-                           disabled: false
-                        });
+                        setDisabled(false);
+                        setErrMessage("Please login on the mobile app");
                         break;
                     }
                   }
                   break;
                 case "fail":
-                  this.setState({
-                    errMessage: response.message,
-                    disabled: false
-                  });
+                  setDisabled(false);
+                  setErrMessage(response.message);
                   break;
                 default:
-                  this.setState({
-                    disabled: false,
-                    errMessage: "something went wrong"
-                  });
+                  setDisabled(false);
+                  setErrMessage("something went wrong");
                   break;
               }
             } else {
-              this.setState({
-                disabled: false
-              });
+              setDisabled(false);
               _http.notify(response.message);
-              this.setState({ requestPending: false });
             }
           });
         }}
@@ -99,7 +104,7 @@ class Signin extends React.Component {
 
                 <div className="w-100">
                   <p className="p-0" style={{ color: "brown" }}>
-                    {this.state.errMessage}
+                    {errMessage}
                   </p>
                 </div>
 
@@ -144,15 +149,14 @@ class Signin extends React.Component {
                     className="b ph3 pv2 input-reset ba bg-transparent grow pointer f6"
                     type="submit"
                     value="signinr"
-                    disabled={this.state.disabled}
-                  >{this.state.disabled ? <LoaderSmall/> : 'Sign In'}</button>
+                    disabled={disabled}
+                  >{disabled ? <LoaderSmall/> : 'Sign In'}</button>
               </div>
             </Form>
           </article>
         )}
       />
     );
-  }
 }
 
 export default withRouter(Signin);

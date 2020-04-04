@@ -15,9 +15,9 @@ class GetImage extends Component {
         this.getImage(this.props.image);
     }
     render() { 
-        const {title, width, classname} = this.props;
+        const {title, width, classname, height} = this.props;
         return ( 
-            <img src={`data:${this.state.type};base64,${this.state.image}`} alt={title}  width={width} className={ classname ? classname: ''}/>
+            <img src={`data:${this.state.type};base64,${this.state.image}`} alt={title}  height={height} width={width} className={ classname ? classname: ''}/>
          );
     }
 

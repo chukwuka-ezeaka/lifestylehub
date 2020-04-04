@@ -23,9 +23,6 @@ class MainSidebar extends React.Component {
   }
 
   componentWillMount() {
-    if (!localStorage.getItem("Auth")) {
-      this.props.history.push("/signin");
-    }
     Store.addChangeListener(this.onChange);
   }
 

@@ -32,11 +32,12 @@ class Admins extends React.Component{
 
    toggleModal = (event) => {
       
-       if(event){
-        let userId = event.target.id;
+    if(event){
+        let userId = parseInt(event.target.id);
+        const currentUser = this.props.users.filter(user => user.id === userId)
         this.setState({
            open: !this.state.open,
-           user: this.props.users[userId]
+           user: currentUser[0]
         });
     }
        return this.state.open
@@ -107,6 +108,7 @@ render(){
         pending={pending} 
         open={open}/>
     }
+    // console.log(users);
     return(
 
         <Container  className="px-0 py-0" fluid>
@@ -151,7 +153,7 @@ render(){
                             Phone Number
                         </th>
                         <th scope="col" className="border-0">
-                            Role
+                            Category
                         </th>
                         <th scope="col" className="border-0">
                              -
@@ -161,7 +163,7 @@ render(){
                     <tbody>
                     {users.map((user, index)  => {
                             //let userId = `#${user.id}`;
-                            //console.log(index);
+                            //console.log(users);
                             return(
                                 <tr key={user.id}>
                                     <td>{i++}</td>
@@ -169,9 +171,9 @@ render(){
                                     <td>{user.username ? user.username: ''}</td>
                                     <td>{user.email ? user.email : ''}</td>
                                     <td>{user.phone ? user.phone : ''}</td>
-                                    <td>{user.UserRole.Role ? user.UserRole.Role.name : ''}</td>
+                                    <td>{user.category ? user.category.name : ''}</td>
                                     <td>
-                                        <button theme="primary" className="btn btn-sm btn-info mb-2 mr-1" onClick={this.toggleModal} id={index}>
+                                        <button theme="primary" className="btn btn-sm btn-info mb-2 mr-1" onClick={this.toggleModal} id={user.id}>
                                             View
                                         </button>
                                     </td>

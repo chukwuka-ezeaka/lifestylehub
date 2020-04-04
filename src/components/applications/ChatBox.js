@@ -16,6 +16,7 @@ import {
   Navbar as NavbarComponent,
   Avatar
 } from "react-chat-elements";
+import GetImage from "../common/getImage";
 
 /**
  *
@@ -70,11 +71,13 @@ export default class ChatBox extends Component {
                   <Col mdHidden lgHidden>
                     <p className="navBarText"></p>
                   </Col>
-                  <Avatar
+                  <GetImage image={this.props.targetUser.photo}   alt={this.props.targetUser.firstname} height="50px" width="50px" classname="rounded-circle"/>
+                  {/* <Avatar
                     alt={this.props.targetUser.firstname}
                     size="large"
                     type="circle flexible"
-                  />
+                    src = {`https://myacademyhub.s3.amazonaws.com/image/${this.props.targetUser.photo}`}
+                  /> */}
                   <p className="navBarText">
                     {this.props.targetUser.firstname}
                   </p>

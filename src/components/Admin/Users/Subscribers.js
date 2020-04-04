@@ -33,10 +33,11 @@ class Subscribers extends React.Component{
    toggleModal = (event) => {
       
        if(event){
-        let userId = event.target.id;
+        let userId = parseInt(event.target.id);
+        const currentUser = this.props.users.filter(user => user.id === userId)
         this.setState({
            open: !this.state.open,
-           user: this.props.users[userId]
+           user: currentUser[0]
         });
     }
        return this.state.open
@@ -96,6 +97,7 @@ render(){
     const {user, open} = this.state;
     const {loading, error, roleUpdate, profileUpdate, pending } = this.props;
     let users = this.getFilteredUserList();
+    console.log(users)
     let i = 1;
     let modal = "";
     if(user){
@@ -151,7 +153,7 @@ render(){
                             Phone Number
                         </th>
                         <th scope="col" className="border-0">
-                            Role
+                            category
                         </th>
                         <th scope="col" className="border-0">
                              -
@@ -169,9 +171,9 @@ render(){
                                     <td>{user.username ? user.username: ''}</td>
                                     <td>{user.email ? user.email : ''}</td>
                                     <td>{user.phone ? user.phone : ''}</td>
-                                    <td>{user.UserRole.Role ? user.UserRole.Role.name : ''}</td>
+                                    <td>{user.category ? user.category.name : ''}</td>
                                     <td>
-                                        <button theme="primary" className="btn btn-sm btn-info mb-2 mr-1" onClick={this.toggleModal} id={index}>
+                                        <button theme="primary" className="btn btn-sm btn-info mb-2 mr-1" onClick={this.toggleModal} id={user.id}>
                                             View
                                         </button>
                                     </td>
