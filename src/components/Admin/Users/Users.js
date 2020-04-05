@@ -34,11 +34,12 @@ class Users extends React.Component{
 
    toggleModal = (event) => {
       
-       if(event){
-        let userId = event.target.id;
+    if(event){
+        let userId = parseInt(event.target.id);
+        const currentUser = this.props.users.filter(user => user.id === userId)
         this.setState({
            open: !this.state.open,
-           user: this.props.users[userId]
+           user: currentUser[0]
         });
     }
        return this.state.open
@@ -173,7 +174,7 @@ render(){
                                     <td>{user.phone ? user.phone : ''}</td>
                                     <td>{user.UserRole.Role ? user.UserRole.Role.name : ''}</td>
                                     <td>
-                                        <button theme="primary" className="btn btn-sm btn-info mb-2 mr-1" onClick={this.toggleModal} id={index}>
+                                        <button theme="primary" className="btn btn-sm btn-info mb-2 mr-1" onClick={this.toggleModal} id={user.id}>
                                             View
                                         </button>
                                     </td>

@@ -34,8 +34,6 @@ class Settings extends React.Component{
     }
   
 
-
-
     render(){
         const { title } = this.props;
         return (

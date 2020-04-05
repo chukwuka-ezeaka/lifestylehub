@@ -13,7 +13,6 @@ import {
   FormTextarea,
   Button,
   FormSelect,
-
 } from "shards-react";
 import LoaderSmall from "../Loaders/LoaderSmall";
 
@@ -31,6 +30,8 @@ class UserAccountDetails extends Component{
     "photo":this.props.user.photo,
     "country_name":this.props.user.country_name,
     "birthday":this.props.user.birthday,
+    "address":this.props.user.address,
+    "about":this.props.user.about,
     "category_id": this.props.user.category ? this.props.user.category.id : '',
    }
   }
@@ -119,7 +120,11 @@ class UserAccountDetails extends Component{
   }
 
   handleHistory = (event) => {
-    this.setState({history: event.target.value});
+    const newDetails = {
+      ...this.state.accountDetails,
+    }
+    newDetails.about = event.target.value;
+    this.setState({accountDetails: newDetails});
   }
 
   handleEdit = () => {
@@ -133,13 +138,12 @@ class UserAccountDetails extends Component{
   this.props.updateProfile(payload, id);
   }
   render(){
-    const { title, user, categories, getCategories, getCountries, countries } = this.props;
+    const { title, user, categories, getCategories, getCountries, countries, pending } = this.props;
     let birthday = '';
     if(user.birthday){
       const date = new Date(user.birthday);
       birthday = date.toLocaleDateString('en-US');
     }
-
     return (
       <Card small className="mb-4">
         <CardHeader className="border-bottom">
@@ -270,17 +274,18 @@ class UserAccountDetails extends Component{
                   <Row form>
                     {/* Description */}
                     <Col md="12" className="form-group">
-                      <label htmlFor="workHistory">Work History</label>
+                      <label htmlFor="workHistory">About ( Work History )</label>
                       <FormTextarea 
+                      onChange={this.handleHistory}
                       id="workHistory" rows="3" 
-                      defaultValue= ""
+                      defaultValue= {user.about ? user.about : ''}
                       disabled={!this.state.edit}
                       />
                     </Col>
                   </Row>
                   {this.state.edit ?
                   <>
-                   <Button theme="accent" className="m-1" type="submit">{this.props.pending ? <LoaderSmall/> : 'Save' }</Button>
+                   <Button theme="accent" className="m-1" type="submit">{pending ? <LoaderSmall/> : 'Save' }</Button>
                    <Button theme="secondary" className="m-1" onClick= {this.handleEdit} disabled={this.props.pending}>Cancel </Button>
                    </>
                    :

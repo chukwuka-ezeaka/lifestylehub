@@ -1,5 +1,5 @@
 //import { hot } from 'react-hot-loader/root';
-import React from "react";
+import React, {useState} from "react";
 import {
   HashRouter as Router,
   Route,
@@ -15,6 +15,8 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
 import { DefaultLayout, HomeLayout } from "./layouts";
+import { AuthContext } from "./context/auth";
+import PrivateRoute from './PrivateRoute';
 // Route Views
 import Home from "./views/Home";
 import About from "./views/About";
@@ -41,31 +43,30 @@ import "tachyons";
 import InviteUsers from "./views/InviteUser";
 import AddProduct from "./views/AddProduct";
 
-const initialState = {
-  user: {},
-  Authenticated: false,
-  logout: false,
-};
+// const existingTokens = JSON.parse(localStorage.getItem("auth"));
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = initialState;
+// const initialState = {
+//   user: {},
+//   Authenticated: false,
+//   logout: false,
+//   authTokens : existingTokens
+// };
+
+function App(props) {
+  const existingTokens = localStorage.getItem("Auth");
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const [authTokens, setAuthTokens] = useState(existingTokens);
+  const [user, setUser] = useState(userData);
+  
+  const setTokens = (data) => {
+    localStorage.setItem("Auth", data);
+    setAuthTokens(data);
   }
 
-  currentUser = () => {
-    const userData = JSON.parse(localStorage.getItem("user"));
-    this.setState({
-      user: userData,
-      Auth: localStorage.getItem("Auth")
-    });
-  };
-
-  render() {
-    const { user, Auth } = this.state;
     return (
-      <div>
+      <>
         <ToastContainer />
+        <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
         <Router>
           <Switch>
             <Route
@@ -109,179 +110,120 @@ class App extends React.Component {
                 </HomeLayout>
               )}
             />
-            <Route
-              path="/dashboard"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <Dashboard user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-             <Route
-              path="/vendor"
-              exact
-              render={props => (
-                <DefaultLayout user={user}>
-                  <VendorDashboard user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-
-            <Route
-              path="/users/invite"
-              exact
-              render={props => (
-                <DefaultLayout user={user}>
-                  <InviteUsers Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-
-            <Route
-              path="/users/:id"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <UsersOverview Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-            <Route
-              path="/profile"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <UserProfile user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-            <Route
-              path="/reflections"
-              exact
-              render={props => (
-                <DefaultLayout user={user}>
-                  <Reflections user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-            <Route
-              path="/reflections/:id"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <Reflections user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-            <Route
-              path="/viewReflection"
-              exact
-              render={props => (
-                <DefaultLayout user={user}>
-                  <ViewReflection user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-            <Route
-              path="/viewReflection/:id"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <ViewReflection user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-             <Route
-              path="/products"
-              exact
-              render={props => (
-                <DefaultLayout user={user}>
-                  <Products user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-            <Route
-              path="/products/:id"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <Products user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-  
-            <Route
-              path="/add/:id"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <AddProduct user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-            <Route
-              path="/posts/:id"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <Posts user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-            <Route
-              path="/roles"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <Roles user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-            <Route
-              path="/chats/:id"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <Chat user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-             <Route
-              path="/store/:id"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <Store user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-            <Route
-              path="/logout"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <Logout user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-            <Route
-              path="/permissions"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <Permissions user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
-            />
-            <Route
+              <Route
               path="/confirmation"
               render={props => (
                 <HomeLayout user={user}>
-                  <Confirmation user={user} Auth={Auth} />
+                  <Confirmation user={user} Auth={authTokens} />
                 </HomeLayout>
               )}
             />
-            <Route
+            <PrivateRoute
+              path="/dashboard"
+              component={Dashboard}
+               user={user}
+            />
+             <PrivateRoute
+              path="/vendor"
+              component={VendorDashboard}
+               user={user}
+            />
+
+            <PrivateRoute
+              path="/users/invite"
+              exact
+              component={InviteUsers}
+               user={user}
+            />
+
+            <PrivateRoute
+              path="/users/:id"
+              component={UsersOverview}
+               user={user}
+            />
+            <PrivateRoute
+              path="/profile"
+              component={UserProfile}
+               user={user}
+            />
+            <PrivateRoute
+              path="/reflections"
+              exact
+              component={Reflections}
+               user={user}
+            />
+            <PrivateRoute
+              path="/reflections/:id"
+              component={Reflections}
+               user={user}
+            />
+            <PrivateRoute
+              path="/viewReflection"
+              exact
+              component={ViewReflection}
+               user={user}
+            />
+            <PrivateRoute
+              path="/viewReflection/:id"
+              component={ViewReflection}
+               user={user}
+            />
+             <PrivateRoute
+              path="/products"
+              component={Products}
+               user={user}
+            />
+            <PrivateRoute
+              path="/products/:id"
+              component={Products}
+               user={user}
+            />
+  
+            <PrivateRoute
+              path="/add/:id"
+              component={AddProduct}
+               user={user}
+            />
+            <PrivateRoute
+              path="/posts/:id"
+              component={Posts}
+               user={user}
+            />
+            <PrivateRoute
+              path="/roles"
+              component={Roles}
+               user={user}
+            />
+            <PrivateRoute
+              path="/chats/:id"
+              component={Chat}
+               user={user}
+            />
+             <PrivateRoute
+              path="/store/:id"
+              component={Store}
+               user={user}
+            />
+            <PrivateRoute
+              path="/logout"
+              component={Logout}
+               user={user}
+            />
+            <PrivateRoute
+              path="/permissions"
+              component={Permissions}
+               user={user}
+            />
+            <PrivateRoute
               path="/accounts/:id"
-              render={props => (
-                <DefaultLayout user={user}>
-                  <Accounts user={user} Auth={Auth} />
-                </DefaultLayout>
-              )}
+              component={Accounts}
+              user={user}
             />
           </Switch>
         </Router>
-      </div>
+        </AuthContext.Provider>
+      </>
     );
-  }
 }
 export default App;
 // export default hot(App);

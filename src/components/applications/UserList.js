@@ -67,7 +67,7 @@ export default class UserList extends Component {
                     : f.firstname + ": ") + lastMessage.text;
               }
               return {
-                // avatar: require(`../static/images/avatar/${f.id}.jpg`),
+                //avatar: require(`../static/images/avatar/${f.id}.jpg`),
                 alt: f.firstname,
                 title: f.firstname,
                 subtitle: subtitle,
