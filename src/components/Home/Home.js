@@ -10,7 +10,6 @@ import "./css/btn.css";
 import "./css/corporate.css";
 import "./css/fonts/font-awesome/css/font-awesome.css";
 import "./css/fonts/et-line-font/et-line-font.css";
-import "./css/screens.css";
 
 class Landing extends React.Component {
   render() {

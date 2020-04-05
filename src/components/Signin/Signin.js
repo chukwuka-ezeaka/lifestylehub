@@ -61,7 +61,7 @@ class Signin extends React.Component {
                       default:
                         this.setState({
                           errMessage: "Please login on the mobile app",
-                           disabled: false
+                          disabled: false
                         });
                         break;
                     }
@@ -140,12 +140,14 @@ class Signin extends React.Component {
                 </div>
               </fieldset>
               <div className="button-box">
-              <button
-                    className="b ph3 pv2 input-reset ba bg-transparent grow pointer f6"
-                    type="submit"
-                    value="signinr"
-                    disabled={this.state.disabled}
-                  >{this.state.disabled ? <LoaderSmall/> : 'Sign In'}</button>
+                <button
+                  className="b ph3 pv2 input-reset ba bg-transparent grow pointer f6"
+                  type="submit"
+                  value="signinr"
+                  disabled={this.state.disabled}
+                >
+                  {this.state.disabled ? <LoaderSmall /> : "Sign In"}
+                </button>
               </div>
             </Form>
           </article>

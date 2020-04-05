@@ -53,9 +53,6 @@ class Chat extends React.Component {
   };
 
   render() {
-    const { loading, errorMessage } = this.state;
-    const { showChatApp } = this.state.showViews;
-
     return (
       <Container fluid className="main-content-container px-4 pb-4">
         <Row noGutters className="page-header py-4">

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "shards-react";
+import { Link } from "react-router-dom";
 
 class FooterSecoundary extends Component {
   render() {
@@ -21,41 +22,41 @@ class FooterSecoundary extends Component {
               </h6>
               <ul className="footer-quick-links">
                 <li>
-                  <a href="index.html">Home</a>
+                  <Link to={{ pathname: "/" }}>Home</Link>
                 </li>
                 <li>
-                  <a href="#">About Us</a>
+                  <Link to={{ pathname: "/about" }}>About Us</Link>
                 </li>
                 <li>
-                  <a href="#">Contact</a>
+                  <Link to={{ pathname: "/contact" }}>Contact</Link>
                 </li>
               </ul>
               <div className="divider-line solid light opacity-1"></div>
               <ul className="footer-social-icons round">
                 <li>
-                  <a className="twitter" href="#">
+                  <Link className="twitter" to={{ pathname: "/" }}>
                     <i className="fa fa-twitter"></i>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#">
+                  <Link to={{ pathname: "/" }}>
                     <i className="fa fa-facebook"></i>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="active" href="#">
+                  <Link className="active" to={{ pathname: "/" }}>
                     <i className="fa fa-google-plus"></i>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#">
+                  <Link to={{ pathname: "/" }}>
                     <i className="fa fa-linkedin"></i>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#">
+                  <Link to={{ pathname: "/" }}>
                     <i className="fa fa-dribbble"></i>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </Col>

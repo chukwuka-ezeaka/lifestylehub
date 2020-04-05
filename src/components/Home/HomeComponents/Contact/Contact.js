@@ -105,7 +105,7 @@ class Contact extends React.Component {
                   <h2>Get in touch</h2>
                   <p>Let's talk about your LifeStyle</p>
                 </div>
-                <div class="title-line"></div>
+                <div className="title-line"></div>
 
                 <div className="form">
                   {messageStatus}

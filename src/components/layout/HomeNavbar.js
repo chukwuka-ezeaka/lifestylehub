@@ -56,7 +56,7 @@ export default class NavExample extends React.Component {
         expand="md"
         navbar-fixed-top="true"
       >
-        <NavbarBrand href="/">
+        <NavLink to={{ pathname: "/" }}>
           <img
             id="main-logo"
             className="d-inline-block align-top mr-1"
@@ -64,7 +64,8 @@ export default class NavExample extends React.Component {
             src={require("../../assets/images/logo.jpeg")}
             alt="Dashboard"
           />
-        </NavbarBrand>
+        </NavLink>
+
         <NavbarToggler onClick={this.toggleNavbar} />
 
         <Collapse open={this.state.collapseOpen} navbar>

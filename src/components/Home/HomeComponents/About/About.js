@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "shards-react";
+import { Link } from "react-router-dom";
 import "./About.css";
 
 class About extends React.Component {
@@ -41,26 +42,29 @@ class About extends React.Component {
                 </p>
                 <br />
                 <br />
-                <a className="btn btn-prim btn-round uppercase" href="#">
+                <Link
+                  className="btn btn-prim btn-round uppercase"
+                  to={{ pathname: "/" }}
+                >
                   Read more
-                </a>
+                </Link>
               </Col>
             </Row>
           </Container>
         </section>
-        <section class="feature about-section_padding section-light about-section_background-image">
+        <section className="feature about-section_padding section-light about-section_background-image">
           <Container>
             <Row>
               <Col sm="12">
-                <div class="title-container text-center">
-                  <h5 class="font-weight-4 less-mar-1 line-height-4 text-primary">
+                <div className="title-container text-center">
+                  <h5 className="font-weight-4 less-mar-1 line-height-4 text-primary">
                     Meet Our Team
                   </h5>
-                  <h2 class="font-weight-6 less-mar-1 line-height-5">
+                  <h2 className="font-weight-6 less-mar-1 line-height-5">
                     Professional Expertises
                   </h2>
-                  <div class="title-line"></div>
-                  <h6 class="sub-text raleway opacity-7">
+                  <div className="title-line"></div>
+                  <h6 className="sub-text raleway opacity-7">
                     Praesent mattis commodo augue Aliquam ornare hendrerit augue
                     Cras tellus In pulvinar lectus a est Curabitur eget orci
                     Cras laoreet ligula Etiam .
@@ -68,67 +72,82 @@ class About extends React.Component {
                 </div>
               </Col>
               <Col md="4">
-                <div class="feature-box text-center margin-bottom">
-                  <div class="text-box shadow">
-                    <div class="top-line"></div>
-                    <h5 class="title font-weight-5">How Lifestyle Started</h5>
+                <div className="feature-box text-center margin-bottom">
+                  <div className="text-box shadow">
+                    <div className="top-line"></div>
+                    <h5 className="title font-weight-5">
+                      How Lifestyle Started
+                    </h5>
                     <p>
                       Praesent mattis commodo augue Aliquam ornare hendrerit
                       augue Cras tellus In pulvinar lectus a est .
                     </p>
                     <br />
                     <br />
-                    <a
-                      class="btn btn-prim btn-round btn-medium uppercase"
-                      href="#"
+                    <Link
+                      className="btn btn-prim btn-round btn-medium uppercase"
+                      to={{ pathname: "/" }}
                     >
                       Read more
-                      <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                    </a>
+                      <i
+                        className="fa fa-long-arrow-right"
+                        aria-hidden="true"
+                      ></i>
+                    </Link>
                   </div>
                 </div>
               </Col>
 
               <Col md="4">
-                <div class="feature-box text-center margin-bottom">
-                  <div class="text-box shadow">
-                    <div class="top-line"></div>
-                    <h5 class="title font-weight-5">Our Successful Journey</h5>
+                <div className="feature-box text-center margin-bottom">
+                  <div className="text-box shadow">
+                    <div className="top-line"></div>
+                    <h5 className="title font-weight-5">
+                      Our Successful Journey
+                    </h5>
                     <p>
                       Praesent mattis commodo augue Aliquam ornare hendrerit
                       augue Cras tellus In pulvinar lectus a est .
                     </p>
                     <br />
                     <br />
-                    <a
-                      class="btn btn-prim btn-round btn-medium uppercase"
-                      href="#"
+                    <Link
+                      className="btn btn-prim btn-round btn-medium uppercase"
+                      to={{ pathname: "/" }}
                     >
                       Read more
-                      <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                    </a>
+                      <i
+                        className="fa fa-long-arrow-right"
+                        aria-hidden="true"
+                      ></i>
+                    </Link>
                   </div>
                 </div>
               </Col>
 
               <Col md="4">
-                <div class="feature-box text-center margin-bottom">
-                  <div class="text-box shadow">
-                    <div class="top-line"></div>
-                    <h5 class="title font-weight-5">Our unique Challenges</h5>
+                <div className="feature-box text-center margin-bottom">
+                  <div className="text-box shadow">
+                    <div className="top-line"></div>
+                    <h5 className="title font-weight-5">
+                      Our unique Challenges
+                    </h5>
                     <p>
                       Praesent mattis commodo augue Aliquam ornare hendrerit
                       augue Cras tellus In pulvinar lectus a est .
                     </p>
                     <br />
                     <br />
-                    <a
-                      class="btn btn-prim btn-round btn-medium uppercase"
-                      href="#"
+                    <Link
+                      className="btn btn-prim btn-round btn-medium uppercase"
+                      to={{ pathname: "/" }}
                     >
                       Read more
-                      <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                    </a>
+                      <i
+                        className="fa fa-long-arrow-right"
+                        aria-hidden="true"
+                      ></i>
+                    </Link>
                   </div>
                 </div>
               </Col>

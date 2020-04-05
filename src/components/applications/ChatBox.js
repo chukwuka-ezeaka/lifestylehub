@@ -8,9 +8,6 @@ import {
   Col,
   InputGroupAddon
 } from "shards-react";
-
-// import Jumbotron from "react-bootstrap/lib/Jumbotron";
-// import Glyphicon from "react-bootstrap/lib/Glyphicon";
 import {
   MessageList,
   Navbar as NavbarComponent,

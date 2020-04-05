@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { Modal, ModalBody, ModalHeader } from "shards-react";
-// import Glyphicon from "react-bootstrap/Glyphicon";
-// import Modal from "react-bootstrap/lib/Modal";
 
 /**
  *

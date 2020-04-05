@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { Container, Col, Row } from "shards-react";
 
 class FirstSection extends Component {
@@ -28,13 +29,13 @@ class FirstSection extends Component {
                   </div>
                 </Col>
                 <div className="clearfix"></div>
-                <a
+                <Link
                   className="btn btn-prim btn-round btn-medium uppercase"
-                  href="#"
+                  to={{ pathname: "/" }}
                 >
                   <i className="fa fa-play-circle" aria-hidden="true"></i> Read
                   more
-                </a>
+                </Link>
               </Col>
             </Row>
           </Container>
