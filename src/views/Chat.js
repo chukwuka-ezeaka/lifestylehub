@@ -6,7 +6,7 @@ import PageTitle from "../components/common/PageTitle";
 import ChatApp from "../containers/Application/Chat/Chat";
 
 const views = {
-  showChatApp: false
+  showChatApp: false,
 };
 
 class Chat extends React.Component {
@@ -16,13 +16,13 @@ class Chat extends React.Component {
       loading: true,
       showViews: views,
       path: "",
-      errorMessage: ""
+      errorMessage: "",
     };
   }
 
   componentWillMount() {}
 
-  showContent = handle => {
+  showContent = (handle) => {
     switch (handle) {
       case "/chats/allChats":
         this.setState({ showViews: { showChatApp: true } });
