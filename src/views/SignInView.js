@@ -1,13 +1,8 @@
 import React from "react";
 import Signin from "../components/Signin/Signin";
 
-import "./Signin.css";
 const SignInView = () => {
-  return (
-    <div className="view mr-4 ml-4">
-      <Signin />
-    </div>
-  );
+  return <Signin />;
 };
 
 export default SignInView;

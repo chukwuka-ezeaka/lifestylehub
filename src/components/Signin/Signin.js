@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import LoaderSmall from "../Loaders/LoaderSmall";
 import HttpService from "../../utils/API";
 import { useAuth } from "../../context/auth";
+import "./signin.css";
 
 function Signin(props) {
   const _http = new HttpService();

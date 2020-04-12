@@ -45,28 +45,3 @@
     display: block;
     padding: .5rem 1rem;
 }
-
-
-/* @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
-    article {
-        margin-top: 11.8rem !important;
-    }
-}
-
-@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
-    article {
-        margin-top: 6.8rem !important;
-    }
-}
-
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1) {
-    article {
-        margin-top: 6.7rem !important;
-    }
-}
-
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
-    article {
-        margin-top: 2.8rem !important;
-    }
-} */

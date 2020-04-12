@@ -9,3 +9,8 @@
     font-size: 14px;
     color: #fff;
 }
+
+MainFooter {
+    position: absolute;
+    bottom: 0;
+}
