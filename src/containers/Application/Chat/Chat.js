@@ -6,41 +6,40 @@ import "./Chat.css";
 import UserList from "../../../components/applications/UserList";
 import ChatBox from "../../../components/applications/ChatBox";
 import ErrorModal from "../../../components/applications/ErrorModal";
-import LoadingModal from "../../../components/applications/LoadingModal";
 import io from "socket.io-client";
 
 import "react-chat-elements/dist/main.css";
 import {
   NotificationContainer,
-  NotificationManager
+  NotificationManager,
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import axios from "axios";
 import events from "../../containerUtils/events";
+
+const _http = new HttpService();
 
 /**
  * Fetches socket server URL from env
  */
 // const SOCKET_URI = "http://localhost:5000";
 
-const SOCKET_URI = "/api/v1/chat";
-
-const _http = new HttpService();
+const SOCKET_URI = "https://lshub.herokuapp.com/api/v1/chat";
 
 class Chat extends Component {
   socket = null;
 
   state = {
     userChatData: [], // this contains users from which signed-in user can chat and its message data.
-    user: localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user"))
-      : {},
-    // mainUser: {},
+    sender: {
+      username: this.props.user.firstname,
+      id: this.props.user.id,
+      name: this.props.user.fullname,
+    },
     selectedUserIndex: null,
-    showChatBox: false, // For small devices only
-    showChatList: true, // For small devices only
+    typing: "",
     error: false,
-    errorMessage: ""
+    errorMessage: "",
   };
 
   /**
@@ -67,29 +66,25 @@ class Chat extends Component {
   //  */
   initAxios() {
     axios.interceptors.request.use(
-      config => {
-        this.setState({ loading: true });
+      (config) => {
         return config;
       },
-      error => {
-        this.setState({ loading: false });
+      (error) => {
         this.setState({
           errorMessage: `Couldn't connect to server. try refreshing the page.`,
-          error: true
+          error: true,
         });
         return Promise.reject(error);
       }
     );
     axios.interceptors.response.use(
-      response => {
-        this.setState({ loading: false });
+      (response) => {
         return response;
       },
-      error => {
-        this.setState({ loading: false });
+      (error) => {
         this.setState({
           errorMessage: `Some error occured. try after sometime`,
-          error: true
+          error: true,
         });
         return Promise.reject(error);
       }
@@ -109,13 +104,30 @@ class Chat extends Component {
 
   /**
    *
-   * Established new connection if reconnected.
+   * Check error.
    */
-  onReconnection() {
-    if (this.state.user) {
-      this.socket.emit(events.VERIFY_USER, this.state.user);
-      NotificationManager.success("Connection Established.", "Reconnected!");
+  ifError() {
+    NotificationManager.error("Unable to send message.", "Error!");
+  }
+
+  /**
+   *
+   * Established new connection.
+   */
+  onConnection() {
+    if (this.state.sender) {
+      console.log("connected");
+      NotificationManager.success("Connection Established.", "Success");
     }
+  }
+
+  /**
+   *
+   * Checks if Client is connected
+   */
+  onClientConnected(data) {
+    console.log(data);
+    NotificationManager.success(`User is connected successfully`);
   }
 
   /**
@@ -123,12 +135,19 @@ class Chat extends Component {
    * Setup all listeners
    */
   setupSocketListeners() {
-    this.socket.on(events.MESSAGE_SENT, this.onMessageRecieved.bind(this));
-    this.socket.on(events.USER_CONNECTED, this.onReconnection.bind(this));
-    this.socket.on(
-      events.USER_DISCONNECTED,
-      this.onClientDisconnected.bind(this)
+    // TYPING EVENTS
+    this.socket.on(events.TYPING, this.onTyping.bind(this));
+    this.socket.on("connection", this.onConnection.bind(this));
+
+    // CONNECTED EVENT
+    this.socket.on(events.USER_CONNECTED, this.onClientConnected.bind(this));
+    this.socket.on(events.PRIVATE_MESSAGE, this.onMessageRecieved.bind(this));
+    this.socket.emit(
+      events.USER_CONNECTED,
+      this.state.sender,
+      this.ifError.bind(this)
     );
+    this.socket.on("disconnect", this.onClientDisconnected.bind(this));
   }
 
   /**
@@ -136,18 +155,19 @@ class Chat extends Component {
    * Fetch all users
    */
   fetchUsers() {
-    let user = this.state.user;
+    const { sender } = this.state;
 
     const url = "account/user/list/with_roles";
-    _http.sendGet(url).then(response => {
+    _http.sendGet(url).then((response) => {
       response.data
         ? this.setState({
-            userChatData: response.data.filter(u => u.id !== user.id),
-            user
+            userChatData: response.data.filter(
+              (u) => u.id !== sender.id && u.UserRole.roleId === 100
+            ),
           })
         : this.setState({
             errorMessage: `Couldn't connect to server. try refreshing the page`,
-            error: true
+            error: true,
           });
     });
   }
@@ -164,17 +184,18 @@ class Chat extends Component {
    */
 
   onMessageRecieved(message) {
+    console.log(message, "message recieved");
     let userChatData = this.state.userChatData;
     let messageData = message.message;
     let targetId;
-    if (message.from === this.state.user.id) {
+    if (message.sender_id === this.state.sender.id) {
       messageData.position = "right";
-      targetId = message.to;
+      targetId = message.reciever_id;
     } else {
       messageData.position = "left";
-      targetId = message.from;
+      targetId = message.sender_id;
     }
-    let targetIndex = userChatData.findIndex(u => u.id === targetId);
+    let targetIndex = userChatData.findIndex((u) => u.id === targetId);
     if (!userChatData[targetIndex].messages) {
       userChatData[targetIndex].messages = [];
     }
@@ -200,7 +221,10 @@ class Chat extends Component {
     for (let index = 0; index < users.length; index++) {
       if (users[index].id === e.user.id) {
         users[index].unread = 0;
-        this.setState({ selectedUserIndex: index, userChatData: users });
+        this.setState({
+          selectedUserIndex: index,
+          userChatData: users,
+        });
         return;
       }
     }
@@ -214,17 +238,40 @@ class Chat extends Component {
    * position is purposely omitted and will be appended when message is received.
    */
   createMessage(text) {
-    let message = {
-      to: this.state.userChatData[this.state.selectedUserIndex].id,
+    const { sender, userChatData, selectedUserIndex } = this.state;
+
+    const message = {
+      sender_username: sender.username,
+      sender_id: sender.id,
+      sender_name: sender.name,
+      reciever_username: userChatData[selectedUserIndex].firstname,
+      reciever_id: userChatData[selectedUserIndex].id,
+      reciever_name: userChatData[selectedUserIndex].firstname,
       message: {
         type: "text",
         text: text,
         date: +new Date(),
-        className: "message"
+        className: "message",
       },
-      from: this.state.user.id
     };
-    this.socket.emit(events.MESSAGE_SENT, message);
+    this.socket.emit(events.PRIVATE_MESSAGE, message, ({ error }) => {
+      console.log(error);
+    });
+  }
+
+  /**
+   *
+   * @param {Typing New Message} text
+   *
+   * Alerts Users to message typing events
+   */
+  onTyping(data) {
+    if (data.id === 90) {
+      this.setState({ typing: `${data.name} is typing` });
+      setTimeout(() => {
+        this.setState({ typing: "" });
+      }, 2000);
+    }
   }
 
   /**
@@ -235,7 +282,7 @@ class Chat extends Component {
   toggleViews() {
     this.setState({
       showChatBox: !this.state.showChatBox,
-      showChatList: !this.state.showChatList
+      showChatList: !this.state.showChatList,
     });
   }
 
@@ -245,52 +292,31 @@ class Chat extends Component {
    */
   toggleModal() {
     this.setState({
-      error: false
+      error: false,
     });
   }
 
   render() {
-    let chatBoxProps = this.state.showChatBox
-      ? {
-          xs: 12,
-          sm: 12
-        }
-      : {
-          xshidden: "true",
-          smhidden: "true"
-        };
-
-    let chatListProps = this.state.showChatList
-      ? {
-          xs: 12,
-          sm: 12
-        }
-      : {
-          xshidden: "true",
-          smhidden: "true"
-        };
+    const { sender, userChatData, selectedUserIndex } = this.state;
 
     let initChat = null;
-    if (this.state.user) {
-      console.log(this.state.mainUser);
 
+    if (sender) {
       initChat = (
         <div>
           <Row>
-            <Col {...chatListProps} md={4}>
+            <Col md={4}>
               <UserList
                 userData={this.state.userChatData}
                 onChatClicked={this.onChatClicked.bind(this)}
               />
             </Col>
-            <Col {...chatBoxProps} md={8}>
+            <Col md={8}>
               <ChatBox
-                signedInUser={this.state.user}
+                signedInUser={sender}
                 onSendClicked={this.createMessage.bind(this)}
                 onBackPressed={this.toggleViews.bind(this)}
-                targetUser={
-                  this.state.userChatData[this.state.selectedUserIndex]
-                }
+                targetUser={userChatData[selectedUserIndex]}
               />
             </Col>
           </Row>
@@ -299,7 +325,6 @@ class Chat extends Component {
             errorMessage={this.state.errorMessage}
             onToggle={this.toggleModal.bind(this)}
           />
-          <LoadingModal show={this.state.loading} />
           <NotificationContainer />
         </div>
       );

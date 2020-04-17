@@ -1,9 +1,9 @@
 export default function() {
-  let user = JSON.parse(localStorage.getItem('user'));
-  let userRole =  user ? parseInt(user.role.id) : 0;
+  let user = JSON.parse(localStorage.getItem("user"));
+  let userRole = user ? parseInt(user.role.id) : 0;
   //const username = user ? user.fullname : null
-  if(userRole === 75){
-      return [
+  if (userRole === 75) {
+    return [
       {
         title: "Dashboard",
         htmlBefore: '<i class="material-icons">bar_chart</i>',
@@ -52,7 +52,7 @@ export default function() {
           {
             title: "Invite",
             htmlBefore: '<i class="material-icons">person_add</i>',
-            to: "/users/invite",
+            to: "/users/invite"
           },
           {
             title: "User Role",
@@ -95,7 +95,7 @@ export default function() {
           {
             title: "All products",
             htmlBefore: '<i class="material-icons">shopping_cart</i>',
-            to: "/products",
+            to: "/products"
           },
           {
             title: "Videos",
@@ -115,18 +115,18 @@ export default function() {
           {
             title: "Texts",
             htmlBefore: '<i class="material-icons">assignment</i>',
-            to: "/products/text",
+            to: "/products/text"
           },
           {
             title: "Add Product",
             htmlBefore: '<i class="material-icons">add_box</i>',
-            to: "/add/media",
+            to: "/add/media"
           },
 
           {
             title: "Add Text",
             htmlBefore: '<i class="material-icons">add_box</i>',
-            to: "/add/text",
+            to: "/add/text"
           },
           {
             title: "Category",
@@ -137,6 +137,250 @@ export default function() {
             title: "Subscription settings",
             htmlBefore: '<i class="material-icons">video_library</i>',
             to: "/products/subscriptions"
+          }
+        ]
+      },
+
+      {
+        title: "Accounts",
+        to: "#",
+        htmlBefore: '<i class="material-icons">group</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
+        subMenu: [
+          {
+            title: "Total Earnings",
+            htmlBefore: '<i class="material-icons">get_app</i>',
+            to: "/accounts/earnings"
+          },
+          // {
+          //   title: "Purchase",
+          //   htmlBefore: '<i class="material-icons">add_shopping_cart</i>',
+          //   to: "/accounts/purchase",
+          // },
+          {
+            title: "Bank Settings",
+            htmlBefore: '<i class="material-icons">build</i>',
+            to: "/accounts/settings"
+          }
+        ]
+      },
+      {
+        title: "Store",
+        to: "#",
+        htmlBefore: '<i class="material-icons">shopping_cart</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
+        subMenu: [
+          // {
+          //   title: "All products",
+          //   htmlBefore: '<i class="material-icons">shopping_cart</i>',
+          //   to: "/products/allProducts",
+          // },
+          {
+            title: "Videos",
+            htmlBefore: '<i class="material-icons">theaters</i>',
+            to: "/store/videos"
+          },
+          {
+            title: "Audios",
+            htmlBefore: '<i class="material-icons">audiotrack</i>',
+            to: "/store/audios"
+          },
+          {
+            title: "Ebooks",
+            htmlBefore: '<i class="material-icons">book</i>',
+            to: "/store/ebooks"
+          }
+
+          // {
+          //   title: "Add Product",
+          //   htmlBefore: '<i class="material-icons">add_box</i>',
+          //   to: "#",
+          // },
+
+          // {
+          //   title: "Add Text",
+          //   htmlBefore: '<i class="material-icons">add_box</i>',
+          //   to: "#",
+          // }
+        ]
+      }
+    ];
+  }
+
+  //Vendor sidenav items
+  if (userRole === 99) {
+    return [
+      {
+        title: "Dashboard",
+        htmlBefore: '<i class="material-icons">bar_chart</i>',
+        to: `/vendor`,
+        subMenu: ""
+      },
+      {
+        title: "Profile",
+        htmlBefore: '<i class="material-icons">account_circle</i>',
+        to: "/profile",
+        subMenu: ""
+      },
+      {
+        title: "Products",
+        to: "#",
+        htmlBefore: '<i class="material-icons">shopping_cart</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
+        subMenu: [
+          {
+            title: "Videos",
+            htmlBefore: '<i class="material-icons">theaters</i>',
+            to: "/products/videos"
+          },
+          {
+            title: "Audios",
+            htmlBefore: '<i class="material-icons">audiotrack</i>',
+            to: "/products/audios"
+          },
+          {
+            title: "Ebooks",
+            htmlBefore: '<i class="material-icons">book</i>',
+            to: "/products/ebooks"
+          },
+          {
+            title: "Texts",
+            htmlBefore: '<i class="material-icons">assignment</i>',
+            to: "/products/text"
+          },
+          {
+            title: "Add Product",
+            htmlBefore: '<i class="material-icons">add_box</i>',
+            to: "/add/media"
+          },
+
+          {
+            title: "Add Text",
+            htmlBefore: '<i class="material-icons">add_box</i>',
+            to: "/add/text"
+          }
+        ]
+      },
+
+      {
+        title: "Posts",
+        to: "#",
+        htmlBefore: '<i class="material-icons">assignment</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
+        subMenu: [
+          {
+            title: "All post",
+            htmlBefore: '<i class="material-icons">assignment</i>',
+            to: "/posts/all"
+          },
+          {
+            title: "New post",
+            htmlBefore: '<i class="material-icons">create</i>',
+            to: "/posts/new"
+          }
+        ]
+      },
+      {
+        title: "Accounts",
+        to: "#",
+        htmlBefore: '<i class="material-icons">group</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
+        subMenu: [
+          {
+            title: "Total Earnings",
+            htmlBefore: '<i class="material-icons">get_app</i>',
+            to: "/accounts/earnings"
+          },
+          // {
+          //   title: "Purchase",
+          //   htmlBefore: '<i class="material-icons">add_shopping_cart</i>',
+          //   to: "/accounts/purchase",
+          // },
+          {
+            title: "Bank Settings",
+            htmlBefore: '<i class="material-icons">build</i>',
+            to: "/accounts/settings"
+          }
+        ]
+      },
+      {
+        title: "Store",
+        to: "#",
+        htmlBefore: '<i class="material-icons">shopping_cart</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
+        subMenu: [
+          // {
+          //   title: "All products",
+          //   htmlBefore: '<i class="material-icons">shopping_cart</i>',
+          //   to: "/products/allProducts",
+          // },
+          {
+            title: "Videos",
+            htmlBefore: '<i class="material-icons">theaters</i>',
+            to: "/store/videos"
+          },
+          {
+            title: "Audios",
+            htmlBefore: '<i class="material-icons">audiotrack</i>',
+            to: "/store/audios"
+          },
+          {
+            title: "Ebooks",
+            htmlBefore: '<i class="material-icons">book</i>',
+            to: "/store/ebooks"
+          }
+
+          // {
+          //   title: "Add Product",
+          //   htmlBefore: '<i class="material-icons">add_box</i>',
+          //   to: "#",
+          // },
+
+          // {
+          //   title: "Add Text",
+          //   htmlBefore: '<i class="material-icons">add_box</i>',
+          //   to: "#",
+          // }
+        ]
+      }
+    ];
+  }
+
+  //coach sidenav items
+  if (userRole === 100) {
+    return [
+      {
+        title: "Dashboard",
+        htmlBefore: '<i class="material-icons">bar_chart</i>',
+        to: `/vendor`,
+        subMenu: ""
+      },
+      {
+        title: "Profile",
+        htmlBefore: '<i class="material-icons">account_circle</i>',
+        to: "/profile",
+        subMenu: ""
+      },
+      {
+        title: "Accounts",
+        to: "#",
+        htmlBefore: '<i class="material-icons">group</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
+        subMenu: [
+          {
+            title: "Total Earnings",
+            htmlBefore: '<i class="material-icons">get_app</i>',
+            to: "/accounts/earnings"
+          },
+          // {
+          //   title: "Purchase",
+          //   htmlBefore: '<i class="material-icons">add_shopping_cart</i>',
+          //   to: "/accounts/purchase",
+          // },
+          {
+            title: "Bank Settings",
+            htmlBefore: '<i class="material-icons">build</i>',
+            to: "/accounts/settings"
           }
         ]
       },
@@ -167,311 +411,7 @@ export default function() {
           //   to: "#",
           // }
         ]
-      },
-
-      {
-        title: "Accounts",
-        to: "#",
-        htmlBefore: '<i class="material-icons">group</i>',
-        htmlAfter: '<i class="fas fa-caret-down"></i>',
-        subMenu: [
-          {
-            title: "Total Earnings",
-            htmlBefore: '<i class="material-icons">get_app</i>',
-            to: "/accounts/earnings",
-          },
-          // {
-          //   title: "Purchase",
-          //   htmlBefore: '<i class="material-icons">add_shopping_cart</i>',
-          //   to: "/accounts/purchase",
-          // },
-          {
-            title: "Bank Settings",
-            htmlBefore: '<i class="material-icons">build</i>',
-            to: "/accounts/settings",
-          },
-          
-        ]
-      },
-      {
-        title: "Store",
-        to: "#",
-        htmlBefore: '<i class="material-icons">shopping_cart</i>',
-        htmlAfter: '<i class="fas fa-caret-down"></i>',
-        subMenu: [
-          // {
-          //   title: "All products",
-          //   htmlBefore: '<i class="material-icons">shopping_cart</i>',
-          //   to: "/products/allProducts",
-          // },
-          {
-            title: "Videos",
-            htmlBefore: '<i class="material-icons">theaters</i>',
-            to: "/store/videos",
-          },
-          {
-            title: "Audios",
-            htmlBefore: '<i class="material-icons">audiotrack</i>',
-            to: "/store/audios",
-          },
-          {
-            title: "Ebooks",
-            htmlBefore: '<i class="material-icons">book</i>',
-            to: "/store/ebooks",
-          },
-        
-          // {
-          //   title: "Add Product",
-          //   htmlBefore: '<i class="material-icons">add_box</i>',
-          //   to: "#",
-          // },
-  
-          // {
-          //   title: "Add Text",
-          //   htmlBefore: '<i class="material-icons">add_box</i>',
-          //   to: "#",
-          // }
-        ]
-      }, 
-    ]
+      }
+    ];
   }
-
-  //Vendor sidenav items
-  if(userRole === 99){
-  return [
-    {
-      title: "Dashboard",
-      htmlBefore: '<i class="material-icons">bar_chart</i>',
-      to: `/vendor`,
-      subMenu: ""
-    },
-    {
-      title: "Profile",
-      htmlBefore: '<i class="material-icons">account_circle</i>',
-      to: "/profile",
-      subMenu: ""
-    },
-    {
-      title: "Products",
-      to: "#",
-      htmlBefore: '<i class="material-icons">shopping_cart</i>',
-      htmlAfter: '<i class="fas fa-caret-down"></i>',
-      subMenu: [
-        {
-          title: "Videos",
-          htmlBefore: '<i class="material-icons">theaters</i>',
-          to: "/products/videos",
-        },
-        {
-          title: "Audios",
-          htmlBefore: '<i class="material-icons">audiotrack</i>',
-          to: "/products/audios",
-        },
-        {
-          title: "Ebooks",
-          htmlBefore: '<i class="material-icons">book</i>',
-          to: "/products/ebooks",
-        },
-        {
-          title: "Texts",
-          htmlBefore: '<i class="material-icons">assignment</i>',
-          to: "/products/text",
-        },
-        {
-          title: "Add Product",
-          htmlBefore: '<i class="material-icons">add_box</i>',
-          to: "/add/media",
-        },    
-
-        {
-          title: "Add Text",
-          htmlBefore: '<i class="material-icons">add_box</i>',
-          to: "/add/text",
-        }
-      ]
-    },
-    
-    {
-      title: "Posts",
-      to: "#",
-      htmlBefore: '<i class="material-icons">assignment</i>',
-      htmlAfter: '<i class="fas fa-caret-down"></i>',
-      subMenu: [
-        {
-          title: "All post",
-          htmlBefore: '<i class="material-icons">assignment</i>',
-          to: "/posts/all",
-        },
-        {
-          title: "New post",
-          htmlBefore: '<i class="material-icons">create</i>',
-          to: "/posts/new",
-        },
-      ]
-    },
-    {
-      title: "Accounts",
-      to: "#",
-      htmlBefore: '<i class="material-icons">group</i>',
-      htmlAfter: '<i class="fas fa-caret-down"></i>',
-      subMenu: [
-        {
-          title: "Total Earnings",
-          htmlBefore: '<i class="material-icons">get_app</i>',
-          to: "/accounts/earnings",
-        },
-        // {
-        //   title: "Purchase",
-        //   htmlBefore: '<i class="material-icons">add_shopping_cart</i>',
-        //   to: "/accounts/purchase",
-        // },
-        {
-          title: "Bank Settings",
-          htmlBefore: '<i class="material-icons">build</i>',
-          to: "/accounts/settings",
-        },
-        
-      ]
-    },
-    {
-      title: "Store",
-      to: "#",
-      htmlBefore: '<i class="material-icons">shopping_cart</i>',
-      htmlAfter: '<i class="fas fa-caret-down"></i>',
-      subMenu: [
-        // {
-        //   title: "All products",
-        //   htmlBefore: '<i class="material-icons">shopping_cart</i>',
-        //   to: "/products/allProducts",
-        // },
-        {
-          title: "Videos",
-          htmlBefore: '<i class="material-icons">theaters</i>',
-          to: "/store/videos",
-        },
-        {
-          title: "Audios",
-          htmlBefore: '<i class="material-icons">audiotrack</i>',
-          to: "/store/audios",
-        },
-        {
-          title: "Ebooks",
-          htmlBefore: '<i class="material-icons">book</i>',
-          to: "/store/ebooks",
-        },
-      
-        // {
-        //   title: "Add Product",
-        //   htmlBefore: '<i class="material-icons">add_box</i>',
-        //   to: "#",
-        // },
-
-        // {
-        //   title: "Add Text",
-        //   htmlBefore: '<i class="material-icons">add_box</i>',
-        //   to: "#",
-        // }
-      ]
-    }, 
-    {
-      title: "Chats",
-      to: "#",
-      htmlBefore: '<i class="material-icons">chat</i>',
-      htmlAfter: '<i class="fas fa-caret-down"></i>',
-      subMenu: [
-        {
-          title: "All chats",
-          htmlBefore: '<i class="material-icons">person</i>',
-          to: "/chats/allChats"
-        }
-        // {
-        //   title: "Compose",
-        //   htmlBefore: '<i class="material-icons">person</i>',
-        //   to: "#",
-        // },
-        // {
-        //   title: "Inbox",
-        //   htmlBefore: '<i class="material-icons">person</i>',
-        //   to: "#",
-        // },
-        // {
-        //   title: "Coach Settings",
-        //   htmlBefore: '<i class="material-icons">person</i>',
-        //   to: "#",
-        // }
-      ]
-    },               
-  ];
-}
-
-
-//coach sidenav items
-if(userRole === 100){
-  return [
-    {
-      title: "Dashboard",
-      htmlBefore: '<i class="material-icons">bar_chart</i>',
-      to: `/vendor`,
-      subMenu: ""
-    },
-    {
-      title: "Profile",
-      htmlBefore: '<i class="material-icons">account_circle</i>',
-      to: "/profile",
-      subMenu: ""
-    },
-    {
-      title: "Accounts",
-      to: "#",
-      htmlBefore: '<i class="material-icons">group</i>',
-      htmlAfter: '<i class="fas fa-caret-down"></i>',
-      subMenu: [
-        {
-          title: "Total Earnings",
-          htmlBefore: '<i class="material-icons">get_app</i>',
-          to: "/accounts/earnings",
-        },
-        // {
-        //   title: "Purchase",
-        //   htmlBefore: '<i class="material-icons">add_shopping_cart</i>',
-        //   to: "/accounts/purchase",
-        // },
-        {
-          title: "Bank Settings",
-          htmlBefore: '<i class="material-icons">build</i>',
-          to: "/accounts/settings",
-        },
-        
-      ]
-    },
-    {
-      title: "Chats",
-      to: "#",
-      htmlBefore: '<i class="material-icons">chat</i>',
-      htmlAfter: '<i class="fas fa-caret-down"></i>',
-      subMenu: [
-        {
-          title: "All chats",
-          htmlBefore: '<i class="material-icons">person</i>',
-          to: "/chats/allChats"
-        }
-        // {
-        //   title: "Compose",
-        //   htmlBefore: '<i class="material-icons">person</i>',
-        //   to: "#",
-        // },
-        // {
-        //   title: "Inbox",
-        //   htmlBefore: '<i class="material-icons">person</i>',
-        //   to: "#",
-        // },
-        // {
-        //   title: "Coach Settings",
-        //   htmlBefore: '<i class="material-icons">person</i>',
-        //   to: "#",
-        // }
-      ]
-    },               
-  ];
-}
 }

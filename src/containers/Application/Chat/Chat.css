@@ -34,6 +34,30 @@
 
 /* ================================== */
 
+.chat-nav {
+    margin-bottom: .5rem;
+    padding: 0;
+}
+
+.chat-nav .nav-link {
+    color: #3d5170;
+    font-weight: bold;
+    font-size: .8rem;
+}
+
+.chat-nav .nav-link:hover {
+    background-color: #FFFFFF;
+    border-radius: .2rem;
+    box-shadow: 0 0.46875rem 2.1875rem rgba(90, 97, 105, .1), 0 0.9375rem 1.40625rem rgba(90, 97, 105, .1), 0 0.25rem 0.53125rem rgba(90, 97, 105, .12), 0 0.125rem 0.1875rem rgba(90, 97, 105, .1);
+}
+
+.chat-nav .nav-link:active,
+.chat-nav .nav-link:visited {
+    background-color: #FFFFFF;
+    border-radius: .2rem;
+    box-shadow: 0 0.46875rem 2.1875rem rgba(90, 97, 105, .1), 0 0.9375rem 1.40625rem rgba(90, 97, 105, .1), 0 0.25rem 0.53125rem rgba(90, 97, 105, .12), 0 0.125rem 0.1875rem rgba(90, 97, 105, .1);
+}
+
 .navBarText {
     margin-left: 10px !important;
     font-size: 17px;
@@ -83,6 +107,7 @@
 body {
     background-color: #e6e6e6;
 }
+
 
 /* .form-group {
     border: 2px solid #f4f4f4;

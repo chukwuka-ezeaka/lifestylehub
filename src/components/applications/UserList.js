@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { ChatList } from "react-chat-elements";
-import { FormGroup, FormInput } from "shards-react";
-
+import { Nav, NavItem, NavLink, FormGroup, FormInput } from "shards-react";
 /**
  *
  * Renders user list
@@ -41,6 +40,22 @@ export default class UserList extends Component {
     let users = this.getFilteredUserList();
     return (
       <div>
+        <div className="chat-nav">
+          <Nav>
+            <NavItem>
+              <NavLink active href="#">
+                All
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="#">Chat Request</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="#">Active Chat</NavLink>
+            </NavItem>
+          </Nav>
+        </div>
+
         <FormGroup>
           <FormInput
             type="text"
@@ -50,7 +65,7 @@ export default class UserList extends Component {
         </FormGroup>
         {users.length ? (
           <ChatList
-            className={!this.props.showSignInList ? "chat-list" : "user-list"}
+            className={"chat-list"}
             dataSource={users.map((f, i) => {
               let date = null;
               let subtitle = "";
