@@ -57,7 +57,6 @@ export default class ChatBox extends Component {
   }
 
   render() {
-    console.log(this.props.targetUser);
     return (
       <div>
         {this.props.targetUser ? (
@@ -65,7 +64,7 @@ export default class ChatBox extends Component {
             <NavbarComponent
               left={
                 <div>
-                  <Col mdHidden lgHidden>
+                  <Col>
                     <p className="navBarText"></p>
                   </Col>
                   <GetImage
@@ -122,7 +121,7 @@ export default class ChatBox extends Component {
         ) : (
           <Card className="text-center">
             <CardHeader>
-              <h1>Hello, {(this.props.signedInUser || {}).fullname}!</h1>
+              <h1>Hello, {(this.props.signedInUser || {}).name}!</h1>
             </CardHeader>
             <CardBody>
               <CardSubtitle>

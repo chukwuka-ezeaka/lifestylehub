@@ -6,7 +6,7 @@ import PageTitle from "../components/common/PageTitle";
 import ChatApp from "../containers/Application/Chat/Chat";
 
 const views = {
-  showChatApp: false,
+  showChatApp: false
 };
 
 class Chat extends React.Component {
@@ -17,12 +17,15 @@ class Chat extends React.Component {
       showViews: views,
       path: "",
       errorMessage: "",
+      user: localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))
+        : {}
     };
   }
 
   componentWillMount() {}
 
-  showContent = (handle) => {
+  showContent = handle => {
     switch (handle) {
       case "/chats/allChats":
         this.setState({ showViews: { showChatApp: true } });
@@ -53,6 +56,8 @@ class Chat extends React.Component {
   };
 
   render() {
+    const { user } = this.state;
+
     return (
       <Container fluid className="main-content-container px-4 pb-4">
         <Row noGutters className="page-header py-4">
@@ -60,7 +65,7 @@ class Chat extends React.Component {
         </Row>
         <Row>
           <Col lg="12" md="12">
-            <ChatApp />
+            <ChatApp user={user} />
           </Col>
         </Row>
       </Container>
