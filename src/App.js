@@ -1,10 +1,6 @@
 //import { hot } from 'react-hot-loader/root';
-import React, {useState} from "react";
-import {
-  HashRouter as Router,
-  Route,
-  Switch
-} from "react-router-dom";
+import React, { useState } from "react";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
 //import routes from "./routes";
 
@@ -16,7 +12,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 
 import { DefaultLayout, HomeLayout } from "./layouts";
 import { AuthContext } from "./context/auth";
-import PrivateRoute from './PrivateRoute';
+import PrivateRoute from "./PrivateRoute";
 // Route Views
 import Home from "./views/Home";
 import About from "./views/About";
@@ -57,22 +53,22 @@ function App(props) {
   const userData = JSON.parse(localStorage.getItem("user"));
   const [authTokens, setAuthTokens] = useState(existingTokens);
   const [user, setUser] = useState(userData);
-  
+
   const setTokens = (data) => {
     localStorage.setItem("Auth", data);
     setAuthTokens(data);
-  }
+  };
 
-    return (
-      <>
-        <ToastContainer />
-        <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
+  return (
+    <>
+      <ToastContainer />
+      <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
         <Router>
           <Switch>
             <Route
               path="/"
               exact
-              render={props => (
+              render={(props) => (
                 <HomeLayout>
                   <Home />
                 </HomeLayout>
@@ -80,7 +76,7 @@ function App(props) {
             />
             <Route
               path="/about"
-              render={props => (
+              render={(props) => (
                 <HomeLayout>
                   <About />
                 </HomeLayout>
@@ -88,7 +84,7 @@ function App(props) {
             />
             <Route
               path="/contact"
-              render={props => (
+              render={(props) => (
                 <HomeLayout>
                   <Contact />
                 </HomeLayout>
@@ -96,7 +92,7 @@ function App(props) {
             />
             <Route
               path="/register"
-              render={props => (
+              render={(props) => (
                 <HomeLayout>
                   <RegisterView />
                 </HomeLayout>
@@ -104,115 +100,79 @@ function App(props) {
             />
             <Route
               path="/signin"
-              render={props => (
+              render={(props) => (
                 <HomeLayout>
                   <SignInView />
                 </HomeLayout>
               )}
             />
-              <Route
+            <Route
               path="/confirmation"
-              render={props => (
+              render={(props) => (
                 <HomeLayout user={user}>
                   <Confirmation user={user} Auth={authTokens} />
                 </HomeLayout>
               )}
             />
+            <PrivateRoute path="/dashboard" component={Dashboard} user={user} />
             <PrivateRoute
-              path="/dashboard"
-              component={Dashboard}
-               user={user}
-            />
-             <PrivateRoute
               path="/vendor"
               component={VendorDashboard}
-               user={user}
+              user={user}
             />
 
             <PrivateRoute
               path="/users/invite"
               exact
               component={InviteUsers}
-               user={user}
+              user={user}
             />
 
             <PrivateRoute
               path="/users/:id"
               component={UsersOverview}
-               user={user}
+              user={user}
             />
-            <PrivateRoute
-              path="/profile"
-              component={UserProfile}
-               user={user}
-            />
+            <PrivateRoute path="/profile" component={UserProfile} user={user} />
             <PrivateRoute
               path="/reflections"
               exact
               component={Reflections}
-               user={user}
+              user={user}
             />
             <PrivateRoute
               path="/reflections/:id"
               component={Reflections}
-               user={user}
+              user={user}
             />
             <PrivateRoute
               path="/viewReflection"
               exact
               component={ViewReflection}
-               user={user}
+              user={user}
             />
             <PrivateRoute
               path="/viewReflection/:id"
               component={ViewReflection}
-               user={user}
+              user={user}
             />
-             <PrivateRoute
-              path="/products"
-              component={Products}
-               user={user}
-            />
+            <PrivateRoute path="/products" component={Products} user={user} />
             <PrivateRoute
               path="/products/:id"
               component={Products}
-               user={user}
+              user={user}
             />
-  
-            <PrivateRoute
-              path="/add/:id"
-              component={AddProduct}
-               user={user}
-            />
-            <PrivateRoute
-              path="/posts/:id"
-              component={Posts}
-               user={user}
-            />
-            <PrivateRoute
-              path="/roles"
-              component={Roles}
-               user={user}
-            />
-            <PrivateRoute
-              path="/chats/:id"
-              component={Chat}
-               user={user}
-            />
-             <PrivateRoute
-              path="/store/:id"
-              component={Store}
-               user={user}
-            />
-            <PrivateRoute
-              path="/logout"
-              component={Logout}
-               user={user}
-            />
+
+            <PrivateRoute path="/add/:id" component={AddProduct} user={user} />
+            <PrivateRoute path="/posts/:id" component={Posts} user={user} />
+            <PrivateRoute path="/roles" component={Roles} user={user} />
+            <PrivateRoute path="/chats/:id" component={Chat} user={user} />
+            <PrivateRoute path="/store/:id" component={Store} user={user} />
+            <PrivateRoute path="/logout" component={Logout} user={user} />
             <PrivateRoute
               path="/permissions"
               component={Permissions}
-               user={user}
+              user={user}
             />
             <PrivateRoute
               path="/accounts/:id"
@@ -221,9 +181,9 @@ function App(props) {
             />
           </Switch>
         </Router>
-        </AuthContext.Provider>
-      </>
-    );
+      </AuthContext.Provider>
+    </>
+  );
 }
 export default App;
 // export default hot(App);

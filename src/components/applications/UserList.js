@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ChatList } from "react-chat-elements";
-import { Nav, NavItem, NavLink, FormGroup, FormInput } from "shards-react";
+import { FormGroup, FormInput } from "shards-react";
 /**
  *
  * Renders user list
@@ -11,7 +11,7 @@ import { Nav, NavItem, NavLink, FormGroup, FormInput } from "shards-react";
 export default class UserList extends Component {
   state = {
     userData: [],
-    searchQuery: null
+    searchQuery: null,
   };
   componentDidMount() {}
   searchInput(e) {
@@ -29,7 +29,7 @@ export default class UserList extends Component {
   getFilteredUserList() {
     return !this.state.searchQuery
       ? this.props.userData
-      : this.props.userData.filter(user =>
+      : this.props.userData.filter((user) =>
           user.firstname
             .toLowerCase()
             .includes(this.state.searchQuery.toLowerCase())
@@ -40,22 +40,6 @@ export default class UserList extends Component {
     let users = this.getFilteredUserList();
     return (
       <div>
-        <div className="chat-nav">
-          <Nav>
-            <NavItem>
-              <NavLink active href="#">
-                All
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="#">Chat Request</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="#">Active Chat</NavLink>
-            </NavItem>
-          </Nav>
-        </div>
-
         <FormGroup>
           <FormInput
             type="text"
@@ -69,11 +53,7 @@ export default class UserList extends Component {
             dataSource={users.map((f, i) => {
               let date = null;
               let subtitle = "";
-              if (
-                !this.props.showSignInList &&
-                f.messages &&
-                f.messages.length
-              ) {
+              if (f.messages && f.messages.length) {
                 let lastMessage = f.messages[f.messages.length - 1];
                 date = new Date(lastMessage.timeStamp);
                 subtitle =
@@ -82,13 +62,13 @@ export default class UserList extends Component {
                     : f.firstname + ": ") + lastMessage.text;
               }
               return {
-                //avatar: require(`../static/images/avatar/${f.id}.jpg`),
+                // avatar: require(f.photo),
                 alt: f.firstname,
                 title: f.firstname,
                 subtitle: subtitle,
                 date: date,
                 unread: f.unread,
-                user: f
+                user: f,
               };
             })}
             onClick={this.props.onChatClicked}
