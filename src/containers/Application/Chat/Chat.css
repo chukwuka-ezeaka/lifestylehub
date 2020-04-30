@@ -34,6 +34,11 @@
 
 /* ================================== */
 
+
+/* .hidden-sm {
+    display: none !important;
+} */
+
 .chat-nav {
     margin-bottom: .5rem;
     padding: 0;
@@ -70,7 +75,7 @@
 }
 
 .message-list {
-    height: 48vh;
+    height: 50vh;
     border-left: 2px solid #f4f4f4;
     border-right: 2px solid #f4f4f4;
 }

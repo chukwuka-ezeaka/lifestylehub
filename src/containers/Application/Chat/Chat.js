@@ -1,34 +1,39 @@
 import React, { Component } from "react";
-import { Row, Col } from "shards-react";
 import HttpService from "../../../utils/API";
 import "./Chat.css";
 
+//Chat Components
 import UserList from "../../../components/applications/UserList";
 import ChatBox from "../../../components/applications/ChatBox";
 import ErrorModal from "../../../components/applications/ErrorModal";
+
+//Import Socket-Client
 import io from "socket.io-client";
 
+//Import Utils
 import "react-chat-elements/dist/main.css";
 import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
-import axios from "axios";
+
+// import Modal and Utils from "react-bootstrap/lib/Modal";
+import Grid from "react-bootstrap/lib/Grid";
+import Row from "react-bootstrap/lib/Row";
+import Col from "react-bootstrap/lib/Col";
+
+// Other Imports
 import events from "../../containerUtils/events";
 
+const socket = io("https://lshub.herokuapp.com/api/v1/chat");
 const _http = new HttpService();
 
 /**
  * Fetches socket server URL from env
  */
-// const SOCKET_URI = "http://localhost:5000";
-
-const SOCKET_URI = "https://lshub.herokuapp.com/api/v1/chat";
 
 class Chat extends Component {
-  socket = null;
-
   state = {
     userChatData: [], // this contains users from which signed-in user can chat and its message data.
     sender: {
@@ -36,10 +41,15 @@ class Chat extends Component {
       id: this.props.user.id,
       name: this.props.user.fullname,
     },
+    reciever: {},
     selectedUserIndex: null,
-    typing: "",
-    error: false,
     errorMessage: "",
+    usersOnline: [],
+    data: {},
+    typing: "",
+    showChatBox: false, // For small devices only
+    showChatList: true, // For small devices only
+    error: false,
   };
 
   /**
@@ -49,46 +59,8 @@ class Chat extends Component {
    * fetches User's list from backend to populate.
    */
   componentDidMount() {
-    this.initAxios();
-    this.initSocketConnection();
     this.setupSocketListeners();
     this.fetchUsers();
-  }
-
-  initSocketConnection() {
-    this.socket = io.connect(SOCKET_URI);
-  }
-
-  // /**
-  //  *
-  //  * Checks if request from axios fails
-  //  * and if it does then shows error modal.
-  //  */
-  initAxios() {
-    axios.interceptors.request.use(
-      (config) => {
-        return config;
-      },
-      (error) => {
-        this.setState({
-          errorMessage: `Couldn't connect to server. try refreshing the page.`,
-          error: true,
-        });
-        return Promise.reject(error);
-      }
-    );
-    axios.interceptors.response.use(
-      (response) => {
-        return response;
-      },
-      (error) => {
-        this.setState({
-          errorMessage: `Some error occured. try after sometime`,
-          error: true,
-        });
-        return Promise.reject(error);
-      }
-    );
   }
 
   /**
@@ -106,19 +78,20 @@ class Chat extends Component {
    *
    * Check error.
    */
-  ifError() {
-    NotificationManager.error("Unable to send message.", "Error!");
+  ifError({ error }) {
+    NotificationManager.error(`${error}, unable to send message.`, "Error!");
   }
 
   /**
    *
    * Established new connection.
    */
-  onConnection() {
-    if (this.state.sender) {
-      console.log("connected");
-      NotificationManager.success("Connection Established.", "Success");
-    }
+  onConnection(data) {
+    console.log(data);
+    NotificationManager.success(
+      `Connection to chat Server Established.`,
+      `Success`
+    );
   }
 
   /**
@@ -126,8 +99,34 @@ class Chat extends Component {
    * Checks if Client is connected
    */
   onClientConnected(data) {
-    console.log(data);
-    NotificationManager.success(`User is connected successfully`);
+    const entries = Object.values(data);
+    this.setState({ data: data });
+    this.setState({ usersOnline: entries });
+
+    console.log(this.state.data[this.state.sender.id], this.state.usersOnline);
+
+    // NotificationManager.success(
+    //   `${this.state.sender.username} is connected`,
+    //   `Connected`
+    // );
+  }
+
+  /**
+   *
+   * @param {Typing New Message} text
+   *
+   * Alerts Users to message typing events
+   */
+  onTyping(data) {
+    const { userChatData, selectedUserIndex } = this.state;
+    if (!userChatData[selectedUserIndex]) {
+      return;
+    } else if (data.id === userChatData[selectedUserIndex].id) {
+      this.setState({ typing: `${data.name} is typing` });
+      setTimeout(() => {
+        this.setState({ typing: "" });
+      }, 2000);
+    }
   }
 
   /**
@@ -135,19 +134,13 @@ class Chat extends Component {
    * Setup all listeners
    */
   setupSocketListeners() {
-    // TYPING EVENTS
-    this.socket.on(events.TYPING, this.onTyping.bind(this));
-    this.socket.on("connection", this.onConnection.bind(this));
-
     // CONNECTED EVENT
-    this.socket.on(events.USER_CONNECTED, this.onClientConnected.bind(this));
-    this.socket.on(events.PRIVATE_MESSAGE, this.onMessageRecieved.bind(this));
-    this.socket.emit(
-      events.USER_CONNECTED,
-      this.state.sender,
-      this.ifError.bind(this)
-    );
-    this.socket.on("disconnect", this.onClientDisconnected.bind(this));
+    socket.on("connection", this.onConnection.bind(this));
+    socket.on(events.USER_CONNECTED, this.onClientConnected.bind(this));
+    socket.on(events.PRIVATE_MESSAGE, this.onMessageRecieved.bind(this));
+    socket.on("disconnect", this.onClientDisconnected.bind(this));
+    // TYPING EVENTS
+    socket.on(events.TYPING, this.onTyping.bind(this));
   }
 
   /**
@@ -156,6 +149,7 @@ class Chat extends Component {
    */
   fetchUsers() {
     const { sender } = this.state;
+    socket.emit(events.USER_CONNECTED, sender, this.ifError.bind(this));
 
     const url = "account/user/list/with_roles";
     _http.sendGet(url).then((response) => {
@@ -183,17 +177,16 @@ class Chat extends Component {
    * increments unread count and appends in the messages array to maintain Chat History
    */
 
-  onMessageRecieved(message) {
-    console.log(message, "message recieved");
+  onMessageRecieved(data) {
     let userChatData = this.state.userChatData;
-    let messageData = message.message;
+    let messageData = data.message;
     let targetId;
-    if (message.sender_id === this.state.sender.id) {
+    if (data.sender_id === this.state.sender.id) {
       messageData.position = "right";
-      targetId = message.reciever_id;
+      targetId = data.receiver_id;
     } else {
       messageData.position = "left";
-      targetId = message.sender_id;
+      targetId = data.sender_id;
     }
     let targetIndex = userChatData.findIndex((u) => u.id === targetId);
     if (!userChatData[targetIndex].messages) {
@@ -221,10 +214,7 @@ class Chat extends Component {
     for (let index = 0; index < users.length; index++) {
       if (users[index].id === e.user.id) {
         users[index].unread = 0;
-        this.setState({
-          selectedUserIndex: index,
-          userChatData: users,
-        });
+        this.setState({ selectedUserIndex: index, userChatData: users });
         return;
       }
     }
@@ -237,41 +227,46 @@ class Chat extends Component {
    * creates message in a format in which messageList can render.
    * position is purposely omitted and will be appended when message is received.
    */
-  createMessage(text) {
-    const { sender, userChatData, selectedUserIndex } = this.state;
+  createMessage(message) {
+    const { data, sender, userChatData, selectedUserIndex } = this.state;
+    if (data) {
+      if (data[sender.id] && data[userChatData[selectedUserIndex].id]) {
+        let payload = {
+          receiverSocketId: data[userChatData[selectedUserIndex].id].socketId,
+          sender_username: data[sender.id].username,
+          sender_id: data[sender.id].id,
+          sender_name: data[sender.id].name,
+          receiver_username: data[userChatData[selectedUserIndex].id].username,
+          receiver_id: data[userChatData[selectedUserIndex].id].id,
+          receiver_name: data[userChatData[selectedUserIndex].id].name,
+          message: {
+            type: "text",
+            text: message,
+            date: +new Date(),
+            className: "message",
+          },
+        };
+        socket.emit(events.PRIVATE_MESSAGE, payload, ({ error }) => {
+          alert(error);
+        });
 
-    const message = {
-      sender_username: sender.username,
-      sender_id: sender.id,
-      sender_name: sender.name,
-      reciever_username: userChatData[selectedUserIndex].firstname,
-      reciever_id: userChatData[selectedUserIndex].id,
-      reciever_name: userChatData[selectedUserIndex].firstname,
-      message: {
-        type: "text",
-        text: text,
-        date: +new Date(),
-        className: "message",
-      },
-    };
-    this.socket.emit(events.PRIVATE_MESSAGE, message, ({ error }) => {
-      console.log(error);
-    });
+        this.onMessageRecieved(payload);
+      } else {
+        NotificationManager.error(
+          `Unable to send message.`,
+          "User is not connected!"
+        );
+      }
+    } else {
+      NotificationManager.error(
+        `Unable to send message.`,
+        "Cannot connect to server"
+      );
+    }
   }
 
-  /**
-   *
-   * @param {Typing New Message} text
-   *
-   * Alerts Users to message typing events
-   */
-  onTyping(data) {
-    if (data.id === 90) {
-      this.setState({ typing: `${data.name} is typing` });
-      setTimeout(() => {
-        this.setState({ typing: "" });
-      }, 2000);
-    }
+  userTyping() {
+    socket.emit(events.TYPING, this.state.sender);
   }
 
   /**
@@ -297,40 +292,57 @@ class Chat extends Component {
   }
 
   render() {
-    const { sender, userChatData, selectedUserIndex } = this.state;
+    let chatBoxProps = this.state.showChatBox
+      ? {
+          xs: 12,
+          sm: 12,
+        }
+      : {
+          xsHidden: true,
+          smHidden: true,
+        };
 
-    let initChat = null;
+    let chatListProps = this.state.showChatList
+      ? {
+          xs: 12,
+          sm: 12,
+        }
+      : {
+          xsHidden: true,
+          smHidden: true,
+        };
 
-    if (sender) {
-      initChat = (
-        <div>
-          <Row>
-            <Col md={4}>
+    return (
+      <div>
+        <Grid>
+          <Row className="show-grid">
+            <Col {...chatListProps} md={4}>
               <UserList
                 userData={this.state.userChatData}
                 onChatClicked={this.onChatClicked.bind(this)}
               />
             </Col>
-            <Col md={8}>
+            <Col {...chatBoxProps} md={8}>
               <ChatBox
-                signedInUser={sender}
+                signedInUser={this.state.sender}
                 onSendClicked={this.createMessage.bind(this)}
                 onBackPressed={this.toggleViews.bind(this)}
-                targetUser={userChatData[selectedUserIndex]}
+                targetUser={
+                  this.state.userChatData[this.state.selectedUserIndex]
+                }
+                userTyping={this.userTyping.bind(this)}
               />
             </Col>
           </Row>
-          <ErrorModal
-            show={this.state.error}
-            errorMessage={this.state.errorMessage}
-            onToggle={this.toggleModal.bind(this)}
-          />
-          <NotificationContainer />
-        </div>
-      );
-    }
-
-    return <div>{initChat}</div>;
+        </Grid>
+        <ErrorModal
+          show={this.state.error}
+          errorMessage={this.state.errorMessage}
+          onToggle={this.toggleModal.bind(this)}
+        />
+        <NotificationContainer />
+      </div>
+    );
   }
 }
 

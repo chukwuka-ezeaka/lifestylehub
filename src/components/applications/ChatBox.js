@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import { Card, CardBody, CardHeader, CardSubtitle } from "shards-react";
 import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardSubtitle,
   FormInput,
   InputGroup,
   Button,
   FormGroup,
-  Col,
-  InputGroupAddon
+  InputGroupAddon,
 } from "shards-react";
-import {
-  MessageList,
-  Navbar as NavbarComponent
-  // Avatar
-} from "react-chat-elements";
-import GetImage from "../common/getImage";
+import Glyphicon from "react-bootstrap/lib/Glyphicon";
+import Col from "react-bootstrap/lib/Col";
+import { Navbar as NavbarComponent, Avatar } from "react-chat-elements";
+import { MessageList } from "react-chat-elements";
 
 /**
  *
@@ -22,10 +22,9 @@ import GetImage from "../common/getImage";
  * displays all the messages from chat history.
  * renders message text box for input.
  */
-
 export default class ChatBox extends Component {
   state = {
-    messageText: ""
+    messageText: "",
   };
 
   /**
@@ -42,6 +41,7 @@ export default class ChatBox extends Component {
 
   onMessageInputChange(e) {
     this.setState({ messageText: e.target.value });
+    this.props.userTyping();
   }
 
   /**
@@ -64,22 +64,20 @@ export default class ChatBox extends Component {
             <NavbarComponent
               left={
                 <div>
-                  <Col>
-                    <p className="navBarText"></p>
+                  <Col mdHidden lgHidden>
+                    <p className="navBarText">
+                      <Glyphicon
+                        onClick={this.props.onBackPressed}
+                        glyph="chevron-left"
+                      />
+                    </p>
                   </Col>
-                  <GetImage
-                    image={this.props.targetUser.photo}
-                    alt={this.props.targetUser.firstname}
-                    height="50px"
-                    width="50px"
-                    classname="rounded-circle"
-                  />
-                  {/* <Avatar
+                  <Avatar
                     alt={this.props.targetUser.firstname}
                     size="large"
                     type="circle flexible"
-                    src = {`https://myacademyhub.s3.amazonaws.com/image/${this.props.targetUser.photo}`}
-                  /> */}
+                    src={this.props.targetUser.photo}
+                  />
                   <p className="navBarText">
                     {this.props.targetUser.firstname}
                   </p>
@@ -102,7 +100,7 @@ export default class ChatBox extends Component {
                   placeholder="Type a message here (Limit 200 characters)..."
                   ref="messageTextBox"
                   className="messageTextBox"
-                  maxLength="200"
+                  maxLength="300"
                   autoFocus
                 />
                 <InputGroupAddon type="append">
