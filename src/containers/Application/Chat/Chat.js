@@ -178,6 +178,7 @@ class Chat extends Component {
    */
 
   onMessageRecieved(data) {
+    console.log(data);
     let userChatData = this.state.userChatData;
     let messageData = data.message;
     let targetId;
