@@ -21,12 +21,12 @@ export default function() {
       {
         title: "Manage Users",
         to: "#",
-        htmlBefore: '<i class="material-icons">group</i>',
+        htmlBefore: '<i class="material-icons">person</i>',
         htmlAfter: '<i class="fas fa-caret-down"></i>',
         subMenu: [
           {
             title: "All users",
-            htmlBefore: '<i class="material-icons">group</i>',
+            htmlBefore: '<i class="material-icons">person</i>',
             to: "/users/all"
           },
           {
@@ -142,15 +142,15 @@ export default function() {
       },
 
       {
-        title: "Accounts",
+        title: "Account",
         to: "#",
-        htmlBefore: '<i class="material-icons">group</i>',
+        htmlBefore: '<i class="material-icons">person</i>',
         htmlAfter: '<i class="fas fa-caret-down"></i>',
         subMenu: [
           {
-            title: "Total Earnings",
-            htmlBefore: '<i class="material-icons">get_app</i>',
-            to: "/accounts/earnings"
+            title: "Wallet",
+            htmlBefore: '<i class="material-icons">payment</i>',
+            to: "/accounts/wallet"
           },
           // {
           //   title: "Purchase",
@@ -281,15 +281,15 @@ export default function() {
         ]
       },
       {
-        title: "Accounts",
+        title: "Account",
         to: "#",
-        htmlBefore: '<i class="material-icons">group</i>',
+        htmlBefore: '<i class="material-icons">person</i>',
         htmlAfter: '<i class="fas fa-caret-down"></i>',
         subMenu: [
           {
-            title: "Total Earnings",
-            htmlBefore: '<i class="material-icons">get_app</i>',
-            to: "/accounts/earnings"
+            title: "Wallet",
+            htmlBefore: '<i class="material-icons">payment</i>',
+            to: "/accounts/wallet"
           },
           // {
           //   title: "Purchase",
@@ -362,15 +362,15 @@ export default function() {
         subMenu: ""
       },
       {
-        title: "Accounts",
+        title: "Account",
         to: "#",
-        htmlBefore: '<i class="material-icons">group</i>',
+        htmlBefore: '<i class="material-icons">person</i>',
         htmlAfter: '<i class="fas fa-caret-down"></i>',
         subMenu: [
           {
-            title: "Total Earnings",
-            htmlBefore: '<i class="material-icons">get_app</i>',
-            to: "/accounts/earnings"
+            title: "Wallet",
+            htmlBefore: '<i class="material-icons">payment</i>',
+            to: "/accounts/wallet"
           },
           // {
           //   title: "Purchase",

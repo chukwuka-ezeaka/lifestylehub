@@ -19,8 +19,24 @@ import {
 } from "shards-react";
 import HttpService from "../../../utils/API";
 import LoaderSmall from "../../Loaders/LoaderSmall";
+import MultiToggle from "react-multi-toggle";
+import "./Media.css";
 
 const _http = new HttpService();
+const productOptions = [
+    {
+      displayName: 'Freebie',
+      value: 'freebie'
+    },
+    {
+      displayName: 'Subscription',
+      value: 'subscription'
+    },
+    {
+        displayName: 'Sell on store',
+        value: 'store'
+      },
+  ];
 
 class Media extends React.Component{
     constructor(){
@@ -41,7 +57,8 @@ class Media extends React.Component{
             authors: null,
             filter: '',
             searchQuery: null,
-            author: null
+            author: null,
+            productOption: 'subscription'
         }
     }
 
@@ -68,6 +85,13 @@ class Media extends React.Component{
 
     handlePrice = (event) =>{
         this.setState({price: event.target.value});                                                                                                      
+    }
+
+    onProductOptionSelect = (value) => {
+        this.setState({productOption: value},() => {
+            console.log(this.state.productOption);
+        });
+        console.log(this.state.productOption);
     }
 
    checkMimeType=(event)=>{
@@ -183,7 +207,7 @@ class Media extends React.Component{
         let message = "";
         let paymentFeild = null;
 
-        if(user.UserRole.roleId === 75){
+        if(user && user.UserRole.roleId === 75){
             const authorList = this.getFilteredAuthorList();
             author = <>
             <FormGroup>
@@ -215,11 +239,11 @@ class Media extends React.Component{
             </>
         }
 
-        if(user.category === null){
+        if(user && user.category === null){
             message = <p className="text-center text-danger">Please update your category under your profile to continue</p>;
         }
 
-        if(this.state.checked){
+        if(this.state.productOption === 'store'){
             paymentFeild = <Row>
                 <Col lg="6" md="6" className="pb-4">
                     <FormGroup className="mb-0">
@@ -284,14 +308,20 @@ class Media extends React.Component{
                     </Col>
                     </Row>
                     {author}
-                    
-                    <fieldset>
+                    <MultiToggle
+                        options={productOptions}
+                        selectedOption={this.state.productOption}
+                        onSelectOption={this.onProductOptionSelect}
+                        disabled={user.category === null}
+                        label="Product options"
+                    />
+                    {/* <fieldset>
                         <FormCheckbox toggle onChange={this.toggle} small checked={this.state.checked} disabled={user.category === null}>
                             Sell product on store
                         </FormCheckbox>
-                    </fieldset>
+                    </fieldset> */}
                     {paymentFeild}
-                    <FormGroup className="mb-0">
+                    <FormGroup className="mb-0 mt-4">
                     <Button theme="accent" type="submit" disabled={disable}>
         {requestPending ? <span>uploading <LoaderSmall/></span> : 'Publish Media'}
                     </Button>
@@ -351,11 +381,17 @@ class Media extends React.Component{
                         "content_type_id" : parseInt(this.state.type),
                         
                     }
-                    if(this.state.price){
+                    if(this.state.productOption === 'store' && this.state.price){
                         payload={
                             ...data,
                             "price": this.state.price
                         }
+                    }else if(this.state.productOption === 'freebie'){
+                        payload={
+                            ...data,
+                            "free": "1"
+                        }
+                        console.log(payload);
                     }else{
                         payload={
                             ...data

@@ -109,8 +109,8 @@ class Stats extends Component {
         }
         return ( 
             <Row >
-                 <Col className="col-lg col-md-2 col-sm-2 mb-4 link pointer dim">
-          <Card className={cardClasses}>
+          <Col  sm="6" className="col-lg mb-4 link pointer dim">
+          <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
             id="all"
@@ -123,10 +123,9 @@ class Stats extends Component {
               </div>
             </CardBody>
           </Card>
-        </Col>
-
-        <Col className="col-lg col-md-2 col-sm-2 mb-4 link pointer dim">
-          <Card className={cardClasses}>
+          </Col>
+          <Col  sm="6" className="col-lg mb-4 link pointer dim">
+          <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
             id="audios"
@@ -139,10 +138,9 @@ class Stats extends Component {
               </div>
             </CardBody>
           </Card>
-        </Col>
-
-        <Col className="col-lg col-md-2 col-sm-2 mb-4 link pointer dim">
-          <Card className={cardClasses}>
+          </Col>
+          <Col  sm="6" className="col-lg mb-4 link pointer dim">
+          <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
             id="videos"
@@ -155,10 +153,9 @@ class Stats extends Component {
               </div>
             </CardBody>
           </Card>
-        </Col>
-
-        <Col className="col-lg col-md-2 col-sm-2 mb-4 link pointer dim">
-          <Card className={cardClasses}>
+          </Col>
+          <Col  sm="6" className="col-lg mb-4 link pointer dim">
+          <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
             id="ebooks"
@@ -171,10 +168,9 @@ class Stats extends Component {
               </div>
             </CardBody>
           </Card>
-        </Col>
-       
-        <Col className="col-lg col-md-2 col-sm-2 mb-4 link pointer dim">
-          <Card className={cardClasses}>
+          </Col>
+          <Col sm="6" className="col-lg mb-4 link pointer dim">
+          <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
             id="text"

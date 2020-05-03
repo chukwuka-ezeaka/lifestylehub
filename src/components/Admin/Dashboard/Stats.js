@@ -88,7 +88,7 @@ class Stats extends Component {
 
     return (
       <Row>
-        <Col className="col-lg col-md-4 col-sm-12 mb-4 link pointer dim">
+        <Col  sm="6" className="col-lg mb-4 link pointer dim">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
@@ -104,7 +104,7 @@ class Stats extends Component {
           </Card>
         </Col>
 
-        <Col className="col-lg col-md-4 col-sm-12 mb-4 link pointer dim">
+        <Col  sm="6" className="col-lg mb-4 link pointer dim">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
@@ -120,7 +120,7 @@ class Stats extends Component {
           </Card>
         </Col>
 
-        <Col className="col-lg col-md-4 col-sm-12 mb-4 link pointer dim">
+        <Col  sm="6" className="col-lg mb-4 link pointer dim">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
@@ -136,7 +136,7 @@ class Stats extends Component {
           </Card>
         </Col>
 
-        <Col className="col-lg col-md-4 col-sm-12 mb-4 link pointer dim">
+        <Col  sm="6" className="col-lg mb-4 link pointer dim">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
@@ -152,7 +152,7 @@ class Stats extends Component {
           </Card>
         </Col>
 
-        <Col className="col-lg col-md-4 col-sm-12 mb-4 link pointer dim">
+        <Col  sm="6" className="col-lg mb-4 link pointer dim">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
@@ -168,7 +168,7 @@ class Stats extends Component {
           </Card>
         </Col>
        
-        {/* <Col className="col-lg col-md-4 col-sm-12 mb-4 link pointer dim">
+        {/* <Col  sm="6" className="col-lg mb-4 link pointer dim">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
