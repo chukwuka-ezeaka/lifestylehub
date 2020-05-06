@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import LoaderSmall from "../Loaders/LoaderSmall";
@@ -142,6 +142,8 @@ function Signin(props) {
                 />
               </div>
             </fieldset>
+            <div>
+            <Link to={`/password/forget`} activeClassName="active">Forgot password?</Link></div>
             <div className="button-box">
               <button
                 className="b ph3 pv2 input-reset ba bg-transparent grow pointer f6"

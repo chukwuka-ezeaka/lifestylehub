@@ -38,6 +38,8 @@ import Store from "./views/Store";
 import "tachyons";
 import InviteUsers from "./views/InviteUser";
 import AddProduct from "./views/AddProduct";
+import Forgetpassword from "./views/PasswordForget";
+import ResetPassword from "./views/ResetPassword";
 
 // const existingTokens = JSON.parse(localStorage.getItem("auth"));
 
@@ -106,6 +108,22 @@ function App(props) {
                 </HomeLayout>
               )}
             />
+             <Route
+              path="/password/forget"
+              render={(props) => (
+                <HomeLayout>
+                 <Forgetpassword/>
+                </HomeLayout>
+              )}
+            />
+             <Route
+              path="/password/reset"
+              render={(props) => (
+                <HomeLayout>
+                 <ResetPassword/>
+                </HomeLayout>
+              )}
+            />
             <Route
               path="/confirmation"
               render={(props) => (
@@ -114,71 +132,40 @@ function App(props) {
                 </HomeLayout>
               )}
             />
+
             <PrivateRoute path="/dashboard" component={Dashboard} user={user} />
-            <PrivateRoute
-              path="/vendor"
-              component={VendorDashboard}
-              user={user}
-            />
 
-            <PrivateRoute
-              path="/users/invite"
-              exact
-              component={InviteUsers}
-              user={user}
-            />
+            <PrivateRoute path="/vendor" component={VendorDashboard} user={user} />
 
-            <PrivateRoute
-              path="/users/:id"
-              component={UsersOverview}
-              user={user}
-            />
+            <PrivateRoute path="/users/invite" exact component={InviteUsers} user={user} />
+            <PrivateRoute path="/users/:id" component={UsersOverview} user={user}/>
+
             <PrivateRoute path="/profile" component={UserProfile} user={user} />
-            <PrivateRoute
-              path="/reflections"
-              exact
-              component={Reflections}
-              user={user}
-            />
-            <PrivateRoute
-              path="/reflections/:id"
-              component={Reflections}
-              user={user}
-            />
-            <PrivateRoute
-              path="/viewReflection"
-              exact
-              component={ViewReflection}
-              user={user}
-            />
-            <PrivateRoute
-              path="/viewReflection/:id"
-              component={ViewReflection}
-              user={user}
-            />
+
+            <PrivateRoute path="/reflections" exact component={Reflections}  user={user} />
+            <PrivateRoute path="/reflections/:id" component={Reflections} user={user} />
+
+            <PrivateRoute path="/viewReflection" exact component={ViewReflection} user={user} />
+            <PrivateRoute path="/viewReflection/:id" component={ViewReflection} user={user} />
+
             <PrivateRoute path="/products" component={Products} user={user} />
-            <PrivateRoute
-              path="/products/:id"
-              component={Products}
-              user={user}
-            />
+            <PrivateRoute path="/products/:id" component={Products} user={user} />
 
             <PrivateRoute path="/add/:id" component={AddProduct} user={user} />
+
             <PrivateRoute path="/posts/:id" component={Posts} user={user} />
+
             <PrivateRoute path="/roles" component={Roles} user={user} />
+
             <PrivateRoute path="/chats/:id" component={Chat} user={user} />
+
             <PrivateRoute path="/store/:id" component={Store} user={user} />
+
             <PrivateRoute path="/logout" component={Logout} user={user} />
-            <PrivateRoute
-              path="/permissions"
-              component={Permissions}
-              user={user}
-            />
-            <PrivateRoute
-              path="/accounts/:id"
-              component={Accounts}
-              user={user}
-            />
+
+            <PrivateRoute path="/permissions" component={Permissions} user={user} />
+
+            <PrivateRoute path="/accounts/:id" component={Accounts} user={user} />
           </Switch>
         </Router>
       </AuthContext.Provider>
