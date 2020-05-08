@@ -1,37 +1,36 @@
 import React, { Component } from "react";
 import HttpService from "../../../utils/API";
-import "./Chat.css";
-
-//Chat Components
-import UserList from "../../../components/applications/UserList";
-import ChatBox from "../../../components/applications/ChatBox";
-import ErrorModal from "../../../components/applications/ErrorModal";
-
-//Import Socket-Client
-import io from "socket.io-client";
-
-//Import Utils
-import "react-chat-elements/dist/main.css";
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
-import "react-notifications/lib/notifications.css";
 
 // import Modal and Utils from "react-bootstrap/lib/Modal";
 import Grid from "react-bootstrap/lib/Grid";
 import Row from "react-bootstrap/lib/Row";
 import Col from "react-bootstrap/lib/Col";
 
+//Chat Components
+import UserList from "../../../components/applications/UserList";
+import ChatBox from "../../../components/applications/ChatBox";
+import ErrorModal from "../../../components/applications/ErrorModal";
+
+//Import Utils
+import "react-chat-elements/dist/main.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
+
+// CHAT CSS
+import "./Chat.css";
+
+//Import Socket-Client
+import io from "socket.io-client";
+
 // Other Imports
 import events from "../../containerUtils/events";
 
 const socket = io("https://lshub.herokuapp.com/api/v1/chat");
 const _http = new HttpService();
-
-/**
- * Fetches socket server URL from env
- */
 
 class Chat extends Component {
   state = {

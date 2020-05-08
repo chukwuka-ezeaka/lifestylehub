@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Glyphicon from "react-bootstrap/lib/Glyphicon";
 import { Modal, ModalBody, ModalHeader } from "shards-react";
 
 /**
@@ -13,11 +14,9 @@ export default class ErrorModal extends Component {
       <Modal open={show} toggle={onToggle}>
         <ModalHeader>Error</ModalHeader>
         <ModalBody className="text-center">
-          {
-            //   <h1>
-            //     <Glyphicon glyph="alert" />
-            // </h1>
-          }
+          <h1>
+            <Glyphicon glyph="alert" />
+          </h1>
           {errorMessage}
         </ModalBody>
       </Modal>

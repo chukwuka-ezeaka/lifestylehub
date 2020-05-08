@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Col from "react-bootstrap/lib/Col";
+import Glyphicon from "react-bootstrap/lib/Glyphicon";
 import {
   Card,
   CardHeader,
@@ -10,8 +12,6 @@ import {
   FormGroup,
   InputGroupAddon,
 } from "shards-react";
-import Glyphicon from "react-bootstrap/lib/Glyphicon";
-import Col from "react-bootstrap/lib/Col";
 import { Navbar as NavbarComponent, Avatar } from "react-chat-elements";
 import { MessageList } from "react-chat-elements";
 
