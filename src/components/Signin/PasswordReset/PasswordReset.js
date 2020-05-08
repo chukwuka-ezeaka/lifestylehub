@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
+import queryString from 'querystring';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import LoaderSmall from "../../Loaders/LoaderSmall";
@@ -12,17 +13,13 @@ function PasswordReset(props) {
   const { setAuthTokens } = useAuth();
   const [errMessage, setErrMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     errMessage: "",
-  //     disabled: false,
-  //     isLoading: false
-  //   };
-  // }
-  // if (isLoggedIn) {
-  //   return <Redirect to="/" />;
-  // }
+  const [token, setToken] = useState("");
+  const params = queryString.parse(props.location.search);
+
+  useEffect(() => {
+    setToken(params["?id"]);
+  });
+  
   return (
     <Formik
       initialValues={{
@@ -38,15 +35,28 @@ function PasswordReset(props) {
             .required("Confirm Password is required")
       })}
       onSubmit={({ password, confirmPassword }) => {
-        setDisabled(true);
-        const url = "auth/login";
+        setDisabled(true)
+        
+        const url = "auth/password/reset";
         const postData = {
             password: password,
-            confirmPassword: confirmPassword
+            confirmPassword: confirmPassword,
+            token: token
         };
-        //API call here
+        _http.sendPostNoAuth(url, postData)
+        .then((response) => {
+              if(response.status === "success"){
+                setDisabled(false);
+                 _http.notify(response.message, "success");
+                 props.history.push("/confirmation");
+              }else{
+                setDisabled(false);
+                _http.notify(response.message);
+              }
+        })
       }}
       render={({ errors, touched }) => (
+          
         <article className="br3 mv4 w-100 w-50 w-25-1 mw6 center">
 
           <Form className="pa4">

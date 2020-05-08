@@ -90,45 +90,7 @@ class Register extends React.Component {
                 this.setState({ disabled: false });
               }
           })
-          // fetch("https://lshub.herokuapp.com/api/v1/auth/register", {
-          //   method: "post",
-          //   headers: { "Content-Type": "application/json" },
-          //   body: JSON.stringify({
-          //     firstname: firstName,
-          //     lastname: lastName,
-          //     email: email,
-          //     role: "99",
-          //     password: password
-          //   }),
-          //   redirect: "follow"
-          // })
-          //   .then(response => response.json())
-          //   .then(user => {
-          //     this.setState({
-          //       disabled: false
-          //     });
-          //     switch (user.status) {
-          //       case "success":
-          //         this.props.history.push("/confirmation");
-          //         break;
-          //       case "fail":
-          //         this.setState({
-          //           disabled: false,
-          //           errMessage: "Error" + user.message
-          //         });
-          //         break;
-          //       default:
-          //         this.setState({
-          //           disabled: false,
-          //           errMessage: user.message
-          //         }).catch(err => {
-          //           this.setState({
-          //             disabled: false,
-          //             errMessage: "Error" + err
-          //           });
-          //         });
-          //     }
-          //   });
+         
         }}
         render={({ errors, touched, setFieldValue }) => (
           <article className="br3 mv4 w-100 w-50 w-25-1 mw6 center">

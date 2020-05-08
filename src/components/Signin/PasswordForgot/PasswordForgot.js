@@ -7,7 +7,7 @@ import HttpService from "../../../utils/API";
 import { useAuth } from "../../../context/auth";
 import "../signin.css";
 
-function PasswordForget(props) {
+function PasswordForgot(props) {
   const _http = new HttpService();
   const { setAuthTokens } = useAuth();
   const [errMessage, setErrMessage] = useState("");
@@ -35,11 +35,20 @@ function PasswordForget(props) {
       })}
       onSubmit={({ email }) => {
         setDisabled(true);
-        const url = "auth/login";
+        const url = "auth/password/forgot";
         const postData = {
           email: email,
         };
-        //API call here
+        _http.sendPostNoAuth(url, postData)
+        .then((response) => {
+              if(response.status === "success"){
+                setDisabled(false);
+                 _http.notify(response.message, "success");
+              }else{
+                setDisabled(false);
+                _http.notify(response.message);
+              }
+        })
       }}
       render={({ errors, touched }) => (
         <article className="br3 mv4 w-100 w-50 w-25-1 mw6 center">
@@ -80,7 +89,7 @@ function PasswordForget(props) {
               <button
                 className="b ph3 pv2 input-reset ba bg-transparent grow pointer f6"
                 type="submit"
-                value=""
+                value="forgotPassword"
                 disabled={disabled}
               >
                 {disabled ? <LoaderSmall /> : "Send"}
@@ -93,4 +102,4 @@ function PasswordForget(props) {
   );
 }
 
-export default withRouter(PasswordForget);
+export default withRouter(PasswordForgot);

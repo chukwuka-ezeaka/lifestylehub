@@ -143,7 +143,7 @@ function Signin(props) {
               </div>
             </fieldset>
             <div>
-            <Link to={`/password/forget`} activeClassName="active">Forgot password?</Link></div>
+            <Link to={`/password/forgot`} activeClassName="active">Forgot password?</Link></div>
             <div className="button-box">
               <button
                 className="b ph3 pv2 input-reset ba bg-transparent grow pointer f6"

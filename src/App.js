@@ -38,7 +38,7 @@ import Store from "./views/Store";
 import "tachyons";
 import InviteUsers from "./views/InviteUser";
 import AddProduct from "./views/AddProduct";
-import Forgetpassword from "./views/PasswordForget";
+import Forgotpassword from "./views/ForgotPassword";
 import ResetPassword from "./views/ResetPassword";
 
 // const existingTokens = JSON.parse(localStorage.getItem("auth"));
@@ -109,15 +109,24 @@ function App(props) {
               )}
             />
              <Route
-              path="/password/forget"
+              path="/password/forgot"
               render={(props) => (
                 <HomeLayout>
-                 <Forgetpassword/>
+                 <Forgotpassword/>
+                </HomeLayout>
+              )}
+            />
+              <Route
+              path="/password/reset"
+              exact
+              render={(props) => (
+                <HomeLayout>
+                 <ResetPassword/>
                 </HomeLayout>
               )}
             />
              <Route
-              path="/password/reset"
+              path="/password/reset/:id"
               render={(props) => (
                 <HomeLayout>
                  <ResetPassword/>
