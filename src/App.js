@@ -134,7 +134,7 @@ function App(props) {
               )}
             />
             <Route
-              path="/confirmation"
+              path="/confirmation/:id"
               render={(props) => (
                 <HomeLayout user={user}>
                   <Confirmation user={user} Auth={authTokens} />

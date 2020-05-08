@@ -14,10 +14,11 @@ function PasswordReset(props) {
   const [errMessage, setErrMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [token, setToken] = useState("");
-  const params = queryString.parse(props.location.search);
+ 
 
   useEffect(() => {
-    setToken(params["?id"]);
+    const id = props.match.params.id;
+   setToken(id);
   });
   
   return (
@@ -48,7 +49,7 @@ function PasswordReset(props) {
               if(response.status === "success"){
                 setDisabled(false);
                  _http.notify(response.message, "success");
-                 props.history.push("/confirmation");
+                 props.history.push("/confirmation/reset");
               }else{
                 setDisabled(false);
                 _http.notify(response.message);

@@ -1,0 +1,81 @@
+/* @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+    .center {
+        margin: 11.8rem auto;
+    }
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+    .center {
+        margin: 6.8rem auto;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1) {
+    .center {
+        margin: 6.7rem auto;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
+    .center {
+        margin: 2.8rem auto;
+    }
+} */
+
+
+/* I PAD LANDSCAPE MODE */
+
+@media only screen and (max-device-height: 640px) {
+    .center {
+        margin: 0.3rem auto;
+    }
+}
+
+@media only screen and (min-device-height: 668px) and (max-device-height: 731px) {
+    .center {
+        margin: 3.9rem auto;
+    }
+}
+
+@media only screen and (min-device-height: 732px) and (max-device-height: 736px) {
+    .center {
+        margin: 3.95rem auto;
+    }
+}
+
+@media only screen and (min-device-height: 737px) and (max-device-height: 812px) {
+    .center {
+        margin: 4rem auto 7.3rem;
+    }
+}
+
+@media only screen and (min-device-height: 813px) and (max-device-height: 823px) {
+    .center {
+        margin: 5rem auto 8.3rem;
+    }
+}
+
+@media only screen and (min-device-height: 824px) and (max-device-height: 1024px) {
+    .center {
+        margin: 10rem auto 18.3rem;
+    }
+}
+
+@media only screen and (device-height: 768px) {
+    .center {
+        margin: 4rem auto 8.3rem;
+    }
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 1366px) {
+    .center {
+        margin: 1.4rem auto 6.3rem;
+    }
+}
+
+@media only screen and (device-width: 1024px) and (device-height: 1366px) {
+    .center {
+        height: 50%;
+        margin: 20rem auto 20rem;
+    }
+}

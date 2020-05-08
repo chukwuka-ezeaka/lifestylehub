@@ -74,7 +74,7 @@ class Register extends React.Component {
                   let type = "";
                   if(response.status === "success"){
                       type = "success";
-                      this.props.history.push("/confirmation");
+                      this.props.history.push("/confirmation/register");
                   }else{
                     this.setState({
                       disabled: false,
