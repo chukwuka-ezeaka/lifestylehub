@@ -12,6 +12,7 @@ import {
   Col,
   Row,
 } from "shards-react";
+import ReactMediaLibraryWrapper from "../common/MediaLibrary";
 //import HttpService from "../../utils/API";
 
 //const _http = new HttpService();

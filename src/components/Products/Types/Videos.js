@@ -29,6 +29,7 @@ class Video extends React.Component{
    }
 render(){
     const { contents, error, loading } = this.props;
+    console.log(contents);
     let showModal = '';
     //console.log(contents)
     if(this.state.currentMedia !== null){

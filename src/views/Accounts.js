@@ -4,15 +4,13 @@ import { Container, Row, Col } from "shards-react";
 //import HttpService from '../utils/API';
 
 import PageTitle from "../components/common/PageTitle";
-import Purchase from "../components/Accounts/Purchase";
-import Earnings from "../components/Accounts/Earnings";
+import Wallet from "../components/Accounts/Wallet";
 import Settings from "../components/Accounts/Settings";
 
 //const _http = new HttpService();
 
 const views = {
-  showEarnings: false,
-  showPurchase: false,
+  showWallet: false,
   showSettings: false
 }
 
@@ -32,11 +30,8 @@ class Accounts extends React.Component {
 
 showContent = (handle) => {
   switch(handle){
-    case '/accounts/earnings':
-      this.setState({showViews: {showEarnings: true}})
-      break;
-    case '/accounts/purchase':
-      this.setState({showViews: {showPurchase: true}})
+    case '/accounts/wallet':
+      this.setState({showViews: {showWallet: true}})
       break;
     case '/account/settings':
       this.setState({showViews: {showSettings: true}})
@@ -71,7 +66,7 @@ abortController = new window.AbortController();
 
   render(){
     const {loading, errorMessage } = this.state;
-    const {showEarnings, showPurchase, showSettings} = this.state.showViews;
+    const {showWallet, showSettings} = this.state.showViews;
     return(
       <Container fluid className="main-content-container px-4 pb-4">
          <Row noGutters className="page-header py-4">
@@ -80,12 +75,9 @@ abortController = new window.AbortController();
         <Row>
           <Col lg="12" md="12">
             {
-            showEarnings ? 
-            <Earnings error={errorMessage} loading={loading}/>
+            showWallet ? 
+            <Wallet error={errorMessage} loading={loading}/>
               :
-                showPurchase ?
-                <Purchase error={errorMessage} loading={loading}/>
-                :
                 showSettings?
                 <Settings />
                 :
