@@ -48,7 +48,7 @@ class MainSidebar extends React.Component {
 
     return (
       <Col
-        style={{ backgroundColor: "black" }}
+        style={{ backgroundColor: "rgba(0,0,0,1)" }}
         tag="aside"
         className={classes}
         lg={{ size: 2 }}

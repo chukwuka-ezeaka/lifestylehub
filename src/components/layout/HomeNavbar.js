@@ -61,7 +61,7 @@ export default class NavExample extends React.Component {
             id="main-logo"
             className="d-inline-block align-top mr-1"
             style={{ maxWidth: "55px" }}
-            src={require("../../assets/images/logo.jpeg")}
+            src={require("../../assets/images/logo.png")}
             alt="Dashboard"
           />
         </NavLink>
@@ -71,11 +71,11 @@ export default class NavExample extends React.Component {
         <Collapse open={this.state.collapseOpen} navbar>
           <Nav navbar className="ml-auto">
             <Nav navbar>
-              <NavItem>
+              {/* <NavItem>
                 <NavLink className="nav-link" to={{ pathname: "/about" }}>
                   About Us
                 </NavLink>
-              </NavItem>
+              </NavItem> */}
               <NavItem>
                 <NavLink className="nav-link" to={{ pathname: "/contact" }}>
                   Contact Us

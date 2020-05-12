@@ -137,8 +137,8 @@ updatePhoto = (payload) => {
         </Row>
     }
     return (
-      <Container fluid className="main-content-container mt-2 px-4">
-        <Row noGutters className="page-header py-4">
+      <Container fluid className="main-content-container px-4">
+        <Row noGutters className="page-header">
           <PageTitle
             title="My Profile"
             subtitle="Overview"

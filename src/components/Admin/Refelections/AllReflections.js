@@ -117,7 +117,7 @@ render(){
                                     </Badge>
                                     <div className="card-post__author d-flex">
                                       <img
-                                        className="rounded-circle link pointer dim img-responsive"
+                                        className="rounded-circle link pointer dim"
                                         src= {require("./../../../images/covers/audio.png")}
                                         alt={reflection.title}
                                         width="50px"

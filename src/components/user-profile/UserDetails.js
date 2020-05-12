@@ -133,7 +133,7 @@ handlePitch = () => {
               <span>Followers</span>
             </Col>
             <Col md="4" sm="4" xs="4" className="f7 text-primary fw4">
-              <i className="material-icons mr-1">thumb_up</i>{user.likeCount}<br/>
+              <i className="material-icons mr-1">thumb_up</i>{user.likeCount.count}<br/>
               <span>Likes</span>
             </Col>
             <Col md="4" sm="4" xs="4" className="f7 text-primary fw4">

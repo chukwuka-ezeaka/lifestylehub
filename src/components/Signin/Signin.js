@@ -10,11 +10,8 @@ import "./signin.css";
 function Signin(props) {
   const _http = new HttpService();
   const { setAuthTokens } = useAuth();
-  const [isSignedIn, setSignedIn] = useState(false);
   const [errMessage, setErrMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedin] = useState(false);
   // constructor() {
   //   super();
   //   this.state = {

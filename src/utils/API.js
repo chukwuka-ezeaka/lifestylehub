@@ -1,9 +1,8 @@
 // import {BASE_URL, FAKE_BASE_URL} from "../actions/types";
 import React from 'react';
-import { Route, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useAuth } from '../context/auth';
 //import {loadState,loadAppMode} from "../utils/localStorage";
 
 const BASE_URL = "https://lshub.herokuapp.com/api/v1/";
@@ -147,6 +146,5 @@ class HttpService {
 };
 
 }
-
 
 export default HttpService;

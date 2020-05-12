@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import {
   Card,
-  CardHeader,
   CardBody,
-  ListGroup,
-  ListGroupItem,
-  CardFooter,
   Row,
   Col,
   FormInput,
@@ -20,16 +16,45 @@ import Subscriptions from "./Subscriptions";
 import Purchases from "./Purchases";
 import Sessions from "./Sessions";
 import AccountOverview from "./AccountOverview";
+import HttpService from "../../utils/API";
+import axios from "axios";
 
+const _http = new HttpService();
 
 class Wallet extends Component{
     constructor(props){
         super(props);
         this.state={
             requestPending: false,
-            componentUnit: 'purchases'
+            componentUnit: 'purchases',
+            walletBalance: null,
+            storePurchases: null
         
         }
+    }
+
+    componentDidMount(){
+      const getWalletbalance = _http.sendGet("wallet/balance");
+      const getStorePurchases = _http.sendGet("store/purchases");
+      axios.all(getWalletbalance, getStorePurchases)
+      .then(axios.spread((balance, purchases) => {
+        this.setState({
+          walletBalance : balance,
+          storePurchases :purchases
+        }) 
+        
+        //console.log(responses)
+      })).catch(errors => {
+        console.log(errors)
+      })
+      // _http.sendGet("wallet/balance")
+      // .then(response => {
+      //   console.log(response)
+      // });
+      // _http.sendGet("store/purchases")
+      // .then(response => {
+      //   console.log(response)
+      // })
     }
 
     handleClick = (e) => {
@@ -38,6 +63,8 @@ class Wallet extends Component{
     }
 
 render(){
+  console.log(this.state.walletBalance);
+  console.log(this.state.storePurchases)
     const {componentUnit } = this.state;
     const { title, referralData } = this.props;
     const variation = "1";
@@ -92,7 +119,7 @@ render(){
 
         <Row>
             {referralData.map((item, idx) => (
-            <Col  sm="6" className="col-lg mb-4 link pointer dim">
+            <Col key={idx} sm="6" className="col-lg mb-4 link pointer dim">
             <Card small className={cardClasses}>
                 <CardBody 
                 className={cardBodyClasses}
@@ -100,7 +127,7 @@ render(){
                 <div className={innerWrapperClasses}>
                     <div className={dataFieldClasses}>
                     <span className={labelClasses}>{item.title}</span>
-                    <h6 className={valueClasses}>{item.value}<i className="material-icons">{item.icon}</i> </h6>
+                    <h6 className={valueClasses}>{item.value}<i className="material-icons green">{item.icon}</i> </h6>
                     </div>
                 </div>
                 </CardBody>
@@ -141,7 +168,7 @@ render(){
         <Row >
             <Col className="mt-2 mb-1">
                 <ButtonGroup>
-                    <Button outline size="sm" theme="primary" id="purchases" className="mb-2 mr-1 p-2 btn" onClick={this.handleClick} clicked>
+                    <Button outline size="sm" theme="primary" id="purchases" className="mb-2 mr-1 p-2 btn" onClick={this.handleClick} clicked="true">
                         Purchases
                     </Button>
                     <Button outline size="sm" theme="secondary" id="subscriptions" className="mb-2 mr-1 p-2 btn" onClick={this.handleClick}>

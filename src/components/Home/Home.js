@@ -10,14 +10,15 @@ import "./css/btn.css";
 import "./css/corporate.css";
 import "./css/fonts/font-awesome/css/font-awesome.css";
 import "./css/fonts/et-line-font/et-line-font.css";
+import Main from "./HomeComponents/Main/Main";
 
 class Landing extends React.Component {
   render() {
     return (
-      <div className="">
-        <Header />
-        <FirstSection />
-        <SecoundSection />
+      <div >
+        {/* <Header /> */}
+        <Main />
+        {/* <SecoundSection /> */}
         <FooterSecoundary />
       </div>
     );

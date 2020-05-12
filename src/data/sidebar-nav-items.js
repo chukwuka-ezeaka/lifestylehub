@@ -190,19 +190,13 @@ export default function() {
             htmlBefore: '<i class="material-icons">book</i>',
             to: "/store/ebooks"
           }
-
-          // {
-          //   title: "Add Product",
-          //   htmlBefore: '<i class="material-icons">add_box</i>',
-          //   to: "#",
-          // },
-
-          // {
-          //   title: "Add Text",
-          //   htmlBefore: '<i class="material-icons">add_box</i>',
-          //   to: "#",
-          // }
         ]
+      },
+      {
+        title: "Freebie",
+        htmlBefore: '<i class="material-icons">business_center</i>',
+        to: `/freebie`,
+        subMenu: ""
       }
     ];
   }
@@ -329,19 +323,13 @@ export default function() {
             htmlBefore: '<i class="material-icons">book</i>',
             to: "/store/ebooks"
           }
-
-          // {
-          //   title: "Add Product",
-          //   htmlBefore: '<i class="material-icons">add_box</i>',
-          //   to: "#",
-          // },
-
-          // {
-          //   title: "Add Text",
-          //   htmlBefore: '<i class="material-icons">add_box</i>',
-          //   to: "#",
-          // }
         ]
+      },
+      {
+        title: "Freebie",
+        htmlBefore: '<i class="material-icons">business_center</i>',
+        to: `/freebie`,
+        subMenu: ""
       }
     ];
   }

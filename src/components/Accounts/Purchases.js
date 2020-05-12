@@ -9,11 +9,7 @@ import {
     CardFooter,
     Row,
     Col,
-    FormInput,
-    InputGroup,
-    InputGroupAddon,
     Button,
-    ButtonGroup
   } from "shards-react";
 
 const Purchases = ({ title, referralData }) => {

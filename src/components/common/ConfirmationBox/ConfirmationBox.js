@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import HttpService from "../../../utils/API";
-import { useAuth } from "../../../context/auth";
 import "./confirmationBox.css";
 
 const register = "A Confirmation link has been sent to your email address <br /> Please Log into your mailbox and click on the link to continue";
-const reset = "Passwor reset successfully, Kindly return to the Sign in screen on the web/app to continue";
+const reset = "Your password has been reset successfully, Kindly return to the Sign in screen on the web/app to continue";
 
 function ConfirmationBox(props) {
-  const _http = new HttpService();
-  const { setAuthTokens } = useAuth();
   const [message, setMessage] = useState("");
 
 

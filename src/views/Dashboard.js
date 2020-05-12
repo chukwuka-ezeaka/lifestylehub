@@ -50,7 +50,7 @@ class Dashboard extends React.Component {
     return (
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
-        <Row noGutters className="page-header py-4">
+        <Row noGutters className="page-header">
           <PageTitle
             title="General Overview"
             subtitle="Dashboard"

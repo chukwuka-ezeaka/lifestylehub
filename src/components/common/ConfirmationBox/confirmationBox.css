@@ -24,6 +24,9 @@
 
 
 /* I PAD LANDSCAPE MODE */
+article{
+    height: 60vh;
+}
 
 @media only screen and (max-device-height: 640px) {
     .center {
