@@ -9,24 +9,24 @@ class FooterSecoundary extends Component {
         <Container>
           <Row>
             <Col md="12" className="col-centered text-center">
-              <img src={require("../../../assets/images/logo.jpeg")} alt="" />
+              <img src={require("../../../assets/images/logo.png")} alt="" />
               <br />
               <br />
               <h4 className="text-white">Address</h4>
               <h6 className="text-light opacity-6">
-                1234 new lorem Rd.
+              7th floor, Nusaiba Towers, Plot 117 Ahmadu Bello Way,
                 <br />
-                ipsum city, cA 012345
+                Kado. Abuja, Nigeria
                 <br />
-                (0123) 123-456-789
+                +234 817 348 0222
               </h6>
               <ul className="footer-quick-links">
                 <li>
                   <Link to={{ pathname: "/" }}>Home</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to={{ pathname: "/about" }}>About Us</Link>
-                </li>
+                </li> */}
                 <li>
                   <Link to={{ pathname: "/contact" }}>Contact</Link>
                 </li>

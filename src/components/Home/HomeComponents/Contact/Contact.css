@@ -1,16 +1,17 @@
 .section-main {
-    padding: 7.5rem 0;
+    padding: 5rem 0;
 }
 
 .section-main h2 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 300;
     color: white;
 }
 
 .section-main p {
     margin: 2rem 0;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    color: #ff971c;
 }
 
 .section-contact {

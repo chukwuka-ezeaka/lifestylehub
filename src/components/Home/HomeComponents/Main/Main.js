@@ -20,11 +20,11 @@ class Main extends Component {
                                 Welcome to The Lifestyle Hub Academy.
                             </h1>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboriso.
+                            In hub academy we believe in the transfer of knowledge, wealth and the transformation of people’s mind as a way of
+                             empowering them towards growth and significant achievement in every area of life.
                             </p>
-                            <Button className="btn btn-sm bg-warning mt-0 mx-3"><i className="im-apple-bite"></i>App store</Button>
-                            <Button className="btn btn-sm bg-warning mx-3"><i className="im-android"></i>Play store</Button>
+                            <Button className="btn  btn-warning text-white mt-2 mx-3"><i className="im-apple-bite"></i>App store</Button>
+                            <Button className="btn  btn-warning text-white mt-2 mx-3"><i className="im-android"></i>Play store</Button>
                            <hr className="space-xs" />
                         </div>
                         <div className="col-lg-6" data-anima="fade-bottom" data-time="1000">
@@ -38,20 +38,18 @@ class Main extends Component {
                     <Row className="pt-5 mt-4">
                        
                         <Col  sm="12" className="col-lg-6 order-md-first">
-                            <h2>Global support in a<br />range of different languages.</h2>
+                            <h2>Get tailored mentorships in a <br />range of different categories.</h2>
                             <p>
-                                Lorem ipsum dolor sit amet no sea takimata sanctus est Lorem ipsum dolor sit amete.
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco sea takimata sanctus eslaboriso.
+                            Still looking for someone to mentor you in your area of interest? Hub academy 
+                            provides you with various mentors on demand that are vast in various fields and have 
+                            records of achievement over years of experience
                             </p>
                         </Col>
                         <Col sm="12" className="col-lg-6 text-light">
                             <hr className="space-xs" />
                             <ul className="icon-list icon-circle icon-list-11">
-                                <li>Lorem ipsum dolor sit ameteminim veniam amoartes.</li>
-                                <li>Lorem exercitation ipsum dolor sittakimata amete magna doloros.</li>
-                                <li>Aullamco ipsum dolor sit amete sanctus artes.</li>
-                                <li>Ut enim ad minim veniam, quis nostrud exercitation tempore.</li>
-                                <li>Aullamco ipsum dolor sitare amete magna magna.</li>
+                                <li>We covers areas like business, management, family, finances, relationships, planning, 
+                                    and more topics that affects the day to day life of the average person. </li>
                             </ul>
                         </Col>
                     </Row>
@@ -62,9 +60,9 @@ class Main extends Component {
                                 <div className="cnt-box cnt-box-top-icon">
                                     <i className="im-checked-user text-warning"></i>
                                     <div className="caption">
-                                        <h2>Creative community</h2>
+                                        <h2>Identify </h2>
                                         <p>
-                                            Lorem ipsum dolor sitamet ullamco labor consenso.
+                                        Identify 
                                         </p>
                                     </div>
                                 </div>
@@ -73,9 +71,9 @@ class Main extends Component {
                                 <div className="cnt-box cnt-box-top-icon">
                                     <i className="im-leafs text-warning"></i>
                                     <div className="caption">
-                                        <h2>Eco friendly</h2>
+                                        <h2>Choose</h2>
                                         <p>
-                                            Lorem ipsum dolor sitamere ullamacone laboret presio.
+                                        Choose any author that you like from the list available
                                         </p>
                                     </div>
                                 </div>
@@ -84,9 +82,9 @@ class Main extends Component {
                                 <div className="cnt-box cnt-box-top-icon">
                                     <i className="im-globe-2 text-warning"></i>
                                     <div className="caption">
-                                        <h2>Global support</h2>
+                                        <h2>Subscribe</h2>
                                         <p>
-                                            Lorem ipsum dolor sita ullamco labormet conse orto.
+                                        Subscribe to join their team of mentees on the go
                                         </p>
                                     </div>
                                 </div>
@@ -95,9 +93,9 @@ class Main extends Component {
                                 <div className="cnt-box cnt-box-top-icon">
                                     <i className="im-chemical-3 text-warning"></i>
                                     <div className="caption">
-                                        <h2>Lot's of features</h2>
+                                        <h2>Participate</h2>
                                         <p>
-                                            Lorem ipsum dolor sita ullamco labormet conse nobile.
+                                        Participate in the daily tips and guides they provide in that industry 
                                         </p>
                                     </div>
                                 </div>
@@ -113,11 +111,11 @@ class Main extends Component {
                             <img className="margin-23" src={require("./media/phone-2.png")} alt="" />
                         </div>
                         <div className="col-lg-6 col-md-6" data-anima="fade-right" data-time="1000">
-                            <h2>Start private conversations <br />with experience mentors in seconds.</h2>
+                            <h2>Start private sessions with <br />experienced counselors in seconds.</h2>
                             <p>
-                                Lorem ipsum dolor sit ametno sea takimata sanctus est Lorem ipsum dolor sit amete.
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco sea takimata sanctus eslaboriso.
-                                Aipsum dolor sit amete sanctus artequis nostrud exercitation ullamco sea tassa.
+                            We understand that sometimes, having a mentor and participating in a general discussion is not enough because 
+                            you have sensitive or personal issues that you want to discuss. Get hooked up with counsellors who will take 
+                            time to listen to you and provide professional advice in what you are in interested in talking about
                             </p>
                             
                         </div>
@@ -126,11 +124,11 @@ class Main extends Component {
                     <div className="row align-items-center">
                         <div className="col-lg-6 col-md-6" data-anima="fade-left" data-time="1000">
                             <hr className="space-sm visible-md" />
-                            <h2>Audio, video and ebook library <br />from your favorite authors.</h2>
+                            <h2>Audio, video and ebook libraries <br />from your favorite authors.</h2>
                             <p>
-                                Lorem ipsum dolor sit ametno sea takimata sanctus est Lorem ipsum dolor sit amete.
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco sea takimata sanctus eslaboriso.
-                                Aipsum dolor sit amete sanctus artequis nostrud exercitation ullamco sea tassa.
+                            There’s more! Get any book, video or audio you want from our library both free and paid versions. 
+                            Digest a daily dose of knowledge and empower yourself in your industry of choice. 
+                            Knowledge improves your ability of apply solution at any given time or circumstance 
                             </p>
                             
                         </div>
@@ -147,20 +145,16 @@ class Main extends Component {
                 <div className="container">
                 <Row className="py-5 align-items-center container">
                     <Col sm="12" className="col-md">
-                        <div className="container">
                          <GetVideo width="100%"/>
-                        </div>
                     </Col>
                     <Col  className="col-md">
-                    <div className="container">
                     <h2 className="text-warning">Don't wait download our app now.</h2>
                     <p className="width-650">
-                        Lorem ipsum dolor sit amet no sea takimata sanctus est Lorem ipsum dolor sit amete
-                        sare nostrud exercitation ullamco sea takiquis nostrud exercitatio.
+                    We already have our applications online. To act is to progress. Don’t wait for another second. 
+                    Immediately take the simple steps to download and install Hub Academy mobile Application.
                     </p>
-                    <Button className="btn bg-warning mt-0 mx-3"><i className="im-apple-bite"></i>App store</Button>
-                    <Button className="btn bg-warning mx-3"><i className="im-android"></i>Play store</Button>
-                </div>
+                    <Button className="btn  btn-warning text-white mt-0 mb-2 mx-3"><i className="im-apple-bite"></i>App store</Button>
+                    <Button className="btn  btn-warning text-white mb-2 mx-3"><i className="im-android"></i>Play store</Button>
                     </Col>
                 </Row>
                 
@@ -173,11 +167,11 @@ class Main extends Component {
                             <img className="margin-23" src={require("./media/phone-5.png")} alt="" />
                         </div>
                         <div className="col-lg-6 col-md-6" data-anima="fade-right" data-time="1000">
-                            <h2>Organize friends and<br />groups from the contacts area.</h2>
+                            <h2>Organize Todo's effectively <br />from the Todo area.</h2>
                             <p>
-                                Lorem ipsum dolor sit ametno sea takimata sanctus est Lorem ipsum dolor sit amete.
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco sea takimata sanctus eslaboriso.
-                                Aipsum dolor sit amete sanctus artequis nostrud exercitation ullamco sea tassa.
+                            Planning action steps is important to mastering any knowledge base you have acquired.
+                             Let us remind you of your tasks on the go so you do no forget. Take your time write down your todo
+                              list and you will not forget a thing again.
                             </p>
                             
                         </div>
@@ -186,25 +180,25 @@ class Main extends Component {
                     <div className="row align-items-center">
                         <div className="col-lg-6 col-md-6" data-anima="fade-left" data-time="1000">
                             <hr className="space-sm visible-md" />
-                            <h2>Trusted all over the world<br />by a wide range of companies.</h2>
+                            <h2>Get daily reflections <br />to help you kickstart your day.</h2>
                             <p>
-                                Lorem ipsum dolor sit ametno sea takimata sanctus est Lorem ipsum dolor sit amete.
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco sea takimata sanctus eslaboriso.
-                                Aipsum dolor sit amete sanctus artequis nostrud exercitation ullamco sea tassa.
+                            We want you to keep focus everyday you wake up. Download the application and get the daily reflection by Abioye Oke 
+                            that will give you a 365 days guide on what to do per day. You will never again have any day when you do not know what 
+                            exactly to do to build a productive life. 
                             </p>
                             
                         </div>
                         <div className="col-lg-6 col-md-6" data-anima="fade-right" data-time="1000">
-                            <img className="margin-23" src={require("./media/phone-4.png")} alt="" />
+                            <img className="margin-23" src={require("./media/phone-n1.png")} alt="" />
                         </div>
                     </div>
                 </div>
             </section>
-             <section id="reviews" className="section-base bg-white py-5">
+             {/* <section id="reviews" className="section-base bg-white py-5">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6">
-                            <h2>Loved all over the world<br />by a wide range of costumers.</h2>
+                            <h2>Reviewed from all over the world <br />by a wide range of users.</h2>
                         </div>
                         <div className="col-lg-6 align-right align-left-md">
                             
@@ -256,13 +250,13 @@ class Main extends Component {
                         </div>
                     </div>
                 </div>
-            </section>
-            <section id="gallery" className="section-base section-full-width section-color align-center py-5">
+            </section> */}
+            <section id="gallery" className="section-base section-full-width bg-white align-center py-5">
                 <div className="container">
                     <h2 className="text-center" >Don't wait download our app now.</h2>
                     <p className="width-650">
-                        Lorem ipsum dolor sit amet no sea takimata sanctus est Lorem ipsum dolor sit amete
-                        sare nostrud exercitation ullamco sea takiquis nostrud exercitatio.
+                    Don’t wait to be told what is happening in the life of others. Immediately click on 
+                    the links above to download the Hub Academy and improve your lifestyle automatically 
                     </p>
                     <hr className="space" />
                     <ul className="slider d-flex" data-options="type:carousel,perView:5,perViewSm:2,perViewXs:1,focusAt:center,gap:0,nav:true,controls:out,autoplay:3000">
@@ -291,13 +285,13 @@ class Main extends Component {
                 <div className="container">
                     <h2 className="text-warning text-center">Subscribe now.</h2>
                     <div className="width-650">
-                        <p>Sare nostrud exercitation ullamco seitatio.</p>
+                        <p>Stay up to date on all new features and events of the Hub Academy.</p>
                         {/* <hr className="space-sm" /> */}
                        
                             <div className="row">
                                 <div className="col-lg-6
                                 m-2">
-                                    <FormInput id="name" name="name" placeholder="Eame and surname" type="text" className="input-text" required/>
+                                    <FormInput id="name" name="name" placeholder="Name and surname" type="text" className="input-text" required/>
                                 </div>
                                 <div className="col-lg-4
                                 m-2">
@@ -305,7 +299,7 @@ class Main extends Component {
                                 </div>
                                 <div className="col-lg-4
                                 m-2">
-                                    <Button className="bg-warning" type="submit">Subscribe</Button>
+                                    <Button className=" btn-warning text-white" type="submit">Subscribe</Button>
                                 </div>
                             </div>
                             <div className="form-checkbox">
