@@ -18,7 +18,7 @@ import {
   // FormSelect
 } from "shards-react";
 
-import './SingleMediaModal.css';
+//import './SingleMediaModal.css';
 import GetAudio from "../../common/GetAudio";
 import GetVideo from "../../common/GetVideo";
 

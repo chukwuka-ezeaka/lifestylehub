@@ -9,6 +9,8 @@ import {
   NavItem,
   NavLink
 } from "shards-react";
+import { AuthContext } from "../../../../contexts/AuthContext";
+//import { AuthContext } from "../../../../contexts/AuthContext";
 
 export default class UserActions extends React.Component {
   constructor(props) {
@@ -20,7 +22,6 @@ export default class UserActions extends React.Component {
         ? JSON.parse(localStorage.getItem("user"))
         : {}
     };
-
     this.toggleUserActions = this.toggleUserActions.bind(this);
   }
 
@@ -36,7 +37,6 @@ export default class UserActions extends React.Component {
 
   render() {
     const { user, visible } = this.state;
-
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
         <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
@@ -57,7 +57,7 @@ export default class UserActions extends React.Component {
             <i className="material-icons">&#xE2C7;</i> Files
           </DropdownItem>
           <DropdownItem divider />
-          <DropdownItem tag={Link} to="/logout" className="text-danger">
+          <DropdownItem onClick={this.context.logout} className="text-danger">
             <i className="material-icons text-danger">&#xE879;</i> Logout
           </DropdownItem>
         </Collapse>
@@ -65,3 +65,5 @@ export default class UserActions extends React.Component {
     );
   }
 }
+
+UserActions.contextType = AuthContext;

@@ -5,12 +5,12 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import LoaderSmall from "../../Loaders/LoaderSmall";
 import HttpService from "../../../utils/API";
-import { useAuth } from "../../../context/auth";
+//import { useAuth } from "../../../contexts/AuthContext";
 import "../signin.css";
 
 function PasswordReset(props) {
   const _http = new HttpService();
-  const { setAuthTokens } = useAuth();
+ // const { setAuthTokens } = useAuth();
   const [errMessage, setErrMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [token, setToken] = useState("");
@@ -18,7 +18,7 @@ function PasswordReset(props) {
 
   useEffect(() => {
     const id = props.match.params.id;
-   setToken(id);
+    setToken(id);
   });
   
   return (

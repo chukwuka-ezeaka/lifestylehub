@@ -14,7 +14,7 @@ const views = {
   showEbook: false,
 }
 
-class Store extends React.Component {
+class Freebie extends React.Component {
    constructor(props){
         super(props);
         this.state={
@@ -31,13 +31,13 @@ class Store extends React.Component {
 
 showContent = (handle) => {
   switch(handle){
-    case '/store/videos':
+    case '/freebie/videos':
         this.setState({showViews: {showVideo: true}})
         break;
-    case '/store/audios':
+    case '/freebie/audios':
         this.setState({showViews: {showAudio: true}})
         break;
-      case '/store/ebooks':
+      case '/freebie/ebooks':
         this.setState({showViews: {showEbook: true}})
         break;
     default:
@@ -74,15 +74,15 @@ componentWillUnmount = () => {
     let ebook = [];
     if(Array.isArray(contents) && (contents.length > 0)){
       video = contents.filter(content => {
-            return (content.content_type.id === 1) && (content.price !== null);
+            return (content.content_type.id === 1) && (content.free === "1");
       });
 
       audio = contents.filter(content => {
-            return (content.content_type.id) === 5 && (content.price !== null);
+            return (content.content_type.id) === 5 && (content.free === "1");
       });
       
       ebook = contents.filter(content => {
-            return (content.content_type.id === 4) && (content.price !== null);
+            return (content.content_type.id === 4) && (content.free === "1");
       });
   } 
 
@@ -95,7 +95,7 @@ componentWillUnmount = () => {
       :
       <Container fluid className="main-content-container px-4 pb-4">
          <Row noGutters className="page-header">
-              <PageTitle sm="4" title="Store" subtitle="" className="text-sm-left" />
+              <PageTitle sm="4" title="Freebie" subtitle="" className="text-sm-left" />
             </Row>
         <Row>
           <Col lg="12" md="12">
@@ -134,4 +134,4 @@ componentWillUnmount = () => {
     }
   }
 
-export default withRouter(Store);
+export default withRouter(Freebie);

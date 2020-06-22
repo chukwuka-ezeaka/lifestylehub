@@ -1,64 +1,87 @@
 import React from 'react';
 import Loader from '../../Loaders/Loader';
-import { Container, Row, Col, Card, CardBody, Badge, CardFooter} from "shards-react";
-import ReadMore from '../../ReadMore/ReadMore';
+import { 
+    Container,
+     Row, 
+     Col, 
+     Card, 
+     CardBody, 
+     Badge,
+     CardFooter 
+    } from "shards-react"
 import SingleMedia from './SingleMediaModal';
+import ReadMore from '../../ReadMore/ReadMore';
 
-class Video extends React.Component{
-  constructor(props){
-    super(props);
-    this.state={
-       currentMedia: null,
-        open: false
+class ViewProduct extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+           currentMedia: null,
+            open: false
+        }
     }
-}
 
+ 
     toggleModal = (event) => {
       
-      if(event){
+        if(event){
+         let mediaId = event.target.id;
+         this.setState({
+            open: !this.state.open,
+            currentMedia: this.props.contents[mediaId]
+         });
+     }
+       // return this.state.open
         
-       let mediaId = event.target.id;
-       console.log(mediaId)
-       this.setState({
-          open: !this.state.open,
-          currentMedia: this.props.contents[mediaId]
-       });
-   }
-     // return this.state.open
-      
-   }
+     }
+
+
 render(){
-    const { contents, error, loading } = this.props;
+
+    const { contents, error, loading, type } = this.props;
     let showModal = '';
+    let icon = null;
     //console.log(contents)
+    if(type === 'video'){
+        icon = require("../../../images/covers/video.png")
+        require("../../../images/covers/audio.png")
+      }
+      if(type === 'audio'){
+        icon = require("../../../images/covers/audio.png")
+      }
+      if(type === 'ebook'){
+        icon = require("../../../images/covers/pdf.png")
+      }
     if(this.state.currentMedia !== null){
          showModal = <SingleMedia media={this.state.currentMedia} toggle={this.toggleModal} open={this.state.open}/>;
     }
     return(
 
         <Container className="mt-4">
-        <h5 className="card-title">All Videos</h5>
+            <h5 className="card-title">All {type}s </h5>
                 {loading ?
                 <Loader />
                 :
-                   Array.isArray(contents) && contents.length > 0 ?
+                    Array.isArray(contents) && contents.length > 0 ?
                    <Row>
                     {contents.map((content, index)  => {
+                            //let userId = `#${user.id}`;
+                            //console.log(index);
+                            //console.log(content);
                             return(
-                                <Col lg="3" md="3" sm="12" className="mb-4" key={index}>
+                                <Col lg="3" md="3" sm="12" className="mb-4" key={content.id}>
                                 <Card small className="card-post card-post--1" style={{'height': '100%'}}>
                                   <div
-                                    className="card-post__image"
+                                    className="card-post__image mb-0"
                                     style={{ textAlign : 'center' }}
                                   >
                                     <img
                                         className="link pointer dim img-responsive"
-                                        src= {require("../../../images/covers/video.png")}
+                                        src= {icon}
                                         alt={content.title}
                                         width="150px"
                                         id={index}
                                         onClick={this.toggleModal}
-                                        // onClick={this.viewReflections}
                                         />
                                     <Badge
                                       pill
@@ -68,9 +91,9 @@ render(){
                                     </Badge>
                                    
                                   </div>
-                                  <CardBody className="mb-0 pb-0">
+                                  <CardBody>
                                     <h5 className="card-title">
-                                      <p className="text-fiord-blue link pointer">
+                                      <p onClick={this.toggleModal} id={index} className="text-fiord-blue link pointer">
                                       {content.title ? content.title : ''}
                                       </p>
                                     </h5>
@@ -82,7 +105,7 @@ render(){
                                     </div>
                                     </CardBody>
                                   <CardFooter className="mt-0 pt-2">
-                                    <span className="text-muted mb-1 pb-0"><i className="material-icons mr-1">person</i>{content.owner ? content.owner.fullname : ''}</span><br/>
+                                  <span className="text-muted mb-1 pb-0"><i className="material-icons mr-1">person</i>{content.owner ? content.owner.fullname : ''}</span><br/>
                                     {content.price? <b><i className="material-icons mr-1">money</i><span className="text-muted">₦{content.price}</span></b> : ""}
                                   </CardFooter>
                                 </Card>
@@ -101,6 +124,8 @@ render(){
         </Container>
     );
 }
+
+
 }
 
-export default Video;
+export default ViewProduct;

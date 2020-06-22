@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
-import { useAuth } from '../../context/auth';
+import { AuthContext } from '../../contexts/AuthContext';
 
 function Logout(props) {
 
-const { setAuthTokens } = useAuth();
+const { logout } = useContext(AuthContext);
 
-    const logout = () => {
-        localStorage.clear();
-        setAuthTokens();
-        //this.props.history.push('/')
-     }
-     logout();
+useEffect(()=>{
+    return logout;
+})
+    // const logout = () => {
+    //     localStorage.clear();
+    //     logout();
+    //     //this.props.history.push('/')
+    //  }
     return (
         <span  onClick={logout} className="text-danger pointer">
             <i className="material-icons text-danger">&#xE879;</i>

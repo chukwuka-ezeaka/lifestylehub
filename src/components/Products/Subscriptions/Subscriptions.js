@@ -72,8 +72,7 @@ class Subscriptions extends Component{
         _http.sendPut(url, payload)
         .then(response => {
           let type = "";
-          if(response.status === "success"){
-            this.setState({ requestPending: false})
+          if(response.status === "success"){            this.setState({ requestPending: false})
               type = "success";
               _http.notify("Subscription updated successfully", type);
               this.getSubscription();

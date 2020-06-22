@@ -1,18 +1,19 @@
 //import { hot } from 'react-hot-loader/root';
-import React, { useState } from "react";
+import React  from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
-
-//import routes from "./routes";
+import { ToastContainer } from "react-toastify";
+import "tachyons";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
-
-import { DefaultLayout, HomeLayout } from "./layouts";
-import { AuthContext } from "./context/auth";
-import PrivateRoute from "./PrivateRoute";
+//routes
+import VendorRoutes from "./routes/VendorRoutes"
+import CoachRoutes from "./routes/CoachRoutes"
+import AdminRoutes from "./routes/AdminRoutes"
+import PrivateRoutes from "./routes/PrivateRoutes";
+import PublicRoutes from "./routes/PublicRoutes";
 // Route Views
 import Home from "./views/Home";
 import About from "./views/About";
@@ -34,150 +35,61 @@ import Posts from "./views/Posts";
 import Accounts from "./views/Accounts";
 import Chat from "./views/Chat";
 import Store from "./views/Store";
-
-import "tachyons";
 import InviteUsers from "./views/InviteUser";
 import AddProduct from "./views/AddProduct";
 import Forgotpassword from "./views/ForgotPassword";
 import ResetPassword from "./views/ResetPassword";
-
-// const existingTokens = JSON.parse(localStorage.getItem("auth"));
-
-// const initialState = {
-//   user: {},
-//   Authenticated: false,
-//   logout: false,
-//   authTokens : existingTokens
-// };
+import Freebie from "./views/Freebie";
+import Error404 from "./views/Error404";
+//context provider
+import AuthContextProvider from "./contexts/AuthContext";
 
 function App(props) {
-  const existingTokens = localStorage.getItem("Auth");
-  const userData = JSON.parse(localStorage.getItem("user"));
-  const [authTokens, setAuthTokens] = useState(existingTokens);
-  const [user, setUser] = useState(userData);
-
-  const setTokens = (data) => {
-    localStorage.setItem("Auth", data);
-    setAuthTokens(data);
-  };
 
   return (
     <>
+      <AuthContextProvider>
       <ToastContainer />
-      <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
         <Router>
           <Switch>
-            <Route
-              path="/"
-              exact
-              render={(props) => (
-                <HomeLayout>
-                  <Home />
-                </HomeLayout>
-              )}
-            />
-            <Route
-              path="/about"
-              render={(props) => (
-                <HomeLayout>
-                  <About />
-                </HomeLayout>
-              )}
-            />
-            <Route
-              path="/contact"
-              render={(props) => (
-                <HomeLayout>
-                  <Contact />
-                </HomeLayout>
-              )}
-            />
-            <Route
-              path="/register"
-              render={(props) => (
-                <HomeLayout>
-                  <RegisterView />
-                </HomeLayout>
-              )}
-            />
-            <Route
-              path="/signin"
-              render={(props) => (
-                <HomeLayout>
-                  <SignInView />
-                </HomeLayout>
-              )}
-            />
-             <Route
-              path="/password/forgot"
-              render={(props) => (
-                <HomeLayout>
-                 <Forgotpassword/>
-                </HomeLayout>
-              )}
-            />
-              <Route
-              path="/password/reset"
-              exact
-              render={(props) => (
-                <HomeLayout>
-                 <ResetPassword/>
-                </HomeLayout>
-              )}
-            />
-             <Route
-              path="/password/reset/:id"
-              render={(props) => (
-                <HomeLayout>
-                 <ResetPassword/>
-                </HomeLayout>
-              )}
-            />
-            <Route
-              path="/confirmation/:id"
-              render={(props) => (
-                <HomeLayout user={user}>
-                  <Confirmation user={user} Auth={authTokens} />
-                </HomeLayout>
-              )}
-            />
+            <PublicRoutes path="/" exact component={Home}/>
+            <PublicRoutes path="/about" component={About} />
+            <PublicRoutes path="/contact" component={Contact}/>
+            <PublicRoutes path="/register" component={RegisterView}/>
+            <PublicRoutes path="/signin" component={SignInView}/>
+            <PublicRoutes path="/password/forgot" component={Forgotpassword}/>
+            <PublicRoutes path="/password/reset" exact component={ResetPassword}/>
+            <PublicRoutes path="/password/reset/:id" component={ResetPassword}/>
+            <PublicRoutes path="/confirmation/:id" component={Confirmation}/>
 
-            <PrivateRoute path="/dashboard" component={Dashboard} user={user} />
+            <AdminRoutes path="/dashboard" component={Dashboard}/>
+            <AdminRoutes path="/users/invite" exact component={InviteUsers}/>
+            <AdminRoutes path="/users/:id" component={UsersOverview}/>
+            <AdminRoutes path="/reflections" exact component={Reflections} />
+            <AdminRoutes path="/reflections/:id" component={Reflections}/>
+            <AdminRoutes path="/viewReflection" exact component={ViewReflection}/>
+            <AdminRoutes path="/viewReflection/:id" component={ViewReflection}/>
+            <AdminRoutes path="/roles" component={Roles}/>
+            <AdminRoutes path="/permissions" component={Permissions}/>
 
-            <PrivateRoute path="/vendor" component={VendorDashboard} user={user} />
+            <PrivateRoutes path="/vendor" component={VendorDashboard}/>
+            <PrivateRoutes path="/profile" component={UserProfile}/>
+            <PrivateRoutes path="/accounts/:id" component={Accounts}/>
+            <PrivateRoutes path="/logout" component={Logout}/>
 
-            <PrivateRoute path="/users/invite" exact component={InviteUsers} user={user} />
-            <PrivateRoute path="/users/:id" component={UsersOverview} user={user}/>
-
-            <PrivateRoute path="/profile" component={UserProfile} user={user} />
-
-            <PrivateRoute path="/reflections" exact component={Reflections}  user={user} />
-            <PrivateRoute path="/reflections/:id" component={Reflections} user={user} />
-
-            <PrivateRoute path="/viewReflection" exact component={ViewReflection} user={user} />
-            <PrivateRoute path="/viewReflection/:id" component={ViewReflection} user={user} />
-
-            <PrivateRoute path="/products" component={Products} user={user} />
-            <PrivateRoute path="/products/:id" component={Products} user={user} />
-
-            <PrivateRoute path="/add/:id" component={AddProduct} user={user} />
-
-            <PrivateRoute path="/posts/:id" component={Posts} user={user} />
-
-            <PrivateRoute path="/roles" component={Roles} user={user} />
-
-            <PrivateRoute path="/chats/:id" component={Chat} user={user} />
-
-            <PrivateRoute path="/store/:id" component={Store} user={user} />
-
-            <PrivateRoute path="/logout" component={Logout} user={user} />
-
-            <PrivateRoute path="/permissions" component={Permissions} user={user} />
-
-            <PrivateRoute path="/accounts/:id" component={Accounts} user={user} />
+            <VendorRoutes path="/store/:id" component={Store}/>
+            <VendorRoutes path="/freebie/:id" component={Freebie}/>
+            <VendorRoutes path="/products" component={Products}/>
+            <VendorRoutes path="/products/:id" component={Products}/>
+            <VendorRoutes path="/add/:id" component={AddProduct}/>
+            <VendorRoutes path="/posts/:id" component={Posts}/>
+            
+            <CoachRoutes path="/chats/:id" component={Chat}/>
+            
+            <Route component={Error404}/>
           </Switch>
         </Router>
-      </AuthContext.Provider>
+      </AuthContextProvider>
     </>
   );
 }

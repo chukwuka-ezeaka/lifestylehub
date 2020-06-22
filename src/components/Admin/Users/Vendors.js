@@ -96,6 +96,7 @@ render(){
     const {user, open} = this.state;
     const {loading, error, roleUpdate, profileUpdate, pending } = this.props;
     let users = this.getFilteredUserList();
+    console.log(users)
     let i = 1;
     let modal = "";
     if(user){

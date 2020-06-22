@@ -135,7 +135,7 @@ class UserAccountDetails extends Component{
     event.preventDefault();
     const payload = this.state.accountDetails;
     const id = this.props.user.id;
-  this.props.updateProfile(payload, id);
+    this.props.updateProfile(payload, id);
   }
   render(){
     const { title, user, categories, getCategories, getCountries, countries, pending } = this.props;

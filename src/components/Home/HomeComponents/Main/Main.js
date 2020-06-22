@@ -37,7 +37,7 @@ class Main extends Component {
                 <div className="container py-5">
                     <Row className="pt-5 mt-4">
                        
-                        <Col  sm="12" className="col-lg-6 order-md-first">
+                        <Col  sm="12" className="col-lg-6 order-md-first mt-n5">
                             <h2>Get tailored mentorships in a <br />range of different categories.</h2>
                             <p>
                             Still looking for someone to mentor you in your area of interest? Hub academy 
@@ -48,28 +48,29 @@ class Main extends Component {
                         <Col sm="12" className="col-lg-6 text-light">
                             <hr className="space-xs" />
                             <ul className="icon-list icon-circle icon-list-11">
-                                <li>We covers areas like business, management, family, finances, relationships, planning, 
-                                    and more topics that affects the day to day life of the average person. </li>
+                                <li>We cover areas like</li>
+                                <li> business, management, family, finances, relationships, planning,</li>
+                                <li> and more topics that affects the day to day life of the average person. </li>
                             </ul>
                         </Col>
                     </Row>
                     <hr className="space" />
                     <div className="grid-list" data-columns="4" data-columns-xs="1" data-anima="fade-bottom" data-timeline="asc" data-timeline-time="300" data-time="1000">
                         <Row className="grid-box">
-                            <Col sm="1" className="col-lg col-md grid-item anima">
+                            <Col xs="6" className="col-lg col-md mb-4 grid-item anima">
                                 <div className="cnt-box cnt-box-top-icon">
                                     <i className="im-checked-user text-warning"></i>
                                     <div className="caption">
                                         <h2>Identify </h2>
                                         <p>
-                                        Identify 
+                                        Identify your area of interest and gifting today  
                                         </p>
                                     </div>
                                 </div>
                             </Col>
-                            <Col sm="12" className="col-lg col-md grid-item anima">
+                            <Col xs="6" className="col-lg col-md mb-4 grid-item anima">
                                 <div className="cnt-box cnt-box-top-icon">
-                                    <i className="im-leafs text-warning"></i>
+                                    <i className="im-hand-touch text-warning"></i>
                                     <div className="caption">
                                         <h2>Choose</h2>
                                         <p>
@@ -78,9 +79,9 @@ class Main extends Component {
                                     </div>
                                 </div>
                             </Col>
-                            <Col sm="1" className="col-lg col-md grid-item anima">
+                            <Col xs="6" className="col-lg col-md mb-4 grid-item anima">
                                 <div className="cnt-box cnt-box-top-icon">
-                                    <i className="im-globe-2 text-warning"></i>
+                                    <i className="im-cursor-click2 text-warning"></i>
                                     <div className="caption">
                                         <h2>Subscribe</h2>
                                         <p>
@@ -89,9 +90,9 @@ class Main extends Component {
                                     </div>
                                 </div>
                             </Col>
-                            <Col sm="1" className="col-lg col-md grid-item anima">
+                            <Col xs="6" className="col-lg col-md mb-4 grid-item anima">
                                 <div className="cnt-box cnt-box-top-icon">
-                                    <i className="im-chemical-3 text-warning"></i>
+                                    <i className="im-ribbon-2 text-warning"></i>
                                     <div className="caption">
                                         <h2>Participate</h2>
                                         <p>

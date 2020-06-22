@@ -146,80 +146,8 @@ render(){
                                 </Card>
                               </Col>
 
-                            //     <Col lg="6" sm="12" className="mb-4" key={reflection.id}>
-                            //     <Card small className="card-post card-post--aside card-post--1">
-                            //       <div
-                            //         className="card-post__image"
-                            //         style={{ backgroundImage: `url('${null}')` }}
-                            //       >
-                            //         <Badge
-                            //           pill
-                            //           className={`card-post__category bg-dark`}
-                            //         >
-                            //           {reflection.author ? reflection.author : ''}
-                            //         </Badge>
-                            //         <div className="card-post__author d-flex">
-                            //         <a><img
-                            //             className="rounded-circle link pointer dim img-responsive"
-                            //             src= {require("./../../../images/covers/audio.png")}
-                            //             alt={reflection.title}
-                            //             width="50px"
-                            //             id={reflection.id}
-                            //             onClick={this.viewReflections}
-                            //             />
-                            //             </a>
-                            //         </div>
-                            //       </div>
-                            //       <CardBody>
-                            //         <h5 className="card-title">
-                            //           <a className="text-fiord-blue" href="#">
-                            //           {reflection.title ? reflection.title : ''}
-                            //           </a>
-                            //         </h5>
-                            //         <p className="card-text d-inline-block mb-3">
-                            //             <Truncate lines={3} ellipsis={<span>... <p className="link pointer blue" id={reflection.id} onClick={this.viewReflections}>show more</p></span>}>
-                            //                 {reflection.content}
-                            //             </Truncate>
-                            //         </p>
-                            //         <span className="text-muted">{reflection.date ? reflection.date : ''}</span>
-                            //       </CardBody>
-                            //     </Card>
-                            //   </Col>
                             )
-                            // return(
-                            //     <tr key={reflection.id}>
-                            //         <td>{i++}</td>
-                            //         <td>{reflection.title ? reflection.title : ''}</td>
-                            //         <td>{reflection.author ? reflection.author : ''}</td>
-                            //         <td>
-                            //             <Truncate lines={3} ellipsis={<span>... <p className="link pointer blue" id={reflection.id} onClick={this.viewReflections}>show more</p></span>}>
-                            //                 {reflection.content}
-                            //             </Truncate>
-                            //         </td>
-                            //         <td>
-                            //         {reflection.content? <GetImage image={reflection.image_link} title={reflection.title} width={width}/> : <LoaderSmall/>} 
-                            //         </td>
-                            //         <td>
-                            //              <img
-                            //             className="rounded-circle link pointer dim"
-                            //             src= {require("./../../../images/covers/audio.png")}
-                            //             alt={reflection.title}
-                            //             width="80"
-                            //             id={reflection.id}
-                            //             onClick={this.viewReflections}
-                            //             />
-                            //         </td>
-                            //         <td>{reflection.postedBy ? reflection.postedBy : ''}</td>
-                            //         <td             >{reflection.date ? reflection.date : ''}</td>
-                            //         <td>
-                            //             <Button size="sm" theme="warning" className="mb-2 mr-1" onClick={this.handleDelete} id={reflection.id}>
-                            //                 {this.state.requestPending ? <LoaderSmall /> : 'Delete'}
-                            //             </Button>
-                            //         </td>
-                                   
-                            //     </tr> 
-                                
-                            // )
+                           
                         })
                         : <div></div>
                     }

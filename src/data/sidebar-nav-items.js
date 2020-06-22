@@ -1,6 +1,10 @@
 export default function() {
   let user = JSON.parse(localStorage.getItem("user"));
-  let userRole = user ? parseInt(user.role.id) : 0;
+  let userRole = 0;
+  if(user){
+    userRole = user.role ? parseInt(user.role.id) : 0;
+  }
+  
   //const username = user ? user.fullname : null
   if (userRole === 75) {
     return [
@@ -195,8 +199,25 @@ export default function() {
       {
         title: "Freebie",
         htmlBefore: '<i class="material-icons">business_center</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
         to: `/freebie`,
-        subMenu: ""
+        subMenu: [
+          {
+            title: "Videos",
+            htmlBefore: '<i class="material-icons">theaters</i>',
+            to: "/freebie/videos"
+          },
+          {
+            title: "Audios",
+            htmlBefore: '<i class="material-icons">audiotrack</i>',
+            to: "/freebie/audios"
+          },
+          {
+            title: "Ebooks",
+            htmlBefore: '<i class="material-icons">book</i>',
+            to: "/freebie/ebooks"
+          }
+        ]
       }
     ];
   }
@@ -328,8 +349,25 @@ export default function() {
       {
         title: "Freebie",
         htmlBefore: '<i class="material-icons">business_center</i>',
+        htmlAfter: '<i class="fas fa-caret-down"></i>',
         to: `/freebie`,
-        subMenu: ""
+        subMenu: [
+          {
+            title: "Videos",
+            htmlBefore: '<i class="material-icons">theaters</i>',
+            to: "/freebie/videos"
+          },
+          {
+            title: "Audios",
+            htmlBefore: '<i class="material-icons">audiotrack</i>',
+            to: "/freebie/audios"
+          },
+          {
+            title: "Ebooks",
+            htmlBefore: '<i class="material-icons">book</i>',
+            to: "/freebie/ebooks"
+          }
+        ]
       }
     ];
   }

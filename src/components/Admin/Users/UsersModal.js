@@ -15,8 +15,8 @@ import {
 
 import './UsersModal.css';
 import HttpService from "../../../utils/API";
-import UserAccountDetails from "../../user-profile/UserAccountDetails";
-import UserDetails from "../../user-profile/UserDetails";
+import UserAccountDetails from "../../Profile/UserAccountDetails";
+import UserDetails from "../../Profile/UserDetails";
 
 const _http = new HttpService();
 

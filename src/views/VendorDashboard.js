@@ -6,15 +6,18 @@ import { Container, Row} from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 import Stats from '../components/Products/Stats';
 import HttpService from "../utils/API";
-import axios from 'axios'
+import axios from 'axios';
+import {AuthContext } from '../contexts/AuthContext'
 
 const _http = new HttpService();
 
 class Dashboard extends React.Component {
+
+  static contextType = AuthContext;
+
   constructor(props) {
     super(props);
     this.state = {
-      user: localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : {},
       media: [],
       contents: [],
       loading: true,
@@ -22,19 +25,16 @@ class Dashboard extends React.Component {
     };
   }
 
-  componentWillMount() {}
-
   componentDidMount() {
+    const {user} = this.context;
     this.setState({loading: true})
-    const mediaUrl = `content/media/list?owner_id=${this.state.user.id}`;
-    const contentUrl= `content/list?owner_id=${this.state.user.id}`;
+    const mediaUrl = `content/media/list?owner_id=${user.id}`;
+    const contentUrl= `content/list?owner_id=${user.id}`;
       axios.all([
         _http.sendGet(mediaUrl),
         _http.sendGet(contentUrl)
         ])
         .then(axios.spread((response1, response2)=> {
-          //   console.log(response1.data)
-          //   console.log(response2.data)
           this.setState({media: response1.data, contents: response2.data, loading: false})
         })
         )

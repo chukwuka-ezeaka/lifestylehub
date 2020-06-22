@@ -16,12 +16,20 @@
     padding: 13px 0;
 }
 
+#form-article{
+    margin-bottom: 300px !important;
+}
+
 .email-box {
     color: #fff;
     background: none;
     font-size: 18px;
     font-weight: 200px;
     outline: none;
+}
+
+#form-article{
+    margin-bottom: 300px;
 }
 
 .photo-box {

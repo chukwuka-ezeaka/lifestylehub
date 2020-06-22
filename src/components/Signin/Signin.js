@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { withRouter, Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import LoaderSmall from "../Loaders/LoaderSmall";
 import HttpService from "../../utils/API";
-import { useAuth } from "../../context/auth";
+import { useAuth, AuthContext } from "../../contexts/AuthContext";
 import "./signin.css";
+import constants from "../../reducers/constants";
 
 function Signin(props) {
   const _http = new HttpService();
-  const { setAuthTokens } = useAuth();
   const [errMessage, setErrMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
+  const { dispatch, setIsAuthenticated } = useContext(AuthContext);
   // constructor() {
   //   super();
   //   this.state = {
@@ -49,29 +50,19 @@ function Signin(props) {
           if (response.data) {
             switch (response.status) {
               case "success":
-                if (response.data.id) {
-                  let userData = JSON.stringify(response.data);
-                  switch (response.data.role.id) {
-                    case 75:
-                      localStorage.setItem("user", userData);
-                      setAuthTokens(response.token);
-                      props.history.push("/dashboard");
-                      break;
-                    case 99:
-                      localStorage.setItem("user", userData);
-                      setAuthTokens(response.token);
-                      props.history.push(`/vendor`);
-                      break;
-                    case 100:
-                      localStorage.setItem("user", userData);
-                      setAuthTokens(response.token);
-                      props.history.push(`/vendor`);
-                      break;
-                    default:
-                      setDisabled(false);
-                      setErrMessage("Please login on the mobile app");
-                      break;
+                if (response.data.role.id === 75 || response.data.role.id === 99 || response.data.role.id === 100 ) {
+                  console.log(response)
+                  const userData = {
+                    ...response.data,
+                    token: response.token,
+                    expires_in: response.expires_in
                   }
+                  localStorage.setItem("user", JSON.stringify(userData));
+                  setIsAuthenticated(true);
+                  dispatch({type: constants.IS_LOGGED_IN, data: response.data})
+                }else{
+                  setDisabled(false);
+                  setErrMessage("Please login on the mobile app");
                 }
                 break;
               case "fail":
@@ -140,7 +131,7 @@ function Signin(props) {
               </div>
             </fieldset>
             <div>
-            <Link to={`/password/forgot`} activeClassName="active">Forgot password?</Link></div>
+            <Link to={`/password/forgot`} activeclassname="active">Forgot password?</Link></div>
             <div className="button-box">
               <button
                 className="b ph3 pv2 input-reset ba bg-transparent grow pointer f6"

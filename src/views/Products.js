@@ -7,13 +7,9 @@ import Category from '../components/Products/Category/Category';
 import Content from '../components/Products/AddProduct/Content';
 import Stats from '../components/Products/Stats';
 import HttpService from "../utils/API";
-import Audio from "../components/Products/Types/Audios";
-import Video from "../components/Products/Types/Videos";
-import Ebook from "../components/Products/Types/Ebooks";
-import Author from "../components/Products/Types/Audios";
 import Subscriptions from "../components/Products/Subscriptions/Subscriptions";
 import Loader from "../components/Loaders/Loader";
-import Text from "../components/Products/Types/Text";
+import ViewProduct from "../components/Products/View/ViewProduct";
 
 const _http = new HttpService();
 const views = {
@@ -58,9 +54,6 @@ showContent = (handle) => {
         break;
       case '/products/ebooks':
         this.setState({showViews: {showEbook: true}})
-        break;
-      case '/products/authors':
-        this.setState({showViews: {showAuthor: true}})
         break;
       case '/products/text':
           this.setState({showViews: {showText: true}})
@@ -108,6 +101,7 @@ componentWillUnmount = () => {
     let audio  = [];
     let ebook = [];
     let text = [];
+    let type = "";
     if(Array.isArray(contents) && (contents.length > 0)){
       video = contents.filter(content => {
             return content.content_type.id === 1 && content.price === null;
@@ -143,20 +137,21 @@ componentWillUnmount = () => {
             <Stats contents={contents} loading={loading}/>
             :
             showVideo ?
-            <Video contents={video} user={user} error={errorMessage} loading={loading}/>
+            <ViewProduct contents={video} user={user} error={errorMessage} type ="video" loading={loading}/>
+            //<Video contents={video} user={user} error={errorMessage} type ="video" loading={loading}/>
             :
             showAudio ? 
-            <Audio contents={audio} user={user} error={errorMessage} loading={loading}/>
+            <ViewProduct contents={audio} user={user} error={errorMessage} type ="audio" loading={loading}/>
             :
             showEbook ?
-            <Ebook contents={ebook} user={user} error={errorMessage} loading={loading}/>
+            <ViewProduct contents={ebook} user={user} error={errorMessage} type ="ebook" loading={loading}/>
             :
             showText ?
-            <Text contents={text} user={user} error={errorMessage} loading={loading}/>
+            <ViewProduct contents={text} user={user} error={errorMessage} type ="text" loading={loading}/>
             :
-            showAuthor ? 
-            <Author contents={Author} user={user} error={errorMessage} loading={loading}/>
-            :
+            // showAuthor ? 
+            // <Author contents={Author} user={user} error={errorMessage} type ="author" loading={loading}/>
+            // :
             showContent ? 
             <Content contents={contents} user={user}/>
             :

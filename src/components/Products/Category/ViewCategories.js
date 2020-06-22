@@ -1,9 +1,24 @@
 import React from 'react';
 import Loader from '../../Loaders/Loader';
+import { withRouter } from 'react-router-dom';
 import {Card, CardHeader, CardBody, Button } from "shards-react"
 import GetImage from '../../common/getImage';
+import CategoryModal from './CategoryModal';
 
 class ViewCategories extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            currentCategory: null,
+            open: false,
+        }
+    }
+
+
+     editCategory = (event) => {
+        const id = event.target.id
+        this.props.history.push(`/editCategory/?id=${id}`)
+    }
 
 render(){
     const { categories, isLoading } = this.props;
@@ -12,7 +27,7 @@ render(){
     let i = 1;
     return(
 
-        
+        <>
             <Card small className="mb-4 overflow-hidden">
                 <CardHeader className="bg-light">
                     <h6 className="m-0 text-black">All Categories</h6>
@@ -60,8 +75,8 @@ render(){
                                     ""}
                                     </td>
                                     <td>
-                                        <Button size="sm" theme="warning" className="mb-2 mr-1" id={index}>
-                                            Delete
+                                        <Button size="xs" theme="secondary" className="mb-2 mr-1" id={index} onClick={this.editCategory}>
+                                            Edit
                                         </Button>
                                     </td>
                                    
@@ -77,9 +92,9 @@ render(){
                     }
                 </CardBody>
             </Card>
-            
+        </>
     );
 }
 }
 
-export default ViewCategories;
+export default withRouter(ViewCategories);

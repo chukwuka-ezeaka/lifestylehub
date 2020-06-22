@@ -16,13 +16,13 @@ const views = {
 
 class Accounts extends React.Component {
    constructor(props){
-        super(props);
-        this.state={
-            loading: true,
-            showViews: views,
-            path: '',
-            errorMessage: ''
-        }
+      super(props);
+      this.state={
+          loading: true,
+          showViews: views,
+          path: '',
+          errorMessage: ''
+      }
     }
   
   componentWillMount() {

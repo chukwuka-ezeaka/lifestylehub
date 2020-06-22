@@ -132,13 +132,13 @@ handlePitch = () => {
               <i className="material-icons mr-1">person_add</i>0<br/>
               <span>Followers</span>
             </Col>
-            <Col md="4" sm="4" xs="4" className="f7 text-primary fw4">
-              <i className="material-icons mr-1">thumb_up</i>{user.likeCount.count}<br/>
-              <span>Likes</span>
-            </Col>
-            <Col md="4" sm="4" xs="4" className="f7 text-primary fw4">
+            <Col md="5" sm="4" xs="4" className="f7 text-primary fw4">
               <i className="material-icons mr-1">how_to_reg</i>{user.subscriptionCount}<br/>
               <span>Subscriptions</span>
+            </Col>
+            <Col md="3" sm="4" xs="4" className="f7 text-primary fw4">
+              <i className="material-icons mr-1">thumb_up</i>{user.likeCount.count}<br/>
+              <span>Likes</span>
             </Col>
           </Row>
           </ListGroupItem>

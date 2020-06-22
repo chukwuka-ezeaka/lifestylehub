@@ -3,8 +3,8 @@ import { Container, Row, Col } from "shards-react";
 import { withRouter } from "react-router-dom";
 
 import PageTitle from "../components/common/PageTitle";
-import UserDetails from "../components/user-profile/UserDetails";
-import UserAccountDetails from "../components/user-profile/UserAccountDetails";
+import UserDetails from "../components/Profile/UserDetails";
+import UserAccountDetails from "../components/Profile/UserAccountDetails";
 import HttpService from "../utils/API";
 import Loader from "../components/Loaders/Loader";
 
