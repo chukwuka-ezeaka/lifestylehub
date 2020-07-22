@@ -17,11 +17,12 @@ class Main extends Component {
                         <div className="col-lg-6" data-anima="fade-in" data-time="1000">
                             <hr className="space-lg hidden-md" />
                             <h1 className="text-warning">
-                                Welcome to The Lifestyle Hub Academy.
+                             Welcome to The Hub Academy™️ by Lifestyle Hub
                             </h1>
-                            <p>
-                            In hub academy we believe in the transfer of knowledge, wealth and the transformation of people’s mind as a way of
-                             empowering them towards growth and significant achievement in every area of life.
+                            <p> 
+                                At Hub Academy we believe in the principles of “Knowledge Transfer”; “Wealth Generating Knowledge” and 
+                                “Mind Transformation”. Your Mind is your greatest Asset, and the Hub Academy provides you with the right
+                                 Content and Mentorship specially design to help you achieve your Dreams
                             </p>
                             <Button className="btn  btn-warning text-white mt-2 mx-3"><i className="im-apple-bite"></i>App store</Button>
                             <Button className="btn  btn-warning text-white mt-2 mx-3"><i className="im-android"></i>Play store</Button>

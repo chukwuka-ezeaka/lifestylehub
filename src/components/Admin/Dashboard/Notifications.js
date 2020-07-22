@@ -18,50 +18,7 @@ const Notification = ({ title, discussions }) => (
     </CardHeader>
 
     <CardBody className="p-0">
-      {discussions.map((discussion, idx) => (
-        <div key={idx} className="blog-comments__item d-flex p-3">
-          {/* Avatar */}
-          <div className="blog-comments__avatar mr-3">
-            <img src={discussion.author.image} alt={discussion.author.name} />
-          </div>
-
-          {/* Content */}
-          <div className="blog-comments__content">
-            {/* Content :: Title */}
-            <div className="blog-comments__meta text-mutes">
-              <a className="text-secondary" href={discussion.author.url}>
-                {discussion.author.name}
-              </a>{" "}
-              on{" "}
-              <a className="text-secondary" href={discussion.post.url}>
-                {discussion.post.title}
-              </a>
-              <span className="text-mutes">- {discussion.date}</span>
-            </div>
-
-            {/* Content :: Body */}
-            <p className="m-0 my-1 mb-2 text-muted">{discussion.body}</p>
-
-            {/* Content :: Actions */}
-            <div className="blog-comments__actions">
-              <ButtonGroup size="sm">
-                <Button theme="white">
-                  <span className="text-success">
-                    <i className="material-icons">check</i>
-                  </span>{" "}
-                  Reply
-                </Button>
-                <Button theme="white">
-                  <span className="text-danger">
-                    <i className="material-icons">clear</i>
-                  </span>{" "}
-                  Close
-                </Button>
-              </ButtonGroup>
-            </div>
-          </div>
-        </div>
-      ))}
+     
     </CardBody>
 
     <CardFooter className="border-top">

@@ -1,3 +1,7 @@
 .Card {
     width: auto !important;
 }
+
+.page-header{
+    margin-bottom: 20px;
+}

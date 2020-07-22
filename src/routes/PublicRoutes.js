@@ -4,20 +4,18 @@ import { AuthContext } from "../contexts/AuthContext";
 import { HomeLayout } from "../layouts";
 
 function PublicRoute({ component: Component, ...rest }) {
-    const { user, isAuthenticated } = useContext(AuthContext)
-   console.log(user)
-   console.log(isAuthenticated)
+    const { user} = useContext(AuthContext)
+    console.log(user)
    return (
     <Route
     {...rest}
     render={props =>{
-    if(user && isAuthenticated){
-        console.log(user)
-        if(parseInt(user.role.id) === 75){
+    if(user.data && user.isAuthenticated){
+        if(parseInt(user.data.role.id) === 75){
             return <Redirect to="/dashboard" />
-        }else if(parseInt(user.role.id) === 99){
+        }else if(parseInt(user.data.role.id) === 99){
             return <Redirect to="/vendor" />
-        }else if(parseInt(user.role.id) === 100){
+        }else if(parseInt(user.data.role.id) === 100){
             return <Redirect to="/vendor" />
         }   
     }

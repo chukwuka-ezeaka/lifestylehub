@@ -14,16 +14,13 @@ import ViewProduct from "../components/Products/View/ViewProduct";
 const _http = new HttpService();
 const views = {
   showAll: false,
-  showVideo: false,
-  showAudio: false,
-  showEbook: false,
-  showAuthor: false,
   showContent: false,
-  showText: false,
+  showStore: false,
+  showProduct: false,
   showAddContent: false,
   showAddMedia: false,
   showCategories: false,
-  showSubscriptions: false
+  showSubscriptions: false,
 }
 
 class Products extends React.Component {
@@ -36,35 +33,33 @@ class Products extends React.Component {
           loading: true,
           showViews: views,
           path: '',
-          errorMessage: ''
+          errorMessage: '',
+          contentType: ''
         }
     }
   
 
 showContent = (handle) => {
   switch(handle){
-    case '/products':
+    case '/products/all':
       this.setState({showViews: {showAll: true}})
       break;
-    case '/products/videos':
-        this.setState({showViews: {showVideo: true}})
+    case '/products/store':
+        this.setState({contentType: "storeContent",showViews:{showProduct: true}})
         break;
-    case '/products/audios':
-        this.setState({showViews: {showAudio: true}})
+      case '/products/freebie':
+        this.setState({contentType: "freebieContent", showViews:{showProduct: true}})
         break;
-      case '/products/ebooks':
-        this.setState({showViews: {showEbook: true}})
+      case '/products/subscription':
+        this.setState({contentType: "subscriptionContent", showViews:{showProduct: true}})
         break;
-      case '/products/text':
-          this.setState({showViews: {showText: true}})
-          break;
       case '/products/contents':
         this.setState({showViews: {showContent: true}})
         break;
       case '/products/Category':
         this.setState({showViews: {showCategories: true}})
         break;
-      case '/products/subscriptions':
+      case '/products/subscriptions/settings':
         this.setState({showViews: {showSubscriptions: true}})
         break;
     default:
@@ -83,7 +78,9 @@ componentDidMount(){
 }
 
 componentDidUpdate(prevProps, prevState){
+ 
   if(prevState.path !== this.state.path){
+    console.log('update')
     this.setState({showViews: views});
     this.showContent(this.state.path);
   }
@@ -94,30 +91,35 @@ componentWillUnmount = () => {
 }
 
   render(){
-    const { contents, user, errorMessage, loading} = this.state;
+    const { contents, user, errorMessage, loading, contentType} = this.state;
   //
-    const { showCategories, showAll, showAudio, showAuthor, showContent, showEbook, showVideo, showText, showSubscriptions } = this.state.showViews;
-    let video  = [];
-    let audio  = [];
-    let ebook = [];
-    let text = [];
-    let type = "";
+    const { showCategories, showAll, showContent,showSubscriptions, showProduct } = this.state.showViews;
+    let payload = [];
     if(Array.isArray(contents) && (contents.length > 0)){
-      video = contents.filter(content => {
-            return content.content_type.id === 1 && content.price === null;
+      if(contentType === "subscriptionContent") payload = contents.filter(content => {
+        return !content.price;
       });
+      if(contentType === "storeContent") payload = contents.filter(content => {
+        return content.price;
+      });
+      if(contentType === "freebieContent") payload = contents.filter(content => {
+        return parseInt(content.free) === 1;
+      });
+  //     video = contents.filter(content => {
+  //           return content.content_type.id === 1 && content.price === null;
+  //     });
 
-      audio = contents.filter(content => {
-            return content.content_type.id === 5 && content.price === null;
-      });
+  //     audio = contents.filter(content => {
+  //           return content.content_type.id === 5 && content.price === null;
+  //     });
       
-      ebook = contents.filter(content => {
-            return content.content_type.id === 4 && content.price === null;
-      });
+  //     ebook = contents.filter(content => {
+  //           return content.content_type.id === 4 && content.price === null;
+  //     });
 
-      text = contents.filter(content => {
-        return content.content_type.id === 7 && content.price === null;
-  });
+  //     text = contents.filter(content => {
+  //       return content.content_type.id === 7 && content.price === null;
+  // });
   } 
 
   
@@ -136,22 +138,9 @@ componentWillUnmount = () => {
             {showAll ?
             <Stats contents={contents} loading={loading}/>
             :
-            showVideo ?
-            <ViewProduct contents={video} user={user} error={errorMessage} type ="video" loading={loading}/>
-            //<Video contents={video} user={user} error={errorMessage} type ="video" loading={loading}/>
+            showProduct ?
+            <ViewProduct contents={payload} user={user} error={errorMessage} loading={loading}/>
             :
-            showAudio ? 
-            <ViewProduct contents={audio} user={user} error={errorMessage} type ="audio" loading={loading}/>
-            :
-            showEbook ?
-            <ViewProduct contents={ebook} user={user} error={errorMessage} type ="ebook" loading={loading}/>
-            :
-            showText ?
-            <ViewProduct contents={text} user={user} error={errorMessage} type ="text" loading={loading}/>
-            :
-            // showAuthor ? 
-            // <Author contents={Author} user={user} error={errorMessage} type ="author" loading={loading}/>
-            // :
             showContent ? 
             <Content contents={contents} user={user}/>
             :
@@ -184,6 +173,27 @@ componentWillUnmount = () => {
           this.setState({contents: response.data, loading: false})
         })
     }
+
+  
+   deleteContent = (id) => {
+       const url = `content/${id}`;
+       this.setState({requestPending: true});
+     _http.sendDelete(url)
+     .then(response => {
+          this.setState({requestPending: false});
+          let type = "";
+          if(response.status === "success"){
+              type = "success";
+              _http.notify(response.message, type)
+              this.getContents();
+          }else{
+              type = "warn";
+              _http.notify(response.message, type)
+          }
+     })
+   }
   }
+
+  
 
 export default withRouter(Products);

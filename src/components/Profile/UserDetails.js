@@ -93,13 +93,16 @@ handlePitch = () => {
         />
         }
           </div>
-          <FormInput size="xs"
-              id="avatar"
-              type="file"
-            />
-          <Button pill outline size="sm" className="mb-2 mt-2" onClick={this.handleUpload} disabled={pending}>
-            {pending ? <LoaderSmall /> : 'Change Avatar'}
-          </Button>
+          <InputGroup className="mb-3">
+              <FormInput type="file" id="avatar"/>
+              <InputGroupAddon type="append">
+                {this.state.requestPending ?
+                 <Button className="btn btn-secondary btn-sm" disabled >Uploading...</Button>
+                :
+                <Button className="btn btn-info btn-xs px-1" onClick={this.handleUpload} disabled={pending}>Change Avatar</Button>
+                }
+              </InputGroupAddon>
+          </InputGroup>
           <h4 className="mb-0">{userDetails.name}</h4>
         
         </CardHeader>
@@ -133,11 +136,11 @@ handlePitch = () => {
               <span>Followers</span>
             </Col>
             <Col md="5" sm="4" xs="4" className="f7 text-primary fw4">
-              <i className="material-icons mr-1">how_to_reg</i>{user.subscriptionCount}<br/>
+              <i className="material-icons mr-1">how_to_reg</i>{user.subscriptionCount ? user.subscriptionCount : 0}<br/>
               <span>Subscriptions</span>
             </Col>
             <Col md="3" sm="4" xs="4" className="f7 text-primary fw4">
-              <i className="material-icons mr-1">thumb_up</i>{user.likeCount.count}<br/>
+              <i className="material-icons mr-1">thumb_up</i>{user.likeCount ? user.likeCount.count : 0}<br/>
               <span>Likes</span>
             </Col>
           </Row>

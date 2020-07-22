@@ -22,20 +22,14 @@ class Stats extends Component {
     changeRoute = (event) => {
         const target = event.target.id;
         switch(target){
-            case 'products':
-                this.props.history.push('/products/allProducts');
+            case 'subscription':
+                this.props.history.push('/products/subscription');
                 break;
-            case 'videos':
-                this.props.history.push('/products/videos');
+            case 'store':
+                this.props.history.push('/products/store');
                 break;
-            case 'audios':
-                this.props.history.push('/products/audios');
-                break;
-            case 'ebooks':
-                this.props.history.push('/products/ebooks');
-                break;
-            case 'text':
-                this.props.history.push('/products/text');
+            case 'freebie':
+                this.props.history.push('/products/freebie');
                 break;
             default:
                 this.props.history.push('#');
@@ -86,6 +80,9 @@ class Stats extends Component {
         let video= [];
          let audio= [];
         let ebook = [];
+        let subscription = [];
+        let store = [];
+        let freebie = [];
         let text = [];
         
       // Array.isArray(contents) && (contents.length > 0) ? contentLength = contents.length : contentLength = 0;
@@ -106,15 +103,24 @@ class Stats extends Component {
             text = contents.filter(content => {
                 return content.content_type.id === 7;
           });
+          subscription = contents.filter(content => {
+            return !content.price;
+          });
+          store = contents.filter(content => {
+            return content.price;
+          });
+          freebie = contents.filter(content => {
+            return parseInt(content.free) === 1;
+          });
         }
         return ( 
+          <>
             <Row >
-          <Col  sm="6" className="col-lg mb-4 link pointer dim">
+          <Col  sm="6" className="col-lg mb-4">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
-            id="all"
-            onClick={this.changeRoute}>
+            id="all">
               <div className={innerWrapperClasses}>
                 <div className={dataFieldClasses}>
                   <span className={labelClasses}>All</span>
@@ -124,12 +130,12 @@ class Stats extends Component {
             </CardBody>
           </Card>
           </Col>
-          <Col  sm="6" className="col-lg mb-4 link pointer dim">
+          <Col  sm="6" className="col-lg mb-4">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
-            id="audios"
-              onClick={this.changeRoute}>
+            id="audios" >
+             
               <div className={innerWrapperClasses}>
                 <div className={dataFieldClasses}>
                   <span className={labelClasses}>Audios</span>
@@ -139,12 +145,11 @@ class Stats extends Component {
             </CardBody>
           </Card>
           </Col>
-          <Col  sm="6" className="col-lg mb-4 link pointer dim">
+          <Col  sm="6" className="col-lg mb-4">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
-            id="videos"
-            onClick={this.changeRoute}>
+            id="videos">
               <div className={innerWrapperClasses}>
                 <div className={dataFieldClasses}>
                   <span className={labelClasses}>Videos</span>
@@ -154,12 +159,11 @@ class Stats extends Component {
             </CardBody>
           </Card>
           </Col>
-          <Col  sm="6" className="col-lg mb-4 link pointer dim">
+          <Col  sm="6" className="col-lg mb-4">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
-            id="ebooks"
-            onClick={this.changeRoute}>
+            id="ebooks">
               <div className={innerWrapperClasses}>
                 <div className={dataFieldClasses}>
                   <span className={labelClasses}>Ebooks</span>
@@ -169,12 +173,11 @@ class Stats extends Component {
             </CardBody>
           </Card>
           </Col>
-          <Col sm="6" className="col-lg mb-4 link pointer dim">
+          <Col sm="6" className="col-lg mb-4">
           <Card small className={cardClasses}>
             <CardBody 
             className={cardBodyClasses}
-            id="text"
-              onClick={this.changeRoute}>
+            id="text">
               <div className={innerWrapperClasses}>
                 <div className={dataFieldClasses}>
                   <span className={labelClasses}>Text</span>
@@ -185,6 +188,55 @@ class Stats extends Component {
           </Card>
         </Col>
             </Row>
+            
+            <Row className="text-white">
+              <Col sm="6" className="col-lg mb-4 pointer dim">
+          <Card small className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="subscription"
+              onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>SUBSCRIPTION</span>
+                  <h6 className={valueClasses}> {loading ? <LoaderSmall/> : subscription.length}</h6>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col sm="6" className="col-lg mb-4 pointer dim">
+          <Card small className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="store"
+              onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>STORE</span>
+                  <h6 className={valueClasses}> {loading ? <LoaderSmall/> : store.length}</h6>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col sm="6" className="col-lg mb-4 pointer dim">
+          <Card small className={cardClasses}>
+            <CardBody 
+            className={cardBodyClasses}
+            id="freebie"
+              onClick={this.changeRoute}>
+              <div className={innerWrapperClasses}>
+                <div className={dataFieldClasses}>
+                  <span className={labelClasses}>FREEBIE</span>
+                  <h6 className={valueClasses}> {loading ? <LoaderSmall/> : freebie.length}</h6>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+            </Row>
+            </>
          );
     }
 

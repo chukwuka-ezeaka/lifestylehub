@@ -127,16 +127,16 @@ render(){
                                         />
                                     </div>
                                   </div>
-                                  <CardBody>
-                                    <h5 className="card-title">
+                                  <CardBody className="f5">
+                                    <p className="card-title">
                                       <p className="text-fiord-blue">
                                       <Truncate lines={2} ellipsis={<span>... </span>}>
                                             { reflection.title}
                                         </Truncate>
                                       {/* {reflection.title ? reflection.title : ''} */}
                                       </p>
-                                    </h5>
-                                    <div className="card-text d-inline-block mb-0">
+                                    </p>
+                                    <div className="card-text d-inline-block my-n3 f6">
                                         <Truncate lines={3} ellipsis={<span>... <p className="link pointer blue" id={reflection.id} onClick={this.viewReflections}>show more</p></span>}>
                                             {reflection.content}
                                         </Truncate>

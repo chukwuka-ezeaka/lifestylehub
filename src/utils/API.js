@@ -5,7 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 //import {loadState,loadAppMode} from "../utils/localStorage";
 
-const BASE_URL = "https://lshub.herokuapp.com/api/v1/";
+const BASE_URL = "https://api.myacademyhub.com/api/v1/";
 const token =  localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : ''
 
 const httpService = axios.create({

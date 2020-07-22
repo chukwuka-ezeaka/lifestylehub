@@ -4,16 +4,16 @@ import { AuthContext } from "../contexts/AuthContext";
 import { DefaultLayout} from "../layouts";
 
 function PrivateRoutes({ component: Component, ...rest }) {
-  const { user, isAuthenticated } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
   return (
     <Route
       {...rest}
       render={props =>{
-        if(!isAuthenticated && user){
+        if(user.data && !user.isAuthenticated){
           return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
         }
-        if(!isAuthenticated){
+        if(!user.isAuthenticated){
           return <Redirect to="/signin" />
         }
         

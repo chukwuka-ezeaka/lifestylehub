@@ -153,7 +153,7 @@ class UserAccountDetails extends Component{
           <ListGroupItem className="p-3">
             <Row>
               <Col>
-                <Form onSubmit={this.handleSubmit}>
+                <Form className="f6" onSubmit={this.handleSubmit}>
                   <Row form>
                     {/* First Name */}
                     <Col md="6" className="form-group">

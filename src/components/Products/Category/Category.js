@@ -46,11 +46,11 @@ class Category extends Component {
          
         
             <Row>
-              <Col lg="6" md="12">
+              <Col lg="7" md="7">
                 <ViewCategories categories={this.state.categories} isLoading={this.state.isLoading}/>
               </Col>
         
-              <Col lg="6" md="12">
+              <Col lg="5" md="5">
                 <Card small className="mb-4">
                   <CardHeader className="border-bottom">
                   <h6 className="m-0">Create Category</h6>

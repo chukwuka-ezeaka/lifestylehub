@@ -28,11 +28,11 @@ class Register extends React.Component {
           firstName: "",
           lastName: "",
           email: "",
-          role: "99",
+          role: 75,
           phone: "",
           photo: null,
           password: "",
-          confirmPassword: ""
+          confirmPassword: "",
         }}
         validationSchema={Yup.object().shape({
           firstName: Yup.string().required("First Name is required"),
@@ -64,7 +64,7 @@ class Register extends React.Component {
             firstname: firstName,
             lastname: lastName,
             email: email,
-            role: "99",
+            role: 99,
             password: password
           }
           _http.sendPostNoAuth(url,payload)

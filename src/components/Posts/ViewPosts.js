@@ -47,16 +47,16 @@ render(){
                                   </CardBody>
                                   <CardFooter className="border-top">
                                     <Row className="px-auto">
-                                        <Col lg="4" md="4" sm="4"className="f7 text-primary fw4">
+                                        <Col lg="3" md="3" sm="4"className="f7 text-primary fw4">
                                         <i className="material-icons mr-1">thumb_up</i>{post.like_count}<br/>
                                         <span>Likes</span>
                                         </Col>
-                                        <Col lg="4" md="4" sm="4" xs="4" className="f7 text-primary fw4">
+                                        <Col lg="3" md="4" sm="4" xs="4" className="f7 text-primary fw4">
                                         <i className="material-icons mr-1">chat_bubble_outline</i>{post.comment_count}<br/>
                                         <span>Comments</span>
                                         </Col>
                                         <Col lg="4" md="4" sm="4" xs="4" className="f7 text-primary fw4">
-                                            <Button size="sm" theme="info"> View
+                                            <Button size="md" theme="info"> View
                                             </Button>
                                         </Col>
                                     </Row>

@@ -83,12 +83,12 @@ render(){
                                     <td>{i++}</td>
                                     <td>{role.name}</td>
                                     <td>
-                                        <Button size="sm" theme="info" className="mb-2 mr-1" id={index} onClick={this.toggle}>
+                                        <Button size="md" theme="info" className="mb-2 mr-1" id={index} onClick={this.toggle}>
                                             Expand
                                         </Button>
                                     </td>
                                     <td>
-                                        <Button size="sm" theme="warning" className="mb-2 mr-1" onClick={this.handleDelete} id={role.id}>
+                                        <Button size="md" theme="warning" className="mb-2 mr-1" onClick={this.handleDelete} id={role.id}>
                                             {this.state.requestPending ? <LoaderSmall /> : 'Delete'}
                                         </Button>
                                     </td>

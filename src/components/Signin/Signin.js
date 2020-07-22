@@ -4,7 +4,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import LoaderSmall from "../Loaders/LoaderSmall";
 import HttpService from "../../utils/API";
-import { useAuth, AuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import "./signin.css";
 import constants from "../../reducers/constants";
 
@@ -12,7 +12,7 @@ function Signin(props) {
   const _http = new HttpService();
   const [errMessage, setErrMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const { dispatch, setIsAuthenticated } = useContext(AuthContext);
+  const { dispatch } = useContext(AuthContext);
   // constructor() {
   //   super();
   //   this.state = {
@@ -51,15 +51,14 @@ function Signin(props) {
             switch (response.status) {
               case "success":
                 if (response.data.role.id === 75 || response.data.role.id === 99 || response.data.role.id === 100 ) {
-                  console.log(response)
+                 
                   const userData = {
                     ...response.data,
                     token: response.token,
                     expires_in: response.expires_in
                   }
-                  localStorage.setItem("user", JSON.stringify(userData));
-                  setIsAuthenticated(true);
-                  dispatch({type: constants.IS_LOGGED_IN, data: response.data})
+                  //console.log(userData);
+                  dispatch({type: constants.IS_LOGGED_IN, data: userData})
                 }else{
                   setDisabled(false);
                   setErrMessage("Please login on the mobile app");

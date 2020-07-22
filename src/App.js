@@ -72,19 +72,21 @@ function App(props) {
             <AdminRoutes path="/roles" component={Roles}/>
             <AdminRoutes path="/permissions" component={Permissions}/>
 
-            <PrivateRoutes path="/vendor" component={VendorDashboard}/>
-            <PrivateRoutes path="/profile" component={UserProfile}/>
-            <PrivateRoutes path="/accounts/:id" component={Accounts}/>
-            <PrivateRoutes path="/logout" component={Logout}/>
-
-            <VendorRoutes path="/store/:id" component={Store}/>
-            <VendorRoutes path="/freebie/:id" component={Freebie}/>
-            <VendorRoutes path="/products" component={Products}/>
+            {/* <VendorRoutes path="/store/:id" component={Store}/>
+            <VendorRoutes path="/freebie/:id" component={Freebie}/> */}
+            <VendorRoutes path="/products" exact component={Products}/>
             <VendorRoutes path="/products/:id" component={Products}/>
+            <VendorRoutes path="/products/:id/settings" component={Products}/>
             <VendorRoutes path="/add/:id" component={AddProduct}/>
             <VendorRoutes path="/posts/:id" component={Posts}/>
             
             <CoachRoutes path="/chats/:id" component={Chat}/>
+
+            <PrivateRoutes path="/vendor" component={VendorDashboard}/>
+            <PrivateRoutes path="/coach" component={VendorDashboard}/>
+            <PrivateRoutes path="/profile" component={UserProfile}/>
+            <PrivateRoutes path="/accounts/:id" component={Accounts}/>
+            <PrivateRoutes path="/logout" component={Logout}/>
             
             <Route component={Error404}/>
           </Switch>

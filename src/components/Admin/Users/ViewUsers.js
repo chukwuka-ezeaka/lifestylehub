@@ -12,9 +12,10 @@ import {
     FormSelect,
   InputGroup,
   InputGroupAddon,
+  Button
 } from "shards-react"
 
-class Subscribers extends React.Component{
+class ViewUsers extends React.Component{
     constructor(props){
         super(props);
         this.state={
@@ -32,7 +33,7 @@ class Subscribers extends React.Component{
 
    toggleModal = (event) => {
       
-       if(event){
+    if(event){
         let userId = parseInt(event.target.id);
         const currentUser = this.props.users.filter(user => user.id === userId)
         this.setState({
@@ -78,8 +79,6 @@ class Subscribers extends React.Component{
                 case "name":
                     return  user.firstname.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || 
                             user.lastname.toLowerCase().includes(this.state.searchQuery.toLowerCase());
-                // case "username":
-                //     return  user.username.toLowerCase().includes(this.state.searchQuery.toLowerCase());
                 case "email":
                     return  user.email.toLowerCase().includes(this.state.searchQuery.toLowerCase());
                 default:
@@ -95,9 +94,8 @@ class Subscribers extends React.Component{
 
 render(){
     const {user, open} = this.state;
-    const {loading, error, roleUpdate, profileUpdate, pending } = this.props;
+    const {loading, error, roleUpdate, profileUpdate, pending, typeName } = this.props;
     let users = this.getFilteredUserList();
-    console.log(users)
     let i = 1;
     let modal = "";
     if(user){
@@ -109,6 +107,7 @@ render(){
         pending={pending} 
         open={open}/>
     }
+    // console.log(users);
     return(
 
         <Container  className="px-0 py-0" fluid>
@@ -116,7 +115,7 @@ render(){
             <Col>
                 <Card small className="mb-4">
                 <CardHeader className="border-bottom">
-                    <h6 className="m-0">All Subscribers</h6>
+                    <h6 className="m-0">All {typeName}</h6>
                     <InputGroup className="mb-3">
                         <InputGroupAddon type="prepend">
                         <FormSelect onChange={this.searchFilter}>
@@ -126,7 +125,7 @@ render(){
                         <option value="email">Email</option>
                         </FormSelect> 
                         </InputGroupAddon>
-                        <FormInput type="text" placeholder="search for subscribers..." onInput={this.searchInput}/>
+                        <FormInput type="text" placeholder={`search for ${typeName}...`} onInput={this.searchInput}/>
                     </InputGroup>
                 </CardHeader>
                 <CardBody className="p-0 pb-3">
@@ -150,10 +149,13 @@ render(){
                             Email
                         </th>
                         <th scope="col" className="border-0">
-                            Phone Number
+                            Phone
                         </th>
                         <th scope="col" className="border-0">
-                            category
+                            Category
+                        </th>
+                        <th scope="col" className="border-0">
+                             -
                         </th>
                         <th scope="col" className="border-0">
                              -
@@ -163,7 +165,7 @@ render(){
                     <tbody>
                     {users.map((user, index)  => {
                             //let userId = `#${user.id}`;
-                            //console.log(index);
+                            //console.log(users);
                             return(
                                 <tr key={user.id}>
                                     <td>{i++}</td>
@@ -173,10 +175,19 @@ render(){
                                     <td>{user.phone ? user.phone : ''}</td>
                                     <td>{user.category ? user.category.name : ''}</td>
                                     <td>
-                                        <button theme="primary" className="btn btn-sm btn-info mb-2 mr-1" onClick={this.toggleModal} id={user.id}>
-                                            View
-                                        </button>
+                                        <Button outline theme="info" className="btn btn-md btn-secondary mb-2 mr-1" onClick={this.toggleModal} id={user.id}>
+                                            Profile
+                                        </Button>
                                     </td>
+                                    {typeName === "Vendors" ?
+                                     <td>
+                                        <Button outline theme="success" className="btn btn-md btn-secondary mb-2 mr-1" onClick={this.toggleModal} id={user.id}>
+                                            Products
+                                        </Button>
+                                    </td>
+                                    :
+                                   ''
+                                    }
                                    
                                 </tr> 
                                 
@@ -194,8 +205,8 @@ render(){
             </Row>
            {modal}
         </Container>
-      );
+    );
 }
 }
 
-export default Subscribers;
+export default ViewUsers;

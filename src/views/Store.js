@@ -69,17 +69,23 @@ componentWillUnmount = () => {
   render(){
     const { contents, user, errorMessage, loading} = this.state;
     const { showAudio, showEbook, showVideo, } = this.state.showViews;
+    console.log(contents)
     let video  = [];
     let audio  = [];
     let ebook = [];
+    let storeContents = [];
     if(Array.isArray(contents) && (contents.length > 0)){
-      video = contents.filter(content => {
-            return (content.content_type.id === 1) && (content.price !== null);
-      });
+      storeContents = contents.filter(content => {
+        return content.price !== null;
+  });
+  console.log(storeContents)
+      // video = contents.filter(content => {
+      //       return (content.content_type.id === 1) && (content.price !== null);
+      // });
 
-      audio = contents.filter(content => {
-            return (content.content_type.id) === 5 && (content.price !== null);
-      });
+      // audio = contents.filter(content => {
+      //       return (content.content_type.id) === 5 && (content.price !== null);
+      // });
       
       ebook = contents.filter(content => {
             return (content.content_type.id === 4) && (content.price !== null);
@@ -101,10 +107,10 @@ componentWillUnmount = () => {
           <Col lg="12" md="12">
             {
             showVideo ?
-            <ViewProduct contents={video} user={user} error={errorMessage} type="video" loading={loading}/>
+            <ViewProduct contents={storeContents} user={user} error={errorMessage} type="video" loading={loading}/>
             :
             showAudio ? 
-            <ViewProduct contents={audio} user={user} error={errorMessage} type="audio" loading={loading}/>
+            <ViewProduct contents={storeContents} user={user} error={errorMessage} type="audio" loading={loading}/>
             :
             showEbook ?
             <ViewProduct contents={ebook} user={user} error={errorMessage} type="ebook" loading={loading}/>

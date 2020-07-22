@@ -4,12 +4,8 @@ import { Container, Row, Col } from "shards-react";
 import HttpService from '../utils/API';
 
 import PageTitle from "../components/common/PageTitle";
-import Users from '../components/Admin/Users/Users';
-import Vendors from '../components/Admin/Users/Vendors';
-import Admins from '../components/Admin/Users/Admins';
-import Subscribers from '../components/Admin/Users/Subscribers';
-import Coaches from '../components/Admin/Users/Coaches';
 import Loader from "../components/Loaders/Loader";
+import ViewUsers from "../components/Admin/Users/ViewUsers";
 
 const _http = new HttpService();
 
@@ -27,7 +23,8 @@ class UsersOverview extends React.Component {
         this.state={
             users: [],
             loading: true,
-            showViews: views,
+            type: '',
+            typeName: '',
             path: '',
             errorMessage: '',
             requestPending: false
@@ -38,22 +35,22 @@ class UsersOverview extends React.Component {
 showContent = (handle) => {
   switch(handle){
     case '/users/vendors':
-      this.setState({showViews: {showVendors: true}})
+      this.setState({type: 'vendors',typeName: 'Vendors'})
       break;
     case '/users/admins':
-      this.setState({showViews: {showAdmin: true}})
+      this.setState({type: 'admins',typeName: 'Admins'})
       break;
     case '/users/subscribers':
-      this.setState({showViews: {showSubscribers: true}})
+      this.setState({type: 'subscribers',typeName: 'Subscribers'})
       break;
     case '/users/coaches':
-        this.setState({showViews: {showCoaches: true}})
+        this.setState({type: 'coaches',typeName: 'Coaches'})
         break;
       case '/users/vendorCoaches':
-        this.setState({showViews: {showVendorCoaches: true}})
+        this.setState({type: 'vendorcoachs',typeName: ''})
         break;
     default:
-      this.setState({showViews: {showUsers: true}})
+      this.setState({type: 'users',typeName: 'Users'})
       break;
   }
 }
@@ -142,25 +139,27 @@ componentWillUnmount = () => {
 abortController = new window.AbortController(); 
 
   render(){
-    const {users, loading, errorMessage, requestPending } = this.state;
-    const {showAdmin, showVendors, showCoaches, showSubscribers } = this.state.showViews;
+    const {users, loading, errorMessage, requestPending, type, typeName } = this.state;
+    let payload = [];
     let notEmpty = () => users.length > 0;
     
-    let admins = notEmpty() ? users.filter(user => {
+   if(type === 'admins') payload = notEmpty() ? users.filter(user => {
       return user.UserRole.roleId === 75;
     }) : users;
 
-    let vendors = notEmpty() ? users.filter(user => {
+    if(type === 'vendors') payload = notEmpty() ? users.filter(user => {
       return user.UserRole.roleId === 99;
     }) : users;
     
-    let subscribers = notEmpty() ? users.filter(user => {
+    if(type === 'subscribers') payload = notEmpty() ? users.filter(user => {
       return user.UserRole.roleId === 87;
     }) : users;
 
-    let coaches = notEmpty() ? users.filter(user => {
+    if(type === 'coaches') payload = notEmpty() ? users.filter(user => {
       return user.UserRole.roleId === 100 || user.UserRole.roleId === 103;
     }) : users;
+
+    if(type === 'users') payload = users;
 
     // let vendorCoaches = notEmpty() ? users.filter(user => {
     //   return user.UserRole.roleId === 103;
@@ -172,58 +171,20 @@ abortController = new window.AbortController();
        <Loader />
       </Container>
     :
-      <Container fluid className="main-content-container px-4 pb-4">
+      <Container fluid className="main-content-container px-4 pb-4 mb-3">
          <Row noGutters className="page-header">
               <PageTitle sm="4" title="Users Overview" subtitle="Users" className="text-sm-left" />
             </Row>
         <Row>
-          <Col lg="12" md="12">
-            {
-            showAdmin ? 
-              <Admins 
-              users={admins}
+          <Col lg="12" md="12"> 
+              <ViewUsers 
+              users={payload}
+              typeName={typeName}
               error={errorMessage}
               profileUpdate={this.updateProfile}
               pending={requestPending}
               roleUpdate={this.updateRole}
               loading={loading}/>
-              :
-              showVendors ?
-              <Vendors 
-              users={vendors} 
-              error={errorMessage} 
-              profileUpdate={this.updateProfile} 
-              pending={requestPending} 
-              roleUpdate={this.updateRole} 
-              loading={loading}/>
-              :
-              showSubscribers ?
-              <Subscribers 
-              users={subscribers} 
-              error={errorMessage} 
-              ProfileUpdate={this.updateProfile} 
-              pending={requestPending}  
-              roleUpdate={this.updateRole} 
-              loading={loading}/>
-              :
-              showCoaches ?
-              <Coaches 
-              users={coaches} 
-              error={errorMessage} 
-              profileUpdate={this.updateProfile} 
-              pending={requestPending} 
-              roleUpdate={this.updateRole}
-              loading={loading}/>
-              :
-              <Users 
-              users={users} 
-              error={errorMessage} 
-              profileUpdate={this.updateProfile} 
-              pending={requestPending} 
-              roleUpdate={this.updateRole} 
-              loading={loading}/>
-          }
-            
           </Col>
         </Row>
       </Container>

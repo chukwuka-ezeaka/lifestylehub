@@ -99,27 +99,25 @@ export default function() {
           {
             title: "All products",
             htmlBefore: '<i class="material-icons">shopping_cart</i>',
-            to: "/products"
+            to: "/products/all"
           },
           {
-            title: "Videos",
-            htmlBefore: '<i class="material-icons">theaters</i>',
-            to: "/products/videos"
+            title: "Subscriptions",
+            to: "/products/subscription",
+            htmlBefore: '<i class="material-icons">video_library</i>',
+            htmlAfter: '',
           },
           {
-            title: "Audios",
-            htmlBefore: '<i class="material-icons">audiotrack</i>',
-            to: "/products/audios"
+            title: "Store",
+            to: "/products/store",
+            htmlBefore: '<i class="material-icons">shopping_cart</i>',
+            htmlAfter: '',
           },
           {
-            title: "Ebooks",
-            htmlBefore: '<i class="material-icons">book</i>',
-            to: "/products/ebooks"
-          },
-          {
-            title: "Texts",
-            htmlBefore: '<i class="material-icons">assignment</i>',
-            to: "/products/text"
+            title: "Freebie",
+            htmlBefore: '<i class="material-icons">business_center</i>',
+            htmlAfter: '',
+            to: `/products/freebie`,
           },
           {
             title: "Add Product",
@@ -127,11 +125,11 @@ export default function() {
             to: "/add/media"
           },
 
-          {
-            title: "Add Text",
-            htmlBefore: '<i class="material-icons">add_box</i>',
-            to: "/add/text"
-          },
+          // {
+          //   title: "Add Text",
+          //   htmlBefore: '<i class="material-icons">add_box</i>',
+          //   to: "/add/text"
+          // },
           {
             title: "Category",
             htmlBefore: '<i class="material-icons">list_alt</i>',
@@ -168,57 +166,6 @@ export default function() {
           }
         ]
       },
-      {
-        title: "Store",
-        to: "#",
-        htmlBefore: '<i class="material-icons">shopping_cart</i>',
-        htmlAfter: '<i class="fas fa-caret-down"></i>',
-        subMenu: [
-          // {
-          //   title: "All products",
-          //   htmlBefore: '<i class="material-icons">shopping_cart</i>',
-          //   to: "/products/allProducts",
-          // },
-          {
-            title: "Videos",
-            htmlBefore: '<i class="material-icons">theaters</i>',
-            to: "/store/videos"
-          },
-          {
-            title: "Audios",
-            htmlBefore: '<i class="material-icons">audiotrack</i>',
-            to: "/store/audios"
-          },
-          {
-            title: "Ebooks",
-            htmlBefore: '<i class="material-icons">book</i>',
-            to: "/store/ebooks"
-          }
-        ]
-      },
-      {
-        title: "Freebie",
-        htmlBefore: '<i class="material-icons">business_center</i>',
-        htmlAfter: '<i class="fas fa-caret-down"></i>',
-        to: `/freebie`,
-        subMenu: [
-          {
-            title: "Videos",
-            htmlBefore: '<i class="material-icons">theaters</i>',
-            to: "/freebie/videos"
-          },
-          {
-            title: "Audios",
-            htmlBefore: '<i class="material-icons">audiotrack</i>',
-            to: "/freebie/audios"
-          },
-          {
-            title: "Ebooks",
-            htmlBefore: '<i class="material-icons">book</i>',
-            to: "/freebie/ebooks"
-          }
-        ]
-      }
     ];
   }
 
@@ -244,24 +191,27 @@ export default function() {
         htmlAfter: '<i class="fas fa-caret-down"></i>',
         subMenu: [
           {
-            title: "Videos",
-            htmlBefore: '<i class="material-icons">theaters</i>',
-            to: "/products/videos"
+            title: "All products",
+            htmlBefore: '<i class="material-icons">shopping_cart</i>',
+            to: "/products/all"
           },
           {
-            title: "Audios",
-            htmlBefore: '<i class="material-icons">audiotrack</i>',
-            to: "/products/audios"
+            title: "Subscriptions",
+            to: "/products/subscription",
+            htmlBefore: '<i class="material-icons">video_library</i>',
+            htmlAfter: '',
           },
           {
-            title: "Ebooks",
-            htmlBefore: '<i class="material-icons">book</i>',
-            to: "/products/ebooks"
+            title: "Store",
+            to: "/products/store",
+            htmlBefore: '<i class="material-icons">shopping_cart</i>',
+            htmlAfter: '',
           },
           {
-            title: "Texts",
-            htmlBefore: '<i class="material-icons">assignment</i>',
-            to: "/products/text"
+            title: "Freebie",
+            htmlBefore: '<i class="material-icons">business_center</i>',
+            htmlAfter: '',
+            to: `/products/freebie`,
           },
           {
             title: "Add Product",
@@ -273,6 +223,16 @@ export default function() {
             title: "Add Text",
             htmlBefore: '<i class="material-icons">add_box</i>',
             to: "/add/text"
+          },
+          {
+            title: "Category",
+            htmlBefore: '<i class="material-icons">list_alt</i>',
+            to: "/products/Category"
+          },
+          {
+            title: "Subscription settings",
+            htmlBefore: '<i class="material-icons">video_library</i>',
+            to: "/products/subscriptions"
           }
         ]
       },
@@ -318,57 +278,57 @@ export default function() {
           }
         ]
       },
-      {
-        title: "Store",
-        to: "#",
-        htmlBefore: '<i class="material-icons">shopping_cart</i>',
-        htmlAfter: '<i class="fas fa-caret-down"></i>',
-        subMenu: [
-          // {
-          //   title: "All products",
-          //   htmlBefore: '<i class="material-icons">shopping_cart</i>',
-          //   to: "/products/allProducts",
-          // },
-          {
-            title: "Videos",
-            htmlBefore: '<i class="material-icons">theaters</i>',
-            to: "/store/videos"
-          },
-          {
-            title: "Audios",
-            htmlBefore: '<i class="material-icons">audiotrack</i>',
-            to: "/store/audios"
-          },
-          {
-            title: "Ebooks",
-            htmlBefore: '<i class="material-icons">book</i>',
-            to: "/store/ebooks"
-          }
-        ]
-      },
-      {
-        title: "Freebie",
-        htmlBefore: '<i class="material-icons">business_center</i>',
-        htmlAfter: '<i class="fas fa-caret-down"></i>',
-        to: `/freebie`,
-        subMenu: [
-          {
-            title: "Videos",
-            htmlBefore: '<i class="material-icons">theaters</i>',
-            to: "/freebie/videos"
-          },
-          {
-            title: "Audios",
-            htmlBefore: '<i class="material-icons">audiotrack</i>',
-            to: "/freebie/audios"
-          },
-          {
-            title: "Ebooks",
-            htmlBefore: '<i class="material-icons">book</i>',
-            to: "/freebie/ebooks"
-          }
-        ]
-      }
+      // {
+      //   title: "Store",
+      //   to: "#",
+      //   htmlBefore: '<i class="material-icons">shopping_cart</i>',
+      //   htmlAfter: '<i class="fas fa-caret-down"></i>',
+      //   subMenu: [
+      //     // {
+      //     //   title: "All products",
+      //     //   htmlBefore: '<i class="material-icons">shopping_cart</i>',
+      //     //   to: "/products/allProducts",
+      //     // },
+      //     {
+      //       title: "Videos",
+      //       htmlBefore: '<i class="material-icons">theaters</i>',
+      //       to: "/store/videos"
+      //     },
+      //     {
+      //       title: "Audios",
+      //       htmlBefore: '<i class="material-icons">audiotrack</i>',
+      //       to: "/store/audios"
+      //     },
+      //     {
+      //       title: "Ebooks",
+      //       htmlBefore: '<i class="material-icons">book</i>',
+      //       to: "/store/ebooks"
+      //     }
+      //   ]
+      // },
+      // {
+      //   title: "Freebie",
+      //   htmlBefore: '<i class="material-icons">business_center</i>',
+      //   htmlAfter: '<i class="fas fa-caret-down"></i>',
+      //   to: `/freebie`,
+      //   subMenu: [
+      //     {
+      //       title: "Videos",
+      //       htmlBefore: '<i class="material-icons">theaters</i>',
+      //       to: "/freebie/videos"
+      //     },
+      //     {
+      //       title: "Audios",
+      //       htmlBefore: '<i class="material-icons">audiotrack</i>',
+      //       to: "/freebie/audios"
+      //     },
+      //     {
+      //       title: "Ebooks",
+      //       htmlBefore: '<i class="material-icons">book</i>',
+      //       to: "/freebie/ebooks"
+      //     }
+      //   ]
+      // }
     ];
   }
 
@@ -378,7 +338,7 @@ export default function() {
       {
         title: "Dashboard",
         htmlBefore: '<i class="material-icons">bar_chart</i>',
-        to: `/vendor`,
+        to: `/coach`,
         subMenu: ""
       },
       {

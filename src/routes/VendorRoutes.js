@@ -3,23 +3,23 @@ import { Route, Redirect } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { DefaultLayout} from "../layouts";
 
-function VendprRoutes({ component: Component, ...rest }) {
-  const { user, isAuthenticated } = useContext(AuthContext)
+function VendorRoutes({ component: Component, ...rest }) {
+  const { user } = useContext(AuthContext)
+  const role = user.data ? parseInt(user.data.role.id) : 0;
 
   return (
     <Route
       {...rest}
       render={props =>{
-        if(!isAuthenticated && user){
+        if(user.data && !user.isAuthenticated){
           return <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
         }
-        if(!isAuthenticated){
+        if(!user.isAuthenticated){
           return <Redirect to="/signin" />
         }
-        
-        if(user.role.id !== 99 || user.role.id !== 75){
+        if(role != 75 && role != 99){
           return <Redirect to="/signin" />
-      }
+        }
       return <DefaultLayout> <Component {...props} /> </DefaultLayout>
     }
       }
@@ -27,4 +27,4 @@ function VendprRoutes({ component: Component, ...rest }) {
   );
 }
 
-export default VendprRoutes;
+export default VendorRoutes;

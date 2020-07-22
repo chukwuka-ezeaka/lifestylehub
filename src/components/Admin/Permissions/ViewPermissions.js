@@ -64,7 +64,7 @@ render(){
                                     <td>{permission.name}</td>
                                     <td>{permission.id}</td>
                                     <td>
-                                        <Button size="sm" theme="warning" className="mb-2 mr-1" onClick={this.handleDelete} id={permission.id}>
+                                        <Button size="md" theme="warning" className="mb-2 mr-1" onClick={this.handleDelete} id={permission.id}>
                                             Delete
                                         </Button>
                                     </td>
